@@ -47,5 +47,40 @@
         "answer": "twenty-seven (27)",
         "last_try_ts": "",
         "bucket": 1
+    },
+    {
+        "id": 8,
+        "question": "What did the Declaration of Independence do?",
+        "answer": "▪ announced our independence (from Great Britain) ▪ declared our independence (from Great Britain) ▪ said that the United States is free (from Great Britain)",
+        "last_try_ts": "",
+        "bucket": 1
+    },
+    {
+        "id": 9,
+        "question": "What are two rights in the Declaration of Independence?",
+        "answer": "▪ life ▪ liberty ▪ pursuit of happiness",
+        "last_try_ts": "",
+        "bucket": 1
+    },
+    {
+        "id": 10,
+        "question": "What is freedom of religion?",
+        "answer": "▪ You can practice any religion, or not practice a religion.",
+        "last_try_ts": "",
+        "bucket": 1
+    },
+    {
+        "id": 11,
+        "question": "What is the economic system in the United States?",
+        "answer": "▪ capitalist economy ▪ market economy",
+        "last_try_ts": "",
+        "bucket": 1
+    },
+    {
+        "id": 12,
+        "question": "What is the “rule of law”?",
+        "answer": "▪ Everyone must follow the law. ▪ Leaders must obey the law. ▪ Government must obey the law. ▪ No one is above the law. ",
+        "last_try_ts": "",
+        "bucket": 1
     }
 ]
