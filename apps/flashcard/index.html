@@ -117,10 +117,10 @@
       let currentMark = null;
       // Function to display a flashcard
       function displayFlashcard() {
-        flashcards[0].last_try_ts = new Date().toISOString();
         sortFlashcards();
         const card = flashcards[0];
-        document.getElementById("question").innerText = card.question;
+        document.getElementById("question").innerText =
+          card.id + "- " + card.question;
         document.getElementById("answer").innerText = card.answer;
         document.getElementById("answer").style.display = "none"; // Hide answer initially
         document.getElementById("show-answer-btn").innerText = "Show Answer";
@@ -152,17 +152,15 @@
       document
         .getElementById("reset-btn")
         .addEventListener("click", function () {
-          flashcards.forEach((card) => {
-            card.bucket = 1;
-            card.last_try_ts = "";
-          });
-          displayFlashcard();
+          localStorage.removeItem(dbname);
+          initApp();
         });
 
       document
         .getElementById("next-btn")
         .addEventListener("click", function () {
           // this is hack. by updating the last_try_ts, it move the first card to the last one.
+          flashcards[0].last_try_ts = new Date().toISOString();
           displayFlashcard();
         });
       document
@@ -171,6 +169,7 @@
           if (flashcards[0].bucket < 5 && currentMark !== "correct") {
             // currentMark = "correct";
             flashcards[0].bucket += 1;
+            flashcards[0].last_try_ts = new Date().toISOString();
             displayFlashcard();
           }
         });
@@ -181,6 +180,7 @@
           if (flashcards[0].bucket > 1 && currentMark !== "wrong") {
             // currentMark = "wrong";
             flashcards[0].bucket -= 1;
+            flashcards[0].last_try_ts = new Date().toISOString();
             displayFlashcard();
           }
         });

@@ -26,5 +26,26 @@
         "answer": "1) a change (to the Constitution), 2) an addition (to the Constitution)",
         "last_try_ts": "",
         "bucket": 1
+    },
+    {
+        "id": 5,
+        "question": "What do we call the first ten amendments to the Constitution?",
+        "answer": "▪ the Bill of Rights",
+        "last_try_ts": "",
+        "bucket": 1
+    },
+    {
+        "id": 6,
+        "question": "What is one right or freedom from the First Amendment?",
+        "answer": "▪ speech, ▪ religion, ▪ assembly, ▪ press ▪ petition the government",
+        "last_try_ts": "",
+        "bucket": 1
+    },
+    {
+        "id": 7,
+        "question": "How many amendments does the Constitution have?",
+        "answer": "twenty-seven (27)",
+        "last_try_ts": "",
+        "bucket": 1
     }
 ]
