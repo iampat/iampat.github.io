@@ -19,6 +19,11 @@
         margin-bottom: 10px; /* Space between the bucket and the question */
         min-width: 160px; /* Adjust the width as needed */
       }
+      #answer-box {
+        /* display: none; /* Initially hide the answer */
+        min-height: 50px; /* Reserve space for the answer */
+        /* Adjust the min-height as needed based on the average size of your answers */
+      }
       @media (max-width: 600px) {
         .flashcard {
           margin: 10px;
@@ -40,8 +45,10 @@
     <div id="flashcard-container" class="flashcard">
       <div id="bucket-container">★</div>
       <div id="question">Question will appear here</div>
+      <div id="answer-box">
+        <div id="answer" style="display: none">Answer will appear here</div>
+      </div>
       <button id="show-answer-btn">Show Answer</button>
-      <div id="answer" style="display: none">Answer will appear here</div>
       <br />
       <button id="correct-btn">Correct</button>
       <button id="next-btn">Next</button>
@@ -137,6 +144,7 @@
         document.getElementById("question").innerText = card.question;
         document.getElementById("answer").innerText = card.answer;
         document.getElementById("answer").style.display = "none"; // Hide answer initially
+        document.getElementById("show-answer-btn").innerText = "Show Answer";
         const bucketValue = card.bucket;
         document.getElementById("bucket-container").innerText = "★".repeat(
           bucketValue
