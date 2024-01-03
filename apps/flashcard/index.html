@@ -89,10 +89,10 @@
         },
         // ... Add up to 100 questions
       ];
-
+      const dbname = "flashcards-db-v1";
       // Function to load flashcards from local storage or use default
       function loadFlashcards() {
-        const savedFlashcards = localStorage.getItem("flashcards");
+        const savedFlashcards = localStorage.getItem(dbname);
         return savedFlashcards
           ? JSON.parse(savedFlashcards)
           : defaultFlashcards;
@@ -100,7 +100,7 @@
 
       // Function to save flashcards to local storage
       function saveFlashcards() {
-        localStorage.setItem("flashcards", JSON.stringify(flashcards));
+        localStorage.setItem(dbname, JSON.stringify(flashcards));
       }
 
       function sortFlashcards() {
