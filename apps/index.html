@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flashcard Memory App</title>
+    <style>
+      /* Add your CSS styling here */
+      .flashcard {
+        border: 1px solid #ddd;
+        padding: 20px;
+        margin: 20px;
+        text-align: center;
+      }
+      #bucket-container {
+        height: 20px; /* Fixed height for the bucket container */
+        line-height: 20px; /* Align stars vertically */
+        text-align: left; /* Align stars to the left */
+        margin-bottom: 10px; /* Space between the bucket and the question */
+        min-width: 160px; /* Adjust the width as needed */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="flashcard-container" class="flashcard">
+      <div id="bucket-container">★</div>
+      <div id="question">Question will appear here</div>
+      <button id="show-answer-btn">Show Answer</button>
+      <div id="answer" style="display: none">Answer will appear here</div>
+      <br />
+      <button id="correct-btn">Correct</button>
+      <button id="next-btn">Next</button>
+      <button id="wrong-btn">Wrong</button>
+    </div>
+
+    <button id="reset-btn">Reset</button>
+
+    <label> <input type="checkbox" id="debug-checkbox" /> debug </label>
+    <div id="debug-info"></div>
+
+    <script>
+      // Embedded JSON data
+      const defaultFlashcards = [
+        {
+          id: 1,
+          question: "Question 1",
+          answer: "Answer 1",
+          last_try_ts: "",
+          bucket: 1,
+        },
+        {
+          id: 2,
+          question: "Question 2",
+          answer: "Answer 2",
+          last_try_ts: "",
+          bucket: 1,
+        },
+        {
+          id: 3,
+          question: "Question 3",
+          answer: "Answer 3",
+          last_try_ts: "",
+          bucket: 1,
+        },
+        {
+          id: 4,
+          question: "Question 4",
+          answer: "Answer 4",
+          last_try_ts: "",
+          bucket: 1,
+        },
+        // ... Add up to 100 questions
+      ];
+
+      // Function to load flashcards from local storage or use default
+      function loadFlashcards() {
+        const savedFlashcards = localStorage.getItem("flashcards");
+        return savedFlashcards
+          ? JSON.parse(savedFlashcards)
+          : defaultFlashcards;
+      }
+
+      // Function to save flashcards to local storage
+      function saveFlashcards() {
+        localStorage.setItem("flashcards", JSON.stringify(flashcards));
+      }
+
+      function sortFlashcards() {
+        flashcards.sort((a, b) => {
+          // First, compare by bucket
+          if (a.bucket !== b.bucket) {
+            return a.bucket - b.bucket;
+          }
+
+          // If buckets are equal, compare by last_try_ts
+          // Note: Handle null values and convert timestamps to comparable values
+          const tsA = a.last_try_ts ? a.last_try_ts : "";
+          const tsB = b.last_try_ts ? b.last_try_ts : "";
+
+          const tsCompare = tsA.localeCompare(tsB);
+          if (tsCompare !== 0) {
+            return tsCompare;
+          }
+
+          // If bucket and last_try_ts are equal, sort by id
+          return a.id - b.id;
+        });
+      }
+
+      // Load flashcards from local storage or default
+      const flashcards = loadFlashcards();
+
+      let currentMark = null;
+      // Function to display a flashcard
+      function displayFlashcard() {
+        flashcards[0].last_try_ts = new Date().toISOString();
+        sortFlashcards();
+        const card = flashcards[0];
+        document.getElementById("question").innerText = card.question;
+        document.getElementById("answer").innerText = card.answer;
+        document.getElementById("answer").style.display = "none"; // Hide answer initially
+        const bucketValue = card.bucket;
+        document.getElementById("bucket-container").innerText = "★".repeat(
+          bucketValue
+        );
+        updateDebugInfo(card);
+        saveFlashcards();
+      }
+
+      // Event listener for show/hide answer button
+      document
+        .getElementById("show-answer-btn")
+        .addEventListener("click", function () {
+          const answerDiv = document.getElementById("answer");
+          const button = this; // 'this' refers to the button that was clicked
+
+          // Check if the answer is currently displayed
+          if (answerDiv.style.display === "none") {
+            answerDiv.style.display = "block"; // Show answer
+            button.innerText = "Hide Answer"; // Change button text to 'Hide Answer'
+          } else {
+            answerDiv.style.display = "none"; // Hide answer
+            button.innerText = "Show Answer"; // Change button text to 'Show Answer'
+          }
+        });
+
+      document
+        .getElementById("reset-btn")
+        .addEventListener("click", function () {
+          flashcards.forEach((card) => {
+            card.bucket = 1;
+            card.last_try_ts = "";
+          });
+          displayFlashcard();
+        });
+
+      document
+        .getElementById("next-btn")
+        .addEventListener("click", function () {
+          // this is hack. by updating the last_try_ts, it move the first card to the last one.
+          displayFlashcard();
+        });
+      document
+        .getElementById("correct-btn")
+        .addEventListener("click", function () {
+          if (flashcards[0].bucket < 5 && currentMark !== "correct") {
+            // currentMark = "correct";
+            flashcards[0].bucket += 1;
+            displayFlashcard();
+          }
+        });
+
+      document
+        .getElementById("wrong-btn")
+        .addEventListener("click", function () {
+          if (flashcards[0].bucket > 1 && currentMark !== "wrong") {
+            // currentMark = "wrong";
+            flashcards[0].bucket -= 1;
+            displayFlashcard();
+          }
+        });
+
+      function updateDebugInfo() {
+        if (document.getElementById("debug-checkbox").checked) {
+          document.getElementById("debug-info").innerText = JSON.stringify(
+            flashcards, //flashcards[currentCard],
+            null,
+            2
+          );
+        } else {
+          document.getElementById("debug-info").innerText = "";
+        }
+      }
+      document
+        .getElementById("debug-checkbox")
+        .addEventListener("change", updateDebugInfo);
+
+      // Initial display
+      displayFlashcard();
+    </script>
+  </body>
+</html>
