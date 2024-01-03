@@ -62,12 +62,27 @@
 
     <script>
       // Embedded JSON data
-      const defaultFlashcards = [];
+      const jsonFilePath = "100.json";
+      defaultFlashcards = [];
+      async function loadFlashcardsFromJson() {
+        try {
+          const response = await fetch(jsonFilePath);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          defaultFlashcards = await response.json();
+          //displayFlashcard(); // Display the first flashcard after loading
+        } catch (e) {
+          console.error("Could not load flashcards: ", e);
+        }
+      }
+
       const dbname = "flashcards-db-v1";
-      // Function to load flashcards from local storage or use default
-      function loadFlashcards() {
+      let flashcards = [];
+      async function loadFlashcards() {
+        await loadFlashcardsFromJson();
         const savedFlashcards = localStorage.getItem(dbname);
-        return savedFlashcards
+        flashcards = savedFlashcards
           ? JSON.parse(savedFlashcards)
           : defaultFlashcards;
       }
@@ -98,9 +113,6 @@
           return a.id - b.id;
         });
       }
-
-      // Load flashcards from local storage or default
-      const flashcards = loadFlashcards();
 
       let currentMark = null;
       // Function to display a flashcard
@@ -189,7 +201,11 @@
         .addEventListener("change", updateDebugInfo);
 
       // Initial display
-      displayFlashcard();
+      async function initApp() {
+        await loadFlashcards();
+        displayFlashcard();
+      }
+      initApp();
     </script>
   </body>
 </html>
