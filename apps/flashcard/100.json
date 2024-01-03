@@ -9,7 +9,7 @@
     {
         "id": 2,
         "question": "What does the Constitution do?",
-        "answer": "1) sets up the government, 2) defines the government, 3) protects basic rights of Americans",
+        "answer": "▪ sets up the government, ▪ defines the government, ▪ protects basic rights of Americans",
         "last_try_ts": "",
         "bucket": 1
     },
@@ -23,7 +23,7 @@
     {
         "id": 4,
         "question": "What is an amendment?",
-        "answer": "1) a change (to the Constitution), 2) an addition (to the Constitution)",
+        "answer": "▪ a change (to the Constitution), ▪ an addition (to the Constitution)",
         "last_try_ts": "",
         "bucket": 1
     },
