@@ -185,23 +185,23 @@
       document
         .getElementById("correct-btn")
         .addEventListener("click", function () {
+          flashcards[0].last_try_ts = new Date().toISOString();
           if (flashcards[0].bucket < 5 && currentMark !== "correct") {
             // currentMark = "correct";
             flashcards[0].bucket += 1;
-            flashcards[0].last_try_ts = new Date().toISOString();
-            displayFlashcard();
           }
+          displayFlashcard();
         });
 
       document
         .getElementById("wrong-btn")
         .addEventListener("click", function () {
+          flashcards[0].last_try_ts = new Date().toISOString();
           if (flashcards[0].bucket > 1 && currentMark !== "wrong") {
             // currentMark = "wrong";
             flashcards[0].bucket -= 1;
-            flashcards[0].last_try_ts = new Date().toISOString();
-            displayFlashcard();
           }
+          displayFlashcard();
         });
 
       function updateDebugInfo() {
