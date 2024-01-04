@@ -88,6 +88,7 @@
           defaultFlashcards.forEach((elem, idx) => {
             elem.id = idx + 1;
             elem.last_try_ts = ts;
+            elem.bucket = 1;
           });
           //displayFlashcard(); // Display the first flashcard after loading
         } catch (e) {
