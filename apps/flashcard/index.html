@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Flashcard Memory App</title>
     <style>
+      body {
+        font-family: "Calibri", "Arial", "Helvetica", sans-serif;
+      }
       /* Add your CSS styling here */
       .flashcard {
         border: 1px solid #ddd;
@@ -22,6 +25,10 @@
       #answer-box {
         min-height: 15vh; /* 15% of the viewport height for larger screens */
       }
+      #question {
+        min-height: 5vh;
+        font-weight: bold;
+      }
       @media only screen and (min-device-width: 375px) and (max-device-width: 812px) {
         .flashcard {
           margin: 10px;
@@ -30,7 +37,7 @@
         }
         button {
           padding: 12px 24px; /* Larger buttons for touch */
-          margin: 8px; /* Space between buttons */
+          margin: 4px; /* Space between buttons */
           font-size: 20px; /* Larger text on buttons */
         }
         #bucket-container {
@@ -54,10 +61,10 @@
       <div id="answer-box">
         <div id="answer" style="display: none">Answer will appear here</div>
       </div>
-      <button id="show-answer-btn">Show Answer</button>
+      <button id="show-answer-btn">Show Answer</button
+      ><button id="next-btn">Next</button>
       <br />
       <button id="correct-btn">Correct</button>
-      <button id="next-btn">Next</button>
       <button id="wrong-btn">Wrong</button>
     </div>
 
