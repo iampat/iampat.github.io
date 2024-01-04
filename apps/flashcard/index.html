@@ -20,11 +20,9 @@
         min-width: 160px; /* Adjust the width as needed */
       }
       #answer-box {
-        /* display: none; /* Initially hide the answer */
-        min-height: 50px; /* Reserve space for the answer */
-        /* Adjust the min-height as needed based on the average size of your answers */
+        min-height: 15vh; /* 15% of the viewport height for larger screens */
       }
-      @media (max-width: 600px) {
+      @media only screen and (min-device-width: 375px) and (max-device-width: 812px) {
         .flashcard {
           margin: 10px;
           padding: 10px;
@@ -37,6 +35,14 @@
         }
         #bucket-container {
           min-width: 100px; /* Adjust width as needed */
+        }
+        #answer-box {
+          min-height: 70vh; /* 75% of the viewport height for mobile screens in portrait mode */
+        }
+      }
+      @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
+        #answer-box {
+          min-width: 70vw; /* 75% of the viewport width for mobile screens in landscape mode */
         }
       }
     </style>
@@ -71,6 +77,11 @@
             throw new Error(`HTTP error! status: ${response.status}`);
           }
           defaultFlashcards = await response.json();
+          ts = new Date().toISOString();
+          defaultFlashcards.forEach((elem, idx) => {
+            elem.id = idx + 1;
+            elem.last_try_ts = ts;
+          });
           //displayFlashcard(); // Display the first flashcard after loading
         } catch (e) {
           console.error("Could not load flashcards: ", e);
