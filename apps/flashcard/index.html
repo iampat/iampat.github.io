@@ -13,6 +13,7 @@
         border: 1px solid #ddd;
         padding: 20px;
         margin: 20px;
+        font-size: 20px;
         text-align: center;
       }
       #bucket-container {
@@ -23,7 +24,15 @@
         min-width: 160px; /* Adjust the width as needed */
       }
       #answer-box {
+        display: flex;
+        justify-content: center;
+        align-items: top;
         min-height: 15vh; /* 15% of the viewport height for larger screens */
+        text-align: center;
+      }
+      #answer {
+        text-align: left;
+        display: inline-block;
       }
       #question {
         min-height: 5vh;
@@ -33,12 +42,11 @@
         .flashcard {
           margin: 10px;
           padding: 10px;
-          font-size: 16px; /* Larger font for readability */
+          font-size: 20px; /* Larger font for readability */
         }
         button {
           padding: 12px 24px; /* Larger buttons for touch */
           margin: 4px; /* Space between buttons */
-          font-size: 20px; /* Larger text on buttons */
         }
         #bucket-container {
           min-width: 100px; /* Adjust width as needed */
@@ -49,7 +57,7 @@
       }
       @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
         #answer-box {
-          min-width: 35vw; /* 75% of the viewport width for mobile screens in landscape mode */
+          min-width: 30vw; /* 75% of the viewport width for mobile screens in landscape mode */
         }
       }
     </style>
