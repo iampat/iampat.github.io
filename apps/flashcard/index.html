@@ -15,6 +15,7 @@
         margin: 20px;
         font-size: 20px;
         text-align: center;
+        overflow: auto;
       }
       #bucket-container {
         height: 20px; /* Fixed height for the bucket container */
@@ -57,7 +58,8 @@
       }
       @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
         #answer-box {
-          min-width: 30vw; /* 75% of the viewport width for mobile screens in landscape mode */
+          min-width: 30vw;
+          min-height: 30vh;
         }
       }
     </style>
