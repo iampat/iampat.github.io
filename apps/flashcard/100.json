@@ -1,19 +1,19 @@
 [
     {
         "question": "What is the supreme law of the land?",
-        "answer": "the Constitution"
+        "answer": "▪ the Constitution"
     },
     {
         "question": "What does the Constitution do?",
-        "answer": "▪ sets up the government, ▪ defines the government, ▪ protects basic rights of Americans"
+        "answer": "▪ sets up the government\n▪ defines the government\n▪ protects basic rights of Americans"
     },
     {
         "question": "The idea of self-government is in the first three words of the Constitution. What are these words?",
-        "answer": "We the People"
+        "answer": "▪ We the People"
     },
     {
         "question": "What is an amendment?",
-        "answer": "▪ a change (to the Constitution), ▪ an addition (to the Constitution)"
+        "answer": "▪ a change (to the Constitution)\n▪ an addition (to the Constitution)"
     },
     {
         "question": "What do we call the first ten amendments to the Constitution?",
@@ -21,47 +21,47 @@
     },
     {
         "question": "What is one right or freedom from the First Amendment?",
-        "answer": "▪ speech, ▪ religion, ▪ assembly, ▪ press ▪ petition the government"
+        "answer": "▪ speech\n▪ religion\n▪ assembly\n▪ press\n▪ petition the government"
     },
     {
         "question": "How many amendments does the Constitution have?",
-        "answer": "twenty-seven (27)"
+        "answer": "▪ twenty-seven (27)"
     },
     {
         "question": "What did the Declaration of Independence do?",
-        "answer": "▪ announced our independence (from Great Britain) ▪ declared our independence (from Great Britain) ▪ said that the United States is free (from Great Britain)"
+        "answer": "▪ announced our independence (from Great Britain)\n▪ declared our independence (from Great Britain)\n▪ said that the United States is free (from Great Britain)"
     },
     {
         "question": "What are two rights in the Declaration of Independence?",
-        "answer": "▪ life ▪ liberty ▪ pursuit of happiness"
+        "answer": "\n▪ life\n▪ liberty\n▪ pursuit of happiness"
     },
     {
         "question": "What is freedom of religion?",
-        "answer": "▪ You can practice any religion, or not practice a religion."
+        "answer": "▪ You can practice any religion\n▪ or not practice a religion."
     },
     {
         "question": "What is the economic system in the United States?",
-        "answer": "▪ capitalist economy ▪ market economy"
+        "answer": "▪ capitalist economy\n▪ market economy"
     },
     {
         "question": "What is the “rule of law”?",
-        "answer": "▪ Everyone must follow the law. ▪ Leaders must obey the law. ▪ Government must obey the law. ▪ No one is above the law. "
+        "answer": "▪ Everyone must follow the law.\n▪ Leaders must obey the law\n▪ Government must obey the law\n▪ No one is above the law. "
     },
     {
         "question": "Name one branch or part of the government.",
-        "answer": "▪ Congress ▪ President ▪ the courts"
+        "answer": "▪ Congress\n▪ President\n▪ the courts"
     },
     {
-        "question": "14. What stops one branch of government from becoming too powerful?",
-        "answer": "▪ checks and balances ▪ separation of powers"
+        "question": "What stops one branch of government from becoming too powerful?",
+        "answer": "▪ checks and balances\n▪ separation of powers"
     },
     {
         "question": "Who is in charge of the executive branch?",
-        "answer": "the President"
+        "answer": "▪ the President"
     },
     {
         "question": "Who makes federal laws?",
-        "answer": "▪ Congress ▪ Senate and House (of Representatives) ▪ (U.S. or national) legislature"
+        "answer": "▪ Congress\n▪ Senate and House (of Representatives)\n▪ (U.S. or national) legislature"
     },
     {
         "question": "What are the two parts of the U.S. Congress?",
@@ -77,7 +77,7 @@
     },
     {
         "question": "Who is one of your state's U.S. Senators now?",
-        "answer": "Maria Cantwell"
+        "answer": "▪ Maria Cantwell"
     },
     {
         "question": "The House of Representatives has how many voting members?",
@@ -89,7 +89,7 @@
     },
     {
         "question": "Name your U.S. Representative.",
-        "answer": "Suzan K. DelBene"
+        "answer": "▪ Suzan K. DelBene"
     },
     {
         "question": "Who does a U.S. Senator represent?",
@@ -97,7 +97,7 @@
     },
     {
         "question": "Why do some states have more Representatives than other states?",
-        "answer": "▪ (because of) the state's population ▪ (because) they have more people ▪ (because) some states have more people"
+        "answer": "▪ (because of) the state's population"
     },
     {
         "question": "We elect a President for how many years?",
@@ -109,11 +109,11 @@
     },
     {
         "question": "What is the name of the President of the United States now?",
-        "answer": "▪ Visit uscis.gov/citizenship/testupdates for the name of the President of the United States."
+        "answer": "▪ Joe Biden"
     },
     {
         "question": "What is the name of the Vice President of the United States now?",
-        "answer": "Kamala Harris"
+        "answer": "▪ Kamala Harris"
     },
     {
         "question": "If the President can no longer serve, who becomes President?",
@@ -128,7 +128,7 @@
         "answer": "▪ the President"
     },
     {
-        "question": "33. Who signs bills to become laws?",
+        "question": "Who signs bills to become laws?",
         "answer": "▪ the President"
     },
     {
@@ -185,7 +185,7 @@
     },
     {
         "question": "What is the name of the Speaker of the House of Representatives now?",
-        "answer": "\n▪ Mike Johnson"
+        "answer": "▪ Mike Johnson"
     },
     {
         "question": "There are four amendments to the Constitution about who can vote. Describe one of them.",
