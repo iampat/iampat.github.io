@@ -82,7 +82,7 @@
     <button id="reset-btn">Reset</button>
 
     <label> <input type="checkbox" id="debug-checkbox" /> debug </label>
-    <div id="debug-info"></div>
+    <div><pre id="debug-info"></pre></div>
 
     <script>
       // Embedded JSON data
@@ -100,6 +100,7 @@
             elem.id = idx + 1;
             elem.last_try_ts = ts;
             elem.bucket = 1;
+            elem.score = 0;
           });
           //displayFlashcard(); // Display the first flashcard after loading
         } catch (e) {
@@ -115,6 +116,11 @@
         flashcards = savedFlashcards
           ? JSON.parse(savedFlashcards)
           : defaultFlashcards;
+
+        for (let i = 0; i < flashcards.length; i++) {
+          const card = flashcards[i];
+          card.score = card.score ? card.score : 0;
+        }
       }
 
       // Function to save flashcards to local storage
@@ -125,8 +131,12 @@
       function sortFlashcards() {
         flashcards.sort((a, b) => {
           // First, compare by bucket
-          if (a.bucket !== b.bucket) {
-            return a.bucket - b.bucket;
+          // if (a.bucket !== b.bucket) {
+          //   return a.bucket - b.bucket;
+          // }
+
+          if (a.score !== b.score) {
+            return a.score - b.score;
           }
 
           // If buckets are equal, compare by last_try_ts
@@ -155,10 +165,12 @@
         document.getElementById("answer").style.display = "none"; // Hide answer initially
         document.getElementById("show-answer-btn").innerText = "Show Answer";
         const bucketValue = card.bucket;
-        document.getElementById("bucket-container").innerText = "★".repeat(
-          bucketValue
-        );
-        updateDebugInfo(card);
+        const bucketContainer = document.getElementById("bucket-container");
+        bucketContainer.innerText = "★".repeat(bucketValue);
+
+        bucketContainer.style.color = getBucketColor(bucketValue);
+
+        updateDebugInfo();
         saveFlashcards();
       }
 
@@ -192,6 +204,7 @@
           // this is hack. by updating the last_try_ts, it move the first card to the last one.
           flashcards[0].last_try_ts = new Date().toISOString();
           displayFlashcard();
+          flashcards[0].score += 0.2;
         });
       document
         .getElementById("correct-btn")
@@ -201,6 +214,7 @@
             // currentMark = "correct";
             flashcards[0].bucket += 1;
           }
+          flashcards[0].score += 1 + 0.1 * Math.random(); // [1.0, 1.1]
           displayFlashcard();
         });
 
@@ -212,13 +226,27 @@
             // currentMark = "wrong";
             flashcards[0].bucket -= 1;
           }
+          flashcards[0].score += 0.1 * Math.random();
           displayFlashcard();
         });
 
+      function getBucketColor() {
+        for (let i = 0; i < flashcards.length; i++) {
+          if (flashcards[i].bucket !== 5) {
+            return "#000000";
+          }
+        }
+        return "#FFD700";
+      }
       function updateDebugInfo() {
         if (document.getElementById("debug-checkbox").checked) {
+          let info = {};
+          for (let i = 0; i < flashcards.length; i++) {
+            info[i] = flashcards[i];
+          }
+
           document.getElementById("debug-info").innerText = JSON.stringify(
-            flashcards, //flashcards[currentCard],
+            info,
             null,
             2
           );
