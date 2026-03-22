@@ -71,14 +71,6 @@ p{text-align:center;line-height:1.5}
 .bg-letters span{position:absolute}
 .name-buttons{display:flex;gap:16px;margin:24px 0;flex-wrap:wrap;justify-content:center}
 .name-buttons .btn{font-size:1.3rem;padding:20px 40px;min-width:160px}
-.or-divider{color:#94a3b8;font-size:.95rem;margin:8px 0 16px}
-.custom-name{display:flex;gap:10px;align-items:center}
-.custom-name input{
-  border:2px solid #cbd5e1;border-radius:14px;padding:14px 18px;
-  font-size:1.05rem;font-weight:600;outline:none;width:180px;
-  transition:border-color .2s;
-}
-.custom-name input:focus{border-color:#7c3aed}
 
 /* Quiz Length */
 .length-buttons{display:flex;gap:14px;margin:20px 0;flex-wrap:wrap;justify-content:center}
@@ -179,11 +171,6 @@ p{text-align:center;line-height:1.5}
     <div class="name-buttons">
       <button class="btn btn-purple" onclick="pickName('Kian')">Kian</button>
       <button class="btn btn-orange" onclick="pickName('Rustin')">Rustin</button>
-    </div>
-    <div class="or-divider">or type your name</div>
-    <div class="custom-name">
-      <input type="text" id="nameInput" placeholder="Your name" maxlength="20" autocomplete="off" autocapitalize="words">
-      <button class="btn btn-teal" onclick="submitCustomName()">Go</button>
     </div>
   </div>
 
@@ -322,11 +309,6 @@ function pickName(name) {
   document.getElementById('greetingText').textContent = `Hey ${name}! How many questions?`;
   showScreen('screenLength');
 }
-function submitCustomName() {
-  const v = document.getElementById('nameInput').value.trim();
-  if (v) pickName(v);
-}
-document.getElementById('nameInput').addEventListener('keydown', e => { if (e.key === 'Enter') submitCustomName(); });
 
 // --- Quiz ---
 function startQuiz(len) {
