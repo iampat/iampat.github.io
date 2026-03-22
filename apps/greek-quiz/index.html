@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Greek Alphabet Quiz</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:#e8edf3;
+  color:#2d3748;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+#app{
+  width:100%;max-width:600px;height:100vh;height:100dvh;
+  overflow-y:auto;overflow-x:hidden;
+  position:relative;
+  padding:24px 20px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.screen{
+  display:none;flex-direction:column;align-items:center;
+  width:100%;
+  animation:fadeSlideIn .4s ease-out;
+}
+.screen.active{display:flex}
+@keyframes fadeSlideIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{0%{transform:scale(0);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(.95)}}
+@keyframes confettiFall{0%{transform:translateY(-10vh) rotate(0deg);opacity:1}100%{transform:translateY(105vh) rotate(720deg);opacity:0}}
+
+h1{font-size:2.2rem;font-weight:800;margin-bottom:8px;text-align:center}
+h2{font-size:1.5rem;font-weight:700;margin-bottom:16px;text-align:center}
+p{text-align:center;line-height:1.5}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border:none;border-radius:16px;padding:16px 32px;
+  font-size:1.1rem;font-weight:700;color:#fff;cursor:pointer;
+  min-height:56px;min-width:140px;
+  box-shadow:0 4px 14px rgba(0,0,0,.12);
+  transition:transform .15s,box-shadow .15s;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn:active{animation:bounce .2s ease;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+
+.btn-purple{background:linear-gradient(135deg,#7c3aed,#a855f7)}
+.btn-orange{background:linear-gradient(135deg,#ea580c,#f97316)}
+.btn-teal{background:linear-gradient(135deg,#0d9488,#14b8a6)}
+.btn-blue{background:linear-gradient(135deg,#2563eb,#3b82f6)}
+.btn-green{background:linear-gradient(135deg,#16a34a,#22c55e)}
+.btn-gray{background:linear-gradient(135deg,#64748b,#94a3b8);min-width:auto;padding:12px 24px;font-size:.95rem}
+.btn-coral{background:linear-gradient(135deg,#e11d48,#fb7185)}
+.btn-yellow{background:linear-gradient(135deg,#ca8a04,#eab308)}
+
+/* Welcome */
+#welcome-title{animation:popIn .6s ease-out both}
+.bg-letters{
+  position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;
+  overflow:hidden;opacity:.07;font-size:3rem;font-weight:800;color:#7c3aed;
+}
+.bg-letters span{position:absolute}
+.name-buttons{display:flex;gap:16px;margin:24px 0;flex-wrap:wrap;justify-content:center}
+.name-buttons .btn{font-size:1.3rem;padding:20px 40px;min-width:160px}
+.or-divider{color:#94a3b8;font-size:.95rem;margin:8px 0 16px}
+.custom-name{display:flex;gap:10px;align-items:center}
+.custom-name input{
+  border:2px solid #cbd5e1;border-radius:14px;padding:14px 18px;
+  font-size:1.05rem;font-weight:600;outline:none;width:180px;
+  transition:border-color .2s;
+}
+.custom-name input:focus{border-color:#7c3aed}
+
+/* Quiz Length */
+.length-buttons{display:flex;gap:14px;margin:20px 0;flex-wrap:wrap;justify-content:center}
+.length-buttons .btn{flex-direction:column;padding:20px 28px;min-width:120px}
+.length-buttons .btn .icon{font-size:1.6rem;margin-bottom:4px}
+.length-buttons .btn .label{font-size:.85rem;opacity:.85;font-weight:500}
+
+/* Quiz */
+.progress-wrap{width:100%;margin-bottom:20px}
+.progress-text{font-size:.9rem;font-weight:600;color:#64748b;margin-bottom:8px;text-align:center}
+.progress-bar{height:10px;background:#cbd5e1;border-radius:8px;overflow:hidden}
+.progress-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,#7c3aed,#14b8a6);transition:width .4s ease}
+
+.letter-card{
+  width:220px;height:220px;border-radius:28px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  margin:12px 0 16px;
+  box-shadow:0 8px 30px rgba(0,0,0,.1);
+  transition:background .5s,transform .35s;
+}
+.letter-card .upper{font-size:4.5rem;font-weight:800;color:#fff;line-height:1}
+.letter-card .lower{font-size:2.8rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:4px;line-height:1}
+
+.prompt{font-size:1.1rem;font-weight:600;color:#475569;margin-bottom:18px}
+.answers{display:flex;flex-direction:column;gap:12px;width:100%;max-width:360px}
+.answers .btn{width:100%;font-size:1.15rem}
+.btn-answer{background:linear-gradient(135deg,#f1f5f9,#e2e8f0);color:#334155;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.btn-answer.selected{background:linear-gradient(135deg,#3b82f6,#60a5fa);color:#fff}
+
+/* Results */
+.results-header{margin-bottom:4px}
+.score-msg{font-size:1.1rem;color:#64748b;margin-bottom:20px;text-align:center}
+
+.pie-wrap{position:relative;width:180px;height:180px;margin:0 auto 20px}
+.pie{width:100%;height:100%;border-radius:50%;position:relative}
+.pie-center{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:100px;height:100px;background:#fff;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.8rem;font-weight:800;color:#2d3748;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
+
+.stats{display:flex;gap:20px;justify-content:center;margin-bottom:6px;font-weight:700;font-size:1.05rem}
+.stat-correct{color:#16a34a}
+.stat-wrong{color:#e11d48}
+.high-score-line{font-size:.9rem;color:#94a3b8;margin-bottom:18px}
+
+.review-list{
+  width:100%;max-width:440px;max-height:40vh;overflow-y:auto;
+  border-radius:16px;margin-bottom:24px;
+  border:1px solid #e2e8f0;
+}
+.review-row{
+  display:flex;align-items:center;padding:12px 16px;gap:12px;
+  border-bottom:1px solid #f1f5f9;font-size:.95rem;
+}
+.review-row:last-child{border-bottom:none}
+.review-row.correct{background:#f0fdf4}
+.review-row.wrong{background:#fef2f2}
+.review-letter{font-weight:800;font-size:1.2rem;min-width:50px;text-align:center}
+.review-detail{flex:1}
+.review-detail .answer-label{font-weight:700}
+.review-detail .your-answer{font-size:.85rem;color:#64748b;margin-top:2px}
+
+.result-buttons{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;padding-bottom:24px}
+
+/* Confetti */
+.confetti-piece{
+  position:fixed;top:-20px;width:10px;height:10px;z-index:999;
+  animation:confettiFall linear forwards;pointer-events:none;
+}
+
+@media(max-height:700px){
+  #app{padding:14px 16px}
+  .letter-card{width:160px;height:160px;border-radius:22px}
+  .letter-card .upper{font-size:3.2rem}
+  .letter-card .lower{font-size:2rem}
+  h1{font-size:1.7rem}
+  .review-list{max-height:30vh}
+}
+@media(min-width:700px){
+  .answers{flex-direction:row;max-width:500px}
+  .answers .btn{flex:1;min-width:0}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-letters" id="bgLetters"></div>
+
+<div id="app">
+
+  <!-- Welcome -->
+  <div class="screen active" id="screenWelcome">
+    <h1 id="welcome-title">Greek Alphabet Quiz</h1>
+    <p style="color:#64748b;margin-bottom:8px">Test your knowledge of all 24 letters!</p>
+    <div class="name-buttons">
+      <button class="btn btn-purple" onclick="pickName('Kian')">Kian</button>
+      <button class="btn btn-orange" onclick="pickName('Rustin')">Rustin</button>
+    </div>
+    <div class="or-divider">or type your name</div>
+    <div class="custom-name">
+      <input type="text" id="nameInput" placeholder="Your name" maxlength="20" autocomplete="off" autocapitalize="words">
+      <button class="btn btn-teal" onclick="submitCustomName()">Go</button>
+    </div>
+  </div>
+
+  <!-- Quiz Length -->
+  <div class="screen" id="screenLength">
+    <h2 id="greetingText"></h2>
+    <div class="length-buttons">
+      <button class="btn btn-yellow" onclick="startQuiz(10)">
+        <span class="icon">&#9889;</span>Quick<span class="label">10 questions</span>
+      </button>
+      <button class="btn btn-purple" onclick="startQuiz(15)">
+        <span class="icon">&#9733;</span>Medium<span class="label">15 questions</span>
+      </button>
+      <button class="btn btn-coral" onclick="startQuiz(24)">
+        <span class="icon">&#127942;</span>Full<span class="label">24 questions</span>
+      </button>
+    </div>
+    <button class="btn btn-gray" onclick="showScreen('screenWelcome')" style="margin-top:8px">Back</button>
+  </div>
+
+  <!-- Quiz -->
+  <div class="screen" id="screenQuiz">
+    <div class="progress-wrap">
+      <div class="progress-text" id="progressText"></div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+    <div class="letter-card" id="letterCard">
+      <div class="upper" id="letterUpper"></div>
+      <div class="lower" id="letterLower"></div>
+    </div>
+    <div class="prompt">What is this letter called?</div>
+    <div class="answers" id="answersWrap"></div>
+  </div>
+
+  <!-- Results -->
+  <div class="screen" id="screenResults">
+    <h2 class="results-header" id="resultsTitle"></h2>
+    <p class="score-msg" id="scoreMsg"></p>
+    <div class="pie-wrap"><div class="pie" id="pieChart"></div><div class="pie-center" id="piePercent"></div></div>
+    <div class="stats">
+      <span class="stat-correct" id="statCorrect"></span>
+      <span class="stat-wrong" id="statWrong"></span>
+    </div>
+    <p class="high-score-line" id="highScoreLine"></p>
+    <div class="review-list" id="reviewList"></div>
+    <div class="result-buttons">
+      <button class="btn btn-purple" onclick="showScreen('screenLength')">Play Again</button>
+      <button class="btn btn-orange" onclick="showScreen('screenWelcome')">Change Player</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const LETTERS = [
+  {upper:'\u0391',lower:'\u03b1',name:'Alpha'},
+  {upper:'\u0392',lower:'\u03b2',name:'Beta'},
+  {upper:'\u0393',lower:'\u03b3',name:'Gamma'},
+  {upper:'\u0394',lower:'\u03b4',name:'Delta'},
+  {upper:'\u0395',lower:'\u03b5',name:'Epsilon'},
+  {upper:'\u0396',lower:'\u03b6',name:'Zeta'},
+  {upper:'\u0397',lower:'\u03b7',name:'Eta'},
+  {upper:'\u0398',lower:'\u03b8',name:'Theta'},
+  {upper:'\u0399',lower:'\u03b9',name:'Iota'},
+  {upper:'\u039a',lower:'\u03ba',name:'Kappa'},
+  {upper:'\u039b',lower:'\u03bb',name:'Lambda'},
+  {upper:'\u039c',lower:'\u03bc',name:'Mu'},
+  {upper:'\u039d',lower:'\u03bd',name:'Nu'},
+  {upper:'\u039e',lower:'\u03be',name:'Xi'},
+  {upper:'\u039f',lower:'\u03bf',name:'Omicron'},
+  {upper:'\u03a0',lower:'\u03c0',name:'Pi'},
+  {upper:'\u03a1',lower:'\u03c1',name:'Rho'},
+  {upper:'\u03a3',lower:'\u03c3',name:'Sigma'},
+  {upper:'\u03a4',lower:'\u03c4',name:'Tau'},
+  {upper:'\u03a5',lower:'\u03c5',name:'Upsilon'},
+  {upper:'\u03a6',lower:'\u03c6',name:'Phi'},
+  {upper:'\u03a7',lower:'\u03c7',name:'Chi'},
+  {upper:'\u03a8',lower:'\u03c8',name:'Psi'},
+  {upper:'\u03a9',lower:'\u03c9',name:'Omega'}
+];
+
+const CARD_COLORS = [
+  '#7c3aed','#0d9488','#ea580c','#2563eb','#e11d48',
+  '#ca8a04','#16a34a','#8b5cf6','#0891b2','#d946ef'
+];
+
+let playerName = '';
+let quizLetters = [];
+let currentQ = 0;
+let answers = [];
+let answering = false;
+
+// --- Helpers ---
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function loadHighScores() {
+  try { return JSON.parse(localStorage.getItem('greek-quiz-highscores')) || {}; } catch { return {}; }
+}
+function saveHighScore(name, pct) {
+  try {
+    const hs = loadHighScores();
+    if (!hs[name] || pct > hs[name]) hs[name] = pct;
+    localStorage.setItem('greek-quiz-highscores', JSON.stringify(hs));
+  } catch {}
+}
+
+// --- Background letters ---
+(function initBg() {
+  const el = document.getElementById('bgLetters');
+  const chars = LETTERS.flatMap(l => [l.upper, l.lower]);
+  for (let i = 0; i < 40; i++) {
+    const s = document.createElement('span');
+    s.textContent = chars[Math.floor(Math.random() * chars.length)];
+    s.style.left = Math.random() * 95 + '%';
+    s.style.top = Math.random() * 95 + '%';
+    s.style.transform = `rotate(${Math.random()*60-30}deg)`;
+    el.appendChild(s);
+  }
+})();
+
+// --- Welcome ---
+function pickName(name) {
+  playerName = name;
+  document.getElementById('greetingText').textContent = `Hey ${name}! How many questions?`;
+  showScreen('screenLength');
+}
+function submitCustomName() {
+  const v = document.getElementById('nameInput').value.trim();
+  if (v) pickName(v);
+}
+document.getElementById('nameInput').addEventListener('keydown', e => { if (e.key === 'Enter') submitCustomName(); });
+
+// --- Quiz ---
+function startQuiz(len) {
+  quizLetters = shuffle(LETTERS).slice(0, len);
+  currentQ = 0;
+  answers = [];
+  answering = false;
+  showScreen('screenQuiz');
+  showQuestion();
+}
+
+function showQuestion() {
+  const total = quizLetters.length;
+  const q = quizLetters[currentQ];
+
+  document.getElementById('progressText').textContent = `Question ${currentQ + 1} of ${total}`;
+  document.getElementById('progressFill').style.width = ((currentQ) / total * 100) + '%';
+
+  const card = document.getElementById('letterCard');
+  card.style.background = CARD_COLORS[currentQ % CARD_COLORS.length];
+  card.style.transform = 'scale(0.9)';
+  requestAnimationFrame(() => { card.style.transform = 'scale(1)'; });
+
+  document.getElementById('letterUpper').textContent = q.upper;
+  document.getElementById('letterLower').textContent = q.lower;
+
+  // Build answer choices
+  const wrongPool = LETTERS.filter(l => l.name !== q.name);
+  const wrongs = shuffle(wrongPool).slice(0, 2);
+  const choices = shuffle([q.name, wrongs[0].name, wrongs[1].name]);
+
+  const wrap = document.getElementById('answersWrap');
+  wrap.innerHTML = '';
+  choices.forEach(name => {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-answer';
+    btn.textContent = name;
+    btn.addEventListener('click', () => selectAnswer(btn, name));
+    wrap.appendChild(btn);
+  });
+
+  answering = false;
+}
+
+function selectAnswer(btn, name) {
+  if (answering) return;
+  answering = true;
+
+  btn.classList.add('selected');
+  answers.push({ letter: quizLetters[currentQ], playerAnswer: name });
+
+  setTimeout(() => {
+    currentQ++;
+    if (currentQ < quizLetters.length) {
+      showQuestion();
+    } else {
+      document.getElementById('progressFill').style.width = '100%';
+      showResults();
+    }
+  }, 400);
+}
+
+// --- Results ---
+function showResults() {
+  const total = answers.length;
+  const correct = answers.filter(a => a.playerAnswer === a.letter.name).length;
+  const wrong = total - correct;
+  const pct = Math.round((correct / total) * 100);
+
+  saveHighScore(playerName, pct);
+
+  // Title & message
+  let title, msg;
+  if (pct === 100) { title = 'Perfect Score!'; msg = `${playerName}, you nailed every single one!`; }
+  else if (pct >= 80) { title = 'Amazing Job!'; msg = `${playerName}, you really know your Greek letters!`; }
+  else if (pct >= 60) { title = 'Great Effort!'; msg = `${playerName}, you're getting there!`; }
+  else if (pct >= 40) { title = 'Keep Practicing!'; msg = `${playerName}, a bit more study and you'll ace it!`; }
+  else { title = 'Nice Try!'; msg = `${playerName}, practice makes perfect!`; }
+
+  document.getElementById('resultsTitle').textContent = title;
+  document.getElementById('scoreMsg').textContent = msg;
+
+  // Pie chart
+  const greenDeg = (correct / total) * 360;
+  document.getElementById('pieChart').style.background =
+    total === correct ? '#22c55e' :
+    correct === 0 ? '#e11d48' :
+    `conic-gradient(#22c55e 0deg ${greenDeg}deg, #e11d48 ${greenDeg}deg 360deg)`;
+  document.getElementById('pieChart').style.borderRadius = '50%';
+  document.getElementById('piePercent').textContent = pct + '%';
+
+  document.getElementById('statCorrect').textContent = correct + ' correct';
+  document.getElementById('statWrong').textContent = wrong + ' wrong';
+
+  // High score
+  const hs = loadHighScores();
+  const best = hs[playerName] || pct;
+  document.getElementById('highScoreLine').textContent = `${playerName}'s best score: ${best}%`;
+
+  // Review list
+  const list = document.getElementById('reviewList');
+  list.innerHTML = '';
+  answers.forEach(a => {
+    const isCorrect = a.playerAnswer === a.letter.name;
+    const row = document.createElement('div');
+    row.className = 'review-row ' + (isCorrect ? 'correct' : 'wrong');
+    row.innerHTML = `
+      <span class="review-letter">${a.letter.upper} ${a.letter.lower}</span>
+      <div class="review-detail">
+        <div class="answer-label">${a.letter.name}</div>
+        ${isCorrect ? '' : `<div class="your-answer">You said: ${a.playerAnswer}</div>`}
+      </div>
+      <span style="font-size:1.3rem">${isCorrect ? '\u2705' : '\u274c'}</span>
+    `;
+    list.appendChild(row);
+  });
+
+  showScreen('screenResults');
+
+  // Confetti
+  if (pct >= 70) launchConfetti();
+}
+
+function launchConfetti() {
+  const colors = ['#7c3aed','#f97316','#22c55e','#3b82f6','#eab308','#e11d48','#14b8a6','#d946ef'];
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.width = (Math.random() * 8 + 6) + 'px';
+    el.style.height = (Math.random() * 8 + 6) + 'px';
+    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    el.style.animationDuration = (Math.random() * 2 + 2) + 's';
+    el.style.animationDelay = (Math.random() * 1.5) + 's';
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  }
+}
+</script>
+</body>
+</html>
