@@ -147,18 +147,24 @@ async function handleSignal(msg) {
         createPeer();
         s.getTracks().forEach((t) => pc.addTrack(t, s));
       }
-      await pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
-      const ans = await pc.createAnswer();
-      await pc.setLocalDescription(ans);
-      send({ type: "sdp-answer", sdp: pc.localDescription });
+      if (pc.signalingState === "stable" || pc.signalingState === "have-local-offer") {
+        await pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+        const ans = await pc.createAnswer();
+        await pc.setLocalDescription(ans);
+        send({ type: "sdp-answer", sdp: pc.localDescription });
+      }
       break;
 
     case "sdp-answer":
-      await pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+      if (pc && pc.signalingState === "have-local-offer") {
+        await pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+      }
       break;
 
     case "ice":
-      if (pc) await pc.addIceCandidate(new RTCIceCandidate(msg.candidate));
+      if (pc && pc.remoteDescription) {
+        await pc.addIceCandidate(new RTCIceCandidate(msg.candidate));
+      }
       break;
 
     case "hangup":
