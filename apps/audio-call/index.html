@@ -10,7 +10,6 @@
   .container { text-align: center; max-width: 400px; width: 100%; padding: 2rem; }
   h1 { font-size: 1.4rem; margin-bottom: 1.5rem; }
   #status { color: #888; margin-bottom: 1.5rem; font-size: 0.9rem; }
-  input { width: 100%; padding: 0.7rem; border-radius: 8px; border: 1px solid #333; background: #222; color: #eee; font-size: 0.9rem; margin-bottom: 1rem; }
   button { padding: 0.8rem 2rem; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; margin: 0.3rem; }
   button:disabled { opacity: 0.4; cursor: default; }
   #callBtn { background: #2a2; color: #fff; }
@@ -34,11 +33,11 @@
     <button id="muteBtn" onclick="toggleMute()">Mute</button>
   </div>
   <audio id="remoteAudio" autoplay></audio>
-  <audio id="ringtone" loop src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA="></audio>
 </div>
 <script>
-let ws, pc, localStream, makingOffer = false, muted = false;
+let es, pc, localStream, muted = false;
 
+const SERVER = "https://shooka.tail2fbae.ts.net";
 const status = document.getElementById("status");
 const controls = document.getElementById("controls");
 const callBtn = document.getElementById("callBtn");
@@ -48,19 +47,24 @@ const muteBtn = document.getElementById("muteBtn");
 const declineBtn = document.getElementById("declineBtn");
 const remoteAudio = document.getElementById("remoteAudio");
 
-const SERVER_URL = "wss://shooka.tail2fbae.ts.net";
-
 function setStatus(msg) { status.textContent = msg; }
 
+function send(data) {
+  fetch(SERVER + "/signal", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+}
+
 function connect() {
-  ws = new WebSocket(SERVER_URL);
-  ws.onopen = () => {
+  es = new EventSource(SERVER + "/events");
+  es.onopen = () => {
     setStatus("Connected - waiting for others");
     controls.style.display = "block";
   };
-  ws.onclose = () => { setStatus("Disconnected"); cleanup(); };
-  ws.onerror = () => setStatus("Connection failed");
-  ws.onmessage = (e) => handleSignal(JSON.parse(e.data));
+  es.onerror = () => setStatus("Connection failed");
+  es.onmessage = (e) => handleSignal(JSON.parse(e.data));
 }
 
 connect();
@@ -94,8 +98,6 @@ function createPeer() {
   return pc;
 }
 
-function send(data) { if (ws && ws.readyState === 1) ws.send(JSON.stringify(data)); }
-
 async function startCall() {
   setStatus("Ringing...");
   callBtn.disabled = true;
@@ -105,6 +107,7 @@ async function startCall() {
 async function answerCall() {
   answerBtn.style.display = "none";
   answerBtn.classList.remove("ringing");
+  declineBtn.style.display = "none";
   setStatus("Connecting...");
 
   const stream = await getLocalStream();
@@ -125,22 +128,18 @@ async function handleSignal(msg) {
       break;
 
     case "answer-ring":
-      // caller side: the remote answered, create offer
       setStatus("Connecting...");
       const stream = await getLocalStream();
       createPeer();
       stream.getTracks().forEach((t) => pc.addTrack(t, stream));
 
-      makingOffer = true;
       const offer = await pc.createOffer();
       await pc.setLocalDescription(offer);
       send({ type: "offer", sdp: pc.localDescription });
-      makingOffer = false;
       break;
 
     case "offer":
       if (!pc) {
-        // in case we somehow got an offer without answering
         const s = await getLocalStream();
         createPeer();
         s.getTracks().forEach((t) => pc.addTrack(t, s));
