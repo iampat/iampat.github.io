@@ -15,6 +15,7 @@
   button:disabled { opacity: 0.4; cursor: default; }
   #callBtn { background: #2a2; color: #fff; }
   #answerBtn { background: #28f; color: #fff; display: none; }
+  #declineBtn { background: #c33; color: #fff; display: none; }
   #hangupBtn { background: #c33; color: #fff; display: none; }
   #muteBtn { background: #555; color: #fff; display: none; }
   .ringing { animation: pulse 1s infinite; }
@@ -24,12 +25,11 @@
 <body>
 <div class="container">
   <h1>Audio Call</h1>
-  <input id="serverUrl" placeholder="wss://your-tailscale-funnel-url" />
-  <button id="connectBtn" onclick="connect()">Connect</button>
-  <p id="status">Not connected</p>
+  <p id="status">Connecting...</p>
   <div id="controls" style="display:none">
     <button id="callBtn" onclick="startCall()">Call</button>
     <button id="answerBtn" onclick="answerCall()">Answer</button>
+    <button id="declineBtn" onclick="declineCall()">Decline</button>
     <button id="hangupBtn" onclick="hangup()">Hang up</button>
     <button id="muteBtn" onclick="toggleMute()">Mute</button>
   </div>
@@ -45,29 +45,25 @@ const callBtn = document.getElementById("callBtn");
 const answerBtn = document.getElementById("answerBtn");
 const hangupBtn = document.getElementById("hangupBtn");
 const muteBtn = document.getElementById("muteBtn");
+const declineBtn = document.getElementById("declineBtn");
 const remoteAudio = document.getElementById("remoteAudio");
+
+const SERVER_URL = "wss://shooka.tail2fbae.ts.net";
 
 function setStatus(msg) { status.textContent = msg; }
 
 function connect() {
-  let url = document.getElementById("serverUrl").value.trim();
-  if (!url) return;
-  // accept https:// URLs and convert to wss://
-  if (url.startsWith("https://")) url = "wss://" + url.slice(8);
-  if (!url.startsWith("ws")) url = "wss://" + url;
-  // remove trailing slash
-  url = url.replace(/\/+$/, "");
-
-  ws = new WebSocket(url);
+  ws = new WebSocket(SERVER_URL);
   ws.onopen = () => {
     setStatus("Connected - waiting for others");
     controls.style.display = "block";
-    document.getElementById("connectBtn").disabled = true;
   };
   ws.onclose = () => { setStatus("Disconnected"); cleanup(); };
   ws.onerror = () => setStatus("Connection failed");
   ws.onmessage = (e) => handleSignal(JSON.parse(e.data));
 }
+
+connect();
 
 async function getLocalStream() {
   if (!localStream) {
@@ -124,6 +120,7 @@ async function handleSignal(msg) {
       setStatus("Incoming call...");
       answerBtn.style.display = "inline-block";
       answerBtn.classList.add("ringing");
+      declineBtn.style.display = "inline-block";
       callBtn.style.display = "none";
       break;
 
@@ -170,6 +167,15 @@ async function handleSignal(msg) {
   }
 }
 
+function declineCall() {
+  send({ type: "hangup" });
+  answerBtn.style.display = "none";
+  answerBtn.classList.remove("ringing");
+  declineBtn.style.display = "none";
+  callBtn.style.display = "inline-block";
+  setStatus("Call declined");
+}
+
 function hangup() {
   send({ type: "hangup" });
   cleanup();
@@ -189,6 +195,7 @@ function cleanup() {
   callBtn.disabled = false;
   answerBtn.style.display = "none";
   answerBtn.classList.remove("ringing");
+  declineBtn.style.display = "none";
   hangupBtn.style.display = "none";
   muteBtn.style.display = "none";
   remoteAudio.srcObject = null;
