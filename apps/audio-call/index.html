@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audio Call</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #111; color: #eee; }
+  .container { text-align: center; max-width: 400px; width: 100%; padding: 2rem; }
+  h1 { font-size: 1.4rem; margin-bottom: 1.5rem; }
+  #status { color: #888; margin-bottom: 1.5rem; font-size: 0.9rem; }
+  input { width: 100%; padding: 0.7rem; border-radius: 8px; border: 1px solid #333; background: #222; color: #eee; font-size: 0.9rem; margin-bottom: 1rem; }
+  button { padding: 0.8rem 2rem; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; margin: 0.3rem; }
+  button:disabled { opacity: 0.4; cursor: default; }
+  #callBtn { background: #2a2; color: #fff; }
+  #answerBtn { background: #28f; color: #fff; display: none; }
+  #hangupBtn { background: #c33; color: #fff; display: none; }
+  #muteBtn { background: #555; color: #fff; display: none; }
+  .ringing { animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Audio Call</h1>
+  <input id="serverUrl" placeholder="wss://your-tailscale-funnel-url" />
+  <button id="connectBtn" onclick="connect()">Connect</button>
+  <p id="status">Not connected</p>
+  <div id="controls" style="display:none">
+    <button id="callBtn" onclick="startCall()">Call</button>
+    <button id="answerBtn" onclick="answerCall()">Answer</button>
+    <button id="hangupBtn" onclick="hangup()">Hang up</button>
+    <button id="muteBtn" onclick="toggleMute()">Mute</button>
+  </div>
+  <audio id="remoteAudio" autoplay></audio>
+  <audio id="ringtone" loop src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA="></audio>
+</div>
+<script>
+let ws, pc, localStream, makingOffer = false, muted = false;
+
+const status = document.getElementById("status");
+const controls = document.getElementById("controls");
+const callBtn = document.getElementById("callBtn");
+const answerBtn = document.getElementById("answerBtn");
+const hangupBtn = document.getElementById("hangupBtn");
+const muteBtn = document.getElementById("muteBtn");
+const remoteAudio = document.getElementById("remoteAudio");
+
+function setStatus(msg) { status.textContent = msg; }
+
+function connect() {
+  let url = document.getElementById("serverUrl").value.trim();
+  if (!url) return;
+  // accept https:// URLs and convert to wss://
+  if (url.startsWith("https://")) url = "wss://" + url.slice(8);
+  if (!url.startsWith("ws")) url = "wss://" + url;
+  // remove trailing slash
+  url = url.replace(/\/+$/, "");
+
+  ws = new WebSocket(url);
+  ws.onopen = () => {
+    setStatus("Connected - waiting for others");
+    controls.style.display = "block";
+    document.getElementById("connectBtn").disabled = true;
+  };
+  ws.onclose = () => { setStatus("Disconnected"); cleanup(); };
+  ws.onerror = () => setStatus("Connection failed");
+  ws.onmessage = (e) => handleSignal(JSON.parse(e.data));
+}
+
+async function getLocalStream() {
+  if (!localStream) {
+    localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+  }
+  return localStream;
+}
+
+function createPeer() {
+  pc = new RTCPeerConnection({ iceServers: [{ urls: "stun:stun.l.google.com:19302" }] });
+  pc.onicecandidate = (e) => {
+    if (e.candidate) send({ type: "ice", candidate: e.candidate });
+  };
+  pc.ontrack = (e) => { remoteAudio.srcObject = e.streams[0]; };
+  pc.onconnectionstatechange = () => {
+    if (pc.connectionState === "connected") {
+      setStatus("In call");
+      hangupBtn.style.display = "inline-block";
+      muteBtn.style.display = "inline-block";
+      callBtn.style.display = "none";
+      answerBtn.style.display = "none";
+    }
+    if (pc.connectionState === "disconnected" || pc.connectionState === "failed") {
+      setStatus("Call ended");
+      cleanup();
+    }
+  };
+  return pc;
+}
+
+function send(data) { if (ws && ws.readyState === 1) ws.send(JSON.stringify(data)); }
+
+async function startCall() {
+  setStatus("Ringing...");
+  callBtn.disabled = true;
+  send({ type: "ring" });
+}
+
+async function answerCall() {
+  answerBtn.style.display = "none";
+  answerBtn.classList.remove("ringing");
+  setStatus("Connecting...");
+
+  const stream = await getLocalStream();
+  createPeer();
+  stream.getTracks().forEach((t) => pc.addTrack(t, stream));
+
+  send({ type: "answer-ring" });
+}
+
+async function handleSignal(msg) {
+  switch (msg.type) {
+    case "ring":
+      setStatus("Incoming call...");
+      answerBtn.style.display = "inline-block";
+      answerBtn.classList.add("ringing");
+      callBtn.style.display = "none";
+      break;
+
+    case "answer-ring":
+      // caller side: the remote answered, create offer
+      setStatus("Connecting...");
+      const stream = await getLocalStream();
+      createPeer();
+      stream.getTracks().forEach((t) => pc.addTrack(t, stream));
+
+      makingOffer = true;
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+      send({ type: "offer", sdp: pc.localDescription });
+      makingOffer = false;
+      break;
+
+    case "offer":
+      if (!pc) {
+        // in case we somehow got an offer without answering
+        const s = await getLocalStream();
+        createPeer();
+        s.getTracks().forEach((t) => pc.addTrack(t, s));
+      }
+      await pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+      const ans = await pc.createAnswer();
+      await pc.setLocalDescription(ans);
+      send({ type: "sdp-answer", sdp: pc.localDescription });
+      break;
+
+    case "sdp-answer":
+      await pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+      break;
+
+    case "ice":
+      if (pc) await pc.addIceCandidate(new RTCIceCandidate(msg.candidate));
+      break;
+
+    case "hangup":
+    case "peer-left":
+      setStatus("Call ended");
+      cleanup();
+      break;
+  }
+}
+
+function hangup() {
+  send({ type: "hangup" });
+  cleanup();
+  setStatus("Call ended");
+}
+
+function toggleMute() {
+  if (!localStream) return;
+  muted = !muted;
+  localStream.getAudioTracks().forEach((t) => (t.enabled = !muted));
+  muteBtn.textContent = muted ? "Unmute" : "Mute";
+}
+
+function cleanup() {
+  if (pc) { pc.close(); pc = null; }
+  callBtn.style.display = "inline-block";
+  callBtn.disabled = false;
+  answerBtn.style.display = "none";
+  answerBtn.classList.remove("ringing");
+  hangupBtn.style.display = "none";
+  muteBtn.style.display = "none";
+  remoteAudio.srcObject = null;
+}
+</script>
+</body>
+</html>
