@@ -35,7 +35,7 @@
   <audio id="remoteAudio" autoplay></audio>
 </div>
 <script>
-let es, pc, localStream, muted = false, myId = null;
+let pc, localStream, muted = false, myId = null, pollTimer = null;
 
 const SERVER = "https://shooka.tail2fbae.ts.net";
 const status = document.getElementById("status");
@@ -57,14 +57,26 @@ function send(data) {
   });
 }
 
-function connect() {
-  es = new EventSource(SERVER + "/events");
-  es.onopen = () => {
+async function connect() {
+  try {
+    const res = await fetch(SERVER + "/connect");
+    const data = await res.json();
+    myId = data.id;
     setStatus("Connected - waiting for others");
     controls.style.display = "block";
-  };
-  es.onerror = () => setStatus("Connection failed");
-  es.onmessage = (e) => handleSignal(JSON.parse(e.data));
+    pollTimer = setInterval(poll, 500);
+  } catch (e) {
+    setStatus("Connection failed");
+  }
+}
+
+async function poll() {
+  try {
+    const res = await fetch(SERVER + "/poll?id=" + myId);
+    if (!res.ok) return;
+    const msgs = await res.json();
+    for (const msg of msgs) handleSignal(msg);
+  } catch (e) { /* network hiccup, retry next tick */ }
 }
 
 connect();
@@ -119,9 +131,6 @@ async function answerCall() {
 
 async function handleSignal(msg) {
   switch (msg.type) {
-    case "welcome":
-      myId = msg.id;
-      return;
     case "ring":
       setStatus("Incoming call...");
       answerBtn.style.display = "inline-block";
