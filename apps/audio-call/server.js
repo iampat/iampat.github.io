@@ -4,10 +4,10 @@ const PORT = process.env.PORT || 3000;
 const clients = new Set();
 let clientId = 0;
 
-function broadcast(sender, data) {
+function broadcast(senderId, data) {
   const msg = `data: ${JSON.stringify(data)}\n\n`;
   for (const c of clients) {
-    if (c !== sender) c.res.write(msg);
+    if (c.id !== senderId) c.res.write(msg);
   }
 }
 
@@ -28,14 +28,15 @@ const server = http.createServer((req, res) => {
       "Cache-Control": "no-cache",
       Connection: "keep-alive",
     });
-    res.write(":\n\n");
-    const client = { id: ++clientId, res };
+    const id = ++clientId;
+    res.write(`data: ${JSON.stringify({ type: "welcome", id })}\n\n`);
+    const client = { id, res };
     clients.add(client);
     console.log(`+ client ${client.id} (${clients.size} total)`);
     req.on("close", () => {
       clients.delete(client);
       console.log(`- client ${client.id} (${clients.size} total)`);
-      broadcast(client, { type: "peer-left" });
+      broadcast(client.id, { type: "peer-left" });
     });
     return;
   }
@@ -45,7 +46,7 @@ const server = http.createServer((req, res) => {
     req.on("data", (chunk) => (body += chunk));
     req.on("end", () => {
       const msg = JSON.parse(body);
-      broadcast(null, msg);
+      broadcast(msg.senderId, msg);
       res.writeHead(200);
       res.end("ok");
     });
