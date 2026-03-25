@@ -60,12 +60,15 @@ function send(data) {
 async function connect() {
   try {
     const res = await fetch(SERVER + "/connect");
-    const data = await res.json();
+    const text = await res.text();
+    console.log("connect response:", res.status, text);
+    const data = JSON.parse(text);
     myId = data.id;
     setStatus("Connected - waiting for others");
     controls.style.display = "block";
     pollTimer = setInterval(poll, 500);
   } catch (e) {
+    console.error("connect failed:", e);
     setStatus("Connection failed");
   }
 }
@@ -74,9 +77,10 @@ async function poll() {
   try {
     const res = await fetch(SERVER + "/poll?id=" + myId);
     if (!res.ok) return;
-    const msgs = await res.json();
+    const text = await res.text();
+    const msgs = JSON.parse(text);
     for (const msg of msgs) handleSignal(msg);
-  } catch (e) { /* network hiccup, retry next tick */ }
+  } catch (e) { console.error("poll error:", e); }
 }
 
 connect();
