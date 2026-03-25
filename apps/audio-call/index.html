@@ -35,7 +35,7 @@
   <audio id="remoteAudio" autoplay></audio>
 </div>
 <script>
-let es, pc, localStream, muted = false;
+let es, pc, localStream, muted = false, myId = null;
 
 const SERVER = "https://shooka.tail2fbae.ts.net";
 const status = document.getElementById("status");
@@ -53,7 +53,7 @@ function send(data) {
   fetch(SERVER + "/signal", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify({ ...data, senderId: myId }),
   });
 }
 
@@ -119,6 +119,9 @@ async function answerCall() {
 
 async function handleSignal(msg) {
   switch (msg.type) {
+    case "welcome":
+      myId = msg.id;
+      return;
     case "ring":
       setStatus("Incoming call...");
       answerBtn.style.display = "inline-block";
