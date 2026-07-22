@@ -5,15 +5,16 @@
 (function () {
   'use strict';
 
-  // ---- constants ----------------------------------------------------------
+  // ---- constants (scheduler tuning lives here, nowhere else) ---------------
   var W_INIT   = 1.0;
   var W_RIGHT  = 0.45, W_RIGHT_MIN = 0.08;
   var W_WRONG  = 2.6,  W_WRONG_MAX = 8.0;
+  // "Two consecutive corrects from fresh": W_INIT * W_RIGHT^2 = 0.2025.
+  // Keep in sync with W_RIGHT if retuning.
   var W_MASTER = 0.21;
+  var REC_MIN  = 0.25, REC_PER_AGE = 1 / 8, REC_MAX = 2.5;
+  var NO_REPEAT = 2;         // a graded card can't return within this many reps
   var RESET_ARM_MS = 4000;
-
-  var REDUCED = window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ---- module state -------------------------------------------------------
   var app = document.getElementById('app');
@@ -49,10 +50,15 @@
 
   function clear(node) { while (node.firstChild) node.removeChild(node.firstChild); }
 
-  function getParam(name) {
-    var m = new RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-    return m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : null;
+  function makeBtn(cls, label, hint, onClick) {
+    var b = el('button', cls, label);
+    b.type = 'button';
+    if (hint) b.appendChild(el('span', 'btn__hint', hint));
+    b.addEventListener('click', onClick);
+    return b;
   }
+
+  function deckUrl(id) { return 'decks/' + id + '.json'; }
 
   function pct(v, scale) {
     var lo = Math.log10(scale.min), hi = Math.log10(scale.max);
@@ -98,8 +104,7 @@
       // Only persist ids that exist in the current deck (drops removed ids).
       localStorage.setItem(storageKey, JSON.stringify(store));
     } catch (e) {
-      storageOK = false;
-      updateStatusLine();
+      storageOK = false;   // callers refresh the status line
     }
   }
 
@@ -107,7 +112,7 @@
   function recencyFactor(id) {
     var st = store.cards[id];
     var age = (st.lastRep == null) ? Infinity : (store.repCount - st.lastRep);
-    return Math.min(0.25 + age / 8, 2.5);
+    return Math.min(REC_MIN + age * REC_PER_AGE, REC_MAX);
   }
 
   function pickNext() {
@@ -115,7 +120,7 @@
 
     // Build the candidate pool, excluding recently shown cards.
     // Hard rule: never the same card twice in a row (recent[0]); we also
-    // keep a 2-deep window so a graded card can't return within 2 reps.
+    // keep an NO_REPEAT-deep window so a graded card can't return right away.
     var pool = cards.filter(function (c) { return recent.indexOf(c.id) === -1; });
     if (!pool.length) {
       pool = cards.filter(function (c) { return c.id !== recent[0]; });
@@ -162,11 +167,12 @@
     st.lastRep = store.repCount;   // rep index at which it was just shown
     store.repCount += 1;
 
-    // Track recency window (most-recent first, keep 2).
+    // Track recency window (most-recent first).
     recent.unshift(current.id);
-    if (recent.length > 2) recent.length = 2;
+    if (recent.length > NO_REPEAT) recent.length = NO_REPEAT;
 
     saveStore();
+    updateStatusLine();   // reflects a storage failure surfaced by saveStore
     next();
   }
 
@@ -189,17 +195,14 @@
       });
     app.appendChild(stats);
 
-    // Card
+    // Card (aria-label is set per-card in showCard)
     var card = el('div', 'card');
     card.tabIndex = 0;
     card.setAttribute('role', 'button');
-    card.setAttribute('aria-label', 'Flashcard — activate to reveal answer');
     refs.card = card;
 
-    var tags = el('div', 'card__tags');
     refs.group = el('span', 'tag tag--group');
-    tags.appendChild(refs.group);
-    card.appendChild(tags);
+    card.appendChild(refs.group);
 
     refs.front = el('div', 'card__front');
     card.appendChild(refs.front);
@@ -210,9 +213,10 @@
     refs.note = el('div', 'card__note');
     card.appendChild(refs.note);
 
-    // Magnitude rail (built once if the deck has a scale)
+    // Magnitude rail (built once if the deck has a scale; deck.scale was
+    // normalized to null at load time when absent or malformed)
     refs.rail = null;
-    if (hasScale()) {
+    if (deck.scale) {
       refs.rail = buildRail();
       card.appendChild(refs.rail.root);
     }
@@ -231,21 +235,12 @@
     var footer = el('footer', 'footer');
     refs.status = el('div', 'footer__status');
     footer.appendChild(refs.status);
-    refs.reset = el('button', 'btn btn--reset', 'Reset');
-    refs.reset.type = 'button';
+    refs.reset = makeBtn('btn btn--reset', 'Reset', null, onResetClick);
     footer.appendChild(refs.reset);
     app.appendChild(footer);
 
-    wireReset();
     updateStatusLine();
     setupGestures();
-  }
-
-  function hasScale() {
-    var s = deck.scale;
-    return !!(s && s.type === 'log' &&
-      typeof s.min === 'number' && typeof s.max === 'number' &&
-      Array.isArray(s.ticks));
   }
 
   function buildRail() {
@@ -285,28 +280,12 @@
     var c = refs.controls;
     clear(c);
     if (!revealed) {
-      var show = el('button', 'btn btn--show');
-      show.type = 'button';
-      show.innerHTML = 'Show';
-      var h1 = el('span', 'btn__hint', '(space)');
-      show.appendChild(h1);
-      show.addEventListener('click', reveal);
-      c.appendChild(show);
+      c.appendChild(makeBtn('btn btn--show', 'Show', '(space)', reveal));
     } else {
-      var wrong = el('button', 'btn btn--wrong');
-      wrong.type = 'button';
-      wrong.textContent = 'Wrong';
-      wrong.appendChild(el('span', 'btn__hint', '(←)'));
-      wrong.addEventListener('click', function () { grade(false); });
-
-      var ok = el('button', 'btn btn--ok');
-      ok.type = 'button';
-      ok.textContent = 'Correct';
-      ok.appendChild(el('span', 'btn__hint', '(→)'));
-      ok.addEventListener('click', function () { grade(true); });
-
-      c.appendChild(wrong);
-      c.appendChild(ok);
+      c.appendChild(makeBtn('btn btn--wrong', 'Wrong', '(←)',
+        function () { grade(false); }));
+      c.appendChild(makeBtn('btn btn--ok', 'Correct', '(→)',
+        function () { grade(true); }));
     }
   }
 
@@ -326,8 +305,12 @@
 
     refs.note.textContent = '';   // reserved height keeps layout stable
 
-    // Rail: hide marker until reveal, but keep its previous left (slide effect).
-    if (refs.rail) refs.rail.marker.classList.remove('is-on');
+    // Rail: hide marker until reveal, but keep its previous left (slide
+    // effect). A card with no numeric mag hides the rail entirely (no gap).
+    if (refs.rail) {
+      refs.rail.marker.classList.remove('is-on');
+      refs.rail.root.hidden = (typeof current.mag !== 'number');
+    }
 
     refs.card.setAttribute('aria-label', current.front + ' — activate to reveal answer');
     renderControls();
@@ -342,18 +325,14 @@
     refs.answer.classList.remove('is-masked');
     refs.note.textContent = current.note || '';
 
-    if (refs.rail && hasScale() && typeof current.mag === 'number') {
+    if (refs.rail && typeof current.mag === 'number') {
       var left = pct(current.mag, deck.scale);
-      if (REDUCED) {
+      // Next frame, so the transition runs from the previous card's position.
+      // (prefers-reduced-motion is handled in CSS: the transition is disabled.)
+      requestAnimationFrame(function () {
         refs.rail.marker.style.left = left + '%';
         refs.rail.marker.classList.add('is-on');
-      } else {
-        // Ensure the transition runs from the previous position on next frame.
-        requestAnimationFrame(function () {
-          refs.rail.marker.style.left = left + '%';
-          refs.rail.marker.classList.add('is-on');
-        });
-      }
+      });
     }
 
     renderControls();
@@ -382,41 +361,42 @@
       : 'Storage unavailable · this session only';
   }
 
+  // ---- session lifecycle --------------------------------------------------
+  // Shared by deck start and reset: (re)load stats and begin drilling.
+  function startSession() {
+    store = loadStore(deck);
+    sessionRight = 0; sessionTotal = 0;
+    recent = [];
+    next();
+  }
+
   // ---- reset (two-step) ---------------------------------------------------
   var resetTimer = null;
-  function wireReset() {
-    refs.reset.addEventListener('click', function () {
-      if (refs.reset.classList.contains('is-armed')) {
-        disarmReset();
-        doReset();
-      } else {
-        refs.reset.classList.add('is-armed');
-        refs.reset.textContent = 'Erase all?';
-        resetTimer = setTimeout(disarmReset, RESET_ARM_MS);
+  function onResetClick() {
+    if (refs.reset.classList.contains('is-armed')) {
+      disarmReset();
+      if (storageOK) {
+        try { localStorage.removeItem(storageKey); } catch (e) {}
       }
-    });
+      startSession();
+    } else {
+      refs.reset.classList.add('is-armed');
+      refs.reset.textContent = 'Erase all?';
+      resetTimer = setTimeout(disarmReset, RESET_ARM_MS);
+    }
   }
   function disarmReset() {
     if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
     refs.reset.classList.remove('is-armed');
     refs.reset.textContent = 'Reset';
   }
-  function doReset() {
-    if (storageOK) {
-      try { localStorage.removeItem(storageKey); } catch (e) {}
-    }
-    store = loadStore(deck);
-    sessionRight = 0; sessionTotal = 0;
-    recent = [];
-    current = null;
-    next();
-  }
 
   // ---- keyboard -----------------------------------------------------------
   function onKey(e) {
+    if (!current) return;   // drill view not active (picker/error screen)
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     var k = e.key;
-    if (!revealed && (k === ' ' || k === 'Enter' || k === 'Spacebar')) {
+    if (!revealed && (k === ' ' || k === 'Enter')) {
       e.preventDefault(); reveal();
     } else if (revealed && k === 'ArrowLeft') {
       e.preventDefault(); grade(false);
@@ -448,6 +428,15 @@
   }
 
   // ---- validation ---------------------------------------------------------
+  // The magnitude rail is optional: normalize deck.scale to null unless it is
+  // a well-formed log scale, so views only ever see a usable scale or nothing.
+  function normalizeScale(s) {
+    var ok = s && s.type === 'log' &&
+      typeof s.min === 'number' && typeof s.max === 'number' &&
+      Array.isArray(s.ticks);
+    return ok ? s : null;
+  }
+
   function validateDeck(d) {
     var errs = [];
     if (!d || typeof d !== 'object') return ['Deck is not a JSON object.'];
@@ -488,7 +477,7 @@
     app.appendChild(box);
   }
 
-  function showPicker(manifest, metas) {
+  function showPicker(metas) {
     clear(app);
     var wrap = el('div', 'picker');
     wrap.appendChild(el('div', 'picker__h', 'Choose a deck'));
@@ -522,29 +511,29 @@
       showError('Unknown deck', 'The deck id "' + id + '" is not valid.');
       return;
     }
-    fetchJSON('decks/' + id + '.json').then(function (d) {
+    fetchJSON(deckUrl(id)).then(function (d) {
       var errs = validateDeck(d);
       if (errs.length) {
         showError('This deck can’t be loaded',
           'The deck file has problems that must be fixed:', errs);
         return;
       }
+      d.scale = normalizeScale(d.scale);
       deck = d;
       document.title = (d.title || 'Flashcard Drill');
-      store = loadStore(d);
-      recent = [];
       buildDrillView();
-      next();
-      document.addEventListener('keydown', onKey);
+      startSession();
     }).catch(function () {
       showError('Deck not found',
-        'Could not load deck "' + id + '". Check that decks/' + id +
-        '.json exists.');
+        'Could not load deck "' + id + '". Check that ' + deckUrl(id) +
+        ' exists.');
     });
   }
 
   function init() {
-    var param = getParam('deck');
+    document.addEventListener('keydown', onKey);   // onKey no-ops until a deck starts
+
+    var param = new URLSearchParams(window.location.search).get('deck');
     if (param) { startDeck(param); return; }
 
     // No param: consult the manifest.
@@ -558,11 +547,11 @@
 
       // Several decks: load light metadata for the picker.
       Promise.all(ids.map(function (id) {
-        return fetchJSON('decks/' + id + '.json').then(function (d) {
+        return fetchJSON(deckUrl(id)).then(function (d) {
           return { id: id, title: (d && d.title) || id,
                    count: (d && Array.isArray(d.cards)) ? d.cards.length : 0 };
         }).catch(function () { return { id: id, title: id, count: 0 }; });
-      })).then(function (metas) { showPicker(mani, metas); });
+      })).then(showPicker);
     }).catch(function () {
       showError('Cannot start',
         'Could not load the deck manifest (decks/index.json).');

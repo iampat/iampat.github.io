@@ -7,7 +7,9 @@
   <title>Flashcard Drill</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600&display=swap">
+  <!-- Fonts load async so first paint never blocks on the CDN; the system
+       font stack in app.css covers the gap (and any blocked request). -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600&display=swap" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="css/app.css">
 </head>
 <body>

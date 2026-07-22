@@ -1,7 +1,9 @@
 # Flashcard Drill
 
-A static, dependency-free weighted-recall flashcard drill for GitHub Pages.
-Pure HTML + CSS + vanilla JS — no framework, no build step, no bundler.
+A static weighted-recall flashcard drill for GitHub Pages. Pure HTML + CSS +
+vanilla JS — no framework, no build step, no bundler. The only external
+resource is an optional Google Fonts stylesheet, loaded async with a full
+system-font fallback.
 
 The app is **content-agnostic**: everything subject-specific lives in deck JSON
 files under `decks/`. The code itself knows nothing about the cards it shows.
@@ -52,8 +54,8 @@ with no configuration.
 {
   "schema": 1,
   "id": "your-id",              // stable; used as the localStorage namespace
-  "title": "Your Deck",
-  "subtitle": "Rev. 2026",      // optional
+  "title": "Your Deck",         // browser tab + deck picker
+  "subtitle": "Rev. 2026",      // optional; reserved (not currently rendered)
   "scale": {                    // OPTIONAL — omit for non-numeric decks
     "type": "log",              // only "log" in v1
     "min": 1,
