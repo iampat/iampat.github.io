@@ -31,7 +31,7 @@
     { "id": "hbm", "group": "Memory", "front": "GPU reads its own memory (HBM), uncached", "back": "450 ns", "mag": 450, "note": "Device-level HBM is ~130 ns; this is what a CUDA core actually observes." },
     { "id": "nvlink", "group": "Interconnect", "front": "GPU-to-GPU round trip (NVLink)", "back": "1 µs", "mag": 1000 },
     { "id": "rdma", "group": "Network", "front": "Fast network round trip, same rack (RDMA / 100GbE)", "back": "1.5 µs", "mag": 1500 },
-    { "id": "pcieh2d", "group": "Interconnect", "front": "PCIe Gen 5 host → GPU, small transfer", "back": "1.5 µs", "mag": 1500 },
+    { "id": "pcieh2d", "group": "Interconnect", "front": "Copy small data from CPU memory to GPU (PCIe)", "back": "1.5 µs", "mag": 1500 },
     { "id": "lz4", "group": "Compute", "front": "Compress 1 KB with LZ4", "back": "1.7 µs", "mag": 1700, "note": "577 MB/s compress. Decompress is 6x faster — don't mix them up." },
     { "id": "tbolt", "group": "Interconnect", "front": "Thunderbolt 4 / USB4 round trip", "back": "2 µs", "mag": 2000 },
     { "id": "snappy", "group": "Compute", "front": "Compress 1 KB with Snappy", "back": "2.5 µs", "mag": 2500, "note": "401 MB/s. Slower than LZ4 at a near-identical ratio." },
