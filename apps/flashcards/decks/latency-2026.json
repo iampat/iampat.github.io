@@ -51,6 +51,10 @@
     { "id": "n5", "group": "Reliability", "front": "Downtime per year — 99.999% (5 nines)", "back": "5.3 min", "mag": 3.18e11, "note": "26 seconds a month. Spent by human response time, not hardware." },
     { "id": "n4", "group": "Reliability", "front": "Downtime per year — 99.99% (4 nines)", "back": "53 min", "mag": 3.156e12 },
     { "id": "n3", "group": "Reliability", "front": "Downtime per year — 99.9% (3 nines)", "back": "8.8 hr", "mag": 3.156e13 },
-    { "id": "n2", "group": "Reliability", "front": "Downtime per year — 99% (2 nines)", "back": "3.7 days", "mag": 3.156e14 }
+    { "id": "n2", "group": "Reliability", "front": "Downtime per year — 99% (2 nines)", "back": "3.7 days", "mag": 3.156e14 },
+    { "id": "cost-cpu", "group": "Cost", "front": "Cloud cost per year — 1 CPU core (vCPU)", "back": "$250" },
+    { "id": "cost-ram", "group": "Cost", "front": "Cloud cost per year — 1 GB RAM", "back": "$40" },
+    { "id": "cost-ssd", "group": "Cost", "front": "Cloud cost per year — 1 GB SSD block storage", "back": "$1.1" },
+    { "id": "cost-obj", "group": "Cost", "front": "Cloud cost per year — 1 GB object storage", "back": "$0.3" }
   ]
 }
