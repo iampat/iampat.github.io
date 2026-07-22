@@ -60,14 +60,6 @@
     return Math.max(0, Math.min(100, p));
   }
 
-  function recallLevel(w) {
-    if (w <= 0.21) return 'cold';
-    if (w <= 0.5)  return 'low';
-    if (w <= 1.6)  return 'normal';
-    if (w <= 4)    return 'high';
-    return 'urgent';
-  }
-
   // ---- persistence --------------------------------------------------------
   function loadStore(d) {
     storageKey = 'fcd:' + d.id + ':v1';
@@ -183,13 +175,6 @@
     clear(app);
     refs = {};
 
-    // Header
-    var hdr = el('header', 'hdr');
-    var title = el('h1', 'hdr__title', deck.title || 'Flashcard Drill');
-    hdr.appendChild(title);
-    if (deck.subtitle) hdr.appendChild(el('span', 'hdr__sub', deck.subtitle));
-    app.appendChild(hdr);
-
     // Stats strip
     var stats = el('div', 'stats');
     refs.stat = {};
@@ -213,9 +198,7 @@
 
     var tags = el('div', 'card__tags');
     refs.group = el('span', 'tag tag--group');
-    refs.recall = el('span', 'tag tag--recall');
     tags.appendChild(refs.group);
-    tags.appendChild(refs.recall);
     card.appendChild(tags);
 
     refs.front = el('div', 'card__front');
@@ -335,9 +318,7 @@
   }
 
   function showCard() {
-    var st = store.cards[current.id];
     refs.group.textContent = current.group || '';
-    refs.recall.textContent = 'recall · ' + recallLevel(st.w);
     refs.front.textContent = current.front;
 
     refs.answer.textContent = '— — —';
