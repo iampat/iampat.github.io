@@ -6,13 +6,16 @@ Pure HTML + CSS + vanilla JS — no framework, no build step, no bundler.
 The app is **content-agnostic**: everything subject-specific lives in deck JSON
 files under `decks/`. The code itself knows nothing about the cards it shows.
 
+The app lives under `apps/flashcards/` in this repo.
+
 ## Run locally
 
-Because the app fetches deck JSON, open it over HTTP (not `file://`):
+Because the app fetches deck JSON, open it over HTTP (not `file://`). Serve from
+the repo root:
 
 ```sh
 python3 -m http.server 8000
-# then visit http://localhost:8000/
+# then visit http://localhost:8000/apps/flashcards/
 ```
 
 ## Deploy to GitHub Pages
@@ -20,10 +23,10 @@ python3 -m http.server 8000
 1. Push this repo to GitHub.
 2. **Settings → Pages → Build and deployment → Source: Deploy from a branch.**
 3. Pick the branch (e.g. `master`) and folder `/ (root)`.
-4. The site serves at `https://<user>.github.io/<repo>/`.
+4. The app serves at `https://<user>.github.io/<repo>/apps/flashcards/`.
 
-All asset and deck paths are relative, so it works correctly under the
-`/<repo>/` subpath with no configuration.
+All asset and deck paths are relative, so it works correctly under any subpath
+with no configuration.
 
 ## Deck selection
 
