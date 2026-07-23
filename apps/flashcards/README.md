@@ -96,9 +96,11 @@ Each card carries `{ w, right, wrong, lastRep }` and there is a global
 
 - **Base weight** (Leitner-style): starts at `1.0`; a correct answer multiplies
   it by `0.45` (floor `0.08`), a wrong answer by `2.6` (ceiling `8.0`).
-- **Recency factor** `rec = min(0.25 + age/8, 2.5)` where
-  `age = repCount − lastRep`. A just-seen card is suppressed; an unseen card
-  gets the full `2.5×` boost so the whole deck is touched early.
+- **Recency factor** `rec = min(0.05 + age·0.2, 30)` where
+  `age = repCount − lastRep`. The near-zero floor makes `rec` scale roughly
+  with age, so a long-unseen card is drawn well before a recently answered one;
+  a just-seen card is strongly suppressed. Unseen cards are introduced first
+  (before the weighted draw) so the whole deck is touched early.
 
 A card is **mastered** at `w ≤ 0.21` (two consecutive corrects from fresh).
 The same card is never shown twice in a row, and a just-graded card will not
