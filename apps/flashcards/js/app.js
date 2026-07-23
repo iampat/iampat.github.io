@@ -12,7 +12,10 @@
   // "Two consecutive corrects from fresh": W_INIT * W_RIGHT^2 = 0.2025.
   // Keep in sync with W_RIGHT if retuning.
   var W_MASTER = 0.21;
-  var REC_MIN  = 0.25, REC_PER_AGE = 1 / 8, REC_MAX = 2.5;
+  // Recency weight. A near-zero floor makes rec scale ~linearly with age, so a
+  // long-unseen card outweighs a just-answered one by roughly their age ratio;
+  // the steep slope and high ceiling let that dominate the base-weight range.
+  var REC_MIN  = 0.05, REC_PER_AGE = 0.2, REC_MAX = 30;
   var NO_REPEAT = 2;         // a graded card can't return within this many reps
   var RESET_ARM_MS = 4000;
 
