@@ -32,7 +32,7 @@
     { "id": "pcieh2d", "group": "Interconnect", "front": "Copy small data from CPU memory to GPU (PCIe)", "back": "1.5 µs", "mag": 1500 },
     { "id": "lz4", "group": "Compute", "front": "Compress 1 KB (LZ4 / Snappy)", "back": "2 µs", "mag": 2000, "note": "Decompression is several times faster." },
     { "id": "tbolt", "group": "Interconnect", "front": "Thunderbolt 4 / USB4 round trip", "back": "2 µs", "mag": 2000 },
-    { "id": "eth-bypass", "group": "Network", "front": "Send 4 KB over 10 GbE", "back": "4 µs (kernel-bypass)", "mag": 4000, "note": "That's basically wire time. The normal kernel TCP path adds 20–50 µs on top (~25–55 µs total) — why kernel-bypass and io_uring exist." },
+    { "id": "eth-bypass", "group": "Network", "front": "Send 4 KB over 10 GbE", "back": "4 µs (kernel-bypass) · 25 µs (kernel-TCP)", "mag": 4000, "note": "4 µs is basically wire time; the kernel TCP stack's overhead is why kernel-bypass and io_uring exist." },
     { "id": "nvme-ll", "group": "Storage", "front": "NVMe SSD 4K random read", "back": "15 µs", "mag": 15000, "note": "Almost all fixed overhead — the 4 KB transfer is tiny." },
     { "id": "mem1mb", "group": "Memory", "front": "Read 1 MB sequentially from memory", "back": "20 µs", "mag": 20000, "note": "≈ 50 GB/s equivalent bandwidth." },
     { "id": "net100", "group": "Network", "front": "Read 1 MB over 100 GbE — wire speed", "back": "85 µs", "mag": 85000 },
