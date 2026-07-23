@@ -305,6 +305,7 @@
 
     refs.answer.textContent = '— — —';
     refs.answer.classList.add('is-masked');
+    refs.answer.classList.remove('is-multiline');
 
     refs.note.textContent = '';   // reserved height keeps layout stable
 
@@ -326,6 +327,7 @@
 
     refs.answer.textContent = current.back;
     refs.answer.classList.remove('is-masked');
+    refs.answer.classList.toggle('is-multiline', current.back.indexOf('\n') !== -1);
     refs.note.textContent = current.note || '';
 
     if (refs.rail && typeof current.mag === 'number') {
