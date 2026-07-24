@@ -45,10 +45,13 @@ Supported content, on any slot:
 
 - **Rich text** — bold/italic, multiple lines, bullet lists. (Multi-line and
   bulleted answers already work.)
-- **Code blocks** — monospaced, syntax-highlighted snippets for programming
-  decks.
-- **Math / formulas** — LaTeX-style rendering for equations and notation.
+- **Code blocks** — monospaced snippets for programming decks (syntax
+  highlighting optional; plain monospace is enough to start).
 - **Images** — diagrams or pictures on the front or answer side.
+
+Math / formula (LaTeX) rendering is **not** in the plan: it needs a rendering
+library, which conflicts with the static / no-build / minimal-external-calls
+constraint. Decks needing an equation can use an image or Unicode notation.
 
 UX principles for content:
 
@@ -92,6 +95,8 @@ for multiple decks.
 ## 6. Non-goals (for this phase)
 
 - Alternate card types: multiple choice, typed answers, cloze.
+- Math / formula (LaTeX) rendering — dropped: library dependency vs. the
+  static / no-build constraint. Use an image or Unicode instead.
 - Category-chip or progress visualizations.
 - Session scoping: length limits, tag filters, cross-deck study.
 - Accounts, sync, sharing (backend — deferred, not part of this UX framing).
@@ -103,9 +108,10 @@ To resolve before/while specifying the content work:
 1. **Authoring format for rich content.** How does a deck author write bold,
    lists, code, and math in JSON — Markdown in a string, a small set of fields,
    or a restricted HTML subset? Affects both authoring UX and safety.
-2. **Math and syntax-highlighting dependency.** Both typically need a library;
-   how does that square with "static, no build step, minimal external calls"
-   (e.g. inline a small highlighter, precompute at authoring time)?
+2. **Syntax-highlighting dependency.** Code highlighting typically needs a
+   library; how does that square with "static, no build step, minimal external
+   calls" (e.g. inline a small highlighter, precompute at authoring time, or
+   ship plain monospace)? (Math rendering was dropped for the same reason.)
 3. **Image sourcing.** Bundled in the repo under the deck, referenced by
    relative path, or external URLs (and how does that interact with offline)?
 4. **Answer legibility with rich content.** Rules for when the answer is a code
