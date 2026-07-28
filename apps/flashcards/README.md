@@ -159,7 +159,7 @@ erases; it disarms itself on timeout.
 ## Keyboard & touch
 
 - **Desktop:** `Space`/`Enter` reveals, `←` marks wrong, `→` marks correct,
-  `↓` skips (advances without scoring — no stats change).
+  `↓` hides (flips back to the question side without scoring).
 - **Mobile:** tap the card or **Show** to reveal; after reveal, swipe left for
-  wrong or right for correct, or tap **Skip** to move on without scoring.
+  wrong or right for correct, or tap **Hide** to flip back without scoring.
 - `prefers-reduced-motion` disables the marker animation.
