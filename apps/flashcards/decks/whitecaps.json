@@ -12,7 +12,7 @@
         "Number": "1",
         "Position": "Goalkeeper"
       },
-      "img": "img/takaoka.jpg"
+      "img": "img/takaoka.png"
     },
     {
       "id": "zendejas",
@@ -21,7 +21,8 @@
       "facts": {
         "Number": "30",
         "Position": "Goalkeeper"
-      }
+      },
+      "img": "img/zendejas.jpg"
     },
     {
       "id": "boehmer",
@@ -30,7 +31,8 @@
       "facts": {
         "Number": "32",
         "Position": "Goalkeeper"
-      }
+      },
+      "img": "img/boehmer.png"
     },
     {
       "id": "laborda",
@@ -39,7 +41,8 @@
       "facts": {
         "Number": "2",
         "Position": "Defender"
-      }
+      },
+      "img": "img/laborda.png"
     },
     {
       "id": "adekugbe",
@@ -48,7 +51,8 @@
       "facts": {
         "Number": "3",
         "Position": "Defender"
-      }
+      },
+      "img": "img/adekugbe.png"
     },
     {
       "id": "veselinovic",
@@ -57,7 +61,8 @@
       "facts": {
         "Number": "4",
         "Position": "Defender"
-      }
+      },
+      "img": "img/veselinovic.png"
     },
     {
       "id": "priso",
@@ -66,7 +71,8 @@
       "facts": {
         "Number": "6",
         "Position": "Defender"
-      }
+      },
+      "img": "img/priso.png"
     },
     {
       "id": "halbouni",
@@ -75,7 +81,8 @@
       "facts": {
         "Number": "12",
         "Position": "Defender"
-      }
+      },
+      "img": "img/halbouni.png"
     },
     {
       "id": "ocampo",
@@ -84,7 +91,8 @@
       "facts": {
         "Number": "18",
         "Position": "Defender"
-      }
+      },
+      "img": "img/ocampo.png"
     },
     {
       "id": "bovalina",
@@ -94,7 +102,8 @@
         "Number": "27",
         "Position": "Defender"
       },
-      "note": "Away on loan."
+      "note": "Away on loan.",
+      "img": "img/bovalina.png"
     },
     {
       "id": "johnson",
@@ -103,7 +112,8 @@
       "facts": {
         "Number": "28",
         "Position": "Defender"
-      }
+      },
+      "img": "img/johnson.png"
     },
     {
       "id": "gherasimencov",
@@ -112,7 +122,8 @@
       "facts": {
         "Number": "29",
         "Position": "Defender"
-      }
+      },
+      "img": "img/gherasimencov.png"
     },
     {
       "id": "blackmon",
@@ -122,7 +133,7 @@
         "Number": "33",
         "Position": "Defender"
       },
-      "img": "img/blackmon.jpg"
+      "img": "img/blackmon.png"
     },
     {
       "id": "djordjevic",
@@ -131,7 +142,8 @@
       "facts": {
         "Number": "41",
         "Position": "Defender"
-      }
+      },
+      "img": "img/djordjevic.png"
     },
     {
       "id": "larraz",
@@ -140,7 +152,8 @@
       "facts": {
         "Number": "8",
         "Position": "Midfielder"
-      }
+      },
+      "img": "img/larraz.png"
     },
     {
       "id": "muller",
@@ -149,7 +162,8 @@
       "facts": {
         "Number": "13",
         "Position": "Midfielder"
-      }
+      },
+      "img": "img/muller.png"
     },
     {
       "id": "berhalter",
@@ -158,7 +172,8 @@
       "facts": {
         "Number": "16",
         "Position": "Midfielder"
-      }
+      },
+      "img": "img/berhalter.png"
     },
     {
       "id": "cabrera",
@@ -167,7 +182,8 @@
       "facts": {
         "Number": "17",
         "Position": "Midfielder"
-      }
+      },
+      "img": "img/cabrera.png"
     },
     {
       "id": "cubas",
@@ -176,7 +192,8 @@
       "facts": {
         "Number": "20",
         "Position": "Midfielder"
-      }
+      },
+      "img": "img/cubas.png"
     },
     {
       "id": "gauld",
@@ -185,7 +202,8 @@
       "facts": {
         "Number": "25",
         "Position": "Midfielder"
-      }
+      },
+      "img": "img/gauld.png"
     },
     {
       "id": "ngando",
@@ -194,7 +212,8 @@
       "facts": {
         "Number": "26",
         "Position": "Midfielder"
-      }
+      },
+      "img": "img/ngando.png"
     },
     {
       "id": "badwal",
@@ -203,7 +222,8 @@
       "facts": {
         "Number": "59",
         "Position": "Midfielder"
-      }
+      },
+      "img": "img/badwal.png"
     },
     {
       "id": "mackenzie",
@@ -212,7 +232,8 @@
       "facts": {
         "Number": "97",
         "Position": "Midfielder"
-      }
+      },
+      "img": "img/mackenzie.png"
     },
     {
       "id": "sabaly",
@@ -221,7 +242,8 @@
       "facts": {
         "Number": "7",
         "Position": "Forward"
-      }
+      },
+      "img": "img/sabaly.png"
     },
     {
       "id": "sabbi",
@@ -230,7 +252,8 @@
       "facts": {
         "Number": "11",
         "Position": "Forward"
-      }
+      },
+      "img": "img/sabbi.png"
     },
     {
       "id": "caicedo",
@@ -239,7 +262,8 @@
       "facts": {
         "Number": "14",
         "Position": "Forward"
-      }
+      },
+      "img": "img/caicedo.png"
     },
     {
       "id": "elloumi",
@@ -248,7 +272,8 @@
       "facts": {
         "Number": "19",
         "Position": "Forward"
-      }
+      },
+      "img": "img/elloumi.png"
     },
     {
       "id": "white",
@@ -257,7 +282,8 @@
       "facts": {
         "Number": "24",
         "Position": "Forward"
-      }
+      },
+      "img": "img/white.jpg"
     },
     {
       "id": "pierre",
@@ -267,7 +293,8 @@
         "Number": "42",
         "Position": "Forward"
       },
-      "note": "Away on loan."
+      "note": "Away on loan.",
+      "img": "img/pierre.png"
     }
   ]
 }
