@@ -325,9 +325,20 @@
     if (revealed) return;
     revealed = true;
 
-    refs.answer.textContent = current.back;
     refs.answer.classList.remove('is-masked');
-    refs.answer.classList.toggle('is-multiline', current.back.indexOf('\n') !== -1);
+    if (Array.isArray(current.back)) {
+      // Checklist card: the answer is a list of points, rendered at body size.
+      clear(refs.answer);
+      refs.answer.classList.remove('is-multiline');
+      var ul = el('ul', 'answer-list');
+      for (var i = 0; i < current.back.length; i++) {
+        ul.appendChild(el('li', null, current.back[i]));
+      }
+      refs.answer.appendChild(ul);
+    } else {
+      refs.answer.textContent = current.back;
+      refs.answer.classList.toggle('is-multiline', current.back.indexOf('\n') !== -1);
+    }
     refs.note.textContent = current.note || '';
 
     if (refs.rail && typeof current.mag === 'number') {
@@ -461,7 +472,19 @@
         where = 'card "' + c.id + '"';
       }
       if (c.front == null || c.front === '') errs.push(where + ' is missing "front".');
-      if (c.back == null || c.back === '') errs.push(where + ' is missing "back".');
+      // The answer shape is implied by the data: a string back is a value
+      // card, an array back is a checklist.
+      if (Array.isArray(c.back)) {
+        if (!c.back.length) errs.push(where + ' has an empty "back" list.');
+        for (var j = 0; j < c.back.length; j++) {
+          if (typeof c.back[j] !== 'string' || c.back[j] === '') {
+            errs.push(where + ' "back" item #' + (j + 1) + ' must be a non-empty string.');
+            break;
+          }
+        }
+      } else if (c.back == null || c.back === '') {
+        errs.push(where + ' is missing "back".');
+      }
     }
     return errs;
   }

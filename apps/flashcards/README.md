@@ -72,7 +72,7 @@ with no configuration.
       "id": "c1",               // stable, unique within the deck
       "group": "Category",      // free-form tag, shown on the card
       "front": "Question text",
-      "back": "Answer value",
+      "back": "Answer value",   // string = value card; array of strings = checklist
       "note": "shown after reveal (optional)",
       "mag": 1                  // optional; positions the marker on the scale
     }
@@ -80,14 +80,23 @@ with no configuration.
 }
 ```
 
+**Card shapes** (implied by the data — no shape field):
+
+- `back` as a **string** → value card: one short answer, rendered large in the
+  accent color.
+- `back` as an **array of strings** → checklist card: the answer is a list of
+  points to hit (e.g. interview hints), rendered as a readable body-size list.
+  See `decks/interview-behavioral.json`.
+
 **Rules**
 
 - A `scale` plus a numeric `mag` on a card renders the log magnitude rail with
   an animated marker on reveal. If `scale` is absent or a card has no `mag`, the
   rail is hidden entirely — no empty space.
 - Unknown fields are ignored (forward compatibility).
-- The deck is validated on load: duplicate ids or a missing `front`/`back`
-  produce a readable error screen instead of silently dropping cards.
+- The deck is validated on load: duplicate ids, a missing `front`/`back`, or an
+  empty/invalid `back` list produce a readable error screen instead of silently
+  dropping cards.
 
 ## How scheduling works
 

@@ -116,6 +116,10 @@ body {
   gap: 14px;
   flex: 1 1 auto;
   cursor: pointer;
+  /* Tall reveals (checklists, facts, images) scroll inside the card so the
+     Wrong/Correct controls below never leave the viewport. */
+  min-height: 0;
+  overflow-y: auto;
 }
 .tag {
   text-transform: uppercase;
@@ -147,6 +151,23 @@ body {
 }
 /* Multi-line answers (contain a newline) read better a touch smaller */
 .card__answer.is-multiline { font-size: clamp(20px, 6.5vw, 30px); line-height: 1.3; }
+
+/* Checklist answers (array back): a readable body-size list, not one big
+   value. Full reset of the inherited value-answer typography. */
+.answer-list {
+  margin: 0;
+  padding-left: 1.15em;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: normal;
+  color: var(--text);
+  line-height: 1.45;
+  text-align: left;
+  word-break: normal;
+}
+.answer-list li { margin: 8px 0; }
+.answer-list li::marker { color: var(--accent); }
 .card__answer.is-masked { color: var(--rule-hi); }
 
 /* note: reserve a line so the card doesn't jump on reveal */
