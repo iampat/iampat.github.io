@@ -54,7 +54,8 @@ Supported content, on any slot:
   to start; syntax highlighting is deferred, not required.
 - **Images** — diagrams or photos, usable as a prompt face (§3.2) or in the
   answer. **Bundled in the repo** under the owning set, referenced by relative
-  path, so the app keeps working offline and makes no external calls.
+  path, so the app keeps working offline and makes no external calls. (Image
+  licensing is the deck author's call.)
 
 **Authoring format: a small Markdown subset inside the existing strings** —
 `**bold**`, `- bullets`, `` `code` ``, and newlines, rendered by a minimal
@@ -237,10 +238,7 @@ Still genuinely open (do not block starting):
 1. **Linear-scale specifics.** Tick/label conventions and edge clamping for
    linear scales, reusing the log rail's geometry. Only matters when a second
    numeric deck appears.
-2. **Image rights for real photos.** Bundling is the mechanism; sourcing images
-   that are legal to redistribute in a public repo is a content question for
-   whoever authors the players set.
-3. **Markdown subset scope.** Exactly which constructs the built-in renderer
+2. **Markdown subset scope.** Exactly which constructs the built-in renderer
    supports beyond bold / bullets / inline code (links? headings?).
 
 ## 8. Execution plan
