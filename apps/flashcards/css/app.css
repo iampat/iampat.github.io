@@ -176,7 +176,7 @@ body {
 .answer-list li { margin: 8px 0; }
 .answer-list li::marker { color: var(--accent); }
 
-/* Card image: photo prompt face or revealed photo (entity cards) */
+/* Card image: photo prompt face or revealed photo */
 .card__img {
   display: block;
   max-width: 100%;
@@ -184,6 +184,9 @@ body {
   object-fit: contain;
   border: 1px solid var(--rule);
 }
+/* display:block above would defeat the UA's [hidden]{display:none} rule —
+   restate it at author level so JS's .hidden toggle actually hides it. */
+.card__img[hidden] { display: none; }
 
 /* Entity answers: labelled fact rows, each individually readable */
 .facts { display: flex; flex-direction: column; gap: 9px; }
