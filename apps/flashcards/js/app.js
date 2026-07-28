@@ -28,6 +28,7 @@
 
   var current = null;        // current card object
   var revealed = false;
+  var imgFace = false;       // this showing uses the photo as the prompt face
   var recent = [];           // recently shown ids (for no-repeat guard)
 
   var sessionRight = 0, sessionTotal = 0;
@@ -210,6 +211,11 @@
     refs.front = el('div', 'card__front');
     card.appendChild(refs.front);
 
+    // Image slot: the photo prompt face, or the revealed photo (entity cards).
+    refs.img = el('img', 'card__img');
+    refs.img.hidden = true;
+    card.appendChild(refs.img);
+
     refs.answer = el('div', 'card__answer is-masked');
     card.appendChild(refs.answer);
 
@@ -303,6 +309,16 @@
     refs.group.textContent = current.group || '';
     refs.front.textContent = current.front;
 
+    // Prompt face: an entity card with a photo uses either the photo or the
+    // name as the clue, chosen per showing. Presentation only — no stats.
+    imgFace = !!(current.facts && current.img) && Math.random() < 0.5;
+    refs.front.hidden = imgFace;
+    if (current.img) {
+      refs.img.src = 'decks/' + current.img;
+      refs.img.alt = imgFace ? 'Photo clue' : current.front;
+    }
+    refs.img.hidden = !imgFace;
+
     refs.answer.textContent = '— — —';
     refs.answer.classList.add('is-masked');
     refs.answer.classList.remove('is-multiline');
@@ -316,7 +332,8 @@
       refs.rail.root.hidden = (typeof current.mag !== 'number');
     }
 
-    refs.card.setAttribute('aria-label', current.front + ' — activate to reveal answer');
+    refs.card.setAttribute('aria-label',
+      (imgFace ? 'Photo clue' : current.front) + ' — activate to reveal answer');
     renderControls();
     updateStats();
   }
@@ -326,7 +343,25 @@
     revealed = true;
 
     refs.answer.classList.remove('is-masked');
-    if (Array.isArray(current.back)) {
+    if (current.facts) {
+      // Entity card: labelled fact rows. Reveal whichever face wasn't the
+      // prompt (name after a photo clue, photo after a name clue).
+      clear(refs.answer);
+      refs.answer.classList.remove('is-multiline');
+      var facts = el('div', 'facts');
+      if (imgFace) {
+        facts.appendChild(el('div', 'facts__name', current.front));
+      } else if (current.img) {
+        refs.img.hidden = false;
+      }
+      for (var k in current.facts) {
+        var row = el('div', 'fact');
+        row.appendChild(el('span', 'fact__k', k));
+        row.appendChild(el('span', 'fact__v', current.facts[k]));
+        facts.appendChild(row);
+      }
+      refs.answer.appendChild(facts);
+    } else if (Array.isArray(current.back)) {
       // Checklist card: the answer is a list of points, rendered at body size.
       clear(refs.answer);
       refs.answer.classList.remove('is-multiline');
@@ -472,9 +507,22 @@
         where = 'card "' + c.id + '"';
       }
       if (c.front == null || c.front === '') errs.push(where + ' is missing "front".');
-      // The answer shape is implied by the data: a string back is a value
-      // card, an array back is a checklist.
-      if (Array.isArray(c.back)) {
+      // The answer shape is implied by the data: string back = value card,
+      // array back = checklist, facts object = entity.
+      if (c.facts != null) {
+        if (c.back != null) errs.push(where + ' has both "back" and "facts" — use one.');
+        if (typeof c.facts !== 'object' || Array.isArray(c.facts) ||
+            !Object.keys(c.facts).length) {
+          errs.push(where + ' "facts" must be an object of label → value.');
+        } else {
+          for (var f in c.facts) {
+            if (typeof c.facts[f] !== 'string' || c.facts[f] === '') {
+              errs.push(where + ' fact "' + f + '" must be a non-empty string.');
+              break;
+            }
+          }
+        }
+      } else if (Array.isArray(c.back)) {
         if (!c.back.length) errs.push(where + ' has an empty "back" list.');
         for (var j = 0; j < c.back.length; j++) {
           if (typeof c.back[j] !== 'string' || c.back[j] === '') {
@@ -484,6 +532,9 @@
         }
       } else if (c.back == null || c.back === '') {
         errs.push(where + ' is missing "back".');
+      }
+      if (c.img != null && (typeof c.img !== 'string' || c.img === '')) {
+        errs.push(where + ' "img" must be a non-empty path string.');
       }
     }
     return errs;
