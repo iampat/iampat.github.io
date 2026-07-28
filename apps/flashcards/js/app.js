@@ -101,35 +101,16 @@
   }
 
   // Load the selected sets' stores, merging by card id (edits/reorders never
-  // disturb other cards; removed ids drop on next save). Legacy stores carry a
-  // per-deck repCount; their lastRep values are rebased into the shared global
-  // counter space once — offset = globalRep − oldRepCount keeps every card's
-  // age exactly what it was, and can never produce a negative age.
+  // disturb other cards; removed ids drop on next save). No migration or
+  // backward compatibility: stats are disposable and a store that doesn't
+  // match the current format simply starts fresh.
   function loadStores(ids) {
-    var parsed = {};
-    ids.forEach(function (id) { parsed[id] = readJSON(storeKey(id)); });
-
     var g = readJSON(GLOBAL_KEY);
-    if (g && typeof g.repCount === 'number') {
-      globalRep = g.repCount;
-    } else {
-      // First run under the shared counter: adopt the largest legacy counter
-      // so rebased lastRep values stay ≤ globalRep.
-      globalRep = 0;
-      ids.forEach(function (id) {
-        var p = parsed[id];
-        if (p && typeof p.repCount === 'number' && p.repCount > globalRep) {
-          globalRep = p.repCount;
-        }
-      });
-      writeJSON(GLOBAL_KEY, { repCount: globalRep });
-    }
+    globalRep = (g && typeof g.repCount === 'number') ? g.repCount : 0;
 
     stores = {};
     ids.forEach(function (id) {
-      var p = parsed[id];
-      var legacy = p && typeof p.repCount === 'number';
-      var offset = legacy ? globalRep - p.repCount : 0;
+      var p = readJSON(storeKey(id));
       var prev = (p && p.cards) || {};
       var cards = {};
       decks[id].cards.forEach(function (c) {
@@ -139,14 +120,13 @@
             w: s.w,
             right: s.right | 0,
             wrong: s.wrong | 0,
-            lastRep: (typeof s.lastRep === 'number') ? s.lastRep + offset : null
+            lastRep: (typeof s.lastRep === 'number') ? s.lastRep : null
           };
         } else {
           cards[c.id] = { w: W_INIT, right: 0, wrong: 0, lastRep: null };
         }
       });
       stores[id] = { cards: cards };
-      if (legacy) writeJSON(storeKey(id), stores[id]);   // persist the rebase once
     });
   }
 
@@ -753,6 +733,20 @@
 
     fetchJSON('decks/index.json').then(function (mani) {
       manifestIds = (mani && Array.isArray(mani.decks)) ? mani.decks : [];
+
+      // Housekeeping: delete stores for decks no longer in the manifest.
+      if (storageOK) {
+        try {
+          for (var i = localStorage.length - 1; i >= 0; i--) {
+            var m = /^fcd:(.+):v1$/.exec(localStorage.key(i));
+            if (m && m[1] !== 'global' && m[1] !== 'selected' &&
+                manifestIds.indexOf(m[1]) === -1) {
+              localStorage.removeItem(m.input);
+            }
+          }
+        } catch (e) {}
+      }
+
       if (param) { startPool([param]); return; }   // URL pins a single set
       if (manifestIds.length === 0) {
         showError('No decks', 'The manifest decks/index.json lists no decks.');
