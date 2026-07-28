@@ -48,20 +48,22 @@ plain text:
 
 Supported content, on any slot:
 
-- **Rich text** — bold/italic, multiple lines, bullet lists. (Multi-line and
-  bulleted answers already work.)
-- **Code blocks** — monospaced snippets for programming decks. Plain monospace
-  to start; syntax highlighting is deferred, not required.
+- **Multi-line text and lists** — newlines in any slot; list answers via array
+  `back` (§3.1). (Multi-line answers already work.)
+- **Code snippets** — as plain monospaced text (the whole app is mono already);
+  styled code and syntax highlighting are deferred, not required.
 - **Images** — diagrams or photos, usable as a prompt face (§3.2) or in the
   answer. **Bundled in the repo** under the owning set, referenced by relative
   path, so the app keeps working offline and makes no external calls. (Image
   licensing is the deck author's call.)
 
-**Authoring format: a small Markdown subset inside the existing strings** —
-`**bold**`, `- bullets`, `` `code` ``, and newlines, rendered by a minimal
-built-in renderer. No new schema for text content, nothing to learn beyond
-Markdown, and no external library. The renderer must escape anything it does
-not explicitly support (no raw HTML passthrough).
+**Authoring format: plain text plus structure.** Text slots are plain strings
+(newlines allowed); lists are JSON arrays; entity facts are a JSON object. The
+**Markdown renderer is deferred** — no planned deck needs bold or code, and
+plain text + structured fields cover all three reference decks. If it is ever
+built, the subset is fixed now: bold and inline code only — no links, no
+headings, no block fences — and it must escape everything else (no raw HTML
+passthrough).
 
 Math / formula (LaTeX) rendering is **not** in the plan: it needs a rendering
 library, which conflicts with the static / no-build / minimal-external-calls
@@ -77,23 +79,26 @@ UX principles for content:
 ### 3.1 Card shapes
 
 The grading model is always the same (reveal, then Wrong/Correct), but the
-*answer* comes in three shapes, and each wants a different visual treatment.
-The card declares its shape; the app styles accordingly.
+*answer* comes in three shapes, each with its own visual treatment. **The data
+implies the shape — there is no declared `shape` field.** A string `back` is a
+value card, an array `back` is a checklist, a `facts` object is an entity card.
+This removes a whole class of shape/data-mismatch errors.
 
-**Value card** (today's default). The answer is one short value — a latency, a
-date, a term. Treatment: largest element on screen, bold mono, accent color.
-This is the only shape the current UI is designed for.
+**Value card** (today's default; `back` is a string). The answer is one short
+value — a latency, a date, a term. Treatment: largest element on screen, bold
+mono, accent color. This is the only shape the current UI is designed for.
 
-**Checklist card.** There is no single correct answer; the answer side is a
-short list of points your spoken answer should have covered (behavioral
-interview questions, "name the tradeoffs of X"). Treatment: the accent-colored
-"one big value" hierarchy is wrong here — the list should be readable at a
-comfortable body size, each point scannable, with the *prompt* remaining
-prominent. You self-grade on "did I cover these?"
+**Checklist card** (`back` is an array of strings). There is no single correct
+answer; the answer side is a short list of points your spoken answer should
+have covered (behavioral interview questions, "name the tradeoffs of X").
+Treatment: the accent-colored "one big value" hierarchy is wrong here — the
+list renders at a comfortable body size, each point scannable, with the
+*prompt* remaining prominent. You self-grade on "did I cover these?"
 
-**Entity card.** The answer is a small set of labelled facts about one subject
-(a player's number, position, and age). Treatment: fact rows / label-value
-pairs rather than one giant value, so each fact is individually readable.
+**Entity card** (a `facts` object of label → value, instead of `back`). The
+answer is a small set of labelled facts about one subject (a player's number,
+position, and age). Treatment: fact rows / label-value pairs rather than one
+giant value, so each fact is individually readable.
 
 **Grading stays a single Wrong/Correct — decided.** One button covers all the
 facts on a card; you decide whether recalling 4 of 5 counts as correct. No
@@ -157,30 +162,28 @@ start practicing. Before drilling, you choose **all sets, one set, or any
 combination**; the drill pool is the union of the selected sets, drawn by the
 same weighted-recall algorithm.
 
-Model (proposed): each **deck file is a set** (`latency`, `whitecaps`,
-`interview-behavioral`), and a card may additionally carry **tags** for
-finer slicing within a large set. Selection UI operates on sets first; tags are
-a secondary refinement.
+Model: each **deck file is a set** (`latency`, `whitecaps`,
+`interview-behavioral`). Tags for finer slicing within a set are **deferred** —
+no planned deck needs them, and unknown fields are ignored, so they can be
+added anytime.
 
-UX requirements:
+UX requirements (trimmed for a single user):
 
 - A selection screen listing every set with its card count and a checkbox-style
-  multi-select, plus "All" / "None".
-- The choice persists, so reopening the app resumes the same pool without
-  re-picking.
-- The selection is shareable/bookmarkable via the URL (extending today's
-  `?deck=`), so a given combination can be linked.
+  multi-select. No All/None bulk controls — three checkboxes don't need them.
+- The choice persists in localStorage, so reopening the app resumes the same
+  pool without re-picking. **URL-encoding the selection is cut** — there is
+  nobody to share a link with; `?deck=<id>` keeps working for a single set.
 - The stats strip reflects the *current pool*, not the whole library.
 
-Consequence for persistence: card ids are only unique *within* a deck today, so
-a multi-set pool must namespace stats (e.g. `<setId>:<cardId>`) to avoid
-collisions. Per-card stats must stay keyed by that stable id, never by position,
-so editing or reordering a set never disturbs other cards.
-
-**Existing stats are not migrated — decided.** The move to namespaced storage
-starts fresh; the current `fcd:latency-2026:v1` history is dropped rather than
-converted. Stability guarantees (edit/reorder/add/remove a card without
-disturbing others) apply from that point forward.
+**Persistence: per-set storage keys — no migration, no data loss.** Each set
+keeps its own store under today's key format (`fcd:<setId>:v1`), which already
+namespaces stats; only a small shared key for the global rep counter is added,
+seeded from the existing counter. The earlier "namespace per card and start
+fresh" decision is superseded: existing latency history is preserved for free,
+per-set Reset stays natural, and a deselected set's stats can never be dropped
+because only selected sets' keys are ever loaded or written. Per-card stats
+stay keyed by stable card id, never by position.
 
 Other selection details:
 
@@ -190,6 +193,11 @@ Other selection details:
 - **Aging across selections.** The rep counter and per-card `lastRep` stay
   global, so cards in a set you haven't practiced keep aging and surface early
   when you next include them. This is desirable, not a bug.
+- **Unseen-card throttle.** Today unseen cards are introduced with absolute
+  priority, which would let a newly added big set monopolize the drill until
+  every new card is toured. In a multi-set pool, unseen cards are introduced at
+  a throttled rate (roughly one draw in three, more when most of the pool is
+  unseen) so new content interleaves with practice instead of displacing it.
 - **Empty selection** is not a drillable state; the drill cannot start until at
   least one set is chosen.
 
@@ -224,55 +232,49 @@ Previously open, now settled:
 |----------|----------|
 | Grading granularity | Single Wrong/Correct per card; you judge whether 4-of-5 facts counts |
 | Entity prompt direction | One card, **random prompt face** per showing (§3.2) |
-| Rich-content authoring | Small **Markdown subset** inside existing strings |
-| Image sourcing | **Bundled in the repo** under the owning set, relative paths |
+| Card shape declaration | **Implied by data** (string/array `back`, `facts` object) — no `shape` field |
+| Rich-content authoring | Plain text + structured fields; **Markdown renderer deferred** (subset fixed: bold + inline code only, if ever) |
+| Image sourcing | **Bundled in the repo**, paths relative to the deck's directory, resolved at load |
 | Image scope | A **general capability** — any card may use an image clue |
-| Existing stats | **Start fresh**; no migration from `fcd:latency-2026:v1` |
-| Selection primitive | One deck file = one set; tags refine within a set |
+| Existing stats | **Preserved** — per-set keys make migration unnecessary (supersedes "start fresh") |
+| Storage shape | Per-set `fcd:<setId>:v1` stores + one shared global rep-counter key |
+| Selection primitive | One deck file = one set; **tags deferred** |
+| Selection UX | Checkboxes + persisted choice; **no URL encoding, no All/None** |
+| Unseen-card introduction | **Throttled** (~1-in-3) in multi-set pools, not absolute priority |
 | Syntax highlighting | Deferred — plain monospace is enough |
 | Set label on cards | Shown only when multiple sets are selected |
 | Aging across sets | Global rep counter; unpractised sets keep aging |
 
-Still genuinely open (do not block starting):
+Still genuinely open (does not block starting):
 
 1. **Linear-scale specifics.** Tick/label conventions and edge clamping for
    linear scales, reusing the log rail's geometry. Only matters when a second
    numeric deck appears.
-2. **Markdown subset scope.** Exactly which constructs the built-in renderer
-   supports beyond bold / bullets / inline code (links? headings?).
 
 ## 8. Execution plan
 
-Ordered so each phase is independently shippable and the app keeps working
-throughout. Phases 1–2 are the structural work; 3–5 are additive.
+Reordered after evaluation: **content first, plumbing last** — nothing in the
+later phases depends on multi-set support, so it ships when it's the only
+thing left, not as a false "foundation". Each phase is independently shippable
+and the app keeps working throughout.
 
-**Phase 1 — Sets and selection.** The foundation, and the only phase with a
-breaking storage change.
-- Namespaced per-card stats (`<setId>:<cardId>`), starting fresh.
-- Multi-select screen: every set with its card count, All / None, persisted
-  choice, URL-encoded so a combination is linkable.
-- Drill pool = union of selected sets; stats strip reflects the current pool.
-- Set label on cards when more than one set is selected.
+**Phase 1 — Checklist rendering + interview deck.** Array-valued `back`
+renders as a body-size hint list; author the behavioral-interview set against
+it. Single-select picker (already working) covers set switching for now.
 
-**Phase 2 — Card shapes.** Makes non-value content presentable.
-- Checklist shape: hint list at readable body size, prompt stays prominent.
-- Entity shape: label-value fact rows.
-- Shapes must coexist in one mixed session without layout jumping.
+**Phase 2 — Entity cards, images, random faces + players deck.** `facts`
+object renders as label-value rows; bundled images (paths relative to the
+deck's directory) render scaled inside the card at 360 px; a card with both a
+photo and a name face gets one picked at random per showing. Author the
+players set (photos optional — cards degrade to name-only faces).
 
-**Phase 3 — Random prompt faces.** Depends on the entity shape from Phase 2.
-- A card declares its available faces; one is chosen at random per showing.
-- Missing faces are never chosen; single-face cards behave as today.
-- Presentation only — no scheduling or stats impact.
+**Phase 3 — Multi-set selection.** Checkbox selection screen with persisted
+choice; drill pool = union of selected sets; per-set stores + shared global
+rep counter (no migration); set label on cards in mixed pools; per-card rail
+lookup from the owning set; unseen-card throttle.
 
-**Phase 4 — Rich text and images.**
-- Minimal Markdown renderer (bold, bullets, inline code, newlines) with
-  escaping and no raw HTML passthrough.
-- Bundled images with relative paths, usable as a prompt face or in an answer;
-  must scale within the card at 360 px and never widen the page.
+**Phase 4 — Markdown renderer.** Only if a real card ever needs bold or
+inline code. Not scheduled.
 
-**Phase 5 — Content.** Author the two new sets against the finished shapes:
-behavioral interview questions (checklist) and soccer players (entity). The
-interview set needs no images, so it can land before Phase 4 completes.
-
-Deferred beyond this plan: linear scales, syntax highlighting, and everything
-in §6.
+Deferred beyond this plan: linear scales, tags, syntax highlighting, and
+everything in §6.
