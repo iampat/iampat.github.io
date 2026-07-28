@@ -2,48 +2,52 @@
   "schema": 1,
   "id": "whitecaps",
   "title": "Whitecaps Players",
-  "subtitle": "Rev. 2025 roster — edit me",
+  "subtitle": "Rev. Jul 2026 — whitecapsfc.com/club/roster",
   "cards": [
     {
       "id": "takaoka",
       "group": "Goalkeeper",
       "front": "Yohei Takaoka",
-      "img": "img/takaoka.jpg",
       "facts": {
-        "Number": "18",
-        "Position": "Goalkeeper",
-        "Country": "Japan"
-      }
-    },
-    {
-      "id": "gauld",
-      "group": "Midfield",
-      "front": "Ryan Gauld",
-      "facts": {
-        "Number": "25",
-        "Position": "Attacking Mid",
-        "Country": "Scotland"
+        "Number": "1",
+        "Position": "Goalkeeper"
       },
-      "note": "Club captain."
+      "img": "img/takaoka.jpg"
     },
     {
-      "id": "white",
-      "group": "Forward",
-      "front": "Brian White",
+      "id": "zendejas",
+      "group": "Goalkeeper",
+      "front": "Adrían Zendejas",
       "facts": {
-        "Number": "24",
-        "Position": "Striker",
-        "Country": "USA"
+        "Number": "30",
+        "Position": "Goalkeeper"
       }
     },
     {
-      "id": "cubas",
-      "group": "Midfield",
-      "front": "Andrés Cubas",
+      "id": "boehmer",
+      "group": "Goalkeeper",
+      "front": "Isaac Boehmer",
       "facts": {
-        "Number": "20",
-        "Position": "Defensive Mid",
-        "Country": "Paraguay"
+        "Number": "32",
+        "Position": "Goalkeeper"
+      }
+    },
+    {
+      "id": "laborda",
+      "group": "Defense",
+      "front": "Mathías Laborda",
+      "facts": {
+        "Number": "2",
+        "Position": "Defender"
+      }
+    },
+    {
+      "id": "adekugbe",
+      "group": "Defense",
+      "front": "Samuel Adekugbe",
+      "facts": {
+        "Number": "3",
+        "Position": "Defender"
       }
     },
     {
@@ -52,8 +56,62 @@
       "front": "Ranko Veselinović",
       "facts": {
         "Number": "4",
-        "Position": "Centre Back",
-        "Country": "Serbia"
+        "Position": "Defender"
+      }
+    },
+    {
+      "id": "priso",
+      "group": "Defense",
+      "front": "Ralph Priso",
+      "facts": {
+        "Number": "6",
+        "Position": "Defender"
+      }
+    },
+    {
+      "id": "halbouni",
+      "group": "Defense",
+      "front": "Belal Halbouni",
+      "facts": {
+        "Number": "12",
+        "Position": "Defender"
+      }
+    },
+    {
+      "id": "ocampo",
+      "group": "Defense",
+      "front": "Édier Ocampo",
+      "facts": {
+        "Number": "18",
+        "Position": "Defender"
+      }
+    },
+    {
+      "id": "bovalina",
+      "group": "Defense",
+      "front": "Giuseppe Bovalina",
+      "facts": {
+        "Number": "27",
+        "Position": "Defender"
+      },
+      "note": "Away on loan."
+    },
+    {
+      "id": "johnson",
+      "group": "Defense",
+      "front": "Tate Johnson",
+      "facts": {
+        "Number": "28",
+        "Position": "Defender"
+      }
+    },
+    {
+      "id": "gherasimencov",
+      "group": "Defense",
+      "front": "Mihail Gherasimencov",
+      "facts": {
+        "Number": "29",
+        "Position": "Defender"
       }
     },
     {
@@ -61,40 +119,27 @@
       "group": "Defense",
       "front": "Tristan Blackmon",
       "facts": {
-        "Number": "34",
-        "Position": "Centre Back",
-        "Country": "USA"
+        "Number": "33",
+        "Position": "Defender"
       },
       "img": "img/blackmon.jpg"
     },
     {
-      "id": "adekugbe",
+      "id": "djordjevic",
       "group": "Defense",
-      "front": "Sam Adekugbe",
+      "front": "Nikola Djordjevic",
       "facts": {
-        "Number": "3",
-        "Position": "Left Back",
-        "Country": "Canada"
+        "Number": "41",
+        "Position": "Defender"
       }
     },
     {
-      "id": "ahmed",
+      "id": "larraz",
       "group": "Midfield",
-      "front": "Ali Ahmed",
+      "front": "Oliver Larraz",
       "facts": {
-        "Number": "22",
-        "Position": "Winger",
-        "Country": "Canada"
-      }
-    },
-    {
-      "id": "berhalter",
-      "group": "Midfield",
-      "front": "Sebastian Berhalter",
-      "facts": {
-        "Number": "16",
-        "Position": "Centre Mid",
-        "Country": "USA"
+        "Number": "8",
+        "Position": "Midfielder"
       }
     },
     {
@@ -103,10 +148,126 @@
       "front": "Thomas Müller",
       "facts": {
         "Number": "13",
-        "Position": "Attacking Mid",
-        "Country": "Germany"
+        "Position": "Midfielder"
+      }
+    },
+    {
+      "id": "berhalter",
+      "group": "Midfield",
+      "front": "Sebastian Berhalter",
+      "facts": {
+        "Number": "16",
+        "Position": "Midfielder"
+      }
+    },
+    {
+      "id": "cabrera",
+      "group": "Midfield",
+      "front": "Kenji Cabrera",
+      "facts": {
+        "Number": "17",
+        "Position": "Midfielder"
+      }
+    },
+    {
+      "id": "cubas",
+      "group": "Midfield",
+      "front": "Andrés Cubas",
+      "facts": {
+        "Number": "20",
+        "Position": "Midfielder"
+      }
+    },
+    {
+      "id": "gauld",
+      "group": "Midfield",
+      "front": "Ryan Gauld",
+      "facts": {
+        "Number": "25",
+        "Position": "Midfielder"
+      }
+    },
+    {
+      "id": "ngando",
+      "group": "Midfield",
+      "front": "Jean-Claude Ngando",
+      "facts": {
+        "Number": "26",
+        "Position": "Midfielder"
+      }
+    },
+    {
+      "id": "badwal",
+      "group": "Midfield",
+      "front": "Jeevan Badwal",
+      "facts": {
+        "Number": "59",
+        "Position": "Midfielder"
+      }
+    },
+    {
+      "id": "mackenzie",
+      "group": "Midfield",
+      "front": "Liam Mackenzie",
+      "facts": {
+        "Number": "97",
+        "Position": "Midfielder"
+      }
+    },
+    {
+      "id": "sabaly",
+      "group": "Forward",
+      "front": "Cheikh Sabaly",
+      "facts": {
+        "Number": "7",
+        "Position": "Forward"
+      }
+    },
+    {
+      "id": "sabbi",
+      "group": "Forward",
+      "front": "Emmanuel Sabbi",
+      "facts": {
+        "Number": "11",
+        "Position": "Forward"
+      }
+    },
+    {
+      "id": "caicedo",
+      "group": "Forward",
+      "front": "Bruno Caicedo",
+      "facts": {
+        "Number": "14",
+        "Position": "Forward"
+      }
+    },
+    {
+      "id": "elloumi",
+      "group": "Forward",
+      "front": "Rayan Elloumi",
+      "facts": {
+        "Number": "19",
+        "Position": "Forward"
+      }
+    },
+    {
+      "id": "white",
+      "group": "Forward",
+      "front": "Brian White",
+      "facts": {
+        "Number": "24",
+        "Position": "Forward"
+      }
+    },
+    {
+      "id": "pierre",
+      "group": "Forward",
+      "front": "Nelson Pierre",
+      "facts": {
+        "Number": "42",
+        "Position": "Forward"
       },
-      "note": "Joined August 2025."
+      "note": "Away on loan."
     }
   ]
 }
