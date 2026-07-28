@@ -21,9 +21,13 @@
 
   // ---- module state -------------------------------------------------------
   var app = document.getElementById('app');
-  var deck = null;
-  var store = null;          // { repCount, cards: {id: {w,right,wrong,lastRep}} }
-  var storageKey = null;
+  var manifestIds = [];      // every deck id in decks/index.json
+  var selected = [];         // deck ids in the current drill pool
+  var decks = {};            // id → validated deck
+  var pool = [];             // cards of all selected decks (card._set = owner id)
+  var stores = {};           // id → { cards: {cardId: {w,right,wrong,lastRep}} }
+  var globalRep = 0;         // library-wide rep counter (all sets share one age axis)
+  var railDeckId = null;     // the selected deck whose scale the rail renders
   var storageOK = true;
 
   var current = null;        // current card object
@@ -71,93 +75,139 @@
   }
 
   // ---- persistence --------------------------------------------------------
-  function loadStore(d) {
-    storageKey = 'fcd:' + d.id + ':v1';
-    var parsed = null;
-    if (storageOK) {
-      try {
-        var raw = localStorage.getItem(storageKey);
-        if (raw) parsed = JSON.parse(raw);
-      } catch (e) { parsed = null; }
-    }
-    var prev = (parsed && parsed.cards) || {};
-    var cards = {};
-    for (var i = 0; i < d.cards.length; i++) {
-      var id = d.cards[i].id;
-      var p = prev[id];
-      if (p && typeof p.w === 'number') {
-        cards[id] = {
-          w: p.w,
-          right: p.right | 0,
-          wrong: p.wrong | 0,
-          lastRep: (typeof p.lastRep === 'number') ? p.lastRep : null
-        };
-      } else {
-        cards[id] = { w: W_INIT, right: 0, wrong: 0, lastRep: null };
-      }
-    }
-    return {
-      repCount: (parsed && typeof parsed.repCount === 'number') ? parsed.repCount : 0,
-      cards: cards
-    };
+  // One store per set (fcd:<setId>:v1) plus one shared global rep counter.
+  // Only the selected sets' keys are ever loaded or written, so a deselected
+  // set's stats can never be touched, let alone dropped.
+  var GLOBAL_KEY = 'fcd:global:v1';
+  var SELECTED_KEY = 'fcd:selected:v1';
+
+  function storeKey(id) { return 'fcd:' + id + ':v1'; }
+
+  function readJSON(key) {
+    if (!storageOK) return null;
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
   }
 
-  function saveStore() {
+  function writeJSON(key, value) {
     if (!storageOK) return;
     try {
-      // Only persist ids that exist in the current deck (drops removed ids).
-      localStorage.setItem(storageKey, JSON.stringify(store));
+      localStorage.setItem(key, JSON.stringify(value));
     } catch (e) {
       storageOK = false;   // callers refresh the status line
     }
   }
 
+  // Load the selected sets' stores, merging by card id (edits/reorders never
+  // disturb other cards; removed ids drop on next save). Legacy stores carry a
+  // per-deck repCount; their lastRep values are rebased into the shared global
+  // counter space once — offset = globalRep − oldRepCount keeps every card's
+  // age exactly what it was, and can never produce a negative age.
+  function loadStores(ids) {
+    var parsed = {};
+    ids.forEach(function (id) { parsed[id] = readJSON(storeKey(id)); });
+
+    var g = readJSON(GLOBAL_KEY);
+    if (g && typeof g.repCount === 'number') {
+      globalRep = g.repCount;
+    } else {
+      // First run under the shared counter: adopt the largest legacy counter
+      // so rebased lastRep values stay ≤ globalRep.
+      globalRep = 0;
+      ids.forEach(function (id) {
+        var p = parsed[id];
+        if (p && typeof p.repCount === 'number' && p.repCount > globalRep) {
+          globalRep = p.repCount;
+        }
+      });
+      writeJSON(GLOBAL_KEY, { repCount: globalRep });
+    }
+
+    stores = {};
+    ids.forEach(function (id) {
+      var p = parsed[id];
+      var legacy = p && typeof p.repCount === 'number';
+      var offset = legacy ? globalRep - p.repCount : 0;
+      var prev = (p && p.cards) || {};
+      var cards = {};
+      decks[id].cards.forEach(function (c) {
+        var s = prev[c.id];
+        if (s && typeof s.w === 'number') {
+          cards[c.id] = {
+            w: s.w,
+            right: s.right | 0,
+            wrong: s.wrong | 0,
+            lastRep: (typeof s.lastRep === 'number') ? s.lastRep + offset : null
+          };
+        } else {
+          cards[c.id] = { w: W_INIT, right: 0, wrong: 0, lastRep: null };
+        }
+      });
+      stores[id] = { cards: cards };
+      if (legacy) writeJSON(storeKey(id), stores[id]);   // persist the rebase once
+    });
+  }
+
+  function statOf(card) { return stores[card._set].cards[card.id]; }
+
+  function saveProgress(setId) {
+    writeJSON(storeKey(setId), stores[setId]);
+    writeJSON(GLOBAL_KEY, { repCount: globalRep });
+  }
+
   // ---- scheduling ---------------------------------------------------------
-  function recencyFactor(id) {
-    var st = store.cards[id];
-    var age = (st.lastRep == null) ? Infinity : (store.repCount - st.lastRep);
+  function cardKey(card) { return card._set + ':' + card.id; }
+
+  function recencyFactor(card) {
+    var st = statOf(card);
+    var age = (st.lastRep == null) ? Infinity
+      : Math.max(0, globalRep - st.lastRep);
     return Math.min(REC_MIN + age * REC_PER_AGE, REC_MAX);
   }
 
   function pickNext() {
-    var cards = deck.cards;
-
-    // Build the candidate pool, excluding recently shown cards.
-    // Hard rule: never the same card twice in a row (recent[0]); we also
-    // keep an NO_REPEAT-deep window so a graded card can't return right away.
-    var pool = cards.filter(function (c) { return recent.indexOf(c.id) === -1; });
-    if (!pool.length) {
-      pool = cards.filter(function (c) { return c.id !== recent[0]; });
+    // Exclude recently shown cards. Hard rule: never the same card twice in a
+    // row (recent[0]); the NO_REPEAT-deep window keeps a just-graded card from
+    // returning right away.
+    var eligible = pool.filter(function (c) { return recent.indexOf(cardKey(c)) === -1; });
+    if (!eligible.length) {
+      eligible = pool.filter(function (c) { return cardKey(c) !== recent[0]; });
     }
-    if (!pool.length) pool = cards.slice();
+    if (!eligible.length) eligible = pool.slice();
 
-    // Effect (b): while never-seen cards remain, introduce them first so the
-    // whole deck is touched within ~N reps. A missed card's weight would
-    // otherwise crowd unseen cards out and starve early coverage. Recently
-    // shown cards are always already-seen, so this never fights the no-repeat
-    // guard. Among unseen cards the weights are equal, so this is uniform.
-    var unseen = pool.filter(function (c) { return store.cards[c.id].lastRep == null; });
-    if (unseen.length) pool = unseen;
+    var unseen = eligible.filter(function (c) { return statOf(c).lastRep == null; });
+    var seen = eligible.filter(function (c) { return statOf(c).lastRep != null; });
 
-    var total = 0, weighted = [];
-    for (var i = 0; i < pool.length; i++) {
-      var c = pool[i];
-      var p = store.cards[c.id].w * recencyFactor(c.id);
+    // Introducing new cards: with a single set, unseen-first is absolute so
+    // the whole deck is touched within ~N reps. In a mixed pool that rule
+    // would let a newly added set monopolize the drill, so introduction is
+    // throttled instead — at least 1-in-3 draws, more while most of the pool
+    // is unseen. Unseen cards all have w = W_INIT, so uniform pick = weighted.
+    if (unseen.length) {
+      var introduce = selected.length === 1 || !seen.length ||
+        Math.random() < Math.max(1 / 3, unseen.length / eligible.length);
+      if (introduce) return unseen[Math.floor(Math.random() * unseen.length)];
+    }
+
+    var total = 0, weights = [];
+    for (var i = 0; i < seen.length; i++) {
+      var p = statOf(seen[i]).w * recencyFactor(seen[i]);
       total += p;
-      weighted.push({ c: c, p: p });
+      weights.push(p);
     }
-
     var r = Math.random() * total;
-    for (var j = 0; j < weighted.length; j++) {
-      r -= weighted[j].p;
-      if (r <= 0) return weighted[j].c;
+    for (var j = 0; j < seen.length; j++) {
+      r -= weights[j];
+      if (r <= 0) return seen[j];
     }
-    return weighted[weighted.length - 1].c;
+    return seen[seen.length - 1];
   }
 
   function grade(correct) {
     if (!revealed || !current) return;
-    var st = store.cards[current.id];
+    var st = statOf(current);
 
     if (correct) {
       st.w = Math.max(st.w * W_RIGHT, W_RIGHT_MIN);
@@ -168,15 +218,15 @@
       st.wrong += 1;
     }
     sessionTotal += 1;
-    st.lastRep = store.repCount;   // rep index at which it was just shown
-    store.repCount += 1;
+    st.lastRep = globalRep;   // rep index at which it was just shown
+    globalRep += 1;
 
     // Track recency window (most-recent first).
-    recent.unshift(current.id);
+    recent.unshift(cardKey(current));
     if (recent.length > NO_REPEAT) recent.length = NO_REPEAT;
 
-    saveStore();
-    updateStatusLine();   // reflects a storage failure surfaced by saveStore
+    saveProgress(current._set);
+    updateStatusLine();   // reflects a storage failure surfaced by the save
     next();
   }
 
@@ -205,8 +255,12 @@
     card.setAttribute('role', 'button');
     refs.card = card;
 
+    var tags = el('div', 'card__tags');
     refs.group = el('span', 'tag tag--group');
-    card.appendChild(refs.group);
+    refs.setTag = el('span', 'tag tag--set');
+    tags.appendChild(refs.group);
+    tags.appendChild(refs.setTag);
+    card.appendChild(tags);
 
     refs.front = el('div', 'card__front');
     card.appendChild(refs.front);
@@ -222,11 +276,13 @@
     refs.note = el('div', 'card__note');
     card.appendChild(refs.note);
 
-    // Magnitude rail (built once if the deck has a scale; deck.scale was
-    // normalized to null at load time when absent or malformed)
+    // Magnitude rail (built once from the selected pool's scaled deck; scales
+    // were normalized to null at load when absent or malformed). Cards from
+    // other sets simply hide it. Multi-scale pools are deferred by design —
+    // if two scaled decks are ever selected, the first one wins.
     refs.rail = null;
-    if (deck.scale) {
-      refs.rail = buildRail();
+    if (railDeckId) {
+      refs.rail = buildRail(decks[railDeckId].scale);
       card.appendChild(refs.rail.root);
     }
 
@@ -244,7 +300,10 @@
     var footer = el('footer', 'footer');
     refs.status = el('div', 'footer__status');
     footer.appendChild(refs.status);
-    refs.reset = makeBtn('btn btn--reset', 'Reset', null, onResetClick);
+    if (manifestIds.length > 1) {
+      footer.appendChild(makeBtn('btn btn--foot', 'Sets', null, onSetsClick));
+    }
+    refs.reset = makeBtn('btn btn--foot btn--reset', 'Reset', null, onResetClick);
     footer.appendChild(refs.reset);
     app.appendChild(footer);
 
@@ -252,8 +311,7 @@
     setupGestures();
   }
 
-  function buildRail() {
-    var s = deck.scale;
+  function buildRail(s) {
     var root = el('div', 'rail');
     var track = el('div', 'rail__track');
 
@@ -307,6 +365,9 @@
 
   function showCard() {
     refs.group.textContent = current.group || '';
+    // In a mixed pool, say which set the card came from.
+    refs.setTag.textContent = selected.length > 1
+      ? (decks[current._set].title || current._set) : '';
     refs.front.textContent = current.front;
 
     // Prompt face: an entity card with a photo uses either the photo or the
@@ -326,10 +387,12 @@
     refs.note.textContent = '';   // reserved height keeps layout stable
 
     // Rail: hide marker until reveal, but keep its previous left (slide
-    // effect). A card with no numeric mag hides the rail entirely (no gap).
+    // effect). Hidden entirely (no gap) for cards without a numeric mag or
+    // from a set other than the rail's.
     if (refs.rail) {
       refs.rail.marker.classList.remove('is-on');
-      refs.rail.root.hidden = (typeof current.mag !== 'number');
+      refs.rail.root.hidden =
+        (current._set !== railDeckId || typeof current.mag !== 'number');
     }
 
     refs.card.setAttribute('aria-label',
@@ -376,8 +439,8 @@
     }
     refs.note.textContent = current.note || '';
 
-    if (refs.rail && typeof current.mag === 'number') {
-      var left = pct(current.mag, deck.scale);
+    if (refs.rail && current._set === railDeckId && typeof current.mag === 'number') {
+      var left = pct(current.mag, decks[railDeckId].scale);
       // Next frame, so the transition runs from the previous card's position.
       // (prefers-reduced-motion is handled in CSS: the transition is disabled.)
       requestAnimationFrame(function () {
@@ -390,15 +453,17 @@
   }
 
   // ---- stats --------------------------------------------------------------
+  // All stats are scoped to the current pool (the selected sets), not the
+  // whole library: Reps = lifetime graded reps on these cards.
   function updateStats() {
-    var right = 0, wrong = 0, mastered = 0, n = deck.cards.length;
-    for (var i = 0; i < deck.cards.length; i++) {
-      var st = store.cards[deck.cards[i].id];
+    var right = 0, wrong = 0, mastered = 0, n = pool.length;
+    for (var i = 0; i < pool.length; i++) {
+      var st = statOf(pool[i]);
       right += st.right; wrong += st.wrong;
       if (st.w <= W_MASTER) mastered += 1;
     }
     var allTot = right + wrong;
-    refs.stat.reps.textContent = store.repCount;
+    refs.stat.reps.textContent = allTot;
     refs.stat.all.textContent = allTot ? Math.round(right / allTot * 100) + '%' : '—';
     refs.stat.sess.textContent = sessionTotal
       ? Math.round(sessionRight / sessionTotal * 100) + '%' : '—';
@@ -413,21 +478,24 @@
   }
 
   // ---- session lifecycle --------------------------------------------------
-  // Shared by deck start and reset: (re)load stats and begin drilling.
+  // Shared by pool start and reset: (re)load stats and begin drilling.
   function startSession() {
-    store = loadStore(deck);
+    loadStores(selected);
     sessionRight = 0; sessionTotal = 0;
     recent = [];
     next();
   }
 
   // ---- reset (two-step) ---------------------------------------------------
+  // Erases stats for the selected sets only; other sets are untouched.
   var resetTimer = null;
   function onResetClick() {
     if (refs.reset.classList.contains('is-armed')) {
       disarmReset();
       if (storageOK) {
-        try { localStorage.removeItem(storageKey); } catch (e) {}
+        try {
+          selected.forEach(function (id) { localStorage.removeItem(storeKey(id)); });
+        } catch (e) {}
       }
       startSession();
     } else {
@@ -435,6 +503,14 @@
       refs.reset.textContent = 'Erase all?';
       resetTimer = setTimeout(disarmReset, RESET_ARM_MS);
     }
+  }
+
+  // ---- selection navigation -----------------------------------------------
+  function onSetsClick() {
+    // A ?deck= URL pins a single set on every reload; leaving via the
+    // selection screen must strip it or the pick would never stick.
+    history.replaceState(null, '', window.location.pathname);
+    showSelection(selected);
   }
   function disarmReset() {
     if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
@@ -556,23 +632,51 @@
     app.appendChild(box);
   }
 
-  function showPicker(metas) {
-    clear(app);
-    var wrap = el('div', 'picker');
-    wrap.appendChild(el('div', 'picker__h', 'Choose a deck'));
-    metas.forEach(function (m) {
-      var b = el('button', 'deck');
-      b.type = 'button';
-      b.appendChild(el('span', 'deck__title', m.title));
-      b.appendChild(el('span', 'deck__count', m.count + ' cards'));
-      b.addEventListener('click', function () {
-        // Preserve state; update URL so a reload sticks to the pick.
-        history.replaceState(null, '', '?deck=' + encodeURIComponent(m.id));
-        startDeck(m.id);
+  // Multi-select set picker. The choice is persisted (fcd:selected:v1) so
+  // reopening the app resumes the same pool; it is never written to the URL.
+  function showSelection(preChecked) {
+    Promise.all(manifestIds.map(function (id) {
+      return fetchJSON(deckUrl(id)).then(function (d) {
+        return { id: id, title: (d && d.title) || id,
+                 count: (d && Array.isArray(d.cards)) ? d.cards.length : 0 };
+      }).catch(function () { return { id: id, title: id, count: 0 }; });
+    })).then(function (metas) {
+      clear(app);
+      current = null;   // deactivates drill keyboard shortcuts
+
+      var checked = {};
+      (preChecked && preChecked.length ? preChecked : manifestIds)
+        .forEach(function (id) { checked[id] = true; });
+
+      var wrap = el('div', 'picker');
+      wrap.appendChild(el('div', 'picker__h', 'Choose sets to practice'));
+
+      var startBtn = makeBtn('btn btn--show', 'Start', null, function () {
+        var ids = manifestIds.filter(function (id) { return checked[id]; });
+        writeJSON(SELECTED_KEY, ids);
+        startPool(ids);
       });
-      wrap.appendChild(b);
+
+      metas.forEach(function (m) {
+        var b = el('button', 'deck');
+        b.type = 'button';
+        var mark = el('span', 'deck__check', checked[m.id] ? '✓' : '');
+        b.appendChild(mark);
+        b.appendChild(el('span', 'deck__title', m.title));
+        b.appendChild(el('span', 'deck__count', m.count + ' cards'));
+        b.classList.toggle('is-checked', !!checked[m.id]);
+        b.addEventListener('click', function () {
+          checked[m.id] = !checked[m.id];
+          mark.textContent = checked[m.id] ? '✓' : '';
+          b.classList.toggle('is-checked', checked[m.id]);
+          startBtn.disabled = !manifestIds.some(function (id) { return checked[id]; });
+        });
+        wrap.appendChild(b);
+      });
+
+      wrap.appendChild(startBtn);
+      app.appendChild(wrap);
     });
-    app.appendChild(wrap);
   }
 
   // ---- loading ------------------------------------------------------------
@@ -585,27 +689,46 @@
 
   function safeId(id) { return /^[A-Za-z0-9_-]+$/.test(id); }
 
-  function startDeck(id) {
-    if (!safeId(id)) {
-      showError('Unknown deck', 'The deck id "' + id + '" is not valid.');
-      return;
-    }
-    fetchJSON(deckUrl(id)).then(function (d) {
-      var errs = validateDeck(d);
-      if (errs.length) {
-        showError('This deck can’t be loaded',
-          'The deck file has problems that must be fixed:', errs);
+  // Load the given sets and start drilling their union.
+  function startPool(ids) {
+    for (var i = 0; i < ids.length; i++) {
+      if (!safeId(ids[i])) {
+        showError('Unknown deck', 'The deck id "' + ids[i] + '" is not valid.');
         return;
       }
-      d.scale = normalizeScale(d.scale);
-      deck = d;
-      document.title = (d.title || 'Flashcard Drill');
+    }
+    Promise.all(ids.map(function (id) {
+      return fetchJSON(deckUrl(id)).then(function (d) { return { id: id, deck: d }; });
+    })).then(function (loaded) {
+      var errs = [];
+      loaded.forEach(function (item) {
+        validateDeck(item.deck).forEach(function (msg) {
+          errs.push('[' + item.id + '] ' + msg);
+        });
+      });
+      if (errs.length) {
+        showError('A deck can’t be loaded',
+          'The deck files have problems that must be fixed:', errs);
+        return;
+      }
+      decks = {};
+      pool = [];
+      railDeckId = null;
+      loaded.forEach(function (item) {
+        var d = item.deck;
+        d.scale = normalizeScale(d.scale);
+        decks[item.id] = d;
+        if (d.scale && !railDeckId) railDeckId = item.id;
+        d.cards.forEach(function (c) { c._set = item.id; pool.push(c); });
+      });
+      selected = ids;
+      document.title = (ids.length === 1 && decks[ids[0]].title) || 'Flashcard Drill';
       buildDrillView();
       startSession();
     }).catch(function () {
       showError('Deck not found',
-        'Could not load deck "' + id + '". Check that ' + deckUrl(id) +
-        ' exists.');
+        'Could not load a deck. Check that these files exist: ' +
+        ids.map(deckUrl).join(', '));
     });
   }
 
@@ -613,25 +736,25 @@
     document.addEventListener('keydown', onKey);   // onKey no-ops until a deck starts
 
     var param = new URLSearchParams(window.location.search).get('deck');
-    if (param) { startDeck(param); return; }
 
-    // No param: consult the manifest.
     fetchJSON('decks/index.json').then(function (mani) {
-      var ids = (mani && Array.isArray(mani.decks)) ? mani.decks : [];
-      if (ids.length === 0) {
+      manifestIds = (mani && Array.isArray(mani.decks)) ? mani.decks : [];
+      if (param) { startPool([param]); return; }   // URL pins a single set
+      if (manifestIds.length === 0) {
         showError('No decks', 'The manifest decks/index.json lists no decks.');
         return;
       }
-      if (ids.length === 1) { startDeck(ids[0]); return; }
+      if (manifestIds.length === 1) { startPool([manifestIds[0]]); return; }
 
-      // Several decks: load light metadata for the picker.
-      Promise.all(ids.map(function (id) {
-        return fetchJSON(deckUrl(id)).then(function (d) {
-          return { id: id, title: (d && d.title) || id,
-                   count: (d && Array.isArray(d.cards)) ? d.cards.length : 0 };
-        }).catch(function () { return { id: id, title: id, count: 0 }; });
-      })).then(showPicker);
+      // Saved selection resumes without re-picking; otherwise pick sets.
+      var saved = readJSON(SELECTED_KEY);
+      var ids = Array.isArray(saved) ? saved.filter(function (id) {
+        return manifestIds.indexOf(id) !== -1;
+      }) : [];
+      if (ids.length) { startPool(ids); return; }
+      showSelection(null);
     }).catch(function () {
+      if (param) { startPool([param]); return; }   // direct links survive a bad manifest
       showError('Cannot start',
         'Could not load the deck manifest (decks/index.json).');
     });

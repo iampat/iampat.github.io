@@ -30,12 +30,19 @@ python3 -m http.server 8000
 All asset and deck paths are relative, so it works correctly under any subpath
 with no configuration.
 
-## Deck selection
+## Set selection
 
-- `?deck=<id>` loads `decks/<id>.json` (e.g. `?deck=latency-2026`).
-- With no `?deck=` param, the manifest `decks/index.json` decides:
-  - one deck → load it directly,
-  - several → show a minimal deck picker.
+Each deck file is a **set**. You can practice any combination:
+
+- With no URL param, the manifest `decks/index.json` decides: one deck loads
+  directly; several show a **multi-select screen** (tap to check/uncheck,
+  then Start). The drill pool is the union of the checked sets.
+- The choice persists (localStorage), so reopening the app resumes the same
+  pool. The **Sets** button in the footer returns to the selection screen.
+- `?deck=<id>` pins a single set (e.g. `?deck=latency-2026`); leaving via
+  **Sets** clears the pin.
+- When more than one set is selected, each card shows its set name next to
+  its group tag. Stats always reflect the current pool.
 
 ## Adding a deck
 
@@ -46,7 +53,7 @@ with no configuration.
    { "decks": ["latency-2026", "your-id"] }
    ```
 
-3. Visit `?deck=<your-id>` (or pick it from the picker).
+3. Visit `?deck=<your-id>` (or check it on the selection screen).
 
 ### Deck schema
 
@@ -109,16 +116,22 @@ always prompts with the name. Image licensing is the deck author's call.
 
 ## How scheduling works
 
-Each card carries `{ w, right, wrong, lastRep }` and there is a global
-`repCount`. The probability of drawing a card is proportional to `w × rec`:
+Each card carries `{ w, right, wrong, lastRep }` and all sets share one global
+rep counter, so cards in a set you haven't practiced keep aging and surface
+early when you next include it. The probability of drawing a card is
+proportional to `w × rec`:
 
 - **Base weight** (Leitner-style): starts at `1.0`; a correct answer multiplies
   it by `0.45` (floor `0.08`), a wrong answer by `2.6` (ceiling `8.0`).
 - **Recency factor** `rec = min(0.05 + age·0.2, 30)` where
-  `age = repCount − lastRep`. The near-zero floor makes `rec` scale roughly
+  `age = globalRep − lastRep`. The near-zero floor makes `rec` scale roughly
   with age, so a long-unseen card is drawn well before a recently answered one;
-  a just-seen card is strongly suppressed. Unseen cards are introduced first
-  (before the weighted draw) so the whole deck is touched early.
+  a just-seen card is strongly suppressed.
+- **Introducing new cards:** with a single set selected, never-seen cards come
+  first, so the whole deck is toured within ~N reps. In a mixed pool the
+  introduction rate is throttled (at least 1-in-3 draws, more while most of
+  the pool is unseen) so a newly added set interleaves with practice instead
+  of monopolizing the drill.
 
 A card is **mastered** at `w ≤ 0.21` (two consecutive corrects from fresh).
 The same card is never shown twice in a row, and a just-graded card will not
@@ -126,15 +139,20 @@ return within the next two reps.
 
 ## Persistence
 
-Stats are stored in **localStorage** under `fcd:<deckId>:v1`. State is merged by
+Each set keeps its own **localStorage** store under `fcd:<setId>:v1`; the
+shared rep counter lives in `fcd:global:v1` and the current selection in
+`fcd:selected:v1`. Only selected sets' stores are ever loaded or written, so a
+deselected set's stats can't be disturbed. Within a store, state merges by
 card id on load, so editing a deck (adding, removing, or changing cards)
-preserves the stats of untouched cards. Stats for removed ids are dropped on the
-next save. If localStorage is unavailable (e.g. private mode), the app falls
-back to in-memory state and shows "this session only" in the footer.
+preserves the stats of untouched cards; stats for removed ids are dropped on
+the next save. Older stores that carry a per-deck `repCount` are rebased into
+the global counter once, preserving every card's age. If localStorage is
+unavailable (e.g. private mode), the app falls back to in-memory state and
+shows "this session only" in the footer.
 
-`Reset` clears only the current deck's stats. It is a two-step control: the
-first tap arms it ("Erase all?"), a second tap within 4 seconds erases; it
-disarms itself on timeout.
+`Reset` clears only the currently selected sets' stats. It is a two-step
+control: the first tap arms it ("Erase all?"), a second tap within 4 seconds
+erases; it disarms itself on timeout.
 
 ## Keyboard & touch
 
