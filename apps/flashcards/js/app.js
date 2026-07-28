@@ -210,6 +210,15 @@
     next();
   }
 
+  // Advance without scoring: no weight, counters, or storage change. The
+  // no-repeat window still keeps the card from coming straight back.
+  function skip() {
+    if (!revealed || !current) return;
+    recent.unshift(cardKey(current));
+    if (recent.length > NO_REPEAT) recent.length = NO_REPEAT;
+    next();
+  }
+
   // ---- view: drill --------------------------------------------------------
   function buildDrillView() {
     clear(app);
@@ -331,6 +340,7 @@
     } else {
       c.appendChild(makeBtn('btn btn--wrong', 'Wrong', '(←)',
         function () { grade(false); }));
+      c.appendChild(makeBtn('btn btn--skip', 'Skip', '(↓)', skip));
       c.appendChild(makeBtn('btn btn--ok', 'Correct', '(→)',
         function () { grade(true); }));
     }
@@ -508,6 +518,8 @@
       e.preventDefault(); grade(false);
     } else if (revealed && k === 'ArrowRight') {
       e.preventDefault(); grade(true);
+    } else if (revealed && k === 'ArrowDown') {
+      e.preventDefault(); skip();
     }
   }
 
