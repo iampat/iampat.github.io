@@ -290,6 +290,8 @@ body {
 .btn:active { transform: translateY(1px); }
 
 .btn--show { border-color: var(--accent); color: var(--accent); }
+/* Skip is the non-committal action: dimmed and a little narrower */
+.btn--skip { flex: 0.7 1 0; color: var(--dim); }
 .btn--wrong { border-color: var(--bad); color: var(--bad); }
 .btn--ok { border-color: var(--ok); color: var(--ok); }
 

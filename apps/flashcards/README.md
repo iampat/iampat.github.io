@@ -158,7 +158,8 @@ erases; it disarms itself on timeout.
 
 ## Keyboard & touch
 
-- **Desktop:** `Space`/`Enter` reveals, `←` marks wrong, `→` marks correct.
+- **Desktop:** `Space`/`Enter` reveals, `←` marks wrong, `→` marks correct,
+  `↓` skips (advances without scoring — no stats change).
 - **Mobile:** tap the card or **Show** to reveal; after reveal, swipe left for
-  wrong or right for correct.
+  wrong or right for correct, or tap **Skip** to move on without scoring.
 - `prefers-reduced-motion` disables the marker animation.
