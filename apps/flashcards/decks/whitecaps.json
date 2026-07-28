@@ -34,8 +34,7 @@
         "Number": "24",
         "Position": "Striker",
         "Country": "USA"
-      },
-      "img": "img/white.jpg"
+      }
     },
     {
       "id": "cubas",
@@ -45,8 +44,7 @@
         "Number": "20",
         "Position": "Defensive Mid",
         "Country": "Paraguay"
-      },
-      "img": "img/cubas.jpg"
+      }
     },
     {
       "id": "veselinovic",
@@ -56,8 +54,7 @@
         "Number": "4",
         "Position": "Centre Back",
         "Country": "Serbia"
-      },
-      "img": "img/veselinovic.jpg"
+      }
     },
     {
       "id": "blackmon",
@@ -78,8 +75,7 @@
         "Number": "3",
         "Position": "Left Back",
         "Country": "Canada"
-      },
-      "img": "img/adekugbe.jpg"
+      }
     },
     {
       "id": "ahmed",
@@ -89,8 +85,7 @@
         "Number": "22",
         "Position": "Winger",
         "Country": "Canada"
-      },
-      "img": "img/ahmed.jpg"
+      }
     },
     {
       "id": "berhalter",
@@ -100,8 +95,7 @@
         "Number": "16",
         "Position": "Centre Mid",
         "Country": "USA"
-      },
-      "img": "img/berhalter.jpg"
+      }
     },
     {
       "id": "muller",
@@ -112,8 +106,7 @@
         "Position": "Attacking Mid",
         "Country": "Germany"
       },
-      "note": "Joined August 2025.",
-      "img": "img/muller.jpg"
+      "note": "Joined August 2025."
     }
   ]
 }
