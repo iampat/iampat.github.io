@@ -210,13 +210,19 @@
     next();
   }
 
-  // Advance without scoring: no weight, counters, or storage change. The
-  // no-repeat window still keeps the card from coming straight back.
-  function skip() {
+  // Flip the card back to its question side without scoring. The same face
+  // stays the prompt; Show reveals it again; nothing is counted or saved.
+  function hide() {
     if (!revealed || !current) return;
-    recent.unshift(cardKey(current));
-    if (recent.length > NO_REPEAT) recent.length = NO_REPEAT;
-    next();
+    revealed = false;
+    refs.answer.textContent = '— — —';
+    refs.answer.classList.add('is-masked');
+    refs.answer.classList.remove('is-multiline');
+    refs.note.textContent = '';
+    refs.front.hidden = imgFace;
+    refs.img.hidden = !imgFace;
+    if (refs.rail) refs.rail.marker.classList.remove('is-on');
+    renderControls();
   }
 
   // ---- view: drill --------------------------------------------------------
@@ -340,7 +346,7 @@
     } else {
       c.appendChild(makeBtn('btn btn--wrong', 'Wrong', '(←)',
         function () { grade(false); }));
-      c.appendChild(makeBtn('btn btn--skip', 'Skip', '(↓)', skip));
+      c.appendChild(makeBtn('btn btn--hide', 'Hide', '(↓)', hide));
       c.appendChild(makeBtn('btn btn--ok', 'Correct', '(→)',
         function () { grade(true); }));
     }
@@ -519,7 +525,7 @@
     } else if (revealed && k === 'ArrowRight') {
       e.preventDefault(); grade(true);
     } else if (revealed && k === 'ArrowDown') {
-      e.preventDefault(); skip();
+      e.preventDefault(); hide();
     }
   }
 
