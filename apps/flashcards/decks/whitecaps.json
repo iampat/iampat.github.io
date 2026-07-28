@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "id": "whitecaps",
+  "title": "Whitecaps Players",
+  "subtitle": "Rev. 2025 roster — edit me",
+  "cards": [
+    { "id": "takaoka", "group": "Goalkeeper", "front": "Yohei Takaoka",
+      "img": "img/player-placeholder.svg",
+      "facts": { "Number": "18", "Position": "Goalkeeper", "Country": "Japan" } },
+    { "id": "gauld", "group": "Midfield", "front": "Ryan Gauld",
+      "facts": { "Number": "25", "Position": "Attacking Mid", "Country": "Scotland" },
+      "note": "Club captain." },
+    { "id": "white", "group": "Forward", "front": "Brian White",
+      "facts": { "Number": "24", "Position": "Striker", "Country": "USA" } },
+    { "id": "cubas", "group": "Midfield", "front": "Andrés Cubas",
+      "facts": { "Number": "20", "Position": "Defensive Mid", "Country": "Paraguay" } },
+    { "id": "veselinovic", "group": "Defense", "front": "Ranko Veselinović",
+      "facts": { "Number": "4", "Position": "Centre Back", "Country": "Serbia" } },
+    { "id": "blackmon", "group": "Defense", "front": "Tristan Blackmon",
+      "facts": { "Number": "34", "Position": "Centre Back", "Country": "USA" } },
+    { "id": "adekugbe", "group": "Defense", "front": "Sam Adekugbe",
+      "facts": { "Number": "3", "Position": "Left Back", "Country": "Canada" } },
+    { "id": "ahmed", "group": "Midfield", "front": "Ali Ahmed",
+      "facts": { "Number": "22", "Position": "Winger", "Country": "Canada" } },
+    { "id": "berhalter", "group": "Midfield", "front": "Sebastian Berhalter",
+      "facts": { "Number": "16", "Position": "Centre Mid", "Country": "USA" } },
+    { "id": "muller", "group": "Midfield", "front": "Thomas Müller",
+      "facts": { "Number": "13", "Position": "Attacking Mid", "Country": "Germany" },
+      "note": "Joined August 2025." }
+  ]
+}

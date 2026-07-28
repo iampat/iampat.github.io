@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "id": "interview-behavioral",
+  "title": "Behavioral Interview",
+  "subtitle": "Rev. Jul 2026",
+  "cards": [
+    { "id": "about-you", "group": "Intro",
+      "front": "Tell me about yourself.",
+      "back": [
+        "Present → past → future arc, ~2 minutes",
+        "Tailor the highlights to this role",
+        "One concrete accomplishment with numbers",
+        "End with why this company, then stop talking"
+      ] },
+    { "id": "disagree-manager", "group": "Conflict",
+      "front": "Tell me about a time you disagreed with your manager.",
+      "back": [
+        "Real example, stakes stated briefly",
+        "Your reasoning backed by data, not feelings",
+        "Disagreed privately and respectfully",
+        "Committed fully once the call was made",
+        "Outcome + what it taught you"
+      ],
+      "note": "STAR: Situation, Task, Action, Result." },
+    { "id": "failure", "group": "Failure",
+      "front": "What is your biggest professional failure?",
+      "back": [
+        "Own it — no blame-shifting",
+        "Concrete stakes: what it cost",
+        "Root cause, not just symptoms",
+        "What you changed afterward",
+        "Evidence the change stuck"
+      ] },
+    { "id": "team-conflict", "group": "Conflict",
+      "front": "Describe a conflict within your team and how you handled it.",
+      "back": [
+        "Name the disagreement neutrally",
+        "Show you understood the other side first",
+        "De-escalated: facts over positions",
+        "Resolution and the relationship afterward"
+      ] },
+    { "id": "lead-no-authority", "group": "Leadership",
+      "front": "Tell me about a time you led without formal authority.",
+      "back": [
+        "Influence via data and relationships",
+        "Aligned incentives, not orders",
+        "Concrete outcome you drove",
+        "What others said or did differently after"
+      ] },
+    { "id": "why-leaving", "group": "Motivation",
+      "front": "Why are you leaving your current role? Why this one?",
+      "back": [
+        "Positive framing — running toward, not away",
+        "Specific about this company and role",
+        "Growth you are seeking",
+        "Never badmouth the old employer"
+      ] },
+    { "id": "missed-deadline", "group": "Delivery",
+      "front": "Tell me about a time you missed a deadline.",
+      "back": [
+        "Communicated early, not at the deadline",
+        "Triaged: cut scope before cutting quality",
+        "Root cause named honestly",
+        "Process change that prevented a repeat"
+      ] },
+    { "id": "hard-feedback", "group": "Growth",
+      "front": "Tell me about a time you received hard feedback.",
+      "back": [
+        "Specific feedback, quoted plainly",
+        "Listened without getting defensive",
+        "Acted on it visibly",
+        "Closed the loop with the giver"
+      ] },
+    { "id": "incomplete-data", "group": "Judgment",
+      "front": "Describe a decision you made with incomplete information.",
+      "back": [
+        "Framed the risk explicitly",
+        "Reversible vs. irreversible decision",
+        "Set a checkpoint to revisit",
+        "What the outcome taught you"
+      ] },
+    { "id": "five-years", "group": "Motivation",
+      "front": "Where do you see yourself in five years?",
+      "back": [
+        "Realistic growth trajectory",
+        "Ties clearly to this role's path",
+        "Concrete skills you want to build",
+        "Ambition without entitlement"
+      ] }
+  ]
+}
