@@ -303,7 +303,7 @@
     if (manifestIds.length > 1) {
       footer.appendChild(makeBtn('btn btn--foot', 'Sets', null, onSetsClick));
     }
-    refs.reset = makeBtn('btn btn--foot btn--reset', 'Reset', null, onResetClick);
+    refs.reset = makeBtn('btn btn--foot', 'Reset', null, onResetClick);
     footer.appendChild(refs.reset);
     app.appendChild(footer);
 
@@ -370,9 +370,9 @@
       ? (decks[current._set].title || current._set) : '';
     refs.front.textContent = current.front;
 
-    // Prompt face: an entity card with a photo uses either the photo or the
-    // name as the clue, chosen per showing. Presentation only — no stats.
-    imgFace = !!(current.facts && current.img) && Math.random() < 0.5;
+    // Prompt face: any card with a photo uses either the photo or the front
+    // text as the clue, chosen per showing. Presentation only — no stats.
+    imgFace = !!current.img && Math.random() < 0.5;
     refs.front.hidden = imgFace;
     if (current.img) {
       refs.img.src = 'decks/' + current.img;
@@ -406,17 +406,16 @@
     revealed = true;
 
     refs.answer.classList.remove('is-masked');
+    // Reveal whichever face wasn't the prompt (front after a photo clue,
+    // photo after a text clue) — applies to every card shape.
+    if (imgFace) refs.front.hidden = false;
+    else if (current.img) refs.img.hidden = false;
+
     if (current.facts) {
-      // Entity card: labelled fact rows. Reveal whichever face wasn't the
-      // prompt (name after a photo clue, photo after a name clue).
+      // Entity card: labelled fact rows.
       clear(refs.answer);
       refs.answer.classList.remove('is-multiline');
       var facts = el('div', 'facts');
-      if (imgFace) {
-        facts.appendChild(el('div', 'facts__name', current.front));
-      } else if (current.img) {
-        refs.img.hidden = false;
-      }
       for (var k in current.facts) {
         var row = el('div', 'fact');
         row.appendChild(el('span', 'fact__k', k));
@@ -645,17 +644,23 @@
       current = null;   // deactivates drill keyboard shortcuts
 
       var checked = {};
-      (preChecked && preChecked.length ? preChecked : manifestIds)
-        .forEach(function (id) { checked[id] = true; });
+      // Only manifest ids can be pre-checked (a ?deck= session may reference
+      // an unlisted deck); an empty intersection falls back to all sets.
+      var pre = (preChecked || []).filter(function (id) {
+        return manifestIds.indexOf(id) !== -1;
+      });
+      (pre.length ? pre : manifestIds).forEach(function (id) { checked[id] = true; });
 
       var wrap = el('div', 'picker');
       wrap.appendChild(el('div', 'picker__h', 'Choose sets to practice'));
 
       var startBtn = makeBtn('btn btn--show', 'Start', null, function () {
         var ids = manifestIds.filter(function (id) { return checked[id]; });
+        if (!ids.length) return;   // defense in depth; button is disabled anyway
         writeJSON(SELECTED_KEY, ids);
         startPool(ids);
       });
+      startBtn.disabled = !manifestIds.some(function (id) { return checked[id]; });
 
       metas.forEach(function (m) {
         var b = el('button', 'deck');
@@ -698,8 +703,18 @@
       }
     }
     Promise.all(ids.map(function (id) {
-      return fetchJSON(deckUrl(id)).then(function (d) { return { id: id, deck: d }; });
+      return fetchJSON(deckUrl(id)).then(
+        function (d) { return { id: id, deck: d }; },
+        function () { return { id: id, deck: null }; });
     })).then(function (loaded) {
+      // Name exactly the decks that failed instead of discarding the batch
+      // behind a generic error.
+      var missing = loaded.filter(function (x) { return !x.deck; });
+      if (missing.length) {
+        showError('Deck not found', 'Could not load: ' +
+          missing.map(function (x) { return deckUrl(x.id); }).join(', '));
+        return;
+      }
       var errs = [];
       loaded.forEach(function (item) {
         validateDeck(item.deck).forEach(function (msg) {
@@ -726,9 +741,8 @@
       buildDrillView();
       startSession();
     }).catch(function () {
-      showError('Deck not found',
-        'Could not load a deck. Check that these files exist: ' +
-        ids.map(deckUrl).join(', '));
+      // Fetch failures are handled above; this is a last-resort guard.
+      showError('Cannot start', 'Something went wrong loading the decks.');
     });
   }
 

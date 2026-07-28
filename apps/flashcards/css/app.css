@@ -187,13 +187,6 @@ body {
 
 /* Entity answers: labelled fact rows, each individually readable */
 .facts { display: flex; flex-direction: column; gap: 9px; }
-.facts__name {
-  font-family: var(--sans);
-  font-weight: 600;
-  font-size: 22px;
-  color: var(--text);
-  margin-bottom: 2px;
-}
 .fact {
   display: flex;
   justify-content: space-between;
@@ -325,7 +318,7 @@ body {
 }
 .btn--foot {
   flex: 0 0 auto;
-  min-height: 36px;
+  min-height: var(--tap);   /* full 48px tap target, same as the main controls */
   padding: 0 14px;
   font-size: 11px;
   border-color: var(--rule-hi);

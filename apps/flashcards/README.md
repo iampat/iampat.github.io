@@ -98,11 +98,12 @@ Each deck file is a **set**. You can practice any combination:
   answer is labelled fact rows about one subject. `front` is the subject's
   name. See `decks/whitecaps.json`.
 
-**Images and prompt faces** (entity cards): an optional `img` field holds a
-path relative to the `decks/` directory (bundle the file in the repo). When an
-entity card has both a name and an image, each showing randomly uses one as
-the prompt; revealing shows the other plus the facts. A card without `img`
-always prompts with the name. Image licensing is the deck author's call.
+**Images and prompt faces** (any card shape): an optional `img` field holds a
+path relative to the `decks/` directory (bundle the file in the repo). When a
+card has an image, each showing randomly uses either the image or the `front`
+text as the prompt; revealing shows the other one plus the answer. A card
+without `img` always prompts with `front`. Image licensing is the deck
+author's call.
 
 **Rules**
 
