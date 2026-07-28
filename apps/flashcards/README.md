@@ -146,10 +146,11 @@ shared rep counter lives in `fcd:global:v1` and the current selection in
 deselected set's stats can't be disturbed. Within a store, state merges by
 card id on load, so editing a deck (adding, removing, or changing cards)
 preserves the stats of untouched cards; stats for removed ids are dropped on
-the next save. Older stores that carry a per-deck `repCount` are rebased into
-the global counter once, preserving every card's age. If localStorage is
-unavailable (e.g. private mode), the app falls back to in-memory state and
-shows "this session only" in the footer.
+the next save, and stores for decks removed from the manifest are deleted at
+startup. Stats are disposable — there is no migration or backward
+compatibility; a store that doesn't match the current format starts fresh.
+If localStorage is unavailable (e.g. private mode), the app falls back to
+in-memory state and shows "this session only" in the footer.
 
 `Reset` clears only the currently selected sets' stats. It is a two-step
 control: the first tap arms it ("Erase all?"), a second tap within 4 seconds
