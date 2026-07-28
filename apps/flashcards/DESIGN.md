@@ -50,9 +50,17 @@ Supported content, on any slot:
 
 - **Rich text** — bold/italic, multiple lines, bullet lists. (Multi-line and
   bulleted answers already work.)
-- **Code blocks** — monospaced snippets for programming decks (syntax
-  highlighting optional; plain monospace is enough to start).
-- **Images** — diagrams or pictures on the front or answer side.
+- **Code blocks** — monospaced snippets for programming decks. Plain monospace
+  to start; syntax highlighting is deferred, not required.
+- **Images** — diagrams or photos, usable as a prompt face (§3.2) or in the
+  answer. **Bundled in the repo** under the owning set, referenced by relative
+  path, so the app keeps working offline and makes no external calls.
+
+**Authoring format: a small Markdown subset inside the existing strings** —
+`**bold**`, `- bullets`, `` `code` ``, and newlines, rendered by a minimal
+built-in renderer. No new schema for text content, nothing to learn beyond
+Markdown, and no external library. The renderer must escape anything it does
+not explicitly support (no raw HTML passthrough).
 
 Math / formula (LaTeX) rendering is **not** in the plan: it needs a rendering
 library, which conflicts with the static / no-build / minimal-external-calls
@@ -84,14 +92,34 @@ prominent. You self-grade on "did I cover these?"
 
 **Entity card.** The answer is a small set of labelled facts about one subject
 (a player's number, position, and age). Treatment: fact rows / label-value
-pairs rather than one giant value, so each fact is individually readable. An
-optional image (e.g. a photo) may appear on the prompt or answer side.
+pairs rather than one giant value, so each fact is individually readable.
 
-Open issue for entity cards: a single Wrong/Correct covers several facts at
-once. Two options, to be decided — (a) accept coarse grading: "did I get them
-all?", or (b) split each fact into its own card (photo→name, name→number),
-which grades precisely but multiplies card count. Recommendation: start with
-(a), since self-grading is already approximate.
+**Grading stays a single Wrong/Correct — decided.** One button covers all the
+facts on a card; you decide whether recalling 4 of 5 counts as correct. No
+per-fact grading, and no splitting a subject into one card per fact.
+
+### 3.2 Prompt faces (randomized clue)
+
+An entity card may offer **more than one face that can serve as the prompt** —
+e.g. a player's photo *or* their name. Each time the card comes up, the app
+**picks one face at random** as the clue and reveals everything else as the
+answer. One card per subject, but the direction varies between showings.
+
+- Photo shown → reveal name, number, position, age.
+- Name shown → reveal photo, number, position, age.
+
+Rules:
+
+- If a face is missing (no photo for that player), it is simply never chosen —
+  the card degrades to the faces it has, no blank prompt.
+- Face choice is **presentation only**: it does not affect scheduling, and the
+  card keeps one set of stats regardless of which face was shown. This follows
+  from the single Wrong/Correct decision above.
+- A card with one face behaves exactly like today's cards.
+
+**Image as clue is a general capability, not a player-deck feature.** Any card
+in any set may use an image as its prompt face; the players deck is just the
+first consumer.
 
 ## 4. Answer visualization (optional)
 
@@ -148,6 +176,22 @@ a multi-set pool must namespace stats (e.g. `<setId>:<cardId>`) to avoid
 collisions. Per-card stats must stay keyed by that stable id, never by position,
 so editing or reordering a set never disturbs other cards.
 
+**Existing stats are not migrated — decided.** The move to namespaced storage
+starts fresh; the current `fcd:latency-2026:v1` history is dropped rather than
+converted. Stability guarantees (edit/reorder/add/remove a card without
+disturbing others) apply from that point forward.
+
+Other selection details:
+
+- **Mixed-pool labelling.** When more than one set is selected, each card shows
+  its set name alongside its group tag, so you always know what you're being
+  asked about. With a single set selected, the set label is redundant and hidden.
+- **Aging across selections.** The rep counter and per-card `lastRep` stay
+  global, so cards in a set you haven't practiced keep aging and surface early
+  when you next include them. This is desirable, not a bug.
+- **Empty selection** is not a drillable state; the drill cannot start until at
+  least one set is chosen.
+
 ### 5.2 Worked examples
 
 Three decks that this model must accommodate:
@@ -155,7 +199,7 @@ Three decks that this model must accommodate:
 | Set | Card shape | Notes |
 |-----|-----------|-------|
 | Latency numbers | value | numeric log rail; today's deck |
-| Whitecaps players | entity | number / position / age, optional photo; no rail |
+| Soccer team players | entity | number / position / age; photo or name as the random prompt face; no rail |
 | Behavioral interview questions | checklist | hint list, no single answer; no rail |
 
 Practicing "all" mixes value, entity, and checklist cards in one session, so the
@@ -171,30 +215,66 @@ three card shapes must coexist visually without the layout jumping between them.
   now *in* scope — see §5.1 — but session *length* limits are not.)
 - Accounts, sync, sharing (backend — deferred, not part of this UX framing).
 
-## 7. Open questions
+## 7. Decisions log
 
-To resolve before/while specifying the content work:
+Previously open, now settled:
 
-1. **Set vs. tag as the selection primitive.** §5.1 proposes "one deck file =
-   one set, tags refine within." Confirm, or make tags the only primitive (one
-   big library, sets are just tag values)?
-2. **Authoring format for rich content.** How does a deck author write bold,
-   lists, and code in JSON — Markdown in a string, a small set of fields, or a
-   restricted HTML subset? Affects both authoring UX and safety.
-3. **Entity-card grading granularity.** One Wrong/Correct for several facts
-   (coarse, recommended) vs. splitting each fact into its own card (precise, but
-   multiplies card count and repeats the prompt).
-4. **Syntax-highlighting dependency.** Code highlighting typically needs a
-   library; how does that square with "static, no build step, minimal external
-   calls" (e.g. inline a small highlighter, precompute at authoring time, or
-   ship plain monospace)? (Math rendering was dropped for the same reason.)
-5. **Image sourcing and rights.** Bundled in the repo under the set, referenced
-   by relative path, or external URLs (and how does that interact with offline)?
-   Note that third-party photos (e.g. club/agency player images) are typically
-   copyrighted — a practical blocker for bundling them in a public repo,
-   independent of the technical choice.
-6. **Answer legibility with rich content.** Rules for when the answer is a code
-   block or image rather than a short value — does the "largest element"
-   guideline relax? (§3.1 already relaxes it for checklist and entity cards.)
-7. **Linear-scale specifics.** Tick/label conventions and edge clamping for
-   linear scales, reusing the log rail's geometry.
+| Question | Decision |
+|----------|----------|
+| Grading granularity | Single Wrong/Correct per card; you judge whether 4-of-5 facts counts |
+| Entity prompt direction | One card, **random prompt face** per showing (§3.2) |
+| Rich-content authoring | Small **Markdown subset** inside existing strings |
+| Image sourcing | **Bundled in the repo** under the owning set, relative paths |
+| Image scope | A **general capability** — any card may use an image clue |
+| Existing stats | **Start fresh**; no migration from `fcd:latency-2026:v1` |
+| Selection primitive | One deck file = one set; tags refine within a set |
+| Syntax highlighting | Deferred — plain monospace is enough |
+| Set label on cards | Shown only when multiple sets are selected |
+| Aging across sets | Global rep counter; unpractised sets keep aging |
+
+Still genuinely open (do not block starting):
+
+1. **Linear-scale specifics.** Tick/label conventions and edge clamping for
+   linear scales, reusing the log rail's geometry. Only matters when a second
+   numeric deck appears.
+2. **Image rights for real photos.** Bundling is the mechanism; sourcing images
+   that are legal to redistribute in a public repo is a content question for
+   whoever authors the players set.
+3. **Markdown subset scope.** Exactly which constructs the built-in renderer
+   supports beyond bold / bullets / inline code (links? headings?).
+
+## 8. Execution plan
+
+Ordered so each phase is independently shippable and the app keeps working
+throughout. Phases 1–2 are the structural work; 3–5 are additive.
+
+**Phase 1 — Sets and selection.** The foundation, and the only phase with a
+breaking storage change.
+- Namespaced per-card stats (`<setId>:<cardId>`), starting fresh.
+- Multi-select screen: every set with its card count, All / None, persisted
+  choice, URL-encoded so a combination is linkable.
+- Drill pool = union of selected sets; stats strip reflects the current pool.
+- Set label on cards when more than one set is selected.
+
+**Phase 2 — Card shapes.** Makes non-value content presentable.
+- Checklist shape: hint list at readable body size, prompt stays prominent.
+- Entity shape: label-value fact rows.
+- Shapes must coexist in one mixed session without layout jumping.
+
+**Phase 3 — Random prompt faces.** Depends on the entity shape from Phase 2.
+- A card declares its available faces; one is chosen at random per showing.
+- Missing faces are never chosen; single-face cards behave as today.
+- Presentation only — no scheduling or stats impact.
+
+**Phase 4 — Rich text and images.**
+- Minimal Markdown renderer (bold, bullets, inline code, newlines) with
+  escaping and no raw HTML passthrough.
+- Bundled images with relative paths, usable as a prompt face or in an answer;
+  must scale within the card at 360 px and never widen the page.
+
+**Phase 5 — Content.** Author the two new sets against the finished shapes:
+behavioral interview questions (checklist) and soccer players (entity). The
+interview set needs no images, so it can land before Phase 4 completes.
+
+Deferred beyond this plan: linear scales, syntax highlighting, and everything
+in §6.
