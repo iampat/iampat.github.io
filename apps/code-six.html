@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code six</title>
+<style>
+  :root {
+    --bg: #0E1216;
+    --surface: #181E25;
+    --line: #2A333D;
+    --text: #E9EEF3;
+    --muted: #7E8B99;
+    --amber: #FFB454;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+  }
+  main {
+    height: 100dvh;
+    max-width: 430px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  }
+
+  /* header */
+  header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-bottom: 10px;
+  }
+  header h1 {
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  #newBtn {
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--muted);
+    font: inherit;
+    padding: 5px 12px;
+    cursor: pointer;
+  }
+  #newBtn:hover { color: var(--text); border-color: var(--muted); }
+
+  /* readout */
+  .readout {
+    border-top: 1px solid var(--line);
+    padding: 12px 4px 10px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  #count {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--amber);
+    min-width: 5ch;
+  }
+  .readout .labels { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  #countLabel { color: var(--text); }
+  #countSub {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 12px;
+    white-space: pre-line;
+  }
+  .readout.won #count { color: var(--text); }
+
+  /* history */
+  #history {
+    flex: 1;
+    overflow-y: auto;
+    margin: 8px 0;
+    border-bottom: 1px solid var(--line);
+    scrollbar-width: thin;
+  }
+  #empty {
+    color: var(--muted);
+    padding: 18px 4px;
+    text-align: center;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 7px 4px;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+  }
+  .row:first-child { border-top: 0; }
+  .row .digits { font-size: 20px; letter-spacing: 0.45em; font-weight: 600; }
+  .row .pegs { display: flex; gap: 6px; flex: 1; }
+  .row .left { color: var(--muted); font-size: 13px; }
+  .peg {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+  }
+  .peg.exact { background: var(--amber); }
+  .peg.near { border: 2px solid var(--text); }
+  .peg.none { border: 1px solid var(--line); }
+  @keyframes pop {
+    from { transform: scale(0); }
+    60%  { transform: scale(1.25); }
+    to   { transform: scale(1); }
+  }
+  .row.fresh .peg { animation: pop 0.22s cubic-bezier(.2,.9,.3,1.2) backwards; }
+  .row.fresh .peg:nth-child(2) { animation-delay: 0.07s; }
+  .row.fresh .peg:nth-child(3) { animation-delay: 0.14s; }
+  .row.fresh .peg:nth-child(4) { animation-delay: 0.21s; }
+
+  /* status */
+  #status {
+    font-family: var(--mono);
+    text-align: center;
+    padding: 6px 0 2px;
+    min-height: 1.5em;
+    color: var(--amber);
+  }
+  #status.lost { color: var(--muted); }
+
+  /* entry slots */
+  .entry {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 8px 0 12px;
+  }
+  .slot {
+    width: 52px; height: 60px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface);
+    display: grid;
+    place-items: center;
+    font-family: var(--mono);
+    font-size: 30px;
+    font-weight: 700;
+    position: relative;
+  }
+  .slot.active { border-color: var(--amber); }
+  .slot.active::after {
+    content: "";
+    position: absolute;
+    left: 12px; right: 12px; bottom: 9px;
+    height: 2px;
+    background: var(--amber);
+  }
+  .slot.filled { border-color: var(--muted); }
+
+  /* keypad */
+  .keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .key {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-bottom-width: 3px;
+    border-radius: 8px;
+    height: 54px;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .key:active:not(:disabled) {
+    transform: translateY(2px);
+    border-bottom-width: 1px;
+    background: #202832;
+  }
+  .key:disabled { opacity: 0.35; cursor: default; }
+  #delBtn { font-size: 15px; color: var(--muted); }
+  #enterBtn {
+    grid-column: span 2;
+    font-size: 15px;
+    color: #0E1216;
+    background: var(--amber);
+    border-color: #C8852E;
+  }
+  #enterBtn:active:not(:disabled) { background: #E09B3C; }
+
+  :focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .row.fresh .peg { animation: none; }
+    .key:active:not(:disabled) { transform: none; }
+  }
+  @media (max-height: 620px) {
+    #count { font-size: 34px; }
+    .slot { height: 50px; }
+    .key { height: 46px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Code six</h1>
+    <button id="newBtn" type="button">New game</button>
+  </header>
+
+  <div class="readout" id="readout">
+    <div id="count" aria-hidden="true">1,296</div>
+    <div class="labels" aria-live="polite">
+      <div id="countLabel">possible codes</div>
+      <div id="countSub">Four digits, each 0 to 5. Repeats allowed.</div>
+    </div>
+  </div>
+
+  <div id="history" aria-live="polite">
+    <div id="empty">No guesses yet. Pick four digits below.</div>
+  </div>
+
+  <div id="status" role="status"></div>
+
+  <div class="entry" id="entry" aria-label="Current guess">
+    <div class="slot"></div>
+    <div class="slot"></div>
+    <div class="slot"></div>
+    <div class="slot"></div>
+  </div>
+
+  <div class="keypad">
+    <button class="key digit" type="button">1</button>
+    <button class="key digit" type="button">2</button>
+    <button class="key digit" type="button">3</button>
+    <button class="key digit" type="button">4</button>
+    <button class="key digit" type="button">5</button>
+    <button class="key digit" type="button">0</button>
+    <button class="key" id="delBtn" type="button">Delete</button>
+    <button class="key" id="enterBtn" type="button" disabled>Enter</button>
+  </div>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  var MAX_GUESSES = 10;
+  var reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var countEl = document.getElementById("count");
+  var countLabel = document.getElementById("countLabel");
+  var countSub = document.getElementById("countSub");
+  var readout = document.getElementById("readout");
+  var historyEl = document.getElementById("history");
+  var statusEl = document.getElementById("status");
+  var slots = Array.prototype.slice.call(document.querySelectorAll(".slot"));
+  var enterBtn = document.getElementById("enterBtn");
+  var delBtn = document.getElementById("delBtn");
+  var newBtn = document.getElementById("newBtn");
+
+  var secret, candidates, entry, guessCount, over;
+  var countAnim = null;
+
+  function allCodes() {
+    var out = [];
+    for (var a = 0; a < 6; a++) for (var b = 0; b < 6; b++)
+      for (var c = 0; c < 6; c++) for (var d = 0; d < 6; d++)
+        out.push([a, b, c, d]);
+    return out;
+  }
+
+  function score(g, code) {
+    var exact = 0;
+    var gc = [0, 0, 0, 0, 0, 0], cc = [0, 0, 0, 0, 0, 0];
+    for (var i = 0; i < 4; i++) {
+      if (g[i] === code[i]) exact++;
+      else { gc[g[i]]++; cc[code[i]]++; }
+    }
+    var near = 0;
+    for (var v = 0; v < 6; v++) near += Math.min(gc[v], cc[v]);
+    return { exact: exact, near: near };
+  }
+
+  function fmt(n) { return n.toLocaleString("en-US"); }
+
+  function setCount(n) { countEl.textContent = fmt(n); }
+
+  function animateCount(from, to) {
+    if (countAnim) cancelAnimationFrame(countAnim);
+    if (reduceMotion || from === to) { setCount(to); return; }
+    var start = performance.now(), dur = 600;
+    function step(now) {
+      var t = Math.min(1, (now - start) / dur);
+      var e = 1 - Math.pow(1 - t, 3);
+      setCount(Math.round(from + (to - from) * e));
+      if (t < 1) countAnim = requestAnimationFrame(step);
+      else countAnim = null;
+    }
+    countAnim = requestAnimationFrame(step);
+  }
+
+  function renderEntry() {
+    for (var i = 0; i < 4; i++) {
+      slots[i].textContent = i < entry.length ? entry[i] : "";
+      slots[i].classList.toggle("filled", i < entry.length);
+      slots[i].classList.toggle("active", !over && i === entry.length);
+    }
+    enterBtn.disabled = !over && entry.length < 4;
+  }
+
+  function addRow(g, s, remaining) {
+    document.getElementById("empty") && document.getElementById("empty").remove();
+    var row = document.createElement("div");
+    row.className = "row fresh";
+    var digits = document.createElement("span");
+    digits.className = "digits";
+    digits.textContent = g.join("");
+    var pegs = document.createElement("span");
+    pegs.className = "pegs";
+    var label = [];
+    for (var i = 0; i < 4; i++) {
+      var p = document.createElement("span");
+      p.className = "peg " + (i < s.exact ? "exact" : i < s.exact + s.near ? "near" : "none");
+      pegs.appendChild(p);
+    }
+    label.push(s.exact + " exact", s.near + " misplaced");
+    pegs.setAttribute("role", "img");
+    pegs.setAttribute("aria-label", label.join(", "));
+    var left = document.createElement("span");
+    left.className = "left";
+    left.textContent = fmt(remaining);
+    row.appendChild(digits);
+    row.appendChild(pegs);
+    row.appendChild(left);
+    historyEl.appendChild(row);
+    historyEl.scrollTop = historyEl.scrollHeight;
+  }
+
+  function submit() {
+    if (over) { newGame(); return; }
+    if (entry.length < 4) return;
+    var g = entry.slice();
+    var s = score(g, secret);
+    var before = candidates.length;
+    candidates = candidates.filter(function (c) {
+      var t = score(g, c);
+      return t.exact === s.exact && t.near === s.near;
+    });
+    guessCount++;
+    addRow(g, s, candidates.length);
+    animateCount(before, candidates.length);
+    countSub.textContent = "was " + fmt(before) + "\n" +
+      (MAX_GUESSES - guessCount) + " of " + MAX_GUESSES + " guesses left";
+    countLabel.textContent = "codes still fit every clue";
+    entry = [];
+
+    if (s.exact === 4) {
+      over = true;
+      readout.classList.add("won");
+      statusEl.className = "";
+      statusEl.textContent = "Solved in " + guessCount + (guessCount === 1 ? " guess" : " guesses") +
+        ". The code was " + secret.join(" ") + ".";
+    } else if (guessCount >= MAX_GUESSES) {
+      over = true;
+      statusEl.className = "lost";
+      statusEl.textContent = "Out of guesses. The code was " + secret.join(" ") + ".";
+    }
+    if (over) {
+      enterBtn.textContent = "Play again";
+      countSub.textContent = guessCount + " of " + MAX_GUESSES + " guesses used";
+    }
+    renderEntry();
+  }
+
+  function pressDigit(d) {
+    if (over || entry.length >= 4) return;
+    entry.push(d);
+    renderEntry();
+  }
+
+  function del() {
+    if (over || !entry.length) return;
+    entry.pop();
+    renderEntry();
+  }
+
+  function newGame() {
+    secret = [0, 0, 0, 0].map(function () { return Math.floor(Math.random() * 6); });
+    candidates = allCodes();
+    entry = [];
+    guessCount = 0;
+    over = false;
+    readout.classList.remove("won");
+    statusEl.textContent = "";
+    statusEl.className = "";
+    enterBtn.textContent = "Enter";
+    historyEl.innerHTML = '<div id="empty">No guesses yet. Pick four digits below.</div>';
+    setCount(1296);
+    countLabel.textContent = "possible codes";
+    countSub.textContent = "Four digits, each 0 to 5. Repeats allowed.";
+    renderEntry();
+  }
+
+  document.querySelectorAll(".key.digit").forEach(function (btn) {
+    btn.addEventListener("click", function () { pressDigit(+btn.textContent); });
+  });
+  delBtn.addEventListener("click", del);
+  enterBtn.addEventListener("click", submit);
+  newBtn.addEventListener("click", newGame);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key >= "0" && e.key <= "5") pressDigit(+e.key);
+    else if (e.key === "Backspace") del();
+    else if (e.key === "Enter") {
+      e.preventDefault();
+      submit();
+    }
+  });
+
+  newGame();
+})();
+</script>
+</body>
+</html>
