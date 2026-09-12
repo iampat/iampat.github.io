@@ -40,7 +40,7 @@ A template looks like:
 ```json
 {
   "id": "tri", "topic": "shapes", "lesson": "tri", "unit": "cm²",
-  "params":  { "b": { "pick": { "1": [4,6,8], "2": [4,12], "3": [6,20] } },
+  "params":  { "b": { "range": { "1": [4,8], "2": [4,12], "3": [6,20] } },
                "h": { "range": { "1": [3,6], "2": [3,9], "3": [4,12] } } },
   "derive":  { "area": "b * h / 2" },
   "require": ["(b * h) % 2 == 0"],
@@ -52,16 +52,29 @@ A template looks like:
 }
 ```
 
+Note the difference between the two parameter kinds: `range: [4, 12]` samples any
+integer from 4 to 12, while `pick: [4, 12]` chooses one element of the list — only
+4 or 12.
+
 - **params** — random values; per-tier lists/ranges make difficulty data-driven
-- **derive / require** — computed values and constraints (rejection sampling)
+- **derive / require** — computed values and constraints (rejection sampling; a
+  template whose constraints can't be met degrades with a console warning, it
+  never crashes the quiz)
 - **answer / distractors** — `{fraction: [num, den]}` or `{number: expr}`; `raw: true`
-  shows a fraction unsimplified, `when:` makes a wrong answer conditional
+  shows a fraction exactly as computed, `when:` makes a wrong answer conditional.
+  The engine guarantees all four options differ in **value**; the one exception is a
+  distractor marked `twin: true`, which may equal the correct answer (the deliberate
+  "forgot simplest form" choice, shown in a different form)
+- **filler** — optional template-specific backup wrong answer (evaluated with `fi` =
+  attempt number) used when distractors collide, so backups stay plausible per type
+- **family** — optional grouping; two types in one family (fracAdd/fracSub) never
+  appear back-to-back
 - **diagram** — references one of the visual builders: `fracBars`, `pizzas`,
   `pizzaShare`, `triangle`, `parallelogram`, `house`
-- **text/explain tokens** — `{expr}`, `{stack:n:d}` stacked fraction, `{tidy:n:d}`
-  mixed number, `{mixtext:n:d}` plain words; `explain` segments can carry `when:`
+- **text/explain tokens** — `{expr}`, `{stack:n:d}` stacked fraction shown as-is,
+  `{mixtext:n:d}` plain words, always simplified; `explain` segments can carry `when:`
 
-Expressions support `+ - * / % ( )`, comparisons, `|| &&`, and `gcd/min/max/abs/floor/round`.
+Expressions support `+ - * / % ( )`, comparisons, `|| &&`, and `gcd/max/abs`.
 
 ## Question types and their distractors
 
@@ -83,8 +96,9 @@ Mixed numbers appear naturally whenever an answer is more than one whole.
 
 Difficulty rises quietly with progress — no visible levels or settings. After 8 correct
 answers the number ranges grow, and again after 18 (bigger denominators, bigger shapes).
-Question types are drawn from a shuffled bag so no type repeats back-to-back, and the
-last 25 exact questions are remembered so the same one doesn't come around again soon.
+Question types are drawn from a shuffled bag so the same question family never repeats
+back-to-back (adding and subtracting count as one family), and the last 25 exact
+questions are remembered so the same one doesn't come around again soon.
 
 ## Ranks and XP
 
@@ -104,9 +118,10 @@ An automated Playwright suite was used for v2; the same things can be checked by
 6. The prize appears after every 5th answer, both games exit at any moment via
    "Back to the quest", and the quest resumes right after.
 
-v2 was additionally validated by generating 12,000 questions (2,000 per type) and
-re-computing every answer independently: exactly one correct option, four distinct
-options, correct value matches the math.
+The automated suite additionally generates 16,800 questions (700 per type per
+difficulty tier, all 8 types) and re-computes every answer independently: exactly one
+correct option, four options distinct in display AND value (twin excepted), and the
+correct value matches the math.
 
 ## Where to take it next (from the handoff, still open)
 
