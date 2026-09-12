@@ -23,6 +23,7 @@
     color: var(--ink);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     font-size: 16px;
+    min-height: 100vh;
     min-height: 100dvh;
   }
   button {
@@ -120,7 +121,7 @@
   .sheet {
     background: var(--card); width: 100%; max-width: 480px;
     border-radius: 22px 22px 0 0; padding: 16px 16px calc(16px + env(safe-area-inset-bottom));
-    max-height: 92dvh; overflow-y: auto;
+    max-height: 92vh; max-height: 92dvh; overflow-y: auto;
   }
   @media (min-width: 500px) {
     .overlay { align-items: center; padding: 20px; }
@@ -417,8 +418,13 @@
     blip: function () { tone("square", 660, 880, 0, 0.07, 0.25); },
     crash: function () { tone("sawtooth", 220, 60, 0, 0.35, 0.4); noise(0, 0.3, 600, 0.4); }
   };
-  var wrongSounds = ["fart", "fart", "fart", "boing", "trombone", "whistle", "splat", "honk"];
   var rightSounds = ["coin", "sparkle", "fanfare", "cheer"];
+  function wrongNoise() {
+    sfx.fart();
+    if (Math.random() < 0.4) {
+      setTimeout(function () { sfx[pick(["boing", "trombone", "whistle", "splat", "honk"])](); }, 380);
+    }
+  }
 
   $("muteBtn").addEventListener("click", function () {
     audio.muted = !audio.muted;
@@ -621,8 +627,9 @@
   }
   function nOpt(v, correct) { return opt("<b>" + v + "</b> cm²", "n" + v, correct); }
 
-  function genAddSub() {
-    var dens = [2, 3, 4, 5, 6, 8, 10, 12];
+  /* lv 1..3: numbers grow as the player racks up correct answers */
+  function genAddSub(lv) {
+    var dens = lv === 1 ? [2, 3, 4, 6] : lv === 2 ? [2, 3, 4, 5, 6, 8, 10, 12] : [3, 4, 5, 6, 8, 9, 10, 12];
     var b, d, a, c, op, n, den;
     do {
       b = pick(dens); d = pick(dens);
@@ -655,8 +662,10 @@
       params: { a: a, b: b, c: c, d: d, op: op }
     };
   }
-  function genMult() {
-    var k = ri(2, 5), b = pick([2, 3, 4, 5, 6, 8]), a = ri(1, b - 1);
+  function genMult(lv) {
+    var k = lv === 1 ? ri(2, 3) : lv === 2 ? ri(2, 5) : ri(3, 8);
+    var b = pick(lv === 1 ? [2, 3, 4] : lv === 2 ? [2, 3, 4, 5, 6, 8] : [3, 4, 5, 6, 8, 10, 12]);
+    var a = ri(1, b - 1);
     var n = k * a, s = simp(n, b);
     var correct = fOpt(s[0], s[1], true);
     correct.filler = function (g) { return fOpt(n + g, b + (g % 3)); };
@@ -675,8 +684,10 @@
       params: { k: k, a: a, b: b }
     };
   }
-  function genDiv() {
-    var b = pick([2, 3, 4, 5]), a = ri(1, b - 1), k = ri(2, 4);
+  function genDiv(lv) {
+    var b = pick(lv === 1 ? [2, 3, 4] : lv === 2 ? [2, 3, 4, 5, 6] : [3, 4, 5, 6, 8, 10]);
+    var a = ri(1, b - 1);
+    var k = lv === 1 ? ri(2, 3) : lv === 2 ? ri(2, 5) : ri(2, 6);
     var s = simp(a, b * k);
     var correct = fOpt(s[0], s[1], true);
     correct.filler = function (g) { return fOpt(1, b * k + g); };
@@ -695,8 +706,10 @@
       params: { a: a, b: b, k: k }
     };
   }
-  function genTri() {
-    var b = pick([4, 6, 8, 10, 12]), h = ri(3, 9);
+  function genTri(lv) {
+    var b = lv === 1 ? pick([4, 6, 8]) : lv === 2 ? ri(4, 12) : ri(6, 20);
+    var h = lv === 1 ? ri(3, 6) : lv === 2 ? ri(3, 9) : ri(4, 12);
+    if ((b * h) % 2) h++;
     var area = b * h / 2;
     var correct = nOpt(area, true);
     correct.filler = function (g) { return nOpt(area + g * 2); };
@@ -707,34 +720,38 @@
     ];
     return {
       type: "tri", lesson: "tri",
-      text: "What is the area of this triangle?",
+      text: 'What is the area of this triangle? <span class="sr">Base ' + b + " centimetres, height " + h + " centimetres.</span>",
       diagram: diagTri(b, h),
       answers: buildAnswers(correct, cands),
       explain: "A triangle is half a rectangle: base × height ÷ 2 = " + b + " × " + h + " ÷ 2 = " + area + " cm².",
       params: { b: b, h: h }
     };
   }
-  function genPara() {
-    var b = pick([5, 6, 7, 8, 9, 10]), h = ri(3, 8), s = h + ri(1, 3);
+  function genPara(lv) {
+    var b = lv === 1 ? ri(5, 8) : lv === 2 ? ri(6, 12) : ri(8, 20);
+    var h = lv === 1 ? ri(3, 5) : lv === 2 ? ri(4, 8) : ri(5, 12);
+    var s = h + ri(1, 3);
     var area = b * h;
     var correct = nOpt(area, true);
     correct.filler = function (g) { return nOpt(area + g * 3); };
     var cands = [
-      nOpt(b * s),           /* used the slanted side */
-      nOpt(b * h / 2),       /* halved like a triangle */
-      nOpt(2 * (b + s))      /* perimeter thinking */
+      nOpt(b * s),                                  /* used the slanted side */
+      nOpt(area % 2 ? b + h + s : area / 2),        /* halved like a triangle (or added the sides) */
+      nOpt(2 * (b + s))                             /* perimeter thinking */
     ];
     return {
       type: "para", lesson: "para",
-      text: "What is the area of this parallelogram?",
+      text: 'What is the area of this parallelogram? <span class="sr">Base ' + b + " centimetres, height " + h + " centimetres, slanted side " + s + " centimetres.</span>",
       diagram: diagPara(b, h, s),
       answers: buildAnswers(correct, cands),
       explain: "Base × height = " + b + " × " + h + " = " + area + " cm². Careful — the " + s + " cm slanted side is not the height!",
       params: { b: b, h: h, s: s }
     };
   }
-  function genComp() {
-    var w = pick([6, 8, 10, 12]), h1 = ri(3, 6), h2 = ri(2, 5);
+  function genComp(lv) {
+    var w = pick(lv === 1 ? [6, 8] : lv === 2 ? [6, 8, 10, 12] : [10, 12, 14, 16]);
+    var h1 = lv === 1 ? ri(3, 5) : lv === 2 ? ri(3, 6) : ri(4, 8);
+    var h2 = lv === 1 ? ri(2, 4) : lv === 2 ? ri(2, 5) : ri(3, 6);
     var box = w * h1, roof = w * h2 / 2, area = box + roof;
     var correct = nOpt(area, true);
     correct.filler = function (g) { return nOpt(area + g * 2); };
@@ -745,7 +762,7 @@
     ];
     return {
       type: "comp", lesson: "comp",
-      text: "What is the area of this house shape?",
+      text: 'What is the area of this house shape? <span class="sr">A rectangle ' + w + " centimetres wide and " + h1 + " centimetres tall, with a triangle roof " + h2 + " centimetres tall on top.</span>",
       diagram: diagHouse(w, h1, h2, false),
       answers: buildAnswers(correct, cands),
       explain: "Box: " + w + " × " + h1 + " = " + box + ". Roof: " + w + " × " + h2 + " ÷ 2 = " + roof + ". Together: " + box + " + " + roof + " = " + area + " cm².",
@@ -762,10 +779,11 @@
   /* ---------- quest state ---------- */
   var state = {
     topic: "mixed", q: null, locked: false,
-    xp: 0, streak: 0, answered: 0, prizeDue: false,
-    seen: {}, lastType: null,
+    xp: 0, streak: 0, answered: 0, solved: 0, prizeDue: false,
+    seen: {}, lastType: null, bag: null, recent: [], advanceTimer: null,
     best: { snake: null, mm: null }
   };
+  function tier() { return state.solved < 8 ? 1 : state.solved < 18 ? 2 : 3; }
   var RANKS = [["Cadet", 0], ["Scholar", 100], ["Wizard", 250], ["Grandmaster", 500]];
 
   function rankInfo() {
@@ -795,12 +813,28 @@
       (left === 5 ? "Answer 5 questions for a prize! 🎁" : left + " more " + (left === 1 ? "question" : "questions") + " to a prize! 🎁");
   }
 
-  function loadQuestion() {
+  function nextType() {
     var types = TOPIC_TYPES[state.topic];
-    var t;
-    do { t = pick(types); } while (types.length > 1 && t === state.lastType);
+    if (!state.bag || !state.bag.length) {
+      state.bag = shuffle(types.slice());
+      /* don't let the fresh bag start with the type we just had */
+      if (state.bag.length > 1 && state.bag[state.bag.length - 1] === state.lastType) {
+        state.bag.unshift(state.bag.pop());
+      }
+    }
+    return state.bag.pop();
+  }
+  function loadQuestion() {
+    clearTimeout(state.advanceTimer);
+    var t = nextType();
     state.lastType = t;
-    state.q = GENS[t]();
+    var sig, tries = 0;
+    do {
+      state.q = GENS[t](tier());
+      sig = t + JSON.stringify(state.q.params);
+    } while (state.recent.indexOf(sig) !== -1 && ++tries < 10);
+    state.recent.push(sig);
+    if (state.recent.length > 25) state.recent.shift();
     state.locked = false;
     $("diagram").innerHTML = state.q.diagram;
     $("qtext").innerHTML = state.q.text;
@@ -854,6 +888,7 @@
     var delay;
     if (right) {
       state.streak++;
+      state.solved++;
       var gain = 10 + 2 * (state.streak - 1);
       state.xp += gain;
       var big = state.streak % 3 === 0;
@@ -867,18 +902,18 @@
       state.streak = 0;
       btn.classList.add("wrong");
       btn.insertAdjacentHTML("beforeend", '<span class="mark">❌</span>');
-      sfx[pick(wrongSounds)]();
+      wrongNoise();
       fb.className = "bad";
       fb.innerHTML = "😅 Not quite! " + q.explain;
       $("announcer").textContent = "Not quite. " + q.explain;
       delay = 4200;
     }
     renderHUD();
-    setTimeout(nextStep, delay);
+    state.advanceTimer = setTimeout(nextStep, delay);
   }
 
   function nextStep() {
-    if (lessonOpen()) { setTimeout(nextStep, 500); return; }
+    if (lessonOpen()) { state.advanceTimer = setTimeout(nextStep, 500); return; }
     if (state.prizeDue) { state.prizeDue = false; openPrize(); return; }
     loadQuestion();
   }
@@ -890,6 +925,7 @@
       t.setAttribute("aria-selected", "true");
       state.topic = t.dataset.topic;
       state.lastType = null;
+      state.bag = null;
       loadQuestion();
     });
   });
@@ -948,19 +984,44 @@
   });
 
   /* ---------- snake ---------- */
-  var snake = { timer: null, tick: null, alive: false };
+  /* Fixed-step logic + requestAnimationFrame rendering with interpolation, so
+     movement glides between cells instead of jumping once per tick. */
+  var snake = { timer: null, raf: null, alive: false };
+  function recordSnakeBest() {
+    if (snake.score > 0 && (state.best.snake === null || snake.score > state.best.snake)) {
+      state.best.snake = snake.score;
+      return true;
+    }
+    return false;
+  }
   function startSnake() {
-    var G = 16, CELL = 20;
+    var G = 16, CELL = 20, SIZE = G * CELL;
+    var cv = $("snakeCanvas"), c = cv.getContext("2d");
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    cv.width = SIZE * dpr; cv.height = SIZE * dpr;
+    c.setTransform(dpr, 0, 0, dpr, 0, 0);
     snake.body = [{ x: 8, y: 8 }, { x: 7, y: 8 }, { x: 6, y: 8 }];
+    snake.prev = snake.body.map(function (s) { return { x: s.x, y: s.y }; });
     snake.dir = { x: 1, y: 0 };
     snake.nextDir = snake.dir;
-    snake.score = 0; snake.time = 45; snake.alive = true;
+    snake.score = 0; snake.time = 45; snake.alive = true; snake.wasBest = false;
+    var tickMs = 150;
     placeFood();
     $("snakeOver").classList.remove("show");
     $("snakeOverlay").classList.add("open");
-    draw();
     updateStat();
-    snake.tick = setInterval(step, 160);
+    draw(0);
+    var last = null, acc = 0;
+    function frame(now) {
+      if (!snake.alive) return;
+      if (last !== null) acc += Math.min(200, now - last);
+      last = now;
+      while (acc >= tickMs && snake.alive) { step(); acc -= tickMs; }
+      if (!snake.alive) return;
+      draw(Math.min(1, acc / tickMs));
+      snake.raf = requestAnimationFrame(frame);
+    }
+    snake.raf = requestAnimationFrame(frame);
     snake.timer = setInterval(function () {
       snake.time--; updateStat();
       if (snake.time <= 0) endSnake("⏱ Time's up!");
@@ -974,35 +1035,42 @@
     function updateStat() { $("snakeStat").textContent = "🍎 " + snake.score + " · ⏱ " + snake.time; }
     function step() {
       snake.dir = snake.nextDir;
+      snake.prev = snake.body.map(function (s) { return { x: s.x, y: s.y }; });
       var h = { x: (snake.body[0].x + snake.dir.x + G) % G, y: (snake.body[0].y + snake.dir.y + G) % G };
       if (snake.body.some(function (s) { return s.x === h.x && s.y === h.y; })) { endSnake("💥 Bumped yourself!"); return; }
       snake.body.unshift(h);
       if (h.x === snake.food.x && h.y === snake.food.y) {
         snake.score++; sfx.coin(); placeFood(); updateStat();
+        tickMs = Math.max(95, 150 - snake.score * 3); /* gets a little zippier per apple */
       } else snake.body.pop();
-      draw();
     }
-    function draw() {
-      var c = $("snakeCanvas").getContext("2d");
-      c.clearRect(0, 0, 320, 320);
+    function pos(i, t) {
+      var cur = snake.body[i];
+      var prev = snake.prev[Math.min(i, snake.prev.length - 1)] || cur;
+      var dx = cur.x - prev.x, dy = cur.y - prev.y;
+      if (Math.abs(dx) > 1 || Math.abs(dy) > 1) return cur; /* wrapped the edge: snap */
+      return { x: prev.x + dx * t, y: prev.y + dy * t };
+    }
+    function draw(t) {
+      c.clearRect(0, 0, SIZE, SIZE);
       c.font = "18px sans-serif"; c.textAlign = "center"; c.textBaseline = "middle";
       c.fillText("🍎", snake.food.x * CELL + 10, snake.food.y * CELL + 11);
-      snake.body.forEach(function (s, i) {
+      for (var i = snake.body.length - 1; i >= 0; i--) {
+        var p = pos(i, t);
         c.fillStyle = i === 0 ? "#2E7D32" : "#4CAF50";
         if (c.roundRect) {
           c.beginPath();
-          c.roundRect(s.x * CELL + 1, s.y * CELL + 1, CELL - 2, CELL - 2, 6);
+          c.roundRect(p.x * CELL + 1, p.y * CELL + 1, CELL - 2, CELL - 2, 6);
           c.fill();
         } else {
-          c.fillRect(s.x * CELL + 1, s.y * CELL + 1, CELL - 2, CELL - 2);
+          c.fillRect(p.x * CELL + 1, p.y * CELL + 1, CELL - 2, CELL - 2);
         }
-      });
-      var h = snake.body[0];
+      }
+      var hp = pos(0, t);
       c.fillStyle = "#fff";
-      c.beginPath(); c.arc(h.x * CELL + 7 + snake.dir.x * 3, h.y * CELL + 7 + snake.dir.y * 3, 2.4, 0, 7); c.fill();
-      c.beginPath(); c.arc(h.x * CELL + 13 + snake.dir.x * 3, h.y * CELL + 13 + snake.dir.y * 3, 2.4, 0, 7); c.fill();
+      c.beginPath(); c.arc(hp.x * CELL + 7 + snake.dir.x * 3, hp.y * CELL + 7 + snake.dir.y * 3, 2.4, 0, 7); c.fill();
+      c.beginPath(); c.arc(hp.x * CELL + 13 + snake.dir.x * 3, hp.y * CELL + 13 + snake.dir.y * 3, 2.4, 0, 7); c.fill();
     }
-    snake.draw = draw;
   }
   function setDir(name) {
     if (!snake.alive) return;
@@ -1029,16 +1097,18 @@
     if (m) { e.preventDefault(); setDir(m); }
   });
   function stopSnake() {
-    clearInterval(snake.tick); clearInterval(snake.timer);
-    snake.alive = false;
+    clearInterval(snake.timer);
+    if (snake.raf) cancelAnimationFrame(snake.raf);
+    if (snake.alive) {
+      snake.alive = false;
+      snake.wasBest = recordSnakeBest(); /* early exit still keeps a record run */
+    }
   }
   function endSnake(reason) {
     stopSnake();
     if (reason.indexOf("💥") === 0) sfx.crash(); else sfx.fanfare();
-    var isBest = state.best.snake === null || snake.score > state.best.snake;
-    if (isBest) state.best.snake = snake.score;
     $("snakeOverHead").textContent = reason + " 🍎 " + snake.score;
-    $("snakeOverSub").textContent = (isBest && snake.score > 0 ? "🏆 New high score! " : "High score: 🍎 " + state.best.snake + ". ") + questReminder();
+    $("snakeOverSub").textContent = (snake.wasBest ? "🏆 New high score! " : "High score: 🍎 " + (state.best.snake === null ? 0 : state.best.snake) + ". ") + questReminder();
     $("snakeOver").classList.add("show");
   }
 
@@ -1129,7 +1199,9 @@
   /* debug hook for automated checks */
   window.__MQ = {
     state: state,
-    gen: function (t) { return GENS[t](); },
+    snake: snake,
+    tier: tier,
+    gen: function (t, lv) { return GENS[t](lv || 2); },
     simp: simp
   };
 
