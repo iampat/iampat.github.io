@@ -433,7 +433,6 @@
   /* ---------- fraction helpers ---------- */
   function gcd(a, b) { while (b) { var t = b; b = a % b; a = t; } return a; }
   function simp(n, d) { var g = gcd(n, d); return [n / g, d / g]; }
-  function key(n, d) { var s = simp(n, d); return "f" + s[0] + "/" + s[1]; }
   function stackHTML(n, d) {
     return '<span class="frac"><span class="top">' + n + '</span><span class="bot">' + d + "</span></span>";
   }
@@ -496,11 +495,11 @@
       118
     );
   }
-  function diagMult(k, a, b) {
-    var out = "", r = 34, gap = SVG_W / k;
-    for (var i = 0; i < k; i++) out += pizzaSVG(gap * i + gap / 2, 58, r, b, a);
-    out += label(SVG_W / 2, 122, k + " pizzas, each showing " + a + "/" + b, 15, "#6B7A94");
-    return svgWrap(out, 134);
+  function diagPizzas(count, num, den, caption) {
+    var out = "", r = count > 1 ? 34 : 48, gap = SVG_W / count;
+    for (var i = 0; i < count; i++) out += pizzaSVG(gap * i + gap / 2, count > 1 ? 58 : 66, r, den, num);
+    if (caption) out += label(SVG_W / 2, 122, caption, 15, "#6B7A94");
+    return svgWrap(out, count > 1 ? 134 : 128);
   }
   function diagDiv(a, b, k) {
     var out = pizzaSVG(80, 62, 42, b, a);
@@ -604,9 +603,147 @@
     }
   };
 
-  /* ---------- question generators ---------- */
-  function opt(html, k, correct) { return { html: html, key: k, correct: !!correct }; }
-  function buildAnswers(correct, cands) {
+  /* ============================================================
+     QUESTION ENGINE — renders questions from the pure-data bank.
+
+     A bank entry is JSON (no functions):
+       id/topic/lesson  identity, tab grouping, linked lesson
+       unit             display unit for number answers (e.g. cm²)
+       fillerStep       step for backup wrong answers (default 2)
+       params   sampled values: {"pick": LIST | {"1":LIST,"2":..,"3":..}}
+                or {"range": [lo,hi] | {"1":[lo,hi],..}} — lo/hi may be
+                expressions over earlier params; tiers 1..3 = difficulty
+       derive   computed values, evaluated in order
+       require  constraint expressions; sample is rejected until all true
+       text     question HTML template
+       diagram  {"type": builderName, ...props} — props are expressions,
+                except the builder's declared literals (text templates)
+       answer   {"fraction":[numExpr,denExpr]} or {"number": expr}
+       distractors  same, plus "raw" (show unsimplified) and
+                "when" (include only if truthy)
+       explain  string or segments; a segment is a string or {when, text}
+
+     Template tokens: {expr} integer · {stack:n:d} stacked fraction
+     · {tidy:n:d} simplified/mixed · {mixtext:n:d} plain words.
+     Expressions: ints, params, + - * / % ( ), comparisons, || &&,
+     gcd/min/max/abs/floor/round. Parsed by the evaluator below —
+     never eval() — so bank entries stay inert data.
+     ============================================================ */
+  var EXPR_FNS = {
+    gcd: gcd, min: Math.min, max: Math.max, abs: Math.abs,
+    floor: Math.floor, round: Math.round
+  };
+  function evalExpr(src, scope) {
+    var pos = 0;
+    function ws() { while (src.charAt(pos) === " ") pos++; }
+    function eat(tok) {
+      ws();
+      if (src.substr(pos, tok.length) === tok) { pos += tok.length; return true; }
+      return false;
+    }
+    function fail(msg) { throw new Error("expr '" + src + "': " + msg); }
+    function or_() {
+      var v = and_();
+      while (eat("||")) { var r = and_(); v = (v !== 0 || r !== 0) ? 1 : 0; }
+      return v;
+    }
+    function and_() {
+      var v = cmp();
+      while (eat("&&")) { var r = cmp(); v = (v !== 0 && r !== 0) ? 1 : 0; }
+      return v;
+    }
+    function cmp() {
+      var v = add(), ops = ["==", "!=", "<=", ">=", "<", ">"];
+      for (var i = 0; i < ops.length; i++) {
+        if (eat(ops[i])) {
+          var r = add();
+          switch (ops[i]) {
+            case "==": return v === r ? 1 : 0;
+            case "!=": return v !== r ? 1 : 0;
+            case "<=": return v <= r ? 1 : 0;
+            case ">=": return v >= r ? 1 : 0;
+            case "<": return v < r ? 1 : 0;
+            default: return v > r ? 1 : 0;
+          }
+        }
+      }
+      return v;
+    }
+    function add() {
+      var v = mul();
+      for (;;) {
+        if (eat("+")) v += mul();
+        else { ws(); if (src.charAt(pos) === "-") { pos++; v -= mul(); } else return v; }
+      }
+    }
+    function mul() {
+      var v = unary();
+      for (;;) {
+        if (eat("*")) v *= unary();
+        else if (eat("/")) v /= unary();
+        else if (eat("%")) v %= unary();
+        else return v;
+      }
+    }
+    function unary() { return eat("-") ? -unary() : primary(); }
+    function primary() {
+      ws();
+      var ch = src.charAt(pos);
+      if (ch === "(") { pos++; var v = or_(); if (!eat(")")) fail("missing )"); return v; }
+      if (ch >= "0" && ch <= "9") {
+        var m = /^[0-9]+(\.[0-9]+)?/.exec(src.slice(pos));
+        pos += m[0].length;
+        return parseFloat(m[0]);
+      }
+      var im = /^[A-Za-z_][A-Za-z0-9_]*/.exec(src.slice(pos));
+      if (!im) fail("unexpected '" + ch + "'");
+      pos += im[0].length;
+      var name = im[0];
+      if (eat("(")) {
+        var fn = EXPR_FNS[name];
+        if (!fn) fail("unknown function " + name);
+        var args = [];
+        if (!eat(")")) {
+          do { args.push(or_()); } while (eat(","));
+          if (!eat(")")) fail("missing )");
+        }
+        return fn.apply(null, args);
+      }
+      if (!(name in scope)) fail("unknown name " + name);
+      return scope[name];
+    }
+    var out = or_();
+    ws();
+    if (pos < src.length) fail("trailing input");
+    return out;
+  }
+  function evalNum(x, scope) { return typeof x === "number" ? x : Math.round(evalExpr(String(x), scope)); }
+
+  var TOKEN_RE = /\{(stack|tidy|mixtext):([^:}]+):([^}]+)\}|\{([^{}]+)\}/g;
+  function interp(tpl, scope) {
+    return String(tpl).replace(TOKEN_RE, function (m, f, e1, e2, e) {
+      if (f) {
+        var n = evalNum(e1, scope), d = evalNum(e2, scope);
+        if (f === "stack") return stackHTML(n, d);
+        if (f === "mixtext") return fracText(n, d);
+        var s = simp(n, d);
+        return fracHTML(s[0], s[1]);
+      }
+      return String(evalNum(e, scope));
+    });
+  }
+
+  function fracOpt(nExpr, dExpr, scope, correct, raw) {
+    var n = evalNum(nExpr, scope), d = evalNum(dExpr, scope);
+    var rawKey = "raw" + n + "/" + d;
+    if (!raw) { var s = simp(n, d); n = s[0]; d = s[1]; }
+    return { html: fracHTML(n, d, raw), key: raw ? rawKey : "f" + n + "/" + d, correct: !!correct, n: n, d: d };
+  }
+  function numOpt(expr, scope, unit, correct) {
+    var v = evalNum(expr, scope);
+    return { html: "<b>" + v + "</b>" + (unit ? " " + unit : ""), key: "n" + v, correct: !!correct, v: v };
+  }
+  function buildAnswers(correct, cands, filler) {
     var out = [correct], used = {}, shown = {};
     used[correct.key] = 1; shown[correct.html] = 1;
     function add(c) {
@@ -615,163 +752,258 @@
     }
     for (var i = 0; i < cands.length && out.length < 4; i++) add(cands[i]);
     var guard = 0;
-    while (out.length < 4 && guard++ < 60) add(correct.filler(guard));
+    while (out.length < 4 && guard++ < 60) add(filler(guard));
     return shuffle(out);
   }
-  function fOpt(n, d, correct, raw) {
-    if (!raw) { var s = simp(n, d); n = s[0]; d = s[1]; }
-    return opt(fracHTML(n, d, raw), raw ? "raw" + n + "/" + d : key(n, d), correct);
-  }
-  function nOpt(v, correct) { return opt("<b>" + v + "</b> cm²", "n" + v, correct); }
 
-  /* lv 1..3: numbers grow as the player racks up correct answers */
-  function genAddSub(lv) {
-    var dens = lv === 1 ? [2, 3, 4, 6] : lv === 2 ? [2, 3, 4, 5, 6, 8, 10, 12] : [3, 4, 5, 6, 8, 9, 10, 12];
-    var b, d, a, c, op, n, den;
-    do {
-      b = pick(dens); d = pick(dens);
-      a = ri(1, b - 1); c = ri(1, d - 1);
-      op = pick(["+", "−"]);
-      den = b * d;
-      n = op === "+" ? a * d + c * b : a * d - c * b;
-    } while (b === d || n <= 0 || key(a, b) === key(c, d));
-    var s = simp(n, den);
-    var correct = fOpt(s[0], s[1], true);
-    correct.filler = function (g) { var nn = s[0] + (g % 2 ? g : -g); return nn > 0 ? fOpt(nn, s[1] + (g > 6 ? 1 : 0)) : null; };
-    var cands = [];
-    if (op === "+") {
-      cands.push(fOpt(a + c, b + d, false, true));                         /* added tops and bottoms */
-    } else {
-      var mn = Math.abs(a - c) || 1, md = Math.abs(b - d) || 1;
-      if (key(mn, md) !== key(n, den)) cands.push(fOpt(mn, md, false, true));
+  function tieredSpec(v, tier) { return Array.isArray(v) ? v : v[String(tier)]; }
+  function sampleParams(tpl, tier) {
+    for (var attempt = 0; attempt < 60; attempt++) {
+      var scope = {}, base = {}, k;
+      for (k in tpl.params) {
+        var spec = tpl.params[k];
+        if (spec.pick) scope[k] = pick(tieredSpec(spec.pick, tier));
+        else {
+          var r = tieredSpec(spec.range, tier);
+          scope[k] = ri(evalNum(r[0], scope), evalNum(r[1], scope));
+        }
+      }
+      for (k in scope) base[k] = scope[k];
+      for (k in (tpl.derive || {})) scope[k] = evalNum(tpl.derive[k], scope);
+      var ok = (tpl.require || []).every(function (r) { return evalExpr(r, scope) !== 0; });
+      if (ok) return { scope: scope, base: base };
     }
-    if (s[0] !== n) cands.push(fOpt(n, den, false, true));                 /* forgot simplest form */
-    cands.push(fOpt(n > b ? n - b : n + b, den));                          /* small numerator slip */
-    var alt = op === "+" ? a * d - c * b : a * d + c * b;                  /* did the other operation */
-    if (alt > 0) cands.push(fOpt(alt, den));
-    var simpNote = s[0] !== n ? " " + n + "⁄" + den + " is the same amount, but simplest form is " + fracText(s[0], s[1]) + "." : "";
+    throw new Error("template " + tpl.id + ": constraints never satisfied");
+  }
+  function buildOpt(spec, scope, tpl, correct) {
+    if (spec.fraction) return fracOpt(spec.fraction[0], spec.fraction[1], scope, correct, !!spec.raw);
+    return numOpt(spec.number, scope, tpl.unit, correct);
+  }
+  function genQuestion(tpl, tier) {
+    var s = sampleParams(tpl, tier), scope = s.scope;
+    var correct = buildOpt(tpl.answer, scope, tpl, true);
+    var cands = [];
+    (tpl.distractors || []).forEach(function (d) {
+      if (d.when && evalExpr(d.when, scope) === 0) return;
+      cands.push(buildOpt(d, scope, tpl, false));
+    });
+    var step = tpl.fillerStep || 2;
+    var filler = tpl.answer.fraction
+      ? function (g) {
+          var nn = correct.n + (g % 2 ? g : -g);
+          return nn > 0 ? fracOpt(nn, correct.d + (g > 6 ? 1 : 0), scope, false, false) : null;
+        }
+      : function (g) { return numOpt(correct.v + g * step, scope, tpl.unit, false); };
+    var svg = "";
+    if (tpl.diagram) {
+      var reg = DIAGRAMS[tpl.diagram.type];
+      var props = {};
+      (reg.props || []).forEach(function (p) { props[p] = evalNum(tpl.diagram[p], scope); });
+      (reg.lits || []).forEach(function (p) { props[p] = interp(tpl.diagram[p] == null ? "" : tpl.diagram[p], scope); });
+      svg = reg.fn(props);
+    }
+    var segs = Array.isArray(tpl.explain) ? tpl.explain : [tpl.explain];
+    var explain = "";
+    segs.forEach(function (seg) {
+      if (typeof seg === "string") explain += interp(seg, scope);
+      else if (!seg.when || evalExpr(seg.when, scope) !== 0) explain += interp(seg.text, scope);
+    });
     return {
-      type: "addsub", lesson: "addsub",
-      text: "What is " + fracHTML(a, b, true) + " " + op + " " + fracHTML(c, d, true) + "? Give the answer in simplest form.",
-      diagram: diagAddSub(a, b, c, d, op),
-      answers: buildAnswers(correct, cands),
-      explain: "Re-cut both into " + den + "ths: " + (a * d) + "⁄" + den + " " + op + " " + (c * b) + "⁄" + den + " = " + n + "⁄" + den + "." + simpNote,
-      params: { a: a, b: b, c: c, d: d, op: op }
+      type: tpl.id, lesson: tpl.lesson,
+      text: interp(tpl.text, scope),
+      diagram: svg,
+      answers: buildAnswers(correct, cands, filler),
+      explain: explain,
+      params: s.base
     };
   }
-  function genMult(lv) {
-    var k = lv === 1 ? ri(2, 3) : lv === 2 ? ri(2, 5) : ri(3, 8);
-    var b = pick(lv === 1 ? [2, 3, 4] : lv === 2 ? [2, 3, 4, 5, 6, 8] : [3, 4, 5, 6, 8, 10, 12]);
-    var a = ri(1, b - 1);
-    var n = k * a, s = simp(n, b);
-    var correct = fOpt(s[0], s[1], true);
-    correct.filler = function (g) { return fOpt(n + g, b + (g % 3)); };
-    var cands = [
-      fOpt(k * a, k * b, false, true),          /* multiplied top AND bottom */
-      fOpt(k * b + a, b),                        /* added k instead: k + a/b */
-      fOpt(k * a + 1, b)                         /* numerator off by one */
-    ];
-    return {
-      type: "mult", lesson: "mult",
-      text: "What is <b>" + k + "</b> × " + fracHTML(a, b, true) + "?",
-      diagram: diagMult(k, a, b),
-      answers: buildAnswers(correct, cands),
-      explain: k + " × " + a + "⁄" + b + " means " + a + "⁄" + b + " added " + k + " times: " + n + "⁄" + b +
-        (fracText(s[0], s[1]) !== n + "/" + b ? " = " + fracText(s[0], s[1]) : "") + ". Multiply the top, keep the bottom.",
-      params: { k: k, a: a, b: b }
-    };
-  }
-  function genDiv(lv) {
-    var b = pick(lv === 1 ? [2, 3, 4] : lv === 2 ? [2, 3, 4, 5, 6] : [3, 4, 5, 6, 8, 10]);
-    var a = ri(1, b - 1);
-    var k = lv === 1 ? ri(2, 3) : lv === 2 ? ri(2, 5) : ri(2, 6);
-    var s = simp(a, b * k);
-    var correct = fOpt(s[0], s[1], true);
-    correct.filler = function (g) { return fOpt(1, b * k + g); };
-    var cands = [
-      fOpt(a * k, b),                    /* multiplied instead */
-      fOpt(a, b, false, false),          /* forgot to divide */
-      fOpt(a, b + k)                     /* added to the bottom */
-    ];
-    return {
-      type: "div", lesson: "div",
-      text: "What is " + fracHTML(a, b, true) + " ÷ <b>" + k + "</b>?",
-      diagram: diagDiv(a, b, k),
-      answers: buildAnswers(correct, cands),
-      explain: "Sharing " + a + "⁄" + b + " between " + k + " makes each piece " + k + "× smaller — multiply the bottom: " +
-        a + "⁄" + (b * k) + (fracText(s[0], s[1]) !== a + "/" + (b * k) ? " = " + fracText(s[0], s[1]) : "") + ".",
-      params: { a: a, b: b, k: k }
-    };
-  }
-  function genTri(lv) {
-    var b = lv === 1 ? pick([4, 6, 8]) : lv === 2 ? ri(4, 12) : ri(6, 20);
-    var h = lv === 1 ? ri(3, 6) : lv === 2 ? ri(3, 9) : ri(4, 12);
-    if ((b * h) % 2) h++;
-    var area = b * h / 2;
-    var correct = nOpt(area, true);
-    correct.filler = function (g) { return nOpt(area + g * 2); };
-    var cands = [
-      nOpt(b * h),           /* forgot to halve */
-      nOpt(2 * (b + h)),     /* perimeter thinking */
-      nOpt(b + h)            /* added instead */
-    ];
-    return {
-      type: "tri", lesson: "tri",
-      text: 'What is the area of this triangle? <span class="sr">Base ' + b + " centimetres, height " + h + " centimetres.</span>",
-      diagram: diagTri(b, h),
-      answers: buildAnswers(correct, cands),
-      explain: "A triangle is half a rectangle: base × height ÷ 2 = " + b + " × " + h + " ÷ 2 = " + area + " cm².",
-      params: { b: b, h: h }
-    };
-  }
-  function genPara(lv) {
-    var b = lv === 1 ? ri(5, 8) : lv === 2 ? ri(6, 12) : ri(8, 20);
-    var h = lv === 1 ? ri(3, 5) : lv === 2 ? ri(4, 8) : ri(5, 12);
-    var s = h + ri(1, 3);
-    var area = b * h;
-    var correct = nOpt(area, true);
-    correct.filler = function (g) { return nOpt(area + g * 3); };
-    var cands = [
-      nOpt(b * s),                                  /* used the slanted side */
-      nOpt(area % 2 ? b + h + s : area / 2),        /* halved like a triangle (or added the sides) */
-      nOpt(2 * (b + s))                             /* perimeter thinking */
-    ];
-    return {
-      type: "para", lesson: "para",
-      text: 'What is the area of this parallelogram? <span class="sr">Base ' + b + " centimetres, height " + h + " centimetres, slanted side " + s + " centimetres.</span>",
-      diagram: diagPara(b, h, s),
-      answers: buildAnswers(correct, cands),
-      explain: "Base × height = " + b + " × " + h + " = " + area + " cm². Careful — the " + s + " cm slanted side is not the height!",
-      params: { b: b, h: h, s: s }
-    };
-  }
-  function genComp(lv) {
-    var w = pick(lv === 1 ? [6, 8] : lv === 2 ? [6, 8, 10, 12] : [10, 12, 14, 16]);
-    var h1 = lv === 1 ? ri(3, 5) : lv === 2 ? ri(3, 6) : ri(4, 8);
-    var h2 = lv === 1 ? ri(2, 4) : lv === 2 ? ri(2, 5) : ri(3, 6);
-    var box = w * h1, roof = w * h2 / 2, area = box + roof;
-    var correct = nOpt(area, true);
-    correct.filler = function (g) { return nOpt(area + g * 2); };
-    var cands = [
-      nOpt(box),                     /* box only, forgot the roof */
-      nOpt(w * (h1 + h2)),           /* forgot to halve the roof */
-      nOpt(box / 2 + roof)           /* halved the box too */
-    ];
-    return {
-      type: "comp", lesson: "comp",
-      text: 'What is the area of this house shape? <span class="sr">A rectangle ' + w + " centimetres wide and " + h1 + " centimetres tall, with a triangle roof " + h2 + " centimetres tall on top.</span>",
-      diagram: diagHouse(w, h1, h2, false),
-      answers: buildAnswers(correct, cands),
-      explain: "Box: " + w + " × " + h1 + " = " + box + ". Roof: " + w + " × " + h2 + " ÷ 2 = " + roof + ". Together: " + box + " + " + roof + " = " + area + " cm².",
-      params: { w: w, h1: h1, h2: h2 }
-    };
-  }
-  var GENS = { addsub: genAddSub, mult: genMult, div: genDiv, tri: genTri, para: genPara, comp: genComp };
-  var TOPIC_TYPES = {
-    mixed: ["addsub", "mult", "div", "tri", "para", "comp"],
-    fractions: ["addsub", "mult", "div"],
-    shapes: ["tri", "para", "comp"]
+
+  /* the visual vocabulary bank entries can draw with */
+  var DIAGRAMS = {
+    fracBars: { props: ["a", "b", "c", "d"], lits: ["op"], fn: function (p) { return diagAddSub(p.a, p.b, p.c, p.d, p.op); } },
+    pizzas: { props: ["count", "num", "den"], lits: ["caption"], fn: function (p) { return diagPizzas(p.count, p.num, p.den, p.caption); } },
+    pizzaShare: { props: ["num", "den", "people"], fn: function (p) { return diagDiv(p.num, p.den, p.people); } },
+    triangle: { props: ["base", "height"], fn: function (p) { return diagTri(p.base, p.height); } },
+    parallelogram: { props: ["base", "height", "side"], fn: function (p) { return diagPara(p.base, p.height, p.side); } },
+    house: { props: ["width", "wall", "roof"], fn: function (p) { return diagHouse(p.width, p.wall, p.roof, false); } }
   };
+
+  /* ---------- THE QUESTION BANK (pure data) ---------- */
+  var QUESTION_BANK = [
+    {
+      id: "fracAdd", topic: "fractions", lesson: "addsub",
+      params: {
+        b: { pick: { "1": [2, 3, 4, 6], "2": [2, 3, 4, 5, 6, 8, 10, 12], "3": [3, 4, 5, 6, 8, 9, 10, 12] } },
+        d: { pick: { "1": [2, 3, 4, 6], "2": [2, 3, 4, 5, 6, 8, 10, 12], "3": [3, 4, 5, 6, 8, 9, 10, 12] } },
+        a: { range: [1, "b - 1"] },
+        c: { range: [1, "d - 1"] }
+      },
+      derive: { den: "b * d", n: "a*d + c*b", g: "gcd(n, den)", sn: "n / g", sd: "den / g" },
+      require: ["b != d", "a * d != c * b"],
+      text: "What is {stack:a:b} + {stack:c:d}? Give the answer in simplest form.",
+      diagram: { type: "fracBars", a: "a", b: "b", c: "c", d: "d", op: "+" },
+      answer: { fraction: ["sn", "sd"] },
+      distractors: [
+        { fraction: ["a + c", "b + d"], raw: true },
+        { fraction: ["n", "den"], raw: true, when: "sn != n" },
+        { fraction: ["n - b", "den"], when: "n > b" },
+        { fraction: ["n + b", "den"], when: "n <= b" },
+        { fraction: ["a*d - c*b", "den"], when: "a*d - c*b > 0" }
+      ],
+      explain: [
+        "Re-cut both into {den}ths: {a*d}⁄{den} + {c*b}⁄{den} = {n}⁄{den}.",
+        { when: "sn != n", text: " {n}⁄{den} is the same amount, but simplest form is {mixtext:sn:sd}." }
+      ]
+    },
+    {
+      id: "fracSub", topic: "fractions", lesson: "addsub",
+      params: {
+        b: { pick: { "1": [2, 3, 4, 6], "2": [2, 3, 4, 5, 6, 8, 10, 12], "3": [3, 4, 5, 6, 8, 9, 10, 12] } },
+        d: { pick: { "1": [2, 3, 4, 6], "2": [2, 3, 4, 5, 6, 8, 10, 12], "3": [3, 4, 5, 6, 8, 9, 10, 12] } },
+        a: { range: [1, "b - 1"] },
+        c: { range: [1, "d - 1"] }
+      },
+      derive: { den: "b * d", n: "a*d - c*b", g: "gcd(n, den)", sn: "n / g", sd: "den / g" },
+      require: ["b != d", "a*d - c*b > 0"],
+      text: "What is {stack:a:b} − {stack:c:d}? Give the answer in simplest form.",
+      diagram: { type: "fracBars", a: "a", b: "b", c: "c", d: "d", op: "−" },
+      answer: { fraction: ["sn", "sd"] },
+      distractors: [
+        { fraction: ["max(1, abs(a - c))", "abs(b - d)"], raw: true, when: "max(1, abs(a - c)) * sd != sn * abs(b - d)" },
+        { fraction: ["n", "den"], raw: true, when: "sn != n" },
+        { fraction: ["n - b", "den"], when: "n > b" },
+        { fraction: ["n + b", "den"], when: "n <= b" },
+        { fraction: ["a*d + c*b", "den"] }
+      ],
+      explain: [
+        "Re-cut both into {den}ths: {a*d}⁄{den} − {c*b}⁄{den} = {n}⁄{den}.",
+        { when: "sn != n", text: " {n}⁄{den} is the same amount, but simplest form is {mixtext:sn:sd}." }
+      ]
+    },
+    {
+      id: "mult", topic: "fractions", lesson: "mult",
+      params: {
+        k: { range: { "1": [2, 3], "2": [2, 5], "3": [3, 8] } },
+        b: { pick: { "1": [2, 3, 4], "2": [2, 3, 4, 5, 6, 8], "3": [3, 4, 5, 6, 8, 10, 12] } },
+        a: { range: [1, "b - 1"] }
+      },
+      derive: { n: "k * a", g: "gcd(n, b)", sn: "n / g", sd: "b / g" },
+      text: "What is <b>{k}</b> × {stack:a:b}?",
+      diagram: { type: "pizzas", count: "k", num: "a", den: "b", caption: "{k} pizzas, each showing {a}/{b}" },
+      answer: { fraction: ["sn", "sd"] },
+      distractors: [
+        { fraction: ["k * a", "k * b"], raw: true },
+        { fraction: ["k * b + a", "b"] },
+        { fraction: ["k * a + 1", "b"] }
+      ],
+      explain: [
+        "{k} × {a}⁄{b} means {a}⁄{b} added {k} times: {n}⁄{b}",
+        { when: "g != 1 || n >= b", text: " = {mixtext:sn:sd}" },
+        ". Multiply the top, keep the bottom."
+      ]
+    },
+    {
+      id: "div", topic: "fractions", lesson: "div",
+      params: {
+        b: { pick: { "1": [2, 3, 4], "2": [2, 3, 4, 5, 6], "3": [3, 4, 5, 6, 8, 10] } },
+        a: { range: [1, "b - 1"] },
+        k: { range: { "1": [2, 3], "2": [2, 5], "3": [2, 6] } }
+      },
+      derive: { bk: "b * k", g: "gcd(a, bk)", sn: "a / g", sd: "bk / g" },
+      text: "What is {stack:a:b} ÷ <b>{k}</b>?",
+      diagram: { type: "pizzaShare", num: "a", den: "b", people: "k" },
+      answer: { fraction: ["sn", "sd"] },
+      distractors: [
+        { fraction: ["a * k", "b"] },
+        { fraction: ["a", "b"] },
+        { fraction: ["a", "b + k"] }
+      ],
+      explain: [
+        "Sharing {a}⁄{b} between {k} makes each piece {k}× smaller — multiply the bottom: {a}⁄{bk}",
+        { when: "g != 1", text: " = {mixtext:sn:sd}" },
+        "."
+      ]
+    },
+    {
+      id: "shade", topic: "fractions", lesson: "addsub",
+      params: {
+        b: { pick: { "1": [2, 3, 4], "2": [3, 4, 5, 6, 8], "3": [5, 6, 7, 8, 9, 10, 12] } },
+        a: { range: [1, "b - 1"] }
+      },
+      require: ["gcd(a, b) == 1"],
+      text: "What fraction of the pizza is shaded?",
+      diagram: { type: "pizzas", count: 1, num: "a", den: "b", caption: "" },
+      answer: { fraction: ["a", "b"] },
+      distractors: [
+        { fraction: ["b - a", "b"], when: "b - a != a" },
+        { fraction: ["b", "a"], raw: true },
+        { fraction: ["a", "b + 1"] }
+      ],
+      explain: "The pizza is cut into {b} equal pieces and {a} of them are shaded, so {a}⁄{b} is shaded. The bottom number counts all the pieces; the top counts the shaded ones."
+    },
+    {
+      id: "tri", topic: "shapes", lesson: "tri", unit: "cm²",
+      params: {
+        b: { pick: { "1": [4, 6, 8], "2": [4, 5, 6, 7, 8, 9, 10, 11, 12], "3": [6, 8, 10, 12, 14, 16, 18, 20] } },
+        h: { range: { "1": [3, 6], "2": [3, 9], "3": [4, 12] } }
+      },
+      derive: { area: "b * h / 2" },
+      require: ["(b * h) % 2 == 0"],
+      text: "What is the area of this triangle? <span class=\"sr\">Base {b} centimetres, height {h} centimetres.</span>",
+      diagram: { type: "triangle", base: "b", height: "h" },
+      answer: { number: "area" },
+      distractors: [
+        { number: "b * h" },
+        { number: "2 * (b + h)" },
+        { number: "b + h" }
+      ],
+      explain: "A triangle is half a rectangle: base × height ÷ 2 = {b} × {h} ÷ 2 = {area} cm²."
+    },
+    {
+      id: "para", topic: "shapes", lesson: "para", unit: "cm²", fillerStep: 3,
+      params: {
+        b: { range: { "1": [5, 8], "2": [6, 12], "3": [8, 20] } },
+        h: { range: { "1": [3, 5], "2": [4, 8], "3": [5, 12] } },
+        ds: { range: [1, 3] }
+      },
+      derive: { s: "h + ds", area: "b * h" },
+      text: "What is the area of this parallelogram? <span class=\"sr\">Base {b} centimetres, height {h} centimetres, slanted side {s} centimetres.</span>",
+      diagram: { type: "parallelogram", base: "b", height: "h", side: "s" },
+      answer: { number: "area" },
+      distractors: [
+        { number: "b * s" },
+        { number: "area / 2", when: "area % 2 == 0" },
+        { number: "b + h + s", when: "area % 2 == 1" },
+        { number: "2 * (b + s)" }
+      ],
+      explain: "Base × height = {b} × {h} = {area} cm². Careful — the {s} cm slanted side is not the height!"
+    },
+    {
+      id: "comp", topic: "shapes", lesson: "comp", unit: "cm²",
+      params: {
+        w: { pick: { "1": [6, 8], "2": [6, 8, 10, 12], "3": [10, 12, 14, 16] } },
+        h1: { range: { "1": [3, 5], "2": [3, 6], "3": [4, 8] } },
+        h2: { range: { "1": [2, 4], "2": [2, 5], "3": [3, 6] } }
+      },
+      derive: { box: "w * h1", roof: "w * h2 / 2", area: "box + roof" },
+      text: "What is the area of this house shape? <span class=\"sr\">A rectangle {w} centimetres wide and {h1} centimetres tall, with a triangle roof {h2} centimetres tall on top.</span>",
+      diagram: { type: "house", width: "w", wall: "h1", roof: "h2" },
+      answer: { number: "area" },
+      distractors: [
+        { number: "box" },
+        { number: "w * (h1 + h2)" },
+        { number: "box / 2 + roof" }
+      ],
+      explain: "Box: {w} × {h1} = {box}. Roof: {w} × {h2} ÷ 2 = {roof}. Together: {box} + {roof} = {area} cm²."
+    }
+  ];
+  var BANK_BY_ID = {};
+  var TOPIC_TYPES = { mixed: [], fractions: [], shapes: [] };
+  QUESTION_BANK.forEach(function (t) {
+    BANK_BY_ID[t.id] = t;
+    TOPIC_TYPES.mixed.push(t.id);
+    TOPIC_TYPES[t.topic].push(t.id);
+  });
 
   /* ---------- quest state ---------- */
   var state = {
@@ -827,7 +1059,7 @@
     state.lastType = t;
     var sig, tries = 0;
     do {
-      state.q = GENS[t](tier());
+      state.q = genQuestion(BANK_BY_ID[t], tier());
       sig = t + JSON.stringify(state.q.params);
     } while (state.recent.indexOf(sig) !== -1 && ++tries < 10);
     state.recent.push(sig);
@@ -1276,7 +1508,8 @@
     snake: snake,
     soccer: soccer,
     tier: tier,
-    gen: function (t, lv) { return GENS[t](lv || 2); },
+    gen: function (t, lv) { return genQuestion(BANK_BY_ID[t], lv || 2); },
+    bank: QUESTION_BANK,
     simp: simp
   };
 
