@@ -1,0 +1,1140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Math Quest: Grade 6 Academy</title>
+<style>
+  :root {
+    --bg: #EDF3FC;
+    --card: #FFFFFF;
+    --ink: #22304A;
+    --muted: #6B7A94;
+    --purple: #6C4FE0;
+    --orange: #FF9F1C;
+    --green: #23B26D;
+    --red: #F45B69;
+    --line: #DCE5F2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    min-height: 100dvh;
+  }
+  button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    border: none;
+    background: none;
+  }
+  main {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 10px 12px 20px;
+  }
+
+  /* header + HUD */
+  header { display: flex; align-items: center; gap: 8px; padding: 4px 2px 8px; }
+  header h1 { font-size: 20px; font-weight: 800; flex: 1; }
+  #muteBtn {
+    font-size: 20px; width: 42px; height: 42px;
+    background: var(--card); border-radius: 12px; border: 2px solid var(--line);
+  }
+  .hud {
+    background: var(--card); border-radius: 16px; border: 2px solid var(--line);
+    padding: 10px 12px; display: flex; align-items: center; gap: 10px;
+  }
+  #rankChip {
+    background: var(--purple); color: #fff; font-weight: 800; font-size: 13px;
+    padding: 6px 10px; border-radius: 999px; white-space: nowrap;
+  }
+  .xpwrap { flex: 1; min-width: 0; }
+  .xpbar { height: 12px; background: var(--line); border-radius: 999px; overflow: hidden; }
+  #xpFill { height: 100%; width: 0%; background: var(--orange); border-radius: 999px; transition: width 0.4s; }
+  #xpText { font-size: 11px; color: var(--muted); margin-top: 3px; font-weight: 600; }
+  #streakChip { font-weight: 800; font-size: 15px; white-space: nowrap; }
+
+  /* tabs */
+  .tabs { display: flex; gap: 6px; margin: 10px 0; }
+  .tab {
+    flex: 1; padding: 10px 0; border-radius: 12px; font-weight: 800; font-size: 14px;
+    background: var(--card); border: 2px solid var(--line); color: var(--muted);
+  }
+  .tab[aria-selected="true"] { background: var(--purple); border-color: var(--purple); color: #fff; }
+
+  /* question card */
+  .qcard {
+    background: var(--card); border: 2px solid var(--line); border-radius: 20px;
+    padding: 14px;
+  }
+  #diagram svg { width: 100%; height: auto; display: block; }
+  #qtext { font-size: 18px; font-weight: 700; margin: 10px 2px; line-height: 1.45; }
+  #answers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ans {
+    min-height: 60px; border-radius: 14px; border: 2px solid var(--line);
+    background: #F7FAFF; font-size: 20px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 8px;
+  }
+  .ans:not(:disabled):active { transform: scale(0.96); }
+  .ans.correct { background: #E4F8EE; border-color: var(--green); }
+  .ans.wrong { background: #FDE9EB; border-color: var(--red); }
+  .ans .mark { font-size: 18px; }
+  #feedback {
+    margin-top: 10px; border-radius: 14px; padding: 10px 12px;
+    font-size: 15px; font-weight: 600; line-height: 1.5; display: none;
+  }
+  #feedback.good { display: block; background: #E4F8EE; color: #14663C; }
+  #feedback.bad { display: block; background: #FDE9EB; color: #8C2430; }
+
+  /* fractions */
+  .frac { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; margin: 0 2px; line-height: 1.1; }
+  .frac .top { border-bottom: 2px solid currentColor; padding: 0 5px 1px; }
+  .frac .bot { padding: 1px 5px 0; }
+  .mixed { display: inline-flex; align-items: center; gap: 3px; }
+
+  /* footer buttons */
+  .actions { display: flex; gap: 8px; margin-top: 10px; }
+  .actions button {
+    flex: 1; padding: 12px 0; border-radius: 14px; font-weight: 800; font-size: 15px;
+  }
+  #teachBtn { background: #FFF1DC; border: 2px solid var(--orange); color: #8A5200; }
+  #skipBtn { background: var(--card); border: 2px solid var(--line); color: var(--muted); }
+  #prizeMeter { text-align: center; color: var(--muted); font-size: 13px; font-weight: 700; margin-top: 10px; }
+  #prizeMeter .dots { letter-spacing: 4px; font-size: 15px; }
+
+  /* overlays */
+  .overlay {
+    position: fixed; inset: 0; background: rgba(24, 32, 52, 0.55);
+    display: none; align-items: flex-end; justify-content: center; z-index: 10;
+    padding: 0;
+  }
+  .overlay.open { display: flex; }
+  .sheet {
+    background: var(--card); width: 100%; max-width: 480px;
+    border-radius: 22px 22px 0 0; padding: 16px 16px calc(16px + env(safe-area-inset-bottom));
+    max-height: 92dvh; overflow-y: auto;
+  }
+  @media (min-width: 500px) {
+    .overlay { align-items: center; padding: 20px; }
+    .sheet { border-radius: 22px; }
+  }
+  .sheet h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+
+  /* lesson */
+  #lessonArt svg { width: 100%; height: auto; display: block; }
+  #lessonCaption { font-size: 17px; font-weight: 700; line-height: 1.5; min-height: 4.2em; margin: 10px 2px; }
+  .lessonNav { display: flex; gap: 8px; align-items: center; }
+  .lessonNav button {
+    padding: 12px 16px; border-radius: 14px; font-weight: 800; font-size: 16px;
+    background: #F1EDFD; border: 2px solid var(--purple); color: var(--purple);
+  }
+  .lessonNav button:disabled { opacity: 0.35; }
+  #lessonNext { flex: 1; background: var(--purple); color: #fff; }
+  #lessonDots { text-align: center; color: var(--muted); font-weight: 700; font-size: 13px; margin-top: 10px; }
+
+  /* prize */
+  #prizeSheet { text-align: center; }
+  #prizeSheet .big { font-size: 46px; }
+  #prizeSheet p { color: var(--muted); font-weight: 700; margin: 6px 0 14px; }
+  .gameCards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .gameCard {
+    border: 2px solid var(--line); border-radius: 16px; padding: 14px 8px;
+    background: #F7FAFF; display: flex; flex-direction: column; gap: 4px; align-items: center;
+  }
+  .gameCard .icon { font-size: 34px; }
+  .gameCard .name { font-weight: 800; font-size: 16px; }
+  .gameCard .best { font-size: 12px; color: var(--muted); font-weight: 700; }
+  .backLink { margin-top: 12px; color: var(--muted); font-weight: 800; padding: 10px; width: 100%; }
+
+  /* mini-game shared */
+  .gameTop { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .gameTop h2 { flex: 1; margin: 0; }
+  .gameTop .stat { font-weight: 800; font-size: 14px; color: var(--muted); }
+  .backBtn {
+    background: #F1EDFD; border: 2px solid var(--purple); color: var(--purple);
+    font-weight: 800; font-size: 13px; padding: 8px 12px; border-radius: 12px;
+  }
+  .gameOverBox {
+    text-align: center; padding: 14px; border: 2px solid var(--line);
+    border-radius: 16px; margin-top: 10px; display: none;
+  }
+  .gameOverBox.show { display: block; }
+  .gameOverBox .headline { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+  .gameOverBox .sub { color: var(--muted); font-weight: 700; font-size: 14px; margin-bottom: 10px; }
+  .bigBackBtn {
+    background: var(--purple); color: #fff; font-weight: 800; font-size: 16px;
+    padding: 12px 18px; border-radius: 14px; width: 100%;
+  }
+
+  /* snake */
+  #snakeCanvas {
+    width: 100%; max-width: 320px; margin: 0 auto; display: block;
+    background: #E7F6E9; border-radius: 14px; border: 2px solid var(--line);
+    touch-action: none;
+  }
+  .dpad { display: grid; grid-template-columns: repeat(3, 64px); justify-content: center; gap: 6px; margin-top: 10px; }
+  .dpad button {
+    height: 48px; border-radius: 12px; background: #F1EDFD; border: 2px solid var(--purple);
+    font-size: 20px; color: var(--purple);
+  }
+  .dpad .blank { visibility: hidden; }
+
+  /* mind master */
+  #mmRows { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; min-height: 40px; }
+  .mmRow { display: flex; align-items: center; gap: 10px; justify-content: center; font-size: 22px; }
+  .mmRow .pegs { font-size: 15px; letter-spacing: 2px; min-width: 76px; }
+  #mmSlots { display: flex; gap: 8px; justify-content: center; font-size: 30px; margin: 8px 0; }
+  #mmSlots span {
+    width: 46px; height: 46px; border: 2px dashed var(--line); border-radius: 50%;
+    display: grid; place-items: center;
+  }
+  #mmPalette { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  #mmPalette button { font-size: 30px; width: 48px; height: 48px; border-radius: 50%; background: #F7FAFF; border: 2px solid var(--line); }
+  #mmPalette button:active { transform: scale(0.9); }
+  .mmActions { display: flex; gap: 8px; margin-top: 10px; }
+  #mmDel { flex: 1; background: var(--card); border: 2px solid var(--line); color: var(--muted); font-weight: 800; padding: 12px; border-radius: 14px; }
+  #mmCheck { flex: 2; background: var(--purple); color: #fff; font-weight: 800; padding: 12px; border-radius: 14px; }
+  #mmCheck:disabled { opacity: 0.4; }
+  #mmHint { text-align: center; color: var(--muted); font-size: 13px; font-weight: 700; margin-top: 8px; }
+
+  /* confetti */
+  .confetti {
+    position: fixed; top: -30px; font-size: 24px; z-index: 30; pointer-events: none;
+    animation: fall 1.4s ease-in forwards;
+  }
+  @keyframes fall {
+    to { transform: translateY(105vh) rotate(360deg); opacity: 0.6; }
+  }
+  @keyframes wiggle {
+    0%,100% { transform: rotate(0); } 25% { transform: rotate(-3deg); } 75% { transform: rotate(3deg); }
+  }
+  .qcard.party { animation: wiggle 0.4s; }
+
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  :focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) {
+    .confetti, .qcard.party { animation: none; }
+    .ans:not(:disabled):active { transform: none; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>🎓 Math Quest</h1>
+    <button id="muteBtn" aria-label="Mute sounds" aria-pressed="false">🔊</button>
+  </header>
+
+  <div class="hud">
+    <span id="rankChip">Cadet</span>
+    <div class="xpwrap">
+      <div class="xpbar"><div id="xpFill"></div></div>
+      <div id="xpText">0 XP</div>
+    </div>
+    <span id="streakChip">🔥 0</span>
+  </div>
+
+  <div class="tabs" role="tablist" aria-label="Topic">
+    <button class="tab" role="tab" data-topic="mixed" aria-selected="true">🎲 Mixed</button>
+    <button class="tab" role="tab" data-topic="fractions" aria-selected="false">🍫 Fractions</button>
+    <button class="tab" role="tab" data-topic="shapes" aria-selected="false">📐 Shapes</button>
+  </div>
+
+  <div class="qcard" id="qcard">
+    <div id="diagram"></div>
+    <div id="qtext"></div>
+    <div id="answers"></div>
+    <div id="feedback"></div>
+  </div>
+
+  <div class="actions">
+    <button id="teachBtn">📖 Teach me this!</button>
+    <button id="skipBtn">⏭️ New question</button>
+  </div>
+  <div id="prizeMeter"></div>
+
+  <div class="sr" aria-live="polite" id="announcer"></div>
+</main>
+
+<!-- lesson overlay -->
+<div class="overlay" id="lessonOverlay" role="dialog" aria-modal="true" aria-label="Lesson">
+  <div class="sheet">
+    <h2 id="lessonTitle"></h2>
+    <div id="lessonArt"></div>
+    <div id="lessonCaption"></div>
+    <div class="lessonNav">
+      <button id="lessonPrev" aria-label="Previous step">⬅️</button>
+      <button id="lessonNext">Next ➡️</button>
+    </div>
+    <div id="lessonDots"></div>
+  </div>
+</div>
+
+<!-- prize overlay -->
+<div class="overlay" id="prizeOverlay" role="dialog" aria-modal="true" aria-label="Prize time">
+  <div class="sheet" id="prizeSheet">
+    <div class="big">🎁</div>
+    <h2>Prize time!</h2>
+    <p>Five more questions done — pick a game!</p>
+    <div class="gameCards">
+      <button class="gameCard" id="pickSnake">
+        <span class="icon">🐍</span>
+        <span class="name">Snake</span>
+        <span class="best" id="snakeBest">Best: —</span>
+      </button>
+      <button class="gameCard" id="pickMM">
+        <span class="icon">🕵️</span>
+        <span class="name">Mind Master</span>
+        <span class="best" id="mmBest">Best: —</span>
+      </button>
+    </div>
+    <button class="backLink" id="prizeSkip">No thanks, back to the quest</button>
+  </div>
+</div>
+
+<!-- snake overlay -->
+<div class="overlay" id="snakeOverlay" role="dialog" aria-modal="true" aria-label="Snake">
+  <div class="sheet">
+    <div class="gameTop">
+      <h2>🐍 Snake</h2>
+      <span class="stat" id="snakeStat">🍎 0 · ⏱ 45</span>
+      <button class="backBtn" data-close="snake">Back to the quest</button>
+    </div>
+    <canvas id="snakeCanvas" width="320" height="320"></canvas>
+    <div class="dpad">
+      <span class="blank"></span><button data-dir="up" aria-label="Up">⬆️</button><span class="blank"></span>
+      <button data-dir="left" aria-label="Left">⬅️</button><button data-dir="down" aria-label="Down">⬇️</button><button data-dir="right" aria-label="Right">➡️</button>
+    </div>
+    <div class="gameOverBox" id="snakeOver">
+      <div class="headline" id="snakeOverHead"></div>
+      <div class="sub" id="snakeOverSub"></div>
+      <button class="bigBackBtn" data-close="snake">Back to the quest 🚀</button>
+    </div>
+  </div>
+</div>
+
+<!-- mind master overlay -->
+<div class="overlay" id="mmOverlay" role="dialog" aria-modal="true" aria-label="Mind Master">
+  <div class="sheet">
+    <div class="gameTop">
+      <h2>🕵️ Mind Master</h2>
+      <span class="stat" id="mmStat">Try 1 of 8</span>
+      <button class="backBtn" data-close="mm">Back to the quest</button>
+    </div>
+    <div id="mmRows"></div>
+    <div id="mmSlots"><span></span><span></span><span></span><span></span></div>
+    <div id="mmPalette"></div>
+    <div class="mmActions">
+      <button id="mmDel">⌫</button>
+      <button id="mmCheck" disabled>Check!</button>
+    </div>
+    <div id="mmHint">Guess my secret 4 colours — all different! ⭐ = right colour, right spot · ⚪ = right colour, wrong spot</div>
+    <div class="gameOverBox" id="mmOver">
+      <div class="headline" id="mmOverHead"></div>
+      <div class="sub" id="mmOverSub"></div>
+      <button class="bigBackBtn" data-close="mm">Back to the quest 🚀</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var $ = function (id) { return document.getElementById(id); };
+  var reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function ri(lo, hi) { return lo + Math.floor(Math.random() * (hi - lo + 1)); }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function shuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
+  /* ---------- sound (all synthesized, kept mild) ---------- */
+  var audio = { ctx: null, master: null, muted: false };
+  function ac() {
+    if (!audio.ctx) {
+      var C = window.AudioContext || window.webkitAudioContext;
+      if (!C) return null;
+      audio.ctx = new C();
+      audio.master = audio.ctx.createGain();
+      audio.master.gain.value = 0.13; /* mild on purpose */
+      audio.master.connect(audio.ctx.destination);
+    }
+    if (audio.ctx.state === "suspended") audio.ctx.resume();
+    return audio.ctx;
+  }
+  function tone(type, f0, f1, t0, dur, vol) {
+    if (audio.muted) return;
+    var c = ac(); if (!c) return;
+    var o = c.createOscillator(), g = c.createGain();
+    var start = c.currentTime + t0;
+    o.type = type;
+    o.frequency.setValueAtTime(f0, start);
+    if (f1 !== f0) o.frequency.exponentialRampToValueAtTime(Math.max(1, f1), start + dur);
+    g.gain.setValueAtTime(0.0001, start);
+    g.gain.exponentialRampToValueAtTime(vol || 0.5, start + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+    o.connect(g); g.connect(audio.master);
+    o.start(start); o.stop(start + dur + 0.05);
+  }
+  function noise(t0, dur, cutoff, vol) {
+    if (audio.muted) return;
+    var c = ac(); if (!c) return;
+    var len = Math.floor(c.sampleRate * dur);
+    var buf = c.createBuffer(1, len, c.sampleRate);
+    var d = buf.getChannelData(0);
+    for (var i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
+    var src = c.createBufferSource(); src.buffer = buf;
+    var f = c.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = cutoff;
+    var g = c.createGain(); g.gain.value = vol || 0.4;
+    src.connect(f); f.connect(g); g.connect(audio.master);
+    src.start(c.currentTime + t0);
+  }
+  var sfx = {
+    fart: function () { tone("sawtooth", 95, 55, 0, 0.45, 0.7); tone("sawtooth", 70, 48, 0.06, 0.4, 0.5); noise(0, 0.35, 300, 0.35); },
+    boing: function () { tone("sine", 420, 130, 0, 0.12, 0.6); tone("sine", 130, 340, 0.12, 0.12, 0.5); tone("sine", 340, 170, 0.24, 0.18, 0.4); },
+    trombone: function () { [233, 220, 208, 185].forEach(function (f, i) { tone("sawtooth", f, f * 0.97, i * 0.22, 0.22, 0.4); }); },
+    whistle: function () { tone("sine", 1400, 350, 0, 0.5, 0.35); },
+    splat: function () { noise(0, 0.25, 500, 0.6); tone("sine", 160, 60, 0, 0.2, 0.5); },
+    honk: function () { tone("square", 233, 233, 0, 0.14, 0.35); tone("square", 220, 220, 0.18, 0.22, 0.35); },
+    coin: function () { tone("square", 988, 988, 0, 0.08, 0.3); tone("square", 1319, 1319, 0.08, 0.18, 0.3); },
+    sparkle: function () { [1047, 1319, 1568, 2093].forEach(function (f, i) { tone("sine", f, f, i * 0.06, 0.14, 0.25); }); },
+    fanfare: function () { [523, 659, 784].forEach(function (f, i) { tone("square", f, f, i * 0.09, 0.16, 0.25); }); tone("square", 1047, 1047, 0.3, 0.3, 0.3); },
+    cheer: function () { tone("sawtooth", 300, 900, 0, 0.4, 0.3); tone("sine", 600, 1200, 0.1, 0.35, 0.25); },
+    bigwin: function () { sfx.fanfare(); sfx.sparkle(); tone("sine", 1568, 2093, 0.45, 0.3, 0.25); },
+    blip: function () { tone("square", 660, 880, 0, 0.07, 0.25); },
+    crash: function () { tone("sawtooth", 220, 60, 0, 0.35, 0.4); noise(0, 0.3, 600, 0.4); }
+  };
+  var wrongSounds = ["fart", "fart", "fart", "boing", "trombone", "whistle", "splat", "honk"];
+  var rightSounds = ["coin", "sparkle", "fanfare", "cheer"];
+
+  $("muteBtn").addEventListener("click", function () {
+    audio.muted = !audio.muted;
+    this.textContent = audio.muted ? "🔇" : "🔊";
+    this.setAttribute("aria-pressed", String(audio.muted));
+    this.setAttribute("aria-label", audio.muted ? "Unmute sounds" : "Mute sounds");
+  });
+
+  /* ---------- fraction helpers ---------- */
+  function gcd(a, b) { while (b) { var t = b; b = a % b; a = t; } return a; }
+  function simp(n, d) { var g = gcd(n, d); return [n / g, d / g]; }
+  function key(n, d) { var s = simp(n, d); return "f" + s[0] + "/" + s[1]; }
+  function stackHTML(n, d) {
+    return '<span class="frac"><span class="top">' + n + '</span><span class="bot">' + d + "</span></span>";
+  }
+  function fracHTML(n, d, raw) {
+    if (d === 1) return "<b>" + n + "</b>";
+    if (raw) return stackHTML(n, d);
+    if (n % d === 0) return "<b>" + n / d + "</b>";
+    if (n > d) {
+      var w = Math.floor(n / d);
+      return '<span class="mixed"><b>' + w + "</b>" + stackHTML(n - w * d, d) + "</span>";
+    }
+    return stackHTML(n, d);
+  }
+  function fracText(n, d) {
+    if (d === 1) return String(n);
+    if (n % d === 0) return String(n / d);
+    if (n > d) return Math.floor(n / d) + " and " + (n % d) + "/" + d;
+    return n + "/" + d;
+  }
+
+  /* ---------- SVG builders ---------- */
+  var SVG_W = 320, SVG_H = 150;
+  function svgWrap(inner, h) {
+    return '<svg viewBox="0 0 ' + SVG_W + " " + (h || SVG_H) + '" role="img" aria-hidden="true">' + inner + "</svg>";
+  }
+  function barSVG(x, y, w, h, pieces, shaded, fill) {
+    var out = "", pw = w / pieces;
+    for (var i = 0; i < pieces; i++) {
+      out += '<rect x="' + (x + i * pw) + '" y="' + y + '" width="' + pw + '" height="' + h +
+        '" rx="3" fill="' + (i < shaded ? fill : "#F3EBE3") + '" stroke="#8A5A33" stroke-width="2"/>';
+    }
+    return out;
+  }
+  function label(x, y, text, size, color) {
+    return '<text x="' + x + '" y="' + y + '" font-size="' + (size || 15) + '" font-weight="700" fill="' +
+      (color || "#22304A") + '" text-anchor="middle" font-family="sans-serif">' + text + "</text>";
+  }
+  function pizzaSVG(cx, cy, r, den, num, fill) {
+    var out = '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="#FBE7C0" stroke="#C98A2D" stroke-width="3"/>';
+    for (var i = 0; i < den; i++) {
+      var a0 = (i / den) * 2 * Math.PI - Math.PI / 2;
+      var a1 = ((i + 1) / den) * 2 * Math.PI - Math.PI / 2;
+      var x0 = cx + r * Math.cos(a0), y0 = cy + r * Math.sin(a0);
+      var x1 = cx + r * Math.cos(a1), y1 = cy + r * Math.sin(a1);
+      if (i < num) {
+        out += '<path d="M' + cx + " " + cy + " L" + x0.toFixed(1) + " " + y0.toFixed(1) +
+          " A" + r + " " + r + " 0 0 1 " + x1.toFixed(1) + " " + y1.toFixed(1) +
+          ' Z" fill="' + (fill || "#F26B4E") + '" stroke="#C98A2D" stroke-width="2"/>';
+      } else if (den > 1) {
+        out += '<line x1="' + cx + '" y1="' + cy + '" x2="' + x0.toFixed(1) + '" y2="' + y0.toFixed(1) + '" stroke="#C98A2D" stroke-width="2"/>';
+      }
+    }
+    return out;
+  }
+  function diagAddSub(a, b, c, d, op) {
+    return svgWrap(
+      barSVG(18, 30, 120, 44, b, a, "#8B4A2F") + label(78, 100, a + "/" + b, 17) +
+      label(160, 60, op === "+" ? "+" : "−", 30, "#6C4FE0") +
+      barSVG(182, 30, 120, 44, d, c, "#8B4A2F") + label(242, 100, c + "/" + d, 17),
+      118
+    );
+  }
+  function diagMult(k, a, b) {
+    var out = "", r = 34, gap = SVG_W / k;
+    for (var i = 0; i < k; i++) out += pizzaSVG(gap * i + gap / 2, 58, r, b, a);
+    out += label(SVG_W / 2, 122, k + " pizzas, each showing " + a + "/" + b, 15, "#6B7A94");
+    return svgWrap(out, 134);
+  }
+  function diagDiv(a, b, k) {
+    var out = pizzaSVG(80, 62, 42, b, a);
+    out += label(80, 126, a + "/" + b + " of a pizza", 14, "#6B7A94");
+    var friends = "";
+    for (var i = 0; i < k; i++) friends += "🙂";
+    out += '<text x="230" y="70" font-size="30" text-anchor="middle">' + friends + "</text>";
+    out += label(230, 105, "shared by " + k, 15, "#6B7A94");
+    out += label(155, 66, "➜", 24, "#6C4FE0");
+    return svgWrap(out, 138);
+  }
+  function diagTri(b, h) {
+    var x0 = 60, y0 = 120, w = 200, hh = 88;
+    return svgWrap(
+      '<polygon points="' + x0 + "," + y0 + " " + (x0 + w) + "," + y0 + " " + (x0 + 60) + "," + (y0 - hh) +
+      '" fill="#CBE4FB" stroke="#3E7CC1" stroke-width="3"/>' +
+      '<line x1="' + (x0 + 60) + '" y1="' + y0 + '" x2="' + (x0 + 60) + '" y2="' + (y0 - hh) + '" stroke="#F26B4E" stroke-width="2.5" stroke-dasharray="6 5"/>' +
+      label(x0 + w / 2, y0 + 22, "base " + b + " cm") +
+      label(x0 + 98, y0 - hh / 2, "height " + h + " cm", 14, "#C4442A"),
+      150
+    );
+  }
+  function diagPara(b, h, s) {
+    var x0 = 50, y0 = 118, w = 190, hh = 74, sk = 46;
+    return svgWrap(
+      '<polygon points="' + x0 + "," + y0 + " " + (x0 + w) + "," + y0 + " " + (x0 + w + sk) + "," + (y0 - hh) + " " + (x0 + sk) + "," + (y0 - hh) +
+      '" fill="#D9F2D9" stroke="#3D9950" stroke-width="3"/>' +
+      '<line x1="' + (x0 + w) + '" y1="' + y0 + '" x2="' + (x0 + w) + '" y2="' + (y0 - hh) + '" stroke="#F26B4E" stroke-width="2.5" stroke-dasharray="6 5"/>' +
+      label(x0 + w / 2, y0 + 22, "base " + b + " cm") +
+      label(x0 + w - 42, y0 - hh / 2, "height " + h + " cm", 14, "#C4442A") +
+      label(x0 + w + sk + 4, y0 - hh / 2 - 14, "side " + s + " cm", 13, "#6B7A94"),
+      150
+    );
+  }
+  function diagHouse(w, h1, h2, split) {
+    var scale = 14, bw = Math.min(170, w * scale), bh = Math.min(70, h1 * 12), rh = Math.min(52, h2 * 12);
+    var x0 = (SVG_W - bw) / 2 - 30, yb = 138;
+    var roofFill = split ? "#FBD5CB" : "#CBE4FB", boxFill = split ? "#D9F2D9" : "#CBE4FB";
+    return svgWrap(
+      '<rect x="' + x0 + '" y="' + (yb - bh) + '" width="' + bw + '" height="' + bh + '" fill="' + boxFill + '" stroke="#3E7CC1" stroke-width="3"/>' +
+      '<polygon points="' + x0 + "," + (yb - bh) + " " + (x0 + bw) + "," + (yb - bh) + " " + (x0 + bw / 2) + "," + (yb - bh - rh) +
+      '" fill="' + roofFill + '" stroke="#3E7CC1" stroke-width="3"/>' +
+      label(x0 + bw / 2, yb + 16, "width " + w + " cm", 14) +
+      label(x0 + bw + 52, yb - bh / 2, "wall " + h1 + " cm", 13) +
+      label(x0 + bw + 52, yb - bh - rh / 2, "roof " + h2 + " cm", 13, "#C4442A"),
+      160
+    );
+  }
+
+  /* ---------- lessons ---------- */
+  var LESSONS = {
+    addsub: {
+      title: "🍫 Adding fractions",
+      steps: [
+        { svg: svgWrap(barSVG(60, 30, 200, 50, 4, 3, "#8B4A2F"), 100), cap: "A fraction counts equal pieces. This chocolate bar has 4 equal pieces, and 3 are yours: that's ¾." },
+        { svg: svgWrap(barSVG(18, 20, 130, 42, 2, 1, "#8B4A2F") + barSVG(172, 20, 130, 42, 3, 1, "#8B4A2F") + label(83, 90, "1/2") + label(237, 90, "1/3"), 105), cap: "Look: ½ and ⅓ have different-sized pieces. You can't add pieces that don't match!" },
+        { svg: svgWrap(barSVG(18, 20, 130, 42, 6, 3, "#8B4A2F") + barSVG(172, 20, 130, 42, 6, 2, "#8B4A2F") + label(83, 90, "3/6") + label(237, 90, "2/6"), 105), cap: "Re-cut both bars into 6 pieces. Now ½ = 3⁄6 and ⅓ = 2⁄6 — the pieces match!" },
+        { svg: svgWrap(barSVG(60, 20, 200, 50, 6, 5, "#8B4A2F") + label(160, 105, "3/6 + 2/6 = 5/6", 18, "#6C4FE0"), 118), cap: "Now just count the pieces: 3 + 2 = 5 pieces of six. The bottom number stays the same." },
+        { svg: svgWrap(barSVG(18, 20, 130, 42, 4, 2, "#8B4A2F") + label(160, 45, "=", 26, "#6C4FE0") + barSVG(172, 20, 130, 42, 2, 1, "#8B4A2F") + label(83, 90, "2/4") + label(237, 90, "1/2"), 105), cap: "Last step: write it tidy! 2⁄4 is the same amount as ½. If top and bottom divide by the same number, do it — that's simplest form." }
+      ]
+    },
+    mult: {
+      title: "🍕 Whole number × fraction",
+      steps: [
+        { svg: svgWrap(pizzaSVG(60, 65, 36, 4, 1) + pizzaSVG(160, 65, 36, 4, 1) + pizzaSVG(260, 65, 36, 4, 1), 120), cap: "3 × ¼ just means ¼ three times. Here are three pizza slices, each one quarter." },
+        { svg: svgWrap(pizzaSVG(160, 70, 50, 4, 3), 135), cap: "Slide them onto one plate: 3 slices of a quarter each = ¾. Multiply the top, keep the bottom!" },
+        { svg: svgWrap(pizzaSVG(90, 70, 46, 4, 4) + pizzaSVG(230, 70, 46, 4, 1), 135), cap: "Got more slices than one pizza? 5 × ¼ = 5⁄4 = one whole pizza and ¼ more. That's the mixed number 1¼." }
+      ]
+    },
+    div: {
+      title: "🍕 Fraction ÷ whole number",
+      steps: [
+        { svg: svgWrap(pizzaSVG(160, 70, 50, 2, 1), 135), cap: "Here is ½ a pizza. Two friends want to share it fairly." },
+        { svg: svgWrap(pizzaSVG(160, 70, 50, 4, 1) + '<text x="255" y="80" font-size="30" text-anchor="middle">🙂🙂</text>', 135), cap: "Cut the half into 2 equal bits. Each bit is a quarter of the whole pizza." },
+        { svg: svgWrap(label(160, 55, "½ ÷ 2 = ¼", 26, "#6C4FE0") + label(160, 95, "1/(2×2) — multiply the bottom!", 15, "#6B7A94"), 120), cap: "Dividing by 2 makes every piece 2× smaller. So just multiply the bottom number: ½ ÷ 2 = 1⁄4." }
+      ]
+    },
+    tri: {
+      title: "📐 Area of a triangle",
+      steps: [
+        { svg: svgWrap('<rect x="80" y="30" width="160" height="90" fill="#CBE4FB" stroke="#3E7CC1" stroke-width="3"/>' + label(160, 140, "Rectangle area = base × height", 15), 150), cap: "Start with a rectangle. Its area is easy: base × height." },
+        { svg: svgWrap('<polygon points="80,120 240,120 240,30" fill="#FBD5CB" stroke="#3E7CC1" stroke-width="3"/><polygon points="80,120 80,30 240,30" fill="#CBE4FB" stroke="#3E7CC1" stroke-width="3"/>', 140), cap: "Slice it corner to corner — you get two triangles that are exactly the same size." },
+        { svg: diagTri(8, 5), cap: "So a triangle is half a rectangle: area = base × height ÷ 2. This one: 8 × 5 ÷ 2 = 20 cm²." }
+      ]
+    },
+    para: {
+      title: "📐 Area of a parallelogram",
+      steps: [
+        { svg: diagPara(8, 5, 6), cap: "A parallelogram is a leaning rectangle. The slanted side is NOT the height — the height is the straight dashed line." },
+        { svg: svgWrap('<polygon points="50,118 96,44 50,44" fill="#FFE1A8" stroke="#3D9950" stroke-width="3"/><polygon points="50,118 240,118 286,44 96,44" fill="#D9F2D9" stroke="#3D9950" stroke-width="3"/>' + label(168, 140, "Snip the pointy end off…", 15), 150), cap: "Snip the slanted triangle off one end…" },
+        { svg: svgWrap('<rect x="60" y="44" width="190" height="74" fill="#D9F2D9" stroke="#3D9950" stroke-width="3"/>' + label(155, 140, "…slide it to the other side!", 15), 150), cap: "…slide it to the other side, and it becomes a rectangle. So the area is just base × height." }
+      ]
+    },
+    comp: {
+      title: "🏠 Composite shapes",
+      steps: [
+        { svg: diagHouse(9, 5, 4, false), cap: "Some shapes are really two shapes in a trench coat. This house is a box with a triangle on top." },
+        { svg: diagHouse(9, 5, 4, true), cap: "Split it! Green box + red triangle roof. Work each one out on its own." },
+        { svg: svgWrap(label(160, 40, "Box: 9 × 5 = 45", 18, "#3D9950") + label(160, 72, "Roof: 9 × 4 ÷ 2 = 18", 18, "#C4442A") + label(160, 110, "Total: 45 + 18 = 63 cm²", 19, "#6C4FE0"), 130), cap: "Then add them together. Box + roof = whole house. That's it!" }
+      ]
+    }
+  };
+
+  /* ---------- question generators ---------- */
+  function opt(html, k, correct) { return { html: html, key: k, correct: !!correct }; }
+  function buildAnswers(correct, cands) {
+    var out = [correct], used = {}, shown = {};
+    used[correct.key] = 1; shown[correct.html] = 1;
+    function add(c) {
+      if (c && !used[c.key] && !shown[c.html]) { used[c.key] = 1; shown[c.html] = 1; out.push(c); return true; }
+      return false;
+    }
+    for (var i = 0; i < cands.length && out.length < 4; i++) add(cands[i]);
+    var guard = 0;
+    while (out.length < 4 && guard++ < 60) add(correct.filler(guard));
+    return shuffle(out);
+  }
+  function fOpt(n, d, correct, raw) {
+    if (!raw) { var s = simp(n, d); n = s[0]; d = s[1]; }
+    return opt(fracHTML(n, d, raw), raw ? "raw" + n + "/" + d : key(n, d), correct);
+  }
+  function nOpt(v, correct) { return opt("<b>" + v + "</b> cm²", "n" + v, correct); }
+
+  function genAddSub() {
+    var dens = [2, 3, 4, 5, 6, 8, 10, 12];
+    var b, d, a, c, op, n, den;
+    do {
+      b = pick(dens); d = pick(dens);
+      a = ri(1, b - 1); c = ri(1, d - 1);
+      op = pick(["+", "−"]);
+      den = b * d;
+      n = op === "+" ? a * d + c * b : a * d - c * b;
+    } while (b === d || n <= 0 || key(a, b) === key(c, d));
+    var s = simp(n, den);
+    var correct = fOpt(s[0], s[1], true);
+    correct.filler = function (g) { var nn = s[0] + (g % 2 ? g : -g); return nn > 0 ? fOpt(nn, s[1] + (g > 6 ? 1 : 0)) : null; };
+    var cands = [];
+    if (op === "+") {
+      cands.push(fOpt(a + c, b + d, false, true));                         /* added tops and bottoms */
+    } else {
+      var mn = Math.abs(a - c) || 1, md = Math.abs(b - d) || 1;
+      if (key(mn, md) !== key(n, den)) cands.push(fOpt(mn, md, false, true));
+    }
+    if (s[0] !== n) cands.push(fOpt(n, den, false, true));                 /* forgot simplest form */
+    cands.push(fOpt(n > b ? n - b : n + b, den));                          /* small numerator slip */
+    var alt = op === "+" ? a * d - c * b : a * d + c * b;                  /* did the other operation */
+    if (alt > 0) cands.push(fOpt(alt, den));
+    var simpNote = s[0] !== n ? " " + n + "⁄" + den + " is the same amount, but simplest form is " + fracText(s[0], s[1]) + "." : "";
+    return {
+      type: "addsub", lesson: "addsub",
+      text: "What is " + fracHTML(a, b, true) + " " + op + " " + fracHTML(c, d, true) + "? Give the answer in simplest form.",
+      diagram: diagAddSub(a, b, c, d, op),
+      answers: buildAnswers(correct, cands),
+      explain: "Re-cut both into " + den + "ths: " + (a * d) + "⁄" + den + " " + op + " " + (c * b) + "⁄" + den + " = " + n + "⁄" + den + "." + simpNote,
+      params: { a: a, b: b, c: c, d: d, op: op }
+    };
+  }
+  function genMult() {
+    var k = ri(2, 5), b = pick([2, 3, 4, 5, 6, 8]), a = ri(1, b - 1);
+    var n = k * a, s = simp(n, b);
+    var correct = fOpt(s[0], s[1], true);
+    correct.filler = function (g) { return fOpt(n + g, b + (g % 3)); };
+    var cands = [
+      fOpt(k * a, k * b, false, true),          /* multiplied top AND bottom */
+      fOpt(k * b + a, b),                        /* added k instead: k + a/b */
+      fOpt(k * a + 1, b)                         /* numerator off by one */
+    ];
+    return {
+      type: "mult", lesson: "mult",
+      text: "What is <b>" + k + "</b> × " + fracHTML(a, b, true) + "?",
+      diagram: diagMult(k, a, b),
+      answers: buildAnswers(correct, cands),
+      explain: k + " × " + a + "⁄" + b + " means " + a + "⁄" + b + " added " + k + " times: " + n + "⁄" + b +
+        (fracText(s[0], s[1]) !== n + "/" + b ? " = " + fracText(s[0], s[1]) : "") + ". Multiply the top, keep the bottom.",
+      params: { k: k, a: a, b: b }
+    };
+  }
+  function genDiv() {
+    var b = pick([2, 3, 4, 5]), a = ri(1, b - 1), k = ri(2, 4);
+    var s = simp(a, b * k);
+    var correct = fOpt(s[0], s[1], true);
+    correct.filler = function (g) { return fOpt(1, b * k + g); };
+    var cands = [
+      fOpt(a * k, b),                    /* multiplied instead */
+      fOpt(a, b, false, false),          /* forgot to divide */
+      fOpt(a, b + k)                     /* added to the bottom */
+    ];
+    return {
+      type: "div", lesson: "div",
+      text: "What is " + fracHTML(a, b, true) + " ÷ <b>" + k + "</b>?",
+      diagram: diagDiv(a, b, k),
+      answers: buildAnswers(correct, cands),
+      explain: "Sharing " + a + "⁄" + b + " between " + k + " makes each piece " + k + "× smaller — multiply the bottom: " +
+        a + "⁄" + (b * k) + (fracText(s[0], s[1]) !== a + "/" + (b * k) ? " = " + fracText(s[0], s[1]) : "") + ".",
+      params: { a: a, b: b, k: k }
+    };
+  }
+  function genTri() {
+    var b = pick([4, 6, 8, 10, 12]), h = ri(3, 9);
+    var area = b * h / 2;
+    var correct = nOpt(area, true);
+    correct.filler = function (g) { return nOpt(area + g * 2); };
+    var cands = [
+      nOpt(b * h),           /* forgot to halve */
+      nOpt(2 * (b + h)),     /* perimeter thinking */
+      nOpt(b + h)            /* added instead */
+    ];
+    return {
+      type: "tri", lesson: "tri",
+      text: "What is the area of this triangle?",
+      diagram: diagTri(b, h),
+      answers: buildAnswers(correct, cands),
+      explain: "A triangle is half a rectangle: base × height ÷ 2 = " + b + " × " + h + " ÷ 2 = " + area + " cm².",
+      params: { b: b, h: h }
+    };
+  }
+  function genPara() {
+    var b = pick([5, 6, 7, 8, 9, 10]), h = ri(3, 8), s = h + ri(1, 3);
+    var area = b * h;
+    var correct = nOpt(area, true);
+    correct.filler = function (g) { return nOpt(area + g * 3); };
+    var cands = [
+      nOpt(b * s),           /* used the slanted side */
+      nOpt(b * h / 2),       /* halved like a triangle */
+      nOpt(2 * (b + s))      /* perimeter thinking */
+    ];
+    return {
+      type: "para", lesson: "para",
+      text: "What is the area of this parallelogram?",
+      diagram: diagPara(b, h, s),
+      answers: buildAnswers(correct, cands),
+      explain: "Base × height = " + b + " × " + h + " = " + area + " cm². Careful — the " + s + " cm slanted side is not the height!",
+      params: { b: b, h: h, s: s }
+    };
+  }
+  function genComp() {
+    var w = pick([6, 8, 10, 12]), h1 = ri(3, 6), h2 = ri(2, 5);
+    var box = w * h1, roof = w * h2 / 2, area = box + roof;
+    var correct = nOpt(area, true);
+    correct.filler = function (g) { return nOpt(area + g * 2); };
+    var cands = [
+      nOpt(box),                     /* box only, forgot the roof */
+      nOpt(w * (h1 + h2)),           /* forgot to halve the roof */
+      nOpt(box / 2 + roof)           /* halved the box too */
+    ];
+    return {
+      type: "comp", lesson: "comp",
+      text: "What is the area of this house shape?",
+      diagram: diagHouse(w, h1, h2, false),
+      answers: buildAnswers(correct, cands),
+      explain: "Box: " + w + " × " + h1 + " = " + box + ". Roof: " + w + " × " + h2 + " ÷ 2 = " + roof + ". Together: " + box + " + " + roof + " = " + area + " cm².",
+      params: { w: w, h1: h1, h2: h2 }
+    };
+  }
+  var GENS = { addsub: genAddSub, mult: genMult, div: genDiv, tri: genTri, para: genPara, comp: genComp };
+  var TOPIC_TYPES = {
+    mixed: ["addsub", "mult", "div", "tri", "para", "comp"],
+    fractions: ["addsub", "mult", "div"],
+    shapes: ["tri", "para", "comp"]
+  };
+
+  /* ---------- quest state ---------- */
+  var state = {
+    topic: "mixed", q: null, locked: false,
+    xp: 0, streak: 0, answered: 0, prizeDue: false,
+    seen: {}, lastType: null,
+    best: { snake: null, mm: null }
+  };
+  var RANKS = [["Cadet", 0], ["Scholar", 100], ["Wizard", 250], ["Grandmaster", 500]];
+
+  function rankInfo() {
+    var r = RANKS[0], next = null;
+    for (var i = 0; i < RANKS.length; i++) {
+      if (state.xp >= RANKS[i][1]) r = RANKS[i];
+      else { next = RANKS[i]; break; }
+    }
+    return { name: r[0], base: r[1], next: next };
+  }
+  function renderHUD() {
+    var r = rankInfo();
+    $("rankChip").textContent = r.name;
+    $("streakChip").textContent = "🔥 " + state.streak;
+    if (r.next) {
+      var pct = ((state.xp - r.base) / (r.next[1] - r.base)) * 100;
+      $("xpFill").style.width = pct + "%";
+      $("xpText").textContent = state.xp + " XP — " + (r.next[1] - state.xp) + " to " + r.next[0];
+    } else {
+      $("xpFill").style.width = "100%";
+      $("xpText").textContent = state.xp + " XP — top rank!";
+    }
+    var left = 5 - (state.answered % 5);
+    var dots = "";
+    for (var i = 0; i < 5; i++) dots += i < 5 - left ? "🟣" : "⚪";
+    $("prizeMeter").innerHTML = '<span class="dots">' + dots + "</span><br>" +
+      (left === 5 ? "Answer 5 questions for a prize! 🎁" : left + " more " + (left === 1 ? "question" : "questions") + " to a prize! 🎁");
+  }
+
+  function loadQuestion() {
+    var types = TOPIC_TYPES[state.topic];
+    var t;
+    do { t = pick(types); } while (types.length > 1 && t === state.lastType);
+    state.lastType = t;
+    state.q = GENS[t]();
+    state.locked = false;
+    $("diagram").innerHTML = state.q.diagram;
+    $("qtext").innerHTML = state.q.text;
+    var box = $("answers");
+    box.innerHTML = "";
+    state.q.answers.forEach(function (a, i) {
+      var b = document.createElement("button");
+      b.className = "ans";
+      b.innerHTML = a.html;
+      b.addEventListener("click", function () { answer(i, b); });
+      box.appendChild(b);
+    });
+    var fb = $("feedback");
+    fb.className = ""; fb.textContent = "";
+    renderHUD();
+    if (!state.seen[state.q.lesson]) {
+      state.seen[state.q.lesson] = true;
+      openLesson(state.q.lesson);
+    }
+  }
+
+  function confetti() {
+    if (reduceMotion) return;
+    var emo = ["🎉", "⭐", "✨", "🎊", "🌟"];
+    for (var i = 0; i < 18; i++) {
+      var s = document.createElement("span");
+      s.className = "confetti";
+      s.textContent = pick(emo);
+      s.style.left = ri(2, 95) + "vw";
+      s.style.animationDelay = (Math.random() * 0.3) + "s";
+      document.body.appendChild(s);
+      setTimeout(function (el) { return function () { el.remove(); }; }(s), 1900);
+    }
+  }
+
+  function answer(i, btn) {
+    if (state.locked) return;
+    state.locked = true;
+    var q = state.q, correctIdx = -1;
+    q.answers.forEach(function (a, j) { if (a.correct) correctIdx = j; });
+    var buttons = $("answers").children;
+    for (var j = 0; j < buttons.length; j++) buttons[j].disabled = true;
+    var fb = $("feedback");
+    var right = q.answers[i].correct;
+    state.answered++;
+    if (state.answered % 5 === 0) state.prizeDue = true;
+
+    buttons[correctIdx].classList.add("correct");
+    buttons[correctIdx].insertAdjacentHTML("beforeend", '<span class="mark">✅</span>');
+
+    var delay;
+    if (right) {
+      state.streak++;
+      var gain = 10 + 2 * (state.streak - 1);
+      state.xp += gain;
+      var big = state.streak % 3 === 0;
+      if (big) { sfx.bigwin(); confetti(); $("qcard").classList.remove("party"); void $("qcard").offsetWidth; $("qcard").classList.add("party"); }
+      else sfx[pick(rightSounds)]();
+      fb.className = "good";
+      fb.textContent = (big ? "🎉 " + state.streak + " in a row! Amazing! " : "⭐ Correct! ") + "+" + gain + " XP";
+      $("announcer").textContent = "Correct! Plus " + gain + " XP. Streak " + state.streak + ".";
+      delay = big ? 2200 : 1500;
+    } else {
+      state.streak = 0;
+      btn.classList.add("wrong");
+      btn.insertAdjacentHTML("beforeend", '<span class="mark">❌</span>');
+      sfx[pick(wrongSounds)]();
+      fb.className = "bad";
+      fb.innerHTML = "😅 Not quite! " + q.explain;
+      $("announcer").textContent = "Not quite. " + q.explain;
+      delay = 4200;
+    }
+    renderHUD();
+    setTimeout(nextStep, delay);
+  }
+
+  function nextStep() {
+    if (lessonOpen()) { setTimeout(nextStep, 500); return; }
+    if (state.prizeDue) { state.prizeDue = false; openPrize(); return; }
+    loadQuestion();
+  }
+
+  /* tabs */
+  document.querySelectorAll(".tab").forEach(function (t) {
+    t.addEventListener("click", function () {
+      document.querySelectorAll(".tab").forEach(function (x) { x.setAttribute("aria-selected", "false"); });
+      t.setAttribute("aria-selected", "true");
+      state.topic = t.dataset.topic;
+      state.lastType = null;
+      loadQuestion();
+    });
+  });
+  $("skipBtn").addEventListener("click", function () { if (!state.locked) loadQuestion(); });
+  $("teachBtn").addEventListener("click", function () { openLesson(state.q.lesson); });
+
+  /* ---------- lesson overlay ---------- */
+  var lesson = { key: null, step: 0 };
+  function lessonOpen() { return $("lessonOverlay").classList.contains("open"); }
+  function openLesson(k) {
+    lesson.key = k; lesson.step = 0;
+    $("lessonTitle").textContent = LESSONS[k].title;
+    renderLesson();
+    $("lessonOverlay").classList.add("open");
+  }
+  function renderLesson() {
+    var L = LESSONS[lesson.key], s = L.steps[lesson.step];
+    $("lessonArt").innerHTML = s.svg;
+    $("lessonCaption").textContent = s.cap;
+    $("lessonPrev").disabled = lesson.step === 0;
+    $("lessonNext").textContent = lesson.step === L.steps.length - 1 ? "Got it! 👍" : "Next ➡️";
+    $("lessonDots").textContent = "Step " + (lesson.step + 1) + " of " + L.steps.length;
+  }
+  $("lessonPrev").addEventListener("click", function () { if (lesson.step > 0) { lesson.step--; renderLesson(); } });
+  $("lessonNext").addEventListener("click", function () {
+    var L = LESSONS[lesson.key];
+    if (lesson.step < L.steps.length - 1) { lesson.step++; renderLesson(); sfx.blip(); }
+    else $("lessonOverlay").classList.remove("open");
+  });
+
+  /* ---------- prize ---------- */
+  function openPrize() {
+    sfx.fanfare(); confetti();
+    $("snakeBest").textContent = state.best.snake === null ? "First try!" : "Best: 🍎 " + state.best.snake;
+    $("mmBest").textContent = state.best.mm === null ? "First try!" : "Best: solved in " + state.best.mm;
+    $("prizeOverlay").classList.add("open");
+  }
+  function closePrizeToQuest() {
+    $("prizeOverlay").classList.remove("open");
+    loadQuestion();
+  }
+  $("prizeSkip").addEventListener("click", closePrizeToQuest);
+  $("pickSnake").addEventListener("click", function () { $("prizeOverlay").classList.remove("open"); startSnake(); });
+  $("pickMM").addEventListener("click", function () { $("prizeOverlay").classList.remove("open"); startMM(); });
+
+  function questReminder() {
+    var r = rankInfo();
+    return "Your quest is waiting — 🔥 streak " + state.streak + ", rank " + r.name + "!";
+  }
+  document.querySelectorAll("[data-close]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      if (b.dataset.close === "snake") stopSnake();
+      $(b.dataset.close === "snake" ? "snakeOverlay" : "mmOverlay").classList.remove("open");
+      loadQuestion();
+    });
+  });
+
+  /* ---------- snake ---------- */
+  var snake = { timer: null, tick: null, alive: false };
+  function startSnake() {
+    var G = 16, CELL = 20;
+    snake.body = [{ x: 8, y: 8 }, { x: 7, y: 8 }, { x: 6, y: 8 }];
+    snake.dir = { x: 1, y: 0 };
+    snake.nextDir = snake.dir;
+    snake.score = 0; snake.time = 45; snake.alive = true;
+    placeFood();
+    $("snakeOver").classList.remove("show");
+    $("snakeOverlay").classList.add("open");
+    draw();
+    updateStat();
+    snake.tick = setInterval(step, 160);
+    snake.timer = setInterval(function () {
+      snake.time--; updateStat();
+      if (snake.time <= 0) endSnake("⏱ Time's up!");
+    }, 1000);
+
+    function placeFood() {
+      do {
+        snake.food = { x: ri(0, G - 1), y: ri(0, G - 1) };
+      } while (snake.body.some(function (s) { return s.x === snake.food.x && s.y === snake.food.y; }));
+    }
+    function updateStat() { $("snakeStat").textContent = "🍎 " + snake.score + " · ⏱ " + snake.time; }
+    function step() {
+      snake.dir = snake.nextDir;
+      var h = { x: (snake.body[0].x + snake.dir.x + G) % G, y: (snake.body[0].y + snake.dir.y + G) % G };
+      if (snake.body.some(function (s) { return s.x === h.x && s.y === h.y; })) { endSnake("💥 Bumped yourself!"); return; }
+      snake.body.unshift(h);
+      if (h.x === snake.food.x && h.y === snake.food.y) {
+        snake.score++; sfx.coin(); placeFood(); updateStat();
+      } else snake.body.pop();
+      draw();
+    }
+    function draw() {
+      var c = $("snakeCanvas").getContext("2d");
+      c.clearRect(0, 0, 320, 320);
+      c.font = "18px sans-serif"; c.textAlign = "center"; c.textBaseline = "middle";
+      c.fillText("🍎", snake.food.x * CELL + 10, snake.food.y * CELL + 11);
+      snake.body.forEach(function (s, i) {
+        c.fillStyle = i === 0 ? "#2E7D32" : "#4CAF50";
+        if (c.roundRect) {
+          c.beginPath();
+          c.roundRect(s.x * CELL + 1, s.y * CELL + 1, CELL - 2, CELL - 2, 6);
+          c.fill();
+        } else {
+          c.fillRect(s.x * CELL + 1, s.y * CELL + 1, CELL - 2, CELL - 2);
+        }
+      });
+      var h = snake.body[0];
+      c.fillStyle = "#fff";
+      c.beginPath(); c.arc(h.x * CELL + 7 + snake.dir.x * 3, h.y * CELL + 7 + snake.dir.y * 3, 2.4, 0, 7); c.fill();
+      c.beginPath(); c.arc(h.x * CELL + 13 + snake.dir.x * 3, h.y * CELL + 13 + snake.dir.y * 3, 2.4, 0, 7); c.fill();
+    }
+    snake.draw = draw;
+  }
+  function setDir(name) {
+    if (!snake.alive) return;
+    var d = { up: { x: 0, y: -1 }, down: { x: 0, y: 1 }, left: { x: -1, y: 0 }, right: { x: 1, y: 0 } }[name];
+    if (d.x === -snake.dir.x && d.y === -snake.dir.y) return;
+    snake.nextDir = d;
+  }
+  document.querySelectorAll(".dpad [data-dir]").forEach(function (b) {
+    b.addEventListener("click", function () { setDir(b.dataset.dir); });
+  });
+  (function () {
+    var sx, sy;
+    var cv = $("snakeCanvas");
+    cv.addEventListener("touchstart", function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; e.preventDefault(); }, { passive: false });
+    cv.addEventListener("touchend", function (e) {
+      var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+      if (Math.abs(dx) < 18 && Math.abs(dy) < 18) return;
+      setDir(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? "right" : "left") : (dy > 0 ? "down" : "up"));
+    });
+  })();
+  document.addEventListener("keydown", function (e) {
+    if (!$("snakeOverlay").classList.contains("open")) return;
+    var m = { ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right" }[e.key];
+    if (m) { e.preventDefault(); setDir(m); }
+  });
+  function stopSnake() {
+    clearInterval(snake.tick); clearInterval(snake.timer);
+    snake.alive = false;
+  }
+  function endSnake(reason) {
+    stopSnake();
+    if (reason.indexOf("💥") === 0) sfx.crash(); else sfx.fanfare();
+    var isBest = state.best.snake === null || snake.score > state.best.snake;
+    if (isBest) state.best.snake = snake.score;
+    $("snakeOverHead").textContent = reason + " 🍎 " + snake.score;
+    $("snakeOverSub").textContent = (isBest && snake.score > 0 ? "🏆 New high score! " : "High score: 🍎 " + state.best.snake + ". ") + questReminder();
+    $("snakeOver").classList.add("show");
+  }
+
+  /* ---------- mind master ---------- */
+  var MM_COLORS = ["🔴", "🟡", "🟢", "🔵", "🟣", "🟠"];
+  var mm = {};
+  function startMM() {
+    mm.secret = shuffle(MM_COLORS.slice()).slice(0, 4);
+    mm.guess = [];
+    mm.tries = 0;
+    mm.done = false;
+    $("mmRows").innerHTML = "";
+    $("mmOver").classList.remove("show");
+    $("mmStat").textContent = "Try 1 of 8";
+    renderMMSlots();
+    var pal = $("mmPalette");
+    pal.innerHTML = "";
+    MM_COLORS.forEach(function (c) {
+      var b = document.createElement("button");
+      b.textContent = c;
+      b.setAttribute("aria-label", "colour " + c);
+      b.addEventListener("click", function () {
+        if (mm.done || mm.guess.length >= 4 || mm.guess.indexOf(c) !== -1) return;
+        mm.guess.push(c); sfx.blip(); renderMMSlots();
+      });
+      pal.appendChild(b);
+    });
+    $("mmOverlay").classList.add("open");
+  }
+  function renderMMSlots() {
+    var slots = $("mmSlots").children;
+    for (var i = 0; i < 4; i++) slots[i].textContent = mm.guess[i] || "";
+    $("mmCheck").disabled = mm.guess.length !== 4 || mm.done;
+  }
+  $("mmDel").addEventListener("click", function () { if (!mm.done) { mm.guess.pop(); renderMMSlots(); } });
+  $("mmCheck").addEventListener("click", function () {
+    if (mm.done || mm.guess.length !== 4) return;
+    mm.tries++;
+    var exact = 0, near = 0;
+    mm.guess.forEach(function (c, i) {
+      if (mm.secret[i] === c) exact++;
+      else if (mm.secret.indexOf(c) !== -1) near++;
+    });
+    var row = document.createElement("div");
+    row.className = "mmRow";
+    var pegs = "";
+    for (var i = 0; i < exact; i++) pegs += "⭐";
+    for (var j = 0; j < near; j++) pegs += "⚪";
+    row.innerHTML = "<span>" + mm.guess.join("") + '</span><span class="pegs">' + (pegs || "—") + "</span>";
+    $("mmRows").appendChild(row);
+    if (exact === 4) {
+      mm.done = true;
+      sfx.bigwin(); confetti();
+      var isBest = state.best.mm === null || mm.tries < state.best.mm;
+      if (isBest) state.best.mm = mm.tries;
+      $("mmOverHead").textContent = "🎉 Cracked it in " + mm.tries + "!";
+      $("mmOverSub").textContent = (isBest ? "🏆 New best! " : "Best: " + state.best.mm + " tries. ") + questReminder();
+      $("mmOver").classList.add("show");
+    } else if (mm.tries >= 8) {
+      mm.done = true;
+      sfx.trombone();
+      $("mmOverHead").textContent = "The code was " + mm.secret.join("");
+      $("mmOverSub").textContent = "So sneaky! You'll get it next time. " + questReminder();
+      $("mmOver").classList.add("show");
+    } else {
+      sfx[exact + near > 2 ? "sparkle" : "boing"]();
+      $("mmStat").textContent = "Try " + (mm.tries + 1) + " of 8";
+    }
+    mm.guess = [];
+    renderMMSlots();
+  });
+
+  /* keyboard for quest */
+  document.addEventListener("keydown", function (e) {
+    if (lessonOpen()) {
+      if (e.key === "ArrowRight" || e.key === "Enter") { e.preventDefault(); $("lessonNext").click(); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); $("lessonPrev").click(); }
+      return;
+    }
+    if (document.querySelector(".overlay.open")) return;
+    var n = parseInt(e.key, 10);
+    if (n >= 1 && n <= 4) {
+      var b = $("answers").children[n - 1];
+      if (b && !b.disabled) b.click();
+    }
+  });
+
+  /* debug hook for automated checks */
+  window.__MQ = {
+    state: state,
+    gen: function (t) { return GENS[t](); },
+    simp: simp
+  };
+
+  loadQuestion();
+})();
+</script>
+</body>
+</html>
