@@ -13,8 +13,9 @@ offline, from a USB stick, on a school laptop or a phone.
 - The first time a new concept comes up, its illustrated lesson opens automatically.
   "📖 Teach me this!" reopens it any time; ⬅️/➡️ or arrow keys step through it.
 - Correct → happy sound, XP, streak grows. Every 3rd in a row gets confetti and a fanfare.
-- Wrong → a silly sound (the fart is the most likely one), the right answer lights up
-  green with a ✅, and a plain-language explanation appears. Only the streak resets.
+- Wrong → the fart noise (sometimes with a bonus boing/honk on top), the right answer
+  lights up green with a ✅, and a plain-language explanation appears. Only the streak
+  resets.
 - The next question loads on its own. "⏭️ New question" skips without penalty.
 - **Every 5 questions answered — right or wrong — a prize unlocks:** pick 🐍 Snake or
   🕵️ Mind Master. Both are short by design (Snake is a 45-second round; Mind Master is
@@ -38,6 +39,13 @@ Wrong choices are modelled on real kid mistakes, not random numbers:
 | Composite (house) | box only; forgot to halve the roof; halved the box too |
 
 Mixed numbers appear naturally whenever an answer is more than one whole.
+
+## Difficulty and variety
+
+Difficulty rises quietly with progress — no visible levels or settings. After 8 correct
+answers the number ranges grow, and again after 18 (bigger denominators, bigger shapes).
+Question types are drawn from a shuffled bag so no type repeats back-to-back, and the
+last 25 exact questions are remembered so the same one doesn't come around again soon.
 
 ## Ranks and XP
 
@@ -66,6 +74,7 @@ options, correct value matches the math.
 - Save progress between sessions (localStorage).
 - More curriculum: ratios/rates, percents, integers, order of operations,
   volume/surface area of prisms, angles, transformations.
-- Adaptive difficulty (bigger numbers on hot streaks).
 - Test on a real iPhone/iPad (v2 tested in desktop Chromium at phone size only).
-- More mini-games if the kid keeps picking the same one.
+- More mini-games: Bubble Blaster (target popping), Connect Four vs. a simple robot,
+  and a penalty-shootout soccer game are planned next.
+- Focus trap for the overlays (keyboard users can still Tab behind an open dialog).
