@@ -26,13 +26,51 @@ offline, from a USB stick, on a school laptop or a phone.
 - 🔊 mutes everything. All sound is synthesized (WebAudio) and deliberately mild so it
   won't take over a room.
 
+## The question bank (data-driven)
+
+All questions live in `QUESTION_BANK` inside the HTML file — an array of pure-JSON
+templates. A generic engine samples parameters, evaluates formulas with a tiny built-in
+expression parser (no `eval`), renders the text, answers, explanation, and the diagram.
+**Adding a question type means adding a JSON entry — no new code** unless it needs a
+brand-new kind of picture ("What fraction of the pizza is shaded?" was added exactly
+this way, reusing the pizza renderer).
+
+A template looks like:
+
+```json
+{
+  "id": "tri", "topic": "shapes", "lesson": "tri", "unit": "cm²",
+  "params":  { "b": { "pick": { "1": [4,6,8], "2": [4,12], "3": [6,20] } },
+               "h": { "range": { "1": [3,6], "2": [3,9], "3": [4,12] } } },
+  "derive":  { "area": "b * h / 2" },
+  "require": ["(b * h) % 2 == 0"],
+  "text":    "What is the area of this triangle?",
+  "diagram": { "type": "triangle", "base": "b", "height": "h" },
+  "answer":  { "number": "area" },
+  "distractors": [ { "number": "b * h" }, { "number": "2 * (b + h)" } ],
+  "explain": "base × height ÷ 2 = {b} × {h} ÷ 2 = {area} cm²."
+}
+```
+
+- **params** — random values; per-tier lists/ranges make difficulty data-driven
+- **derive / require** — computed values and constraints (rejection sampling)
+- **answer / distractors** — `{fraction: [num, den]}` or `{number: expr}`; `raw: true`
+  shows a fraction unsimplified, `when:` makes a wrong answer conditional
+- **diagram** — references one of the visual builders: `fracBars`, `pizzas`,
+  `pizzaShare`, `triangle`, `parallelogram`, `house`
+- **text/explain tokens** — `{expr}`, `{stack:n:d}` stacked fraction, `{tidy:n:d}`
+  mixed number, `{mixtext:n:d}` plain words; `explain` segments can carry `when:`
+
+Expressions support `+ - * / % ( )`, comparisons, `|| &&`, and `gcd/min/max/abs/floor/round`.
+
 ## Question types and their distractors
 
 Wrong choices are modelled on real kid mistakes, not random numbers:
 
 | Type | Wrong answers look like |
 |---|---|
-| Add/subtract unlike denominators | added tops and bottoms; forgot simplest form; did the other operation; small numerator slip |
+| Add / subtract unlike denominators | added tops and bottoms; forgot simplest form; did the other operation; small numerator slip |
+| What fraction is shaded | counted the unshaded pieces; flipped the fraction; miscounted the pieces |
 | Whole × fraction | multiplied top *and* bottom; glued the numbers together (k + a/b); off-by-one |
 | Fraction ÷ whole | multiplied instead; forgot to divide; added to the denominator |
 | Triangle area | forgot to halve; perimeter instead of area; added the sides |
