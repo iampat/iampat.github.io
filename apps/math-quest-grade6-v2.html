@@ -22,7 +22,7 @@
     background: var(--bg);
     color: var(--ink);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 16px;
+    font-size: 17px;
     min-height: 100vh;
     min-height: 100dvh;
   }
@@ -65,7 +65,7 @@
   /* tabs */
   .tabs { display: flex; gap: 6px; margin: 10px 0; }
   .tab {
-    flex: 1; padding: 10px 0; border-radius: 12px; font-weight: 800; font-size: 14px;
+    flex: 1; padding: 10px 0; border-radius: 12px; font-weight: 800; font-size: 15px;
     background: var(--card); border: 2px solid var(--line); color: var(--muted);
   }
   .tab[aria-selected="true"] { background: var(--purple); border-color: var(--purple); color: #fff; }
@@ -76,11 +76,11 @@
     padding: 14px;
   }
   #diagram svg { width: 100%; height: auto; display: block; }
-  #qtext { font-size: 18px; font-weight: 700; margin: 10px 2px; line-height: 1.45; }
+  #qtext { font-size: 20px; font-weight: 700; margin: 10px 2px; line-height: 1.45; }
   #answers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .ans {
-    min-height: 60px; border-radius: 14px; border: 2px solid var(--line);
-    background: #F7FAFF; font-size: 20px; font-weight: 700;
+    min-height: 62px; border-radius: 14px; border: 2px solid var(--line);
+    background: #F7FAFF; font-size: 22px; font-weight: 700;
     display: flex; align-items: center; justify-content: center; gap: 6px;
     padding: 8px;
   }
@@ -90,7 +90,7 @@
   .ans .mark { font-size: 18px; }
   #feedback {
     margin-top: 10px; border-radius: 14px; padding: 10px 12px;
-    font-size: 15px; font-weight: 600; line-height: 1.5; display: none;
+    font-size: 16px; font-weight: 600; line-height: 1.5; display: none;
   }
   #feedback.good { display: block; background: #E4F8EE; color: #14663C; }
   #feedback.bad { display: block; background: #FDE9EB; color: #8C2430; }
@@ -104,11 +104,11 @@
   /* footer buttons */
   .actions { display: flex; gap: 8px; margin-top: 10px; }
   .actions button {
-    flex: 1; padding: 12px 0; border-radius: 14px; font-weight: 800; font-size: 15px;
+    flex: 1; padding: 12px 0; border-radius: 14px; font-weight: 800; font-size: 16px;
   }
   #teachBtn { background: #FFF1DC; border: 2px solid var(--orange); color: #8A5200; }
   #skipBtn { background: var(--card); border: 2px solid var(--line); color: var(--muted); }
-  #prizeMeter { text-align: center; color: var(--muted); font-size: 13px; font-weight: 700; margin-top: 10px; }
+  #prizeMeter { text-align: center; color: var(--muted); font-size: 14px; font-weight: 700; margin-top: 10px; }
   #prizeMeter .dots { letter-spacing: 4px; font-size: 15px; }
 
   /* overlays */
@@ -131,7 +131,7 @@
 
   /* lesson */
   #lessonArt svg { width: 100%; height: auto; display: block; }
-  #lessonCaption { font-size: 17px; font-weight: 700; line-height: 1.5; min-height: 4.2em; margin: 10px 2px; }
+  #lessonCaption { font-size: 18px; font-weight: 700; line-height: 1.5; min-height: 4.2em; margin: 10px 2px; }
   .lessonNav { display: flex; gap: 8px; align-items: center; }
   .lessonNav button {
     padding: 12px 16px; border-radius: 14px; font-weight: 800; font-size: 16px;
@@ -178,20 +178,21 @@
   /* snake */
   #snakeCanvas {
     width: 100%; max-width: 320px; margin: 0 auto; display: block;
-    background: #E7F6E9; border-radius: 14px; border: 2px solid var(--line);
+    background: #141B2E; border-radius: 14px; border: 2px solid #2A3352;
     touch-action: none;
   }
   .dpad { display: grid; grid-template-columns: repeat(3, 64px); justify-content: center; gap: 6px; margin-top: 10px; }
   .dpad button {
-    height: 48px; border-radius: 12px; background: #F1EDFD; border: 2px solid var(--purple);
-    font-size: 20px; color: var(--purple);
+    height: 48px; border-radius: 12px; background: #1E2742; border: 2px solid #39456E;
+    font-size: 20px; color: #A9F5C8;
   }
+  .dpad button:active { background: #2A3558; }
   .dpad .blank { visibility: hidden; }
 
   /* penalty kicks */
   #soccerCanvas {
     width: 100%; max-width: 320px; margin: 0 auto; display: block;
-    border-radius: 14px; border: 2px solid var(--line); background: #8FD05E;
+    border-radius: 14px; border: 2px solid #2A3352; background: #141C3D;
     touch-action: none;
   }
   .aimRow { display: flex; gap: 8px; margin-top: 10px; }
@@ -1341,12 +1342,24 @@
       return { x: prev.x + dx * t, y: prev.y + dy * t };
     }
     function draw(t) {
-      c.clearRect(0, 0, SIZE, SIZE);
+      /* dark arcade board with a faint grid */
+      c.fillStyle = "#141B2E";
+      c.fillRect(0, 0, SIZE, SIZE);
+      c.strokeStyle = "rgba(255,255,255,0.05)";
+      c.lineWidth = 1;
+      for (var gl = CELL; gl < SIZE; gl += CELL) {
+        c.beginPath(); c.moveTo(gl, 0); c.lineTo(gl, SIZE); c.stroke();
+        c.beginPath(); c.moveTo(0, gl); c.lineTo(SIZE, gl); c.stroke();
+      }
       c.font = "18px sans-serif"; c.textAlign = "center"; c.textBaseline = "middle";
       c.fillText("🍎", snake.food.x * CELL + 10, snake.food.y * CELL + 11);
-      for (var i = snake.body.length - 1; i >= 0; i--) {
+      /* neon snake: bright glowing head fading to deep green tail */
+      var len = snake.body.length;
+      for (var i = len - 1; i >= 0; i--) {
         var p = pos(i, t);
-        c.fillStyle = i === 0 ? "#2E7D32" : "#4CAF50";
+        var light = 62 - Math.min(26, (i / Math.max(1, len - 1)) * 26);
+        c.fillStyle = i === 0 ? "#7CF5AC" : "hsl(150, 55%, " + light + "%)";
+        if (i === 0) { c.shadowColor = "rgba(124,245,172,0.6)"; c.shadowBlur = 10; }
         if (c.roundRect) {
           c.beginPath();
           c.roundRect(p.x * CELL + 1, p.y * CELL + 1, CELL - 2, CELL - 2, 6);
@@ -1354,11 +1367,12 @@
         } else {
           c.fillRect(p.x * CELL + 1, p.y * CELL + 1, CELL - 2, CELL - 2);
         }
+        c.shadowBlur = 0;
       }
       var hp = pos(0, t);
-      c.fillStyle = "#fff";
-      c.beginPath(); c.arc(hp.x * CELL + 7 + snake.dir.x * 3, hp.y * CELL + 7 + snake.dir.y * 3, 2.4, 0, 7); c.fill();
-      c.beginPath(); c.arc(hp.x * CELL + 13 + snake.dir.x * 3, hp.y * CELL + 13 + snake.dir.y * 3, 2.4, 0, 7); c.fill();
+      c.fillStyle = "#10331F";
+      c.beginPath(); c.arc(hp.x * CELL + 7 + snake.dir.x * 3, hp.y * CELL + 7 + snake.dir.y * 3, 2.6, 0, 7); c.fill();
+      c.beginPath(); c.arc(hp.x * CELL + 13 + snake.dir.x * 3, hp.y * CELL + 13 + snake.dir.y * 3, 2.6, 0, 7); c.fill();
     }
   }
   function setDir(name) {
@@ -1433,37 +1447,57 @@
   function soccerDraw() {
     var c = soccer.c;
     if (!c) return;
-    /* grass stripes */
-    c.fillStyle = "#8FD05E"; c.fillRect(0, 0, SOC.W, SOC.H);
-    c.fillStyle = "#7EC24F";
-    for (var y = 0; y < SOC.H; y += 56) c.fillRect(0, y, SOC.W, 28);
+    /* night-match sky with floodlights */
+    var sky = c.createLinearGradient(0, 0, 0, 155);
+    sky.addColorStop(0, "#141C3D");
+    sky.addColorStop(1, "#3A55A0");
+    c.fillStyle = sky;
+    c.fillRect(0, 0, SOC.W, 155);
+    c.fillStyle = "rgba(255,255,240,0.10)";
+    c.beginPath(); c.arc(30, 12, 46, 0, 7); c.fill();
+    c.beginPath(); c.arc(290, 12, 46, 0, 7); c.fill();
+    c.fillStyle = "#FFF4C2";
+    c.beginPath(); c.arc(30, 12, 7, 0, 7); c.fill();
+    c.beginPath(); c.arc(290, 12, 7, 0, 7); c.fill();
+    /* pitch */
+    c.fillStyle = "#3E9E4E"; c.fillRect(0, 150, SOC.W, SOC.H - 150);
+    c.fillStyle = "#369245";
+    for (var y = 150; y < SOC.H; y += 34) c.fillRect(0, y, SOC.W, 17);
     /* net */
-    c.strokeStyle = "rgba(255,255,255,0.45)"; c.lineWidth = 1;
-    for (var nx = 48; nx <= 272; nx += 16) { c.beginPath(); c.moveTo(nx, 46); c.lineTo(nx, 148); c.stroke(); }
-    for (var ny = 56; ny <= 148; ny += 16) { c.beginPath(); c.moveTo(46, ny); c.lineTo(274, ny); c.stroke(); }
+    c.strokeStyle = "rgba(235,240,255,0.35)"; c.lineWidth = 1;
+    for (var nx = 48; nx <= 272; nx += 14) { c.beginPath(); c.moveTo(nx, 46); c.lineTo(nx, 148); c.stroke(); }
+    for (var ny = 56; ny <= 148; ny += 14) { c.beginPath(); c.moveTo(46, ny); c.lineTo(274, ny); c.stroke(); }
     /* posts */
     c.strokeStyle = "#FFFFFF"; c.lineWidth = 6; c.lineCap = "round";
     c.beginPath(); c.moveTo(45, 150); c.lineTo(45, 45); c.lineTo(275, 45); c.lineTo(275, 150); c.stroke();
     /* penalty spot */
-    c.fillStyle = "rgba(255,255,255,0.6)";
+    c.fillStyle = "rgba(255,255,255,0.5)";
     c.beginPath(); c.ellipse(SOC.ballX, SOC.ballY + 12, 16, 4, 0, 0, 7); c.fill();
-    /* keeper */
+    /* keeper in a bright kit */
     var kx = soccer.keeperX;
-    c.strokeStyle = "#FF8A3C"; c.lineWidth = 6;
-    c.beginPath(); c.moveTo(kx - 9, 122); c.lineTo(kx - 21, 106); c.stroke();
-    c.beginPath(); c.moveTo(kx + 9, 122); c.lineTo(kx + 21, 106); c.stroke();
-    c.fillStyle = "#FF8A3C"; c.fillRect(kx - 11, 116, 22, 26);
-    c.fillStyle = "#2E4057"; c.fillRect(kx - 9, 142, 7, 10); c.fillRect(kx + 2, 142, 7, 10);
+    c.strokeStyle = "#FFD23F"; c.lineWidth = 6;
+    c.beginPath(); c.moveTo(kx - 9, 122); c.lineTo(kx - 21, 105); c.stroke();
+    c.beginPath(); c.moveTo(kx + 9, 122); c.lineTo(kx + 21, 105); c.stroke();
+    c.fillStyle = "#FF5D5D"; c.beginPath(); c.arc(kx - 22, 104, 4, 0, 7); c.fill();
+    c.beginPath(); c.arc(kx + 22, 104, 4, 0, 7); c.fill();
+    c.fillStyle = "#FFD23F"; c.fillRect(kx - 11, 116, 22, 26);
+    c.fillStyle = "#1C2540"; c.fillRect(kx - 9, 142, 7, 11); c.fillRect(kx + 2, 142, 7, 11);
     c.fillStyle = "#F2C9A0"; c.beginPath(); c.arc(kx, 106, 9, 0, 7); c.fill();
-    /* ball */
+    /* ball with a soft shadow */
+    c.fillStyle = "rgba(0,0,0,0.25)";
+    c.beginPath(); c.ellipse(soccer.ball.x, soccer.ball.y + 11, 10, 3, 0, 0, 7); c.fill();
     c.font = "22px sans-serif"; c.textAlign = "center"; c.textBaseline = "middle";
     c.fillText("⚽", soccer.ball.x, soccer.ball.y);
-    /* message */
+    /* glowing result banner */
     if (soccer.msg) {
-      c.font = "800 28px sans-serif";
-      c.lineWidth = 5; c.strokeStyle = "#22304A"; c.fillStyle = "#FFFFFF";
-      c.strokeText(soccer.msg, SOC.W / 2, 186);
-      c.fillText(soccer.msg, SOC.W / 2, 186);
+      var goal = soccer.msg.indexOf("GOAL") === 0;
+      c.font = "800 30px sans-serif";
+      c.shadowColor = goal ? "rgba(124,245,172,0.9)" : "rgba(255,210,63,0.9)";
+      c.shadowBlur = 14;
+      c.lineWidth = 5; c.strokeStyle = "#141C3D"; c.fillStyle = "#FFFFFF";
+      c.strokeText(soccer.msg, SOC.W / 2, 190);
+      c.fillText(soccer.msg, SOC.W / 2, 190);
+      c.shadowBlur = 0;
     }
   }
   function soccerShoot(zone) {
