@@ -188,23 +188,20 @@
   }
   .dpad .blank { visibility: hidden; }
 
-  /* mind master */
-  #mmRows { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; min-height: 40px; }
-  .mmRow { display: flex; align-items: center; gap: 10px; justify-content: center; font-size: 22px; }
-  .mmRow .pegs { font-size: 15px; letter-spacing: 2px; min-width: 76px; }
-  #mmSlots { display: flex; gap: 8px; justify-content: center; font-size: 30px; margin: 8px 0; }
-  #mmSlots span {
-    width: 46px; height: 46px; border: 2px dashed var(--line); border-radius: 50%;
-    display: grid; place-items: center;
+  /* penalty kicks */
+  #soccerCanvas {
+    width: 100%; max-width: 320px; margin: 0 auto; display: block;
+    border-radius: 14px; border: 2px solid var(--line); background: #8FD05E;
+    touch-action: none;
   }
-  #mmPalette { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-  #mmPalette button { font-size: 30px; width: 48px; height: 48px; border-radius: 50%; background: #F7FAFF; border: 2px solid var(--line); }
-  #mmPalette button:active { transform: scale(0.9); }
-  .mmActions { display: flex; gap: 8px; margin-top: 10px; }
-  #mmDel { flex: 1; background: var(--card); border: 2px solid var(--line); color: var(--muted); font-weight: 800; padding: 12px; border-radius: 14px; }
-  #mmCheck { flex: 2; background: var(--purple); color: #fff; font-weight: 800; padding: 12px; border-radius: 14px; }
-  #mmCheck:disabled { opacity: 0.4; }
-  #mmHint { text-align: center; color: var(--muted); font-size: 13px; font-weight: 700; margin-top: 8px; }
+  .aimRow { display: flex; gap: 8px; margin-top: 10px; }
+  .aimRow button {
+    flex: 1; padding: 12px 0; border-radius: 12px;
+    background: #F1EDFD; border: 2px solid var(--purple); color: var(--purple);
+    font-weight: 800; font-size: 15px;
+  }
+  .aimRow button:active { transform: scale(0.95); }
+  #soccerHint { text-align: center; color: var(--muted); font-size: 13px; font-weight: 700; margin-top: 8px; }
 
   /* confetti */
   .confetti {
@@ -291,10 +288,10 @@
         <span class="name">Snake</span>
         <span class="best" id="snakeBest">Best: —</span>
       </button>
-      <button class="gameCard" id="pickMM">
-        <span class="icon">🕵️</span>
-        <span class="name">Mind Master</span>
-        <span class="best" id="mmBest">Best: —</span>
+      <button class="gameCard" id="pickSoccer">
+        <span class="icon">⚽</span>
+        <span class="name">Penalty Kicks</span>
+        <span class="best" id="soccerBest">Best: —</span>
       </button>
     </div>
     <button class="backLink" id="prizeSkip">No thanks, back to the quest</button>
@@ -322,26 +319,25 @@
   </div>
 </div>
 
-<!-- mind master overlay -->
-<div class="overlay" id="mmOverlay" role="dialog" aria-modal="true" aria-label="Mind Master">
+<!-- penalty kicks overlay -->
+<div class="overlay" id="soccerOverlay" role="dialog" aria-modal="true" aria-label="Penalty Kicks">
   <div class="sheet">
     <div class="gameTop">
-      <h2>🕵️ Mind Master</h2>
-      <span class="stat" id="mmStat">Try 1 of 8</span>
-      <button class="backBtn" data-close="mm">Back to the quest</button>
+      <h2>⚽ Penalty Kicks</h2>
+      <span class="stat" id="soccerStat">shot 1 of 5</span>
+      <button class="backBtn" data-close="soccer">Back to the quest</button>
     </div>
-    <div id="mmRows"></div>
-    <div id="mmSlots"><span></span><span></span><span></span><span></span></div>
-    <div id="mmPalette"></div>
-    <div class="mmActions">
-      <button id="mmDel">⌫</button>
-      <button id="mmCheck" disabled>Check!</button>
+    <canvas id="soccerCanvas" width="320" height="250" aria-label="Penalty shootout pitch"></canvas>
+    <div class="aimRow">
+      <button data-aim="0">↖ Left</button>
+      <button data-aim="1">⬆ Middle</button>
+      <button data-aim="2">↗ Right</button>
     </div>
-    <div id="mmHint">Guess my secret 4 colours — all different! ⭐ = right colour, right spot · ⚪ = right colour, wrong spot</div>
-    <div class="gameOverBox" id="mmOver">
-      <div class="headline" id="mmOverHead"></div>
-      <div class="sub" id="mmOverSub"></div>
-      <button class="bigBackBtn" data-close="mm">Back to the quest 🚀</button>
+    <div id="soccerHint">Tap a corner or flick the ball — don't let the goalie guess your spot!</div>
+    <div class="gameOverBox" id="soccerOver">
+      <div class="headline" id="soccerOverHead"></div>
+      <div class="sub" id="soccerOverSub"></div>
+      <button class="bigBackBtn" data-close="soccer">Back to the quest 🚀</button>
     </div>
   </div>
 </div>
@@ -416,6 +412,7 @@
     cheer: function () { tone("sawtooth", 300, 900, 0, 0.4, 0.3); tone("sine", 600, 1200, 0.1, 0.35, 0.25); },
     bigwin: function () { sfx.fanfare(); sfx.sparkle(); tone("sine", 1568, 2093, 0.45, 0.3, 0.25); },
     blip: function () { tone("square", 660, 880, 0, 0.07, 0.25); },
+    thump: function () { tone("sine", 150, 50, 0, 0.12, 0.55); noise(0, 0.08, 400, 0.25); },
     crash: function () { tone("sawtooth", 220, 60, 0, 0.35, 0.4); noise(0, 0.3, 600, 0.4); }
   };
   var rightSounds = ["coin", "sparkle", "fanfare", "cheer"];
@@ -781,7 +778,7 @@
     topic: "mixed", q: null, locked: false,
     xp: 0, streak: 0, answered: 0, solved: 0, prizeDue: false,
     seen: {}, lastType: null, bag: null, recent: [], advanceTimer: null,
-    best: { snake: null, mm: null }
+    best: { snake: null, soccer: null }
   };
   function tier() { return state.solved < 8 ? 1 : state.solved < 18 ? 2 : 3; }
   var RANKS = [["Cadet", 0], ["Scholar", 100], ["Wizard", 250], ["Grandmaster", 500]];
@@ -960,7 +957,7 @@
   function openPrize() {
     sfx.fanfare(); confetti();
     $("snakeBest").textContent = state.best.snake === null ? "First try!" : "Best: 🍎 " + state.best.snake;
-    $("mmBest").textContent = state.best.mm === null ? "First try!" : "Best: solved in " + state.best.mm;
+    $("soccerBest").textContent = state.best.soccer === null ? "First try!" : "Best: ⚽ " + state.best.soccer + "/5";
     $("prizeOverlay").classList.add("open");
   }
   function closePrizeToQuest() {
@@ -969,7 +966,7 @@
   }
   $("prizeSkip").addEventListener("click", closePrizeToQuest);
   $("pickSnake").addEventListener("click", function () { $("prizeOverlay").classList.remove("open"); startSnake(); });
-  $("pickMM").addEventListener("click", function () { $("prizeOverlay").classList.remove("open"); startMM(); });
+  $("pickSoccer").addEventListener("click", function () { $("prizeOverlay").classList.remove("open"); startSoccer(); });
 
   function questReminder() {
     var r = rankInfo();
@@ -977,8 +974,8 @@
   }
   document.querySelectorAll("[data-close]").forEach(function (b) {
     b.addEventListener("click", function () {
-      if (b.dataset.close === "snake") stopSnake();
-      $(b.dataset.close === "snake" ? "snakeOverlay" : "mmOverlay").classList.remove("open");
+      if (b.dataset.close === "snake") stopSnake(); else stopSoccer();
+      $(b.dataset.close + "Overlay").classList.remove("open");
       loadQuestion();
     });
   });
@@ -1112,73 +1109,150 @@
     $("snakeOver").classList.add("show");
   }
 
-  /* ---------- mind master ---------- */
-  var MM_COLORS = ["🔴", "🟡", "🟢", "🔵", "🟣", "🟠"];
-  var mm = {};
-  function startMM() {
-    mm.secret = shuffle(MM_COLORS.slice()).slice(0, 4);
-    mm.guess = [];
-    mm.tries = 0;
-    mm.done = false;
-    $("mmRows").innerHTML = "";
-    $("mmOver").classList.remove("show");
-    $("mmStat").textContent = "Try 1 of 8";
-    renderMMSlots();
-    var pal = $("mmPalette");
-    pal.innerHTML = "";
-    MM_COLORS.forEach(function (c) {
-      var b = document.createElement("button");
-      b.textContent = c;
-      b.setAttribute("aria-label", "colour " + c);
-      b.addEventListener("click", function () {
-        if (mm.done || mm.guess.length >= 4 || mm.guess.indexOf(c) !== -1) return;
-        mm.guess.push(c); sfx.blip(); renderMMSlots();
-      });
-      pal.appendChild(b);
-    });
-    $("mmOverlay").classList.add("open");
-  }
-  function renderMMSlots() {
-    var slots = $("mmSlots").children;
-    for (var i = 0; i < 4; i++) slots[i].textContent = mm.guess[i] || "";
-    $("mmCheck").disabled = mm.guess.length !== 4 || mm.done;
-  }
-  $("mmDel").addEventListener("click", function () { if (!mm.done) { mm.guess.pop(); renderMMSlots(); } });
-  $("mmCheck").addEventListener("click", function () {
-    if (mm.done || mm.guess.length !== 4) return;
-    mm.tries++;
-    var exact = 0, near = 0;
-    mm.guess.forEach(function (c, i) {
-      if (mm.secret[i] === c) exact++;
-      else if (mm.secret.indexOf(c) !== -1) near++;
-    });
-    var row = document.createElement("div");
-    row.className = "mmRow";
-    var pegs = "";
-    for (var i = 0; i < exact; i++) pegs += "⭐";
-    for (var j = 0; j < near; j++) pegs += "⚪";
-    row.innerHTML = "<span>" + mm.guess.join("") + '</span><span class="pegs">' + (pegs || "—") + "</span>";
-    $("mmRows").appendChild(row);
-    if (exact === 4) {
-      mm.done = true;
-      sfx.bigwin(); confetti();
-      var isBest = state.best.mm === null || mm.tries < state.best.mm;
-      if (isBest) state.best.mm = mm.tries;
-      $("mmOverHead").textContent = "🎉 Cracked it in " + mm.tries + "!";
-      $("mmOverSub").textContent = (isBest ? "🏆 New best! " : "Best: " + state.best.mm + " tries. ") + questReminder();
-      $("mmOver").classList.add("show");
-    } else if (mm.tries >= 8) {
-      mm.done = true;
-      sfx.trombone();
-      $("mmOverHead").textContent = "The code was " + mm.secret.join("");
-      $("mmOverSub").textContent = "So sneaky! You'll get it next time. " + questReminder();
-      $("mmOver").classList.add("show");
-    } else {
-      sfx[exact + near > 2 ? "sparkle" : "boing"]();
-      $("mmStat").textContent = "Try " + (mm.tries + 1) + " of 8";
+  /* ---------- penalty kicks ---------- */
+  var soccer = { raf: null, wait: null, playing: false, phase: "idle" };
+  var SOC = { W: 320, H: 250, zonesX: [80, 160, 240], goalY: 92, ballX: 160, ballY: 210, keeperHome: 160 };
+  function recordSoccerBest() {
+    if (soccer.goals > 0 && (state.best.soccer === null || soccer.goals > state.best.soccer)) {
+      state.best.soccer = soccer.goals;
+      return true;
     }
-    mm.guess = [];
-    renderMMSlots();
+    return false;
+  }
+  function startSoccer() {
+    var cv = $("soccerCanvas");
+    soccer.c = cv.getContext("2d");
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    cv.width = SOC.W * dpr; cv.height = SOC.H * dpr;
+    soccer.c.setTransform(dpr, 0, 0, dpr, 0, 0);
+    soccer.shot = 0; soccer.goals = 0; soccer.playing = true; soccer.phase = "aim";
+    soccer.lastZone = -1; soccer.wasBest = false; soccer.msg = "";
+    soccer.keeperX = SOC.keeperHome;
+    soccer.ball = { x: SOC.ballX, y: SOC.ballY };
+    $("soccerOver").classList.remove("show");
+    $("soccerOverlay").classList.add("open");
+    sfx.whistle();
+    soccerStat();
+    soccerDraw();
+  }
+  function soccerStat() {
+    $("soccerStat").textContent = "⚽ " + soccer.goals + " · shot " + Math.min(soccer.shot + 1, 5) + " of 5";
+  }
+  function soccerDraw() {
+    var c = soccer.c;
+    if (!c) return;
+    /* grass stripes */
+    c.fillStyle = "#8FD05E"; c.fillRect(0, 0, SOC.W, SOC.H);
+    c.fillStyle = "#7EC24F";
+    for (var y = 0; y < SOC.H; y += 56) c.fillRect(0, y, SOC.W, 28);
+    /* net */
+    c.strokeStyle = "rgba(255,255,255,0.45)"; c.lineWidth = 1;
+    for (var nx = 48; nx <= 272; nx += 16) { c.beginPath(); c.moveTo(nx, 46); c.lineTo(nx, 148); c.stroke(); }
+    for (var ny = 56; ny <= 148; ny += 16) { c.beginPath(); c.moveTo(46, ny); c.lineTo(274, ny); c.stroke(); }
+    /* posts */
+    c.strokeStyle = "#FFFFFF"; c.lineWidth = 6; c.lineCap = "round";
+    c.beginPath(); c.moveTo(45, 150); c.lineTo(45, 45); c.lineTo(275, 45); c.lineTo(275, 150); c.stroke();
+    /* penalty spot */
+    c.fillStyle = "rgba(255,255,255,0.6)";
+    c.beginPath(); c.ellipse(SOC.ballX, SOC.ballY + 12, 16, 4, 0, 0, 7); c.fill();
+    /* keeper */
+    var kx = soccer.keeperX;
+    c.strokeStyle = "#FF8A3C"; c.lineWidth = 6;
+    c.beginPath(); c.moveTo(kx - 9, 122); c.lineTo(kx - 21, 106); c.stroke();
+    c.beginPath(); c.moveTo(kx + 9, 122); c.lineTo(kx + 21, 106); c.stroke();
+    c.fillStyle = "#FF8A3C"; c.fillRect(kx - 11, 116, 22, 26);
+    c.fillStyle = "#2E4057"; c.fillRect(kx - 9, 142, 7, 10); c.fillRect(kx + 2, 142, 7, 10);
+    c.fillStyle = "#F2C9A0"; c.beginPath(); c.arc(kx, 106, 9, 0, 7); c.fill();
+    /* ball */
+    c.font = "22px sans-serif"; c.textAlign = "center"; c.textBaseline = "middle";
+    c.fillText("⚽", soccer.ball.x, soccer.ball.y);
+    /* message */
+    if (soccer.msg) {
+      c.font = "800 28px sans-serif";
+      c.lineWidth = 5; c.strokeStyle = "#22304A"; c.fillStyle = "#FFFFFF";
+      c.strokeText(soccer.msg, SOC.W / 2, 186);
+      c.fillText(soccer.msg, SOC.W / 2, 186);
+    }
+  }
+  function soccerShoot(zone) {
+    if (!soccer.playing || soccer.phase !== "aim") return;
+    soccer.phase = "flight";
+    soccer.shot++;
+    sfx.thump();
+    /* the goalie remembers your favourite corner */
+    var kz = (soccer.lastZone >= 0 && Math.random() < 0.45) ? soccer.lastZone : ri(0, 2);
+    soccer.lastZone = zone;
+    var t0 = performance.now(), dur = 380;
+    var bx0 = soccer.ball.x, by0 = soccer.ball.y;
+    var tx = SOC.zonesX[zone], ty = SOC.goalY;
+    var kx0 = soccer.keeperX, ktx = SOC.zonesX[kz];
+    function fly(now) {
+      if (!soccer.playing) return;
+      var t = Math.min(1, (now - t0) / dur);
+      var e = 1 - (1 - t) * (1 - t);
+      soccer.ball = { x: bx0 + (tx - bx0) * e, y: by0 + (ty - by0) * e };
+      soccer.keeperX = kx0 + (ktx - kx0) * Math.min(1, t * 1.2);
+      soccerDraw();
+      if (t < 1) { soccer.raf = requestAnimationFrame(fly); return; }
+      var goal = kz !== zone;
+      if (goal) { soccer.goals++; sfx.cheer(); soccer.msg = "GOAL! 🎉"; }
+      else { sfx[pick(["splat", "honk", "boing"])](); soccer.msg = "Saved! 🧤"; }
+      soccer.phase = "result";
+      soccerStat();
+      soccerDraw();
+      soccer.wait = setTimeout(function () {
+        soccer.msg = "";
+        if (soccer.shot >= 5) { endSoccer(); return; }
+        soccer.ball = { x: SOC.ballX, y: SOC.ballY };
+        soccer.keeperX = SOC.keeperHome;
+        soccer.phase = "aim";
+        soccerStat();
+        soccerDraw();
+      }, 1000);
+    }
+    soccer.raf = requestAnimationFrame(fly);
+  }
+  function stopSoccer() {
+    if (soccer.raf) cancelAnimationFrame(soccer.raf);
+    clearTimeout(soccer.wait);
+    if (soccer.playing) {
+      soccer.playing = false;
+      soccer.wasBest = recordSoccerBest();
+    }
+  }
+  function endSoccer() {
+    stopSoccer();
+    var g = soccer.goals;
+    if (g >= 4) { sfx.bigwin(); confetti(); }
+    else if (g >= 2) sfx.fanfare();
+    else sfx.trombone();
+    $("soccerOverHead").textContent = g === 5 ? "⚽ PERFECT — 5 of 5!" : "⚽ " + g + " of 5!";
+    $("soccerOverSub").textContent =
+      (soccer.wasBest ? "🏆 New best! " : "Best: ⚽ " + (state.best.soccer === null ? 0 : state.best.soccer) + "/5. ") +
+      (g === 0 ? "That goalie is a wall! " : "") + questReminder();
+    $("soccerOver").classList.add("show");
+  }
+  document.querySelectorAll(".aimRow [data-aim]").forEach(function (b) {
+    b.addEventListener("click", function () { soccerShoot(+b.dataset.aim); });
+  });
+  (function () {
+    var cv = $("soccerCanvas"), sx = null;
+    cv.addEventListener("touchstart", function (e) { sx = e.touches[0].clientX; e.preventDefault(); }, { passive: false });
+    cv.addEventListener("touchend", function (e) {
+      if (sx === null) return;
+      var dx = e.changedTouches[0].clientX - sx;
+      sx = null;
+      soccerShoot(dx < -24 ? 0 : dx > 24 ? 2 : 1);
+    });
+    cv.addEventListener("click", function (e) {
+      var r = cv.getBoundingClientRect(), x = e.clientX - r.left;
+      soccerShoot(x < r.width / 3 ? 0 : x > (2 * r.width) / 3 ? 2 : 1);
+    });
+  })();
+  document.addEventListener("keydown", function (e) {
+    if (!$("soccerOverlay").classList.contains("open")) return;
+    var z = { ArrowLeft: 0, ArrowUp: 1, ArrowRight: 2 }[e.key];
+    if (z !== undefined) { e.preventDefault(); soccerShoot(z); }
   });
 
   /* keyboard for quest */
@@ -1200,6 +1274,7 @@
   window.__MQ = {
     state: state,
     snake: snake,
+    soccer: soccer,
     tier: tier,
     gen: function (t, lv) { return GENS[t](lv || 2); },
     simp: simp

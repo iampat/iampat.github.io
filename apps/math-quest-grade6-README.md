@@ -18,9 +18,10 @@ offline, from a USB stick, on a school laptop or a phone.
   resets.
 - The next question loads on its own. "⏭️ New question" skips without penalty.
 - **Every 5 questions answered — right or wrong — a prize unlocks:** pick 🐍 Snake or
-  🕵️ Mind Master. Both are short by design (Snake is a 45-second round; Mind Master is
-  one code to crack in 8 tries), keep a session high score, and always show
-  "Back to the quest". Progress dots under the buttons count down to the next prize.
+  ⚽ Penalty Kicks. Both are short by design (Snake is a 45-second round; Penalty Kicks
+  is 5 shots against a goalie who remembers your favourite corner), keep a session high
+  score, and always show "Back to the quest". Progress dots under the buttons count
+  down to the next prize.
 - Three tabs: 🎲 Mixed, 🍫 Fractions, 📐 Shapes. No difficulty settings — just play.
 - 🔊 mutes everything. All sound is synthesized (WebAudio) and deliberately mild so it
   won't take over a room.
@@ -75,6 +76,6 @@ options, correct value matches the math.
 - More curriculum: ratios/rates, percents, integers, order of operations,
   volume/surface area of prisms, angles, transformations.
 - Test on a real iPhone/iPad (v2 tested in desktop Chromium at phone size only).
-- More mini-games: Bubble Blaster (target popping), Connect Four vs. a simple robot,
-  and a penalty-shootout soccer game are planned next.
+- More mini-games: Bubble Blaster (target popping) and Connect Four vs. a simple
+  robot are planned next.
 - Focus trap for the overlays (keyboard users can still Tab behind an open dialog).
