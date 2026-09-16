@@ -17,14 +17,45 @@ offline, from a USB stick, on a school laptop or a phone.
   lights up green with a ✅, and a plain-language explanation appears. Only the streak
   resets.
 - The next question loads on its own. "⏭️ New question" skips without penalty.
-- **Every 5 questions answered — right or wrong — a prize unlocks:** pick 🐍 Snake or
-  ⚽ Penalty Kicks. Both are short by design (Snake is a 45-second round; Penalty Kicks
-  is 5 shots against a goalie who remembers your favourite corner), keep a session high
+- **Every 5 questions answered — right or wrong — a prize unlocks:** pick 🐍 Snake,
+  ⚽ Penalty Kicks or 🦍 Banana Blast. All three are short by design (Snake is a
+  45-second round; Penalty Kicks is 5 shots against a goalie who remembers your
+  favourite corner; Banana Blast is 5 throws at a robot ape), keep a session high
   score, and always show "Back to the quest". Progress dots under the buttons count
   down to the next prize.
 - Three tabs: 🎲 Mixed, 🍫 Fractions, 📐 Shapes. No difficulty settings — just play.
 - 🔊 mutes everything. All sound is synthesized (WebAudio) and deliberately mild so it
   won't take over a room.
+
+## 🦍 Banana Blast (the gorilla game)
+
+A remake of the QBasic classic. Two apes stand on a night-time skyline and lob bananas
+at each other; **angle, power and wind** decide the arc, and whatever the banana misses,
+it blows up.
+
+- **You get 5 throws.** Score is how many land on the robot ape — `🍌 3/5`, same shape
+  as Penalty Kicks. Hit it and it hops to a new roof with fresh wind; miss and it
+  throws back.
+- **Aim two ways:** drag across the city (direction = throw, length = power) or use the
+  📐 Angle / 💪 Power dials. Keyboard: ←/→ angle, ↑/↓ power, Space to throw. A short
+  dotted arc shows the direction and strength of the shot, not where it lands.
+- **The wind only changes when you score**, so a miss is a real clue — the kid adjusts
+  and tries again instead of starting from scratch each time. The gauge at the top
+  shows which way and how hard.
+- **The buildings take damage.** A `Uint8Array` mask holds the collision shape and the
+  same crater circles are erased from an offscreen terrain canvas, so what you see and
+  what you hit can't drift apart. Blast a roof away and the ape standing on it settles
+  onto the highest solid pixel left.
+- **The robot solves the same projectile the kid is eyeballing** — target distance,
+  height difference, chosen angle — then spoils its own answer on purpose. That error
+  shrinks by 45% every throw (0.30 → 0.17 → 0.09 → 0.05), so it creeps closer and the
+  last throw is genuinely tense. It resets when you knock the robot off its roof.
+- Hit the sun and it pulls the same shocked face it did in 1991.
+
+Physics lives in `GOR`: gravity `0.08 px/frame²`, power 0–100 mapping to `0.06 px/frame`
+of launch speed, and 6 substeps a frame so a fast banana can't tunnel through a thin
+wall. Full power at 45° carries about 450 px, so crossing the city sits around 70–80 —
+there's headroom on both sides of the useful range.
 
 ## The question bank (data-driven)
 
@@ -115,8 +146,10 @@ An automated Playwright suite was used for v2; the same things can be checked by
 3. A wrong answer always reveals the correct one, with an explanation.
 4. Mute silences everything.
 5. On a narrow phone (~390 px) nothing spills outside the card.
-6. The prize appears after every 5th answer, both games exit at any moment via
+6. The prize appears after every 5th answer, all three games exit at any moment via
    "Back to the quest", and the quest resumes right after.
+7. In Banana Blast: an aimed throw can hit, craters appear where bananas land, the
+   dials go grey while the robot throws, and the header stays on one line at 320 px.
 
 The automated suite additionally generates 16,800 questions (700 per type per
 difficulty tier, all 8 types) and re-computes every answer independently: exactly one
@@ -131,4 +164,6 @@ correct value matches the math.
 - Test on a real iPhone/iPad (v2 tested in desktop Chromium at phone size only).
 - More mini-games: Bubble Blaster (target popping) and Connect Four vs. a simple
   robot are planned next.
+- Banana Blast could tie back into the curriculum — read the angle off a protractor
+  overlay, or earn power by answering a quick question.
 - Focus trap for the overlays (keyboard users can still Tab behind an open dialog).
