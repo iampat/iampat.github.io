@@ -1,0 +1,565 @@
+{
+ "style": "watercolor",
+ "regions_file": "portrait_at_the_lake.json",
+ "canvas": [
+  1440,
+  1920
+ ],
+ "target": "{TARGET}",
+ "reference": "{REFERENCE}",
+ "seed": 7,
+ "max_strokes": 15000,
+ "ground": "#f6f1e8",
+ "metric": {
+  "ms_ssim": 0.5,
+  "gradient": 0.3,
+  "color": 0.2
+ },
+ "layers": [
+  {
+   "name": "sky",
+   "region": "sky",
+   "tool": "brush",
+   "overflow": 40,
+   "alpha": [
+    0.25,
+    0.55
+   ],
+   "curvature": 0.15,
+   "levels": [
+    {
+     "size": 200,
+     "count": 52,
+     "threshold": 0.0
+    },
+    {
+     "size": 110,
+     "count": 156,
+     "threshold": 0.0
+    },
+    {
+     "size": 60,
+     "count": 208,
+     "threshold": 0.0
+    }
+   ],
+   "length": [
+    2,
+    5
+   ],
+   "jitter": 0.2
+  },
+  {
+   "name": "sky-wash",
+   "region": "sky",
+   "tool": "spray",
+   "overflow": 40,
+   "alpha": [
+    0.2,
+    0.35
+   ],
+   "length": [
+    2,
+    5
+   ],
+   "levels": [
+    {
+     "size": 260,
+     "count": 30,
+     "threshold": 0.0
+    },
+    {
+     "size": 140,
+     "count": 60,
+     "threshold": 0.0
+    }
+   ]
+  },
+  {
+   "name": "mountains-left",
+   "region": "mtn_left",
+   "tool": "brush",
+   "overflow": 16,
+   "alpha": [
+    0.25,
+    0.55
+   ],
+   "levels": [
+    {
+     "size": 70,
+     "count": 78,
+     "threshold": 0.0
+    },
+    {
+     "size": 36,
+     "count": 156,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.2
+  },
+  {
+   "name": "mountains-right",
+   "region": "mtn_right",
+   "tool": "brush",
+   "overflow": 16,
+   "alpha": [
+    0.25,
+    0.55
+   ],
+   "levels": [
+    {
+     "size": 70,
+     "count": 78,
+     "threshold": 0.0
+    },
+    {
+     "size": 36,
+     "count": 156,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.2
+  },
+  {
+   "name": "water",
+   "region": "water",
+   "tool": "brush",
+   "overflow": 30,
+   "alpha": [
+    0.25,
+    0.55
+   ],
+   "curvature": 0.05,
+   "length": [
+    2,
+    9
+   ],
+   "levels": [
+    {
+     "size": 90,
+     "count": 104,
+     "threshold": 0.0
+    },
+    {
+     "size": 45,
+     "count": 260,
+     "threshold": 0.0
+    },
+    {
+     "size": 24,
+     "count": 520,
+     "threshold": 0.0
+    },
+    {
+     "size": 12,
+     "count": 650,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.2
+  },
+  {
+   "name": "headland",
+   "region": "headland",
+   "tool": "brush",
+   "overflow": 8,
+   "alpha": [
+    0.25,
+    0.55
+   ],
+   "levels": [
+    {
+     "size": 40,
+     "count": 52,
+     "threshold": 0.0
+    },
+    {
+     "size": 20,
+     "count": 104,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.2
+  },
+  {
+   "name": "neck",
+   "region": "neck",
+   "tool": "brush",
+   "overflow": 6,
+   "alpha": [
+    0.25,
+    0.55
+   ],
+   "levels": [
+    {
+     "size": 40,
+     "count": 26,
+     "threshold": 0.0
+    },
+    {
+     "size": 20,
+     "count": 52,
+     "threshold": 0.0
+    },
+    {
+     "size": 10,
+     "count": 78,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.2
+  },
+  {
+   "name": "sweater",
+   "region": "sweater",
+   "tool": "brush",
+   "overflow": 14,
+   "alpha": [
+    0.25,
+    0.55
+   ],
+   "curvature": 0.2,
+   "flow": "sweater",
+   "flow_weight": 0.3,
+   "levels": [
+    {
+     "size": 100,
+     "count": 104,
+     "threshold": 0.0
+    },
+    {
+     "size": 50,
+     "count": 260,
+     "threshold": 0.0
+    },
+    {
+     "size": 25,
+     "count": 520,
+     "threshold": 0.0
+    },
+    {
+     "size": 12,
+     "count": 650,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.2,
+   "length": [
+    2,
+    8
+   ]
+  },
+  {
+   "name": "hair-mass",
+   "region": "hair_core",
+   "tool": "brush",
+   "overflow": 6,
+   "alpha": [
+    0.25,
+    0.55
+   ],
+   "curvature": 0.3,
+   "flow": "hair",
+   "flow_weight": 0.4,
+   "levels": [
+    {
+     "size": 60,
+     "count": 130,
+     "threshold": 0.0
+    },
+    {
+     "size": 30,
+     "count": 260,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.2
+  },
+  {
+   "name": "face-mass",
+   "region": "face",
+   "tool": "brush",
+   "overflow": 4,
+   "alpha": [
+    0.25,
+    0.55
+   ],
+   "levels": [
+    {
+     "size": 48,
+     "count": 52,
+     "threshold": 0.0
+    },
+    {
+     "size": 24,
+     "count": 156,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.2
+  },
+  {
+   "name": "hair-strands",
+   "region": "hair_core",
+   "tool": "bristle",
+   "overflow": 8,
+   "alpha": [
+    0.35,
+    0.6
+   ],
+   "curvature": 0.3,
+   "flow": "hair",
+   "flow_weight": 0.3,
+   "length": [
+    3,
+    12
+   ],
+   "levels": [
+    {
+     "size": 14,
+     "count": 650,
+     "threshold": 0.0
+    },
+    {
+     "size": 7,
+     "count": 1170,
+     "threshold": 0.0
+    },
+    {
+     "size": 4,
+     "count": 1560,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.2
+  },
+  {
+   "name": "face-form",
+   "region": "face",
+   "tool": "brush",
+   "overflow": 4,
+   "alpha": [
+    0.25,
+    0.55
+   ],
+   "drift": 10,
+   "levels": [
+    {
+     "size": 16,
+     "count": 390,
+     "threshold": 0.0
+    },
+    {
+     "size": 8,
+     "count": 650,
+     "threshold": 0.0
+    },
+    {
+     "size": 4,
+     "count": 780,
+     "threshold": 0.0
+    },
+    {
+     "size": 3,
+     "count": 650,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.2
+  },
+  {
+   "name": "face-accents",
+   "region": "face",
+   "tool": "pencil",
+   "overflow": 2,
+   "alpha": [
+    0.4,
+    0.7
+   ],
+   "drift": 8,
+   "levels": [
+    {
+     "size": 2.5,
+     "count": 390,
+     "threshold": 1e-05
+    },
+    {
+     "size": 1.8,
+     "count": 390,
+     "threshold": 1e-05
+    }
+   ],
+   "jitter": 0.2
+  },
+  {
+   "name": "sunglasses",
+   "region": "sunglasses",
+   "tool": "brush",
+   "overflow": 3,
+   "alpha": [
+    0.25,
+    0.55
+   ],
+   "drift": 10,
+   "levels": [
+    {
+     "size": 12,
+     "count": 78,
+     "threshold": 0.0
+    },
+    {
+     "size": 6,
+     "count": 130,
+     "threshold": 0.0
+    },
+    {
+     "size": 3,
+     "count": 182,
+     "threshold": 0.0
+    },
+    {
+     "size": 2,
+     "count": 195,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.2
+  },
+  {
+   "name": "sunglasses-lines",
+   "region": "sunglasses",
+   "tool": "pencil",
+   "overflow": 2,
+   "alpha": [
+    0.5,
+    0.8
+   ],
+   "drift": 8,
+   "levels": [
+    {
+     "size": 2,
+     "count": 195,
+     "threshold": 5e-06
+    }
+   ],
+   "jitter": 0.2
+  },
+  {
+   "name": "water-sparkle",
+   "region": "water_visible",
+   "tool": "brush",
+   "overflow": 0,
+   "alpha": [
+    0.25,
+    0.55
+   ],
+   "length": [
+    2,
+    5
+   ],
+   "levels": [
+    {
+     "size": 10,
+     "count": 325,
+     "threshold": 0.0
+    },
+    {
+     "size": 6,
+     "count": 325,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.2
+  },
+  {
+   "name": "sweater-folds",
+   "region": "sweater",
+   "tool": "brush",
+   "overflow": 6,
+   "alpha": [
+    0.25,
+    0.55
+   ],
+   "flow": "sweater",
+   "flow_weight": 0.3,
+   "levels": [
+    {
+     "size": 8,
+     "count": 390,
+     "threshold": 0.0
+    },
+    {
+     "size": 4,
+     "count": 390,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.2
+  },
+  {
+   "name": "details",
+   "region": "figure",
+   "tool": "brush",
+   "overflow": 0,
+   "alpha": [
+    0.25,
+    0.55
+   ],
+   "drift": 8,
+   "levels": [
+    {
+     "size": 5,
+     "count": 650,
+     "threshold": 3e-05
+    },
+    {
+     "size": 3,
+     "count": 650,
+     "threshold": 3e-05
+    }
+   ],
+   "jitter": 0.2
+  },
+  {
+   "name": "paper-granulation",
+   "region": "all",
+   "tool": "spray",
+   "overflow": 0,
+   "alpha": [
+    0.08,
+    0.15
+   ],
+   "drift": 30,
+   "length": [
+    1,
+    3
+   ],
+   "levels": [
+    {
+     "size": 90,
+     "count": 120,
+     "threshold": 0.0
+    }
+   ]
+  },
+  {
+   "name": "drawing-lines",
+   "region": "figure",
+   "tool": "pencil",
+   "overflow": 2,
+   "alpha": [
+    0.35,
+    0.6
+   ],
+   "drift": 10,
+   "levels": [
+    {
+     "size": 2.5,
+     "count": 400,
+     "threshold": 5e-06
+    }
+   ]
+  }
+ ]
+}
