@@ -20,9 +20,9 @@ offline, from a USB stick, on a school laptop or a phone.
 - **Every 5 questions answered — right or wrong — a prize unlocks:** pick 🐍 Snake,
   ⚽ Penalty Kicks or 🦍 Banana Blast. All three are short by design (Snake is a
   45-second round; Penalty Kicks is 5 shots against a goalie who remembers your
-  favourite corner; Banana Blast is a first-to-2-hits artillery duel, ~30-60 seconds),
-  keep a session high score, and always show "Back to the quest". Progress dots under
-  the buttons count down to the next prize.
+  favourite corner; Banana Blast is 10 banana throws at a hopping rival), keep a
+  session high score, and always show "Back to the quest". Progress dots under the
+  buttons count down to the next prize.
 - Three tabs: 🎲 Mixed, 🍫 Fractions, 📐 Shapes. No difficulty settings — just play.
 - 🔊 mutes everything. All sound is synthesized (WebAudio) and deliberately mild so it
   won't take over a room.
@@ -103,18 +103,23 @@ questions are remembered so the same one doesn't come around again soon.
 
 ## Banana Blast (the gorilla game)
 
-A banana-artillery duel on a night-time skyline, in the spirit of the old QBasic
+A banana-artillery game on a night-time skyline, in the spirit of the old QBasic
 *Gorillas*. Pick an **angle** and a **power** with two sliders, watch the **wind
-arrow**, and lob a banana at the rival gorilla; first to 2 hits wins. Explosions carve
-real craters into the buildings (the skyline is a per-column height map), and after
-every miss the game tells you **"Too short!"** or **"Too far!"** so the next shot is an
-informed adjustment rather than a guess — the same estimate-and-correct loop the angle
-work in the curriculum is after.
+arrow**, and lob a banana at the rival gorilla. You get **10 bananas**; the score is
+how many of them land. Explosions carve real craters into the buildings (the skyline
+is a per-column height map), and after every miss the game says **"Too short!"** or
+**"Too far!"** so the next shot is an informed adjustment rather than a guess — the
+same estimate-and-correct loop the angle work in the curriculum is after.
 
-The rival rubber-bands: it aims with a real projectile solution but grows sloppier
-while it is ahead and sharper when the player is ahead. A simulated player who just
-follows the short/far hints wins about 65% of rounds in ~7.5 throws, so it stays
-winnable without being a walkover. Best score is the fewest throws taken to win.
+**The rival is a sparring partner, not a boss.** It solves a real projectile equation
+to throw back (so the city takes damage and there is something to dodge), but it can
+never take a banana away or end the round — the only thing being scored is your ten
+shots. Each time you land a hit it **hops to a new rooftop**, so the same shot twice
+never works and every hit has to be re-aimed.
+
+**Landscape-aware:** on a phone held sideways the game goes full-bleed with a wider
+city (460 units instead of 320) and the controls beside the canvas; in portrait it
+stacks and suggests turning the phone. Best score is most hits out of 10.
 
 ## Ranks and XP
 
@@ -142,8 +147,8 @@ correct value matches the math.
 ## Where to take it next (from the handoff, still open)
 
 - Save progress between sessions (localStorage).
-- More curriculum: ratios/rates, percents, integers, order of operations,
-  volume/surface area of prisms, angles, transformations.
+- More curriculum: see `math-quest-QUESTION-PLAN.md` for a costed plan of 100 more
+  question templates (fractions, percents, ratios, integers, geometry, data).
 - Test on a real iPhone/iPad (v2 tested in desktop Chromium at phone size only).
 - More mini-games: Bubble Blaster (target popping) and Connect Four vs. a simple
   robot are planned next.
