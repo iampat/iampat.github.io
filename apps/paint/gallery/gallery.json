@@ -53,7 +53,7 @@
   {
    "version": "v2",
    "key": "fable",
-   "title": "Fable plan",
+   "title": "From a written plan",
    "note": "Painted from a written plan of every move. The plan was rewritten five times.",
    "image": "v2/fable.jpg",
    "video": "v2/fable.mp4",
@@ -63,7 +63,7 @@
   {
    "version": "v3",
    "key": "oil",
-   "title": "Painter, 1K oil target",
+   "title": "Oil, first stroke-by-stroke painting",
    "note": "The first stroke-by-stroke painting, guided by an oil study of the photo.",
    "image": "v3/oil.jpg",
    "video": "v3/oil.mp4",
