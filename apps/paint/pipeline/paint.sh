@@ -4,6 +4,7 @@
 #   --max-strokes N   stop after N strokes (use 3000 while you iterate)
 #   --seed N          the placer seed (default 7)
 #   --skip-target     use a target image already in place, and skip Gemini
+#   --no-judge        skip the Gemini judge (the only language-model step)
 #   --tidy            remove the video frames at the end (about 1.5 GB)
 #   --log FILE        send every line of output to FILE instead of the terminal
 #
@@ -59,11 +60,13 @@ SEED=""
 SKIP_TARGET=0
 TIDY=0
 LOG=""
+NO_JUDGE=0
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --max-strokes) MAX_STROKES="$2"; shift 2 ;;
         --seed) SEED="$2"; shift 2 ;;
         --skip-target) SKIP_TARGET=1; shift ;;
+        --no-judge) NO_JUDGE=1; shift ;;
         --tidy) TIDY=1; shift ;;
         --log) LOG="$2"; shift 2 ;;
         -h|--help) usage ;;
@@ -253,7 +256,9 @@ done_step quality
 
 # ---------------------------------------------------------------- 9. judge
 step "Gemini judge"
-if [[ -n "${GEMINI_API_KEY:-}" ]]; then
+if [[ "$NO_JUDGE" == 1 ]]; then
+    echo "   --no-judge: skipping the judge"
+elif [[ -n "${GEMINI_API_KEY:-}" ]]; then
     if "$PY" "$PIPELINE_DIR/judge_gemini.py" --painting "$RUN/render/final.png" \
             --photo "$PHOTO_PLAN" --target "$TARGET_PLAN" --out "$RUN/judge" >/dev/null; then
         "$PY" -c "import json,sys; j=json.load(open(sys.argv[1])); print('   ', {k:v for k,v in j.items() if k!='problems'})" "$RUN/judge/scores.json"

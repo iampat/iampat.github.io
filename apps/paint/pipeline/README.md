@@ -56,7 +56,7 @@ The style is `oil`, `watercolor`, `pencil` or `sketch`, in American spelling.
 `paint.sh` also takes `watercolour`, `graphite` and `coloured pencil` and maps
 them to those four, and says which one it used. Any other word stops the run.
 
-Options: `--max-strokes N` for a quick look, `--seed N`, `--skip-target`
+Options: `--max-strokes N` for a quick look, `--seed N`, `--no-judge` to skip the Gemini judge (then Nano Banana is the only model call), `--skip-target`
 when you already have a target image, `--tidy`, and `--log FILE`. With
 `--skip-target`, put the target at `<workdir>/targets/<style>_2k.raw.png`
 (`.raw.jpg` also works), or a plan-space one at

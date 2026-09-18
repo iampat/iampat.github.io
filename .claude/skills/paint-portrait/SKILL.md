@@ -68,6 +68,8 @@ used. Any other word stops the run.
 
 Options: `--max-strokes N` (use 3000 while you iterate), `--seed N`, `--tidy`
 (removes the 1.5 GB of video frames at the end), `--log FILE`, and
+`--no-judge` to run without any language model (Nano Banana still makes the
+style target; the placer, renderer, video and quality numbers are plain code).
 `--skip-target` when a target image is already at
 `<workdir>/targets/<style>_2k.raw.png` (or `.raw.jpg`, or a plan-space one at
 `<workdir>/targets/<style>_1440x1920.png`).
