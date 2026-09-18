@@ -10,7 +10,7 @@
   /* second engine on the top canvas, only for the live preview of a gesture */
   var pre = new PaintEngine(overlay, { seed: 1, bg: null });
 
-  var state = { tool: 'pencil', color: '#000000', size: 6, alpha: 1, tol: 32 };
+  var state = { tool: 'pencil', color: '#000000', size: 6, alpha: 1, tol: 32, pressure: 0.7 };
   var gesture = null;   /* stroke or ellipse in progress */
   var poly = null;      /* points of an open polygon */
   var replayId = 0;
@@ -64,7 +64,9 @@
     say(t === 'poly' ? 'click to add points, double-click to close' :
       t === 'ellipse' ? 'drag to draw an ellipse' :
         t === 'flat' ? 'flat brush: a wide band with hard edges' :
-          t === 'knife' ? 'palette knife: short wide smears' : 'tool ' + t);
+          t === 'knife' ? 'palette knife: short wide smears' :
+            t === 'crayon' ? 'crayon: wax on the paper tooth, press harder for a solid mark' :
+              'tool ' + t);
   }
 
   function bindRange(id, out, key, round) {
@@ -78,6 +80,7 @@
   bindRange('rng-size', 'out-size', 'size', true);
   bindRange('rng-alpha', 'out-alpha', 'alpha', false);
   bindRange('rng-tol', 'out-tol', 'tol', true);
+  bindRange('rng-pressure', 'out-pressure', 'pressure', false);
 
   /* ---------- pointer helpers ---------- */
 
@@ -201,6 +204,7 @@
   function strokeAction(g) {
     var a = { t: 'stroke', tool: state.tool, size: state.size, alpha: state.alpha, pts: g.pts.slice() };
     if (state.tool !== 'eraser') a.color = state.color;
+    if (state.tool === 'crayon') a.pressure = state.pressure;
     return a;
   }
 

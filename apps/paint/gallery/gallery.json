@@ -109,6 +109,16 @@
    "video": "v4/sketch.mp4",
    "poster": "v4/sketch.poster.jpg",
    "ready": true
+  },
+  {
+   "version": "v4",
+   "key": "crayon",
+   "title": "Crayon",
+   "note": "Wax crayon on paper, traced stroke by stroke from a crayon drawing. Watch the crayon tip move in the video.",
+   "image": "v4/crayon.jpg",
+   "video": "v4/crayon.mp4",
+   "poster": "v4/crayon.poster.jpg",
+   "ready": true
   }
  ]
 }

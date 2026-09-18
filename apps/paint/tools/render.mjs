@@ -16,7 +16,12 @@
    over several frames instead of appearing in one stride-sampled snapshot; see
    runActionsProgressive() below and the Harness section of work/v4/SPEC.md.
    --pace size spends that video budget on path length * sqrt(size) instead of
-   path length, so wide marks are slow and fine marks fast. */
+   path length, so wide marks are slow and fine marks fast.
+   --pace travel prices every stroke in real drawing time instead of sharing a
+   fixed budget: length / (px-per-mm * speed) seconds, divided by the time-lapse
+   factor --lapse. --seconds is then a cap, not a target.
+   --cursor crayon draws a crayon tip at the growing end of the stroke in the
+   movie frames only (never in final.png or the checkpoints). */
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -30,7 +35,8 @@ const DEFAULT_W = 720, DEFAULT_H = 960;
 
 function parseArgs(argv) {
   const args = { frames: 900, scale: 1, frameScale: 1, seconds: 90, fps: 10, pace: 'length',
-    width: DEFAULT_W, height: DEFAULT_H };
+    width: DEFAULT_W, height: DEFAULT_H,
+    speed: 200, pxPerMm: 6.86, lapse: 10, cursor: 'none' };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--plan') args.plan = argv[++i];
@@ -46,6 +52,10 @@ function parseArgs(argv) {
     else if (a === '--seconds') args.seconds = parseFloat(argv[++i]);
     else if (a === '--fps') args.fps = parseFloat(argv[++i]);
     else if (a === '--pace') args.pace = argv[++i];
+    else if (a === '--speed') args.speed = parseFloat(argv[++i]);
+    else if (a === '--px-per-mm') args.pxPerMm = parseFloat(argv[++i]);
+    else if (a === '--lapse') args.lapse = parseFloat(argv[++i]);
+    else if (a === '--cursor') args.cursor = argv[++i];
     else throw new Error('unknown argument ' + a);
   }
   if (!args.plan && !args.actions) throw new Error('pass --plan <plan.js> or --actions <actions.json>');
@@ -59,14 +69,18 @@ function parseArgs(argv) {
   if (args.video != null && args.video !== 'progressive') throw new Error('--video only supports "progressive"');
   if (!Number.isFinite(args.seconds) || args.seconds <= 0) throw new Error('--seconds must be a positive number');
   if (!Number.isFinite(args.fps) || args.fps <= 0) throw new Error('--fps must be a positive number');
-  if (args.pace !== 'length' && args.pace !== 'size') throw new Error('--pace must be "length" or "size"');
+  if (!['length', 'size', 'travel'].includes(args.pace)) throw new Error('--pace must be "length", "size" or "travel"');
+  if (!Number.isFinite(args.speed) || args.speed <= 0) throw new Error('--speed must be a positive number (mm/s)');
+  if (!Number.isFinite(args.pxPerMm) || args.pxPerMm <= 0) throw new Error('--px-per-mm must be a positive number');
+  if (!Number.isFinite(args.lapse) || args.lapse <= 0) throw new Error('--lapse must be a positive number');
+  if (args.cursor !== 'none' && args.cursor !== 'crayon') throw new Error('--cursor must be "none" or "crayon"');
   return args;
 }
 
 /* ---------- action validation (t, tool, numbers, pts) ---------- */
 
 const VALID_TYPES = ['clear', 'stroke', 'poly', 'ellipse', 'bucket', 'mark'];
-const VALID_TOOLS = ['pencil', 'brush', 'spray', 'bristle', 'flat', 'knife', 'eraser'];
+const VALID_TOOLS = ['pencil', 'brush', 'spray', 'bristle', 'flat', 'knife', 'crayon', 'eraser'];
 
 function isNum(v) {
   const n = +v;
@@ -88,6 +102,7 @@ function validateAction(a, i) {
 
   if (a.t === 'clear') {
     if (a.color != null && typeof a.color !== 'string') fail('color must be a string');
+    if (a.paper != null && typeof a.paper !== 'boolean') fail('paper must be a boolean');
   } else if (a.t === 'mark') {
     if (typeof a.name !== 'string' || !a.name) fail('mark needs a string name');
   } else if (a.t === 'bucket') {
@@ -100,6 +115,7 @@ function validateAction(a, i) {
     if (a.tool !== 'eraser' && typeof a.color !== 'string') fail('bad color');
     if (!isNum(a.size)) fail('bad size');
     if (a.alpha != null && !isNum(a.alpha)) fail('bad alpha');
+    if (a.pressure != null && !isNum(a.pressure)) fail('bad pressure');
     if (!isPts(a.pts)) fail('bad pts');
   } else if (a.t === 'poly') {
     if (typeof a.color !== 'string') fail('bad color');
@@ -288,8 +304,16 @@ async function runActions(actions, frameTarget, frameW, frameH) {
    count from strokes lands within one frame of its ideal share).
    pace 'length' (the default) weighs a stroke by path length + STROKE_BASE.
    pace 'size' multiplies that by sqrt(size), so a wide mark takes many frames
-   and a fine mark goes past quickly. Nothing else changes. */
-async function runActionsProgressive(actions, seconds, fps, frameW, frameH, pace) {
+   and a fine mark goes past quickly.
+   pace 'travel' prices a stroke in real time instead: length / (pxPerMm * speed)
+   seconds of hand travel, divided by the time-lapse factor `lapse`, times fps.
+   Those weights ARE the frame counts, so the cumulative-rounding accumulator
+   below hands each stroke its own real duration and `seconds` only caps the
+   total (every share is scaled down together when the sum overruns it).
+   cursor 'crayon' stamps a crayon tip at the live end of the stroke into the
+   frame image - never into the canvas, so final.png and the checkpoints stay
+   clean. Nothing else changes. */
+async function runActionsProgressive(actions, seconds, fps, frameW, frameH, pace, travel, cursor) {
   const engine = window.engine;
   engine.reset();
   const total = actions.length;
@@ -314,18 +338,27 @@ async function runActionsProgressive(actions, seconds, fps, frameW, frameH, pace
   for (let i = 0; i < total; i++) {
     const a = actions[i];
     if (a.t === 'stroke') {
-      let w = pathLength(a.pts) + STROKE_BASE;
-      if (pace === 'size') w *= Math.sqrt(Math.max(0.5, +a.size || 0));
+      let w;
+      if (pace === 'travel') {
+        /* seconds of hand travel, sped up by `lapse`, in frames */
+        w = (pathLength(a.pts) / (travel.pxPerMm * travel.speed) / travel.lapse) * fps;
+      } else {
+        w = pathLength(a.pts) + STROKE_BASE;
+        if (pace === 'size') w *= Math.sqrt(Math.max(0.5, +a.size || 0));
+      }
       weights[i] = w;
       totalStrokeWeight += w;
     } else if (a.t === 'poly' || a.t === 'ellipse' || a.t === 'bucket') {
       fixedCount++;
     }
   }
-  const remaining = Math.max(0, totalFrames - fixedCount);
+  let remaining = Math.max(0, totalFrames - fixedCount);
+  /* travel pacing asks for a definite number of frames; --seconds only caps it */
+  if (pace === 'travel') remaining = Math.min(remaining, totalStrokeWeight);
 
+  const wantCursor = cursor === 'crayon';
   let shrink = null, sctx = null;
-  if (frameW !== engine.canvas.width || frameH !== engine.canvas.height) {
+  if (frameW !== engine.canvas.width || frameH !== engine.canvas.height || wantCursor) {
     shrink = document.createElement('canvas');
     shrink.width = frameW;
     shrink.height = frameH;
@@ -333,10 +366,72 @@ async function runActionsProgressive(actions, seconds, fps, frameW, frameH, pace
     sctx.imageSmoothingEnabled = true;
     sctx.imageSmoothingQuality = 'high';
   }
-  const frameDataUrl = () => {
+
+  /* A crayon held at the mark, drawn in frame pixels: a 26 x 8 rounded body
+     lying along the last path segment and pointing ahead of the tip (so it
+     never covers the fresh mark), a darker 5 px nib whose point sits exactly on
+     the stroke end, and a soft shadow that lifts it off the paper. */
+  const CURSOR_LEN = 26, CURSOR_WID = 8;
+  function crayonBody(ctx2) {
+    const x = 3, y = -CURSOR_WID / 2, w = CURSOR_LEN - 3, h = CURSOR_WID, r = 3;
+    ctx2.beginPath();
+    ctx2.moveTo(x + r, y);
+    ctx2.lineTo(x + w - r, y);
+    ctx2.arcTo(x + w, y, x + w, y + r, r);
+    ctx2.lineTo(x + w, y + h - r);
+    ctx2.arcTo(x + w, y + h, x + w - r, y + h, r);
+    ctx2.lineTo(x + r, y + h);
+    ctx2.arcTo(x, y + h, x, y + h - r, r);
+    ctx2.lineTo(x, y + r);
+    ctx2.arcTo(x, y, x + r, y, r);
+    ctx2.closePath();
+  }
+  function drawCursor(ctx2, cur) {
+    ctx2.save();
+    ctx2.translate(cur.x, cur.y);
+    ctx2.rotate(Math.atan2(cur.uy, cur.ux));
+    ctx2.shadowColor = 'rgba(0,0,0,0.30)';
+    ctx2.shadowBlur = 4;
+    ctx2.shadowOffsetX = 2;
+    ctx2.shadowOffsetY = 3;
+    ctx2.fillStyle = cur.color;
+    crayonBody(ctx2);
+    ctx2.fill();
+    ctx2.shadowColor = 'rgba(0,0,0,0)';
+    ctx2.shadowBlur = 0;
+    ctx2.shadowOffsetX = 0;
+    ctx2.shadowOffsetY = 0;
+    ctx2.beginPath();
+    ctx2.moveTo(0, 0);
+    ctx2.lineTo(5, -CURSOR_WID * 0.4);
+    ctx2.lineTo(5, CURSOR_WID * 0.4);
+    ctx2.closePath();
+    ctx2.fillStyle = PaintEngine.shade(cur.color, 0.55);
+    ctx2.fill();
+    ctx2.lineWidth = 1;
+    ctx2.strokeStyle = 'rgba(0,0,0,0.35)';
+    crayonBody(ctx2);
+    ctx2.stroke();
+    ctx2.restore();
+  }
+
+  /* plan px -> frame px */
+  const fk = (frameW * engine.scale) / engine.canvas.width;
+  function cursorAt(a, pts, m) {
+    if (!wantCursor || !pts || !pts.length) return null;
+    const p1 = pts[Math.min(m, pts.length) - 1];
+    const p0 = pts[Math.max(0, Math.min(m, pts.length) - 2)];
+    let dx = p1[0] - p0[0], dy = p1[1] - p0[1];
+    const l = Math.sqrt(dx * dx + dy * dy);
+    if (l < 1e-6) { dx = 1; dy = 0; } else { dx /= l; dy /= l; }
+    return { x: p1[0] * fk, y: p1[1] * fk, ux: dx, uy: dy, color: a.color || '#000000' };
+  }
+
+  const frameDataUrl = (cur) => {
     if (!shrink) return engine.canvas.toDataURL('image/png');
     sctx.clearRect(0, 0, frameW, frameH);
     sctx.drawImage(engine.canvas, 0, 0, frameW, frameH);
+    if (cur) drawCursor(sctx, cur);
     return shrink.toDataURL('image/png');
   };
 
@@ -358,9 +453,9 @@ async function runActionsProgressive(actions, seconds, fps, frameW, frameH, pace
 
   let frameCount = 0;
   const checkpoints = [];
-  const saveFrame = async () => {
+  const saveFrame = async (cur) => {
     frameCount++;
-    await window.__saveFile('frames/f' + pad(frameCount, 6) + '.png', frameDataUrl());
+    await window.__saveFile('frames/f' + pad(frameCount, 6) + '.png', frameDataUrl(cur));
   };
 
   let cumWeight = 0;
@@ -388,7 +483,7 @@ async function runActionsProgressive(actions, seconds, fps, frameW, frameH, pace
           const m = Math.max(1, Math.ceil((k / n) * pts.length));
           const truncated = Object.assign({}, a, { pts: pts.slice(0, m) });
           engine._draw(truncated, index); /* throwaway: not pushed to history */
-          await saveFrame();
+          await saveFrame(cursorAt(a, pts, m));
         }
         restore(snap);
         engine.apply(a); /* the real, full stroke */
@@ -401,7 +496,8 @@ async function runActionsProgressive(actions, seconds, fps, frameW, frameH, pace
         if (n < 0) n = 0;
         if (n > 1) n = 1;
         if (n >= 1) {
-          await saveFrame();
+          /* the crayon has just finished this stroke: show it at its end */
+          await saveFrame(cursorAt(a, a.pts, a.pts.length));
           allocated += 1;
           framesCurrent = true;
         } else {
@@ -454,7 +550,7 @@ async function main() {
     console.warn('render.mjs: no reference image at ' + refPath + ' (pass --ref <png> or set PAINT_REF)');
   }
 
-  const browser = await puppeteer.launch({ channel: 'chrome', headless: true });
+  const browser = await puppeteer.launch({ channel: 'chrome', headless: true , protocolTimeout: 3600000});
   let exitCode = 0;
   try {
     const page = await browser.newPage();
@@ -512,7 +608,8 @@ async function main() {
     const frameH = Math.round(planH * args.frameScale);
     const progressive = args.video === 'progressive';
     const runResult = progressive
-      ? await page.evaluate(runActionsProgressive, actions, args.seconds, args.fps, frameW, frameH, args.pace)
+      ? await page.evaluate(runActionsProgressive, actions, args.seconds, args.fps, frameW, frameH, args.pace,
+        { speed: args.speed, pxPerMm: args.pxPerMm, lapse: args.lapse }, args.cursor)
       : await page.evaluate(runActions, actions, args.frames, frameW, frameH);
 
     if (pageErrors.length) {
@@ -535,6 +632,12 @@ async function main() {
       meta.videoSeconds = args.seconds;
       meta.fps = args.fps;
       meta.pace = args.pace;
+      meta.cursor = args.cursor;
+      if (args.pace === 'travel') {
+        meta.speed = args.speed;
+        meta.pxPerMm = args.pxPerMm;
+        meta.lapse = args.lapse;
+      }
       meta.targetFrames = Math.max(1, Math.round(args.seconds * args.fps));
     }
     fs.writeFileSync(path.join(outDir, 'meta.json'), JSON.stringify(meta, null, 2) + '\n');
