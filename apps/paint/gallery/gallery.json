@@ -3,20 +3,20 @@
  "photo": "photo.jpg",
  "versions": {
   "v1": {
-   "title": "v1: three artist agents",
-   "note": "Each artist planned and painted in its own style inside the paint app, then a critique loop refined it."
+   "title": "First attempts",
+   "note": "Three different hands tried the same picture: one in the classic MS Paint way, one in oil, one in watercolour."
   },
   "v2": {
-   "title": "v2: Fable plans, an agent paints",
-   "note": "The plan came first, as a written imagination of every move. A drawing agent executed it and three judges scored each iteration."
+   "title": "Painting from a written plan",
+   "note": "The whole painting was planned on paper first, move by move, then painted from that plan."
   },
   "v3": {
-   "title": "v3: stroke placer with a style target",
-   "note": "No agents in the loop. A Python placer follows an art-direction file and a Gemini rendering of the photo as the style target."
+   "title": "Learning to paint",
+   "note": "The first painting made stroke by stroke with an oil study as the guide."
   },
   "v4": {
-   "title": "v4: pyramid placer, real brushes, 2K targets",
-   "note": "Coarse-to-fine brushes, strokes along the image flow, every stroke judged on the whole picture, flat brush and palette knife in the engine."
+   "title": "Agent K learns to paint",
+   "note": "Agent K paints the photo stroke by stroke in four styles. Big brushes first, fine marks last, always looking at the whole picture."
   }
  },
  "items": [
@@ -24,7 +24,7 @@
    "version": "v1",
    "key": "classic",
    "title": "Classic MS Paint",
-   "note": "Three artist agents, each in its own style, with a critique and revision loop. Polygon blocking, airbrush shading, pencil details.",
+   "note": "The classic MS Paint way: shapes first, airbrush shading, pencil details.",
    "image": "v1/classic.jpg",
    "video": "v1/classic.mp4",
    "poster": "v1/classic.poster.jpg",
@@ -44,7 +44,7 @@
    "version": "v1",
    "key": "watercolor",
    "title": "Watercolour",
-   "note": "Transparent glazes built up in layers, spray for granulation.",
+   "note": "Thin transparent layers built up one over another.",
    "image": "v1/watercolor.jpg",
    "video": "v1/watercolor.mp4",
    "poster": "v1/watercolor.poster.jpg",
@@ -53,8 +53,8 @@
   {
    "version": "v2",
    "key": "fable",
-   "title": "Fable plan",
-   "note": "Fable wrote the whole stroke plan before painting, a drawing agent executed it, judges scored it, five plan versions.",
+   "title": "From a written plan",
+   "note": "Painted from a written plan of every move. The plan was rewritten five times.",
    "image": "v2/fable.jpg",
    "video": "v2/fable.mp4",
    "poster": "v2/fable.poster.jpg",
@@ -63,8 +63,8 @@
   {
    "version": "v3",
    "key": "oil",
-   "title": "Painter, 1K oil target",
-   "note": "A Python stroke placer driven by an art-direction file, with a Gemini oil rendering of the photo as the style target.",
+   "title": "Oil, first stroke-by-stroke painting",
+   "note": "The first stroke-by-stroke painting, guided by an oil study of the photo.",
    "image": "v3/oil.jpg",
    "video": "v3/oil.mp4",
    "poster": "v3/oil.poster.jpg",
@@ -74,7 +74,7 @@
    "version": "v4",
    "key": "oil",
    "title": "Oil",
-   "note": "Pyramid stroke placer with whole-picture scoring, flat brush and palette knife, 2K oil target.",
+   "note": "Thick paint, broad strokes, a palette knife on the water.",
    "image": "v4/oil.jpg",
    "video": "v4/oil.mp4",
    "poster": "v4/oil.poster.jpg",
@@ -84,7 +84,7 @@
    "version": "v4",
    "key": "watercolor",
    "title": "Watercolour",
-   "note": "Same placer with soft glazes and spray, 2K watercolour target.",
+   "note": "Thin washes over paper, soft edges, light left in the paper.",
    "image": "v4/watercolor.jpg",
    "video": "v4/watercolor.mp4",
    "poster": "v4/watercolor.poster.jpg",
@@ -94,7 +94,7 @@
    "version": "v4",
    "key": "pencil",
    "title": "Coloured pencil",
-   "note": "Bristle and pencil hatching, 2K coloured-pencil target.",
+   "note": "Coloured pencil, layered hatching on cream paper.",
    "image": "v4/pencil.jpg",
    "video": "v4/pencil.mp4",
    "poster": "v4/pencil.poster.jpg",
@@ -104,7 +104,7 @@
    "version": "v4",
    "key": "sketch",
    "title": "Graphite sketch",
-   "note": "Pencil only, black and white, 2K sketch target.",
+   "note": "Graphite only, black and white on white paper.",
    "image": "v4/sketch.jpg",
    "video": "v4/sketch.mp4",
    "poster": "v4/sketch.poster.jpg",
