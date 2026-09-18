@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portrait at the lake</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="gallery.css">
+</head>
+<body>
+<div class="wrap">
+  <h1 id="page-title">Portrait at the lake</h1>
+  <p class="intro">One photo, painted by different pipelines and styles. Each card has the final image and the video of how it got there.</p>
+
+  <div class="photo-block" id="photo-block"></div>
+
+  <div id="versions"></div>
+
+  <footer>
+    Open the paint app: <a href="../index.html">load any actions.json and press Replay</a>.
+    Source: <a href="https://github.com/iampat/iampat.github.io">github.com/iampat/iampat.github.io</a>.
+  </footer>
+</div>
+
+<script type="application/json" id="gallery-data">
+{
+ "title": "Portrait at the lake",
+ "photo": "photo.jpg",
+ "versions": {
+  "v1": {
+   "title": "v1: three artist agents",
+   "note": "Each artist planned and painted in its own style inside the paint app, then a critique loop refined it."
+  },
+  "v2": {
+   "title": "v2: Fable plans, an agent paints",
+   "note": "The plan came first, as a written imagination of every move. A drawing agent executed it and three judges scored each iteration."
+  },
+  "v3": {
+   "title": "v3: stroke placer with a style target",
+   "note": "No agents in the loop. A Python placer follows an art-direction file and a Gemini rendering of the photo as the style target."
+  },
+  "v4": {
+   "title": "v4: pyramid placer, real brushes, 2K targets",
+   "note": "Coarse-to-fine brushes, strokes along the image flow, every stroke judged on the whole picture, flat brush and palette knife in the engine."
+  }
+ },
+ "items": [
+  {
+   "version": "v1",
+   "key": "classic",
+   "title": "Classic MS Paint",
+   "note": "Three artist agents, each in its own style, with a critique and revision loop. Polygon blocking, airbrush shading, pencil details.",
+   "image": "v1/classic.jpg",
+   "video": "v1/classic.mp4",
+   "poster": "v1/classic.poster.jpg",
+   "ready": true
+  },
+  {
+   "version": "v1",
+   "key": "oil",
+   "title": "Oil",
+   "note": "Big brush masses and bristle strokes that follow the forms.",
+   "image": "v1/oil.jpg",
+   "video": "v1/oil.mp4",
+   "poster": "v1/oil.poster.jpg",
+   "ready": true
+  },
+  {
+   "version": "v1",
+   "key": "watercolor",
+   "title": "Watercolour",
+   "note": "Transparent glazes built up in layers, spray for granulation.",
+   "image": "v1/watercolor.jpg",
+   "video": "v1/watercolor.mp4",
+   "poster": "v1/watercolor.poster.jpg",
+   "ready": true
+  },
+  {
+   "version": "v2",
+   "key": "fable",
+   "title": "Fable plan",
+   "note": "Fable wrote the whole stroke plan before painting, a drawing agent executed it, judges scored it, five plan versions.",
+   "image": "v2/fable.jpg",
+   "video": "v2/fable.mp4",
+   "poster": "v2/fable.poster.jpg",
+   "ready": true
+  },
+  {
+   "version": "v3",
+   "key": "oil",
+   "title": "Painter, 1K oil target",
+   "note": "A Python stroke placer driven by an art-direction file, with a Gemini oil rendering of the photo as the style target.",
+   "image": "v3/oil.jpg",
+   "video": "v3/oil.mp4",
+   "poster": "v3/oil.poster.jpg",
+   "ready": true
+  },
+  {
+   "version": "v4",
+   "key": "oil",
+   "title": "Oil",
+   "note": "Pyramid stroke placer with whole-picture scoring, flat brush and palette knife, 2K oil target.",
+   "image": "v4/oil.jpg",
+   "video": "v4/oil.mp4",
+   "poster": "v4/oil.poster.jpg",
+   "ready": true
+  },
+  {
+   "version": "v4",
+   "key": "watercolor",
+   "title": "Watercolour",
+   "note": "Same placer with soft glazes and spray, 2K watercolour target.",
+   "image": "v4/watercolor.jpg",
+   "video": "v4/watercolor.mp4",
+   "poster": "v4/watercolor.poster.jpg",
+   "ready": true
+  },
+  {
+   "version": "v4",
+   "key": "pencil",
+   "title": "Coloured pencil",
+   "note": "Bristle and pencil hatching, 2K coloured-pencil target.",
+   "image": "v4/pencil.jpg",
+   "video": "v4/pencil.mp4",
+   "poster": "v4/pencil.poster.jpg",
+   "ready": true
+  },
+  {
+   "version": "v4",
+   "key": "sketch",
+   "title": "Graphite sketch",
+   "note": "Pencil only, black and white, 2K sketch target.",
+   "image": "v4/sketch.jpg",
+   "video": "v4/sketch.mp4",
+   "poster": "v4/sketch.poster.jpg",
+   "ready": true
+  }
+ ]
+}
+</script>
+
+<script src="gallery.js"></script>
+</body>
+</html>

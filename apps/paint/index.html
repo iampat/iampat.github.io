@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paint</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <div class="titlebar"><span>untitled - Paint</span></div>
+
+  <div class="menubar">
+    <button id="btn-undo" class="btn" title="Undo (Ctrl+Z)">Undo</button>
+    <button id="btn-clear" class="btn">Clear</button>
+    <span class="sep"></span>
+    <button id="btn-save" class="btn">Save PNG</button>
+    <button id="btn-export" class="btn">Export script</button>
+    <label class="btn file">Load script<input type="file" id="in-script" accept=".json,application/json"></label>
+    <span class="sep"></span>
+    <button id="btn-replay" class="btn">Replay</button>
+    <label class="slider">speed <input type="range" id="rng-speed" min="1" max="200" value="20"></label>
+  </div>
+
+  <div class="body">
+
+    <div class="tools" id="tools">
+      <button class="tool" data-tool="pencil" title="Pencil">
+        <svg viewBox="0 0 20 20"><path d="M3 17l1-4 9-9 3 3-9 9-4 1z"/><path d="M12 5l3 3"/></svg><b>Pencil</b>
+      </button>
+      <button class="tool" data-tool="brush" title="Brush">
+        <svg viewBox="0 0 20 20"><path d="M4 16c3 1 5-1 5-3l6-8 2 2-8 6c-2 0-4 2-5 3z"/></svg><b>Brush</b>
+      </button>
+      <button class="tool" data-tool="spray" title="Airbrush">
+        <svg viewBox="0 0 20 20"><path d="M6 17V8h4v9z"/><path d="M13 5h1M15 8h1M13 11h1M16 4h1M16 12h1"/></svg><b>Spray</b>
+      </button>
+      <button class="tool" data-tool="bristle" title="Bristle brush">
+        <svg viewBox="0 0 20 20"><path d="M3 15c4-2 8-6 13-11M4 17c4-2 8-6 13-11M2 13c4-2 8-6 13-11"/></svg><b>Bristle</b>
+      </button>
+      <button class="tool" data-tool="flat" title="Flat brush">
+        <svg viewBox="0 0 20 20"><path d="M3 13l8-8 4 4-8 8z"/><path d="M13 3l4 4"/></svg><b>Flat</b>
+      </button>
+      <button class="tool" data-tool="knife" title="Palette knife">
+        <svg viewBox="0 0 20 20"><path d="M4 16l3-8h9l-3 8z"/><path d="M15 5l2-2"/></svg><b>Knife</b>
+      </button>
+      <button class="tool" data-tool="eraser" title="Eraser">
+        <svg viewBox="0 0 20 20"><path d="M4 14l7-7 5 5-3 3H6z"/><path d="M3 17h14"/></svg><b>Eraser</b>
+      </button>
+      <button class="tool" data-tool="bucket" title="Fill with colour">
+        <svg viewBox="0 0 20 20"><path d="M9 3l7 7-6 6-7-7z"/><path d="M16 13c2 3 1 4 0 4s-2-1 0-4z"/></svg><b>Bucket</b>
+      </button>
+      <button class="tool" data-tool="poly" title="Polygon: click points, double-click to close">
+        <svg viewBox="0 0 20 20"><path d="M10 3l7 5-3 9H6L3 8z"/></svg><b>Polygon</b>
+      </button>
+      <button class="tool" data-tool="ellipse" title="Ellipse: drag">
+        <svg viewBox="0 0 20 20"><ellipse cx="10" cy="10" rx="8" ry="6"/></svg><b>Ellipse</b>
+      </button>
+      <button class="tool" data-tool="picker" title="Pick a colour">
+        <svg viewBox="0 0 20 20"><path d="M3 17l1-3 8-8 2 2-8 8z"/><path d="M12 4l4 4"/></svg><b>Picker</b>
+      </button>
+
+      <div class="ctl">
+        <label>Size <output id="out-size">6</output></label>
+        <input type="range" id="rng-size" min="1" max="120" value="6">
+        <label>Opacity <output id="out-alpha">1</output></label>
+        <input type="range" id="rng-alpha" min="0.05" max="1" step="0.05" value="1">
+        <label>Fill tolerance <output id="out-tol">32</output></label>
+        <input type="range" id="rng-tol" min="0" max="128" value="32">
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="paper" id="paper">
+        <canvas id="canvas" width="720" height="960"></canvas>
+        <canvas id="overlay" width="720" height="960"></canvas>
+      </div>
+    </div>
+
+    <aside class="ref">
+      <h2>Reference</h2>
+      <label class="btn file">Load image<input type="file" id="in-ref" accept="image/*"></label>
+      <canvas id="refcanvas" width="720" height="960"></canvas>
+      <p class="hint">Pick the Picker tool, then click the photo to take its colour. The image stays in your browser.</p>
+    </aside>
+
+  </div>
+
+  <div class="palette" id="palette">
+    <div class="current">
+      <span class="swatch" id="swatch"></span>
+      <input type="color" id="in-color" value="#000000">
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div class="status"><span id="status">ready</span></div>
+
+</div>
+<script src="engine.js"></script>
+<script src="paint.js"></script>
+</body>
+</html>

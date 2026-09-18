@@ -1,0 +1,5 @@
+apps/paint/tools/node_modules/
+apps/paint/work/
+.playwright-mcp/
+__pycache__/
+.DS_Store
