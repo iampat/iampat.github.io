@@ -215,7 +215,7 @@
   }
   .aimControls { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
   .aimRowSlider { display: flex; align-items: center; gap: 10px; }
-  .aimRowSlider label { font-weight: 800; font-size: 14px; width: 62px; }
+  .aimRowSlider label { font-weight: 800; font-size: 14px; min-width: 62px; white-space: nowrap; }
   .aimRowSlider input[type=range] { flex: 1; accent-color: var(--purple); height: 30px; }
   .aimRowSlider .val {
     font-weight: 800; font-size: 15px; width: 52px; text-align: right;
@@ -228,6 +228,25 @@
   #throwBtn:disabled { opacity: 0.45; }
   #throwBtn:active:not(:disabled) { transform: scale(0.98); }
   #gorillaHint { text-align: center; color: var(--muted); font-size: 13px; font-weight: 700; margin-top: 8px; }
+  .gorillaLayout { display: block; }
+  /* phone held sideways: full-bleed sheet, canvas left, controls right */
+  #gorillaOverlay.landscapeGame { align-items: stretch; padding: 0; }
+  #gorillaOverlay.landscapeGame .sheet {
+    border-radius: 0; max-width: 100%; width: 100%;
+    height: 100dvh; max-height: 100dvh;
+    padding: 6px 12px calc(6px + env(safe-area-inset-bottom));
+    display: flex; flex-direction: column;
+  }
+  #gorillaOverlay.landscapeGame .gameTop { margin-bottom: 4px; }
+  #gorillaOverlay.landscapeGame .gorillaLayout {
+    display: flex; gap: 14px; align-items: center; flex: 1; min-height: 0;
+  }
+  #gorillaOverlay.landscapeGame #gorillaCanvas {
+    height: 100%; width: auto; max-width: 62%; margin: 0;
+  }
+  #gorillaOverlay.landscapeGame .aimControls { flex: 1; margin-top: 0; min-width: 0; }
+  #gorillaOverlay.landscapeGame #gorillaHint { display: none; }
+  #gorillaOverlay.landscapeGame #throwBtn { padding: 16px 0; }
 
   /* confetti */
   .confetti {
@@ -378,9 +397,10 @@
   <div class="sheet">
     <div class="gameTop">
       <h2>🦍 Banana Blast</h2>
-      <span class="stat" id="gorillaStat">You 0 – 0 Rival</span>
+      <span class="stat" id="gorillaStat">🍌 0 hits · 10 left</span>
       <button class="backBtn" data-close="gorilla">Back to the quest</button>
     </div>
+    <div class="gorillaLayout">
     <canvas id="gorillaCanvas" width="320" height="250" aria-label="City skyline with two gorillas"></canvas>
     <div class="aimControls">
       <div class="aimRowSlider">
@@ -395,7 +415,8 @@
       </div>
       <button id="throwBtn">Throw the banana! 🍌</button>
     </div>
-    <div id="gorillaHint">First to 2 hits wins. Watch the wind arrow — it pushes your banana!</div>
+    </div>
+    <div id="gorillaHint">10 bananas — how many hits can you land? Watch the wind arrow!</div>
     <div class="gameOverBox" id="gorillaOver">
       <div class="headline" id="gorillaOverHead"></div>
       <div class="sub" id="gorillaOverSub"></div>
@@ -1162,15 +1183,22 @@
   }
 
   function familyOf(id) { var t = BANK_BY_ID[id]; return (t && t.family) || id; }
+  function otherFamilyIdx(bag, lastFam) {
+    for (var i = bag.length - 1; i >= 0; i--) if (familyOf(bag[i]) !== lastFam) return i;
+    return -1;
+  }
   function nextType() {
     var types = TOPIC_TYPES[state.topic];
     if (!state.bag || !state.bag.length) state.bag = shuffle(types.slice());
     /* never serve the same question family twice in a row (fracAdd/fracSub
-       count as one family) unless the bag leaves no choice */
+       count as one family). If the tail of the bag is all one family, start
+       the next bag early and keep the leftovers so every type still cycles. */
     var lastFam = state.lastType ? familyOf(state.lastType) : null;
-    var idx = state.bag.length - 1;
-    for (var i = state.bag.length - 1; i >= 0; i--) {
-      if (familyOf(state.bag[i]) !== lastFam) { idx = i; break; }
+    var idx = otherFamilyIdx(state.bag, lastFam);
+    if (idx < 0) {
+      state.bag = shuffle(types.slice().concat(state.bag));
+      idx = otherFamilyIdx(state.bag, lastFam);
+      if (idx < 0) idx = state.bag.length - 1; /* topic holds one family only */
     }
     return state.bag.splice(idx, 1)[0];
   }
@@ -1314,7 +1342,7 @@
     sfx.fanfare(); confetti();
     $("snakeBest").textContent = state.best.snake === null ? "First try!" : "Best: 🍎 " + state.best.snake;
     $("soccerBest").textContent = state.best.soccer === null ? "First try!" : "Best: ⚽ " + state.best.soccer + "/5";
-    $("gorillaBest").textContent = state.best.gorilla === null ? "First try!" : "Best: 🍌 won in " + state.best.gorilla;
+    $("gorillaBest").textContent = state.best.gorilla === null ? "First try!" : "Best: 🍌 " + state.best.gorilla + "/10 hits";
     $("prizeOverlay").classList.add("open");
   }
   function closePrizeToQuest() {
@@ -1648,31 +1676,43 @@
   });
 
   /* ---------- banana blast (gorilla artillery) ---------- */
-  /* Aim with an angle and a power, the wind pushes the banana sideways.
-     Fixed-step physics on rAF; the skyline is a per-column height map so
-     explosions carve real craters out of the buildings. */
-  var GOR = { W: 320, H: 250, G: 0.12, K: 0.07, HIT_R: 13, BOOM_R: 17, WIN: 2 };
+  /* Ten bananas, one rival gorilla. Aim with an angle and a power; the wind
+     pushes the banana sideways and explosions carve real craters out of the
+     skyline (a per-column height map). The rival throws back for drama and
+     hops to a new rooftop each time you land a hit, but it can never take a
+     banana away from you — the only score is how many of your ten land. */
+  var GOR = { W: 320, H: 250, G: 0.12, K: 0.07, HIT_R: 13, BOOM_R: 17, SHOTS: 10, SLACK: 0.3 };
   var gor = { raf: null, wait: null, playing: false, phase: "aim" };
 
   function recordGorillaBest() {
-    if (gor.wins >= GOR.WIN && (state.best.gorilla === null || gor.throws < state.best.gorilla)) {
-      state.best.gorilla = gor.throws;
+    if (gor.hits > 0 && (state.best.gorilla === null || gor.hits > state.best.gorilla)) {
+      state.best.gorilla = gor.hits;
       return true;
     }
     return false;
   }
   function startGorilla() {
+    /* a phone held sideways gets a wider city and side-by-side controls */
+    var wide = window.innerWidth > window.innerHeight && window.innerWidth >= 560;
+    GOR.W = wide ? 460 : 320;
+    GOR.H = wide ? 200 : 250;
+    $("gorillaOverlay").classList.toggle("landscapeGame", wide);
+    $("gorillaHint").textContent = wide
+      ? "10 bananas — how many hits can you land? Watch the wind arrow!"
+      : "10 bananas — how many hits? Turn your phone sideways for a wider city!";
+
     var cv = $("gorillaCanvas");
     gor.c = cv.getContext("2d");
     var dpr = Math.min(2, window.devicePixelRatio || 1);
     cv.width = GOR.W * dpr; cv.height = GOR.H * dpr;
+    cv.style.maxWidth = GOR.W + "px";
     gor.c.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     buildSkyline();
-    gor.wins = 0; gor.losses = 0; gor.throws = 0;
+    gor.hits = 0; gor.bonks = 0; gor.left = GOR.SHOTS;
     gor.playing = true; gor.phase = "aim"; gor.msg = ""; gor.wasBest = false;
     gor.wind = (Math.random() * 2 - 1) * 0.02;
-    gor.banana = null; gor.trail = [];
+    gor.banana = null; gor.trail = []; gor.lastHint = "";
     $("gorillaOver").classList.remove("show");
     $("gorillaOverlay").classList.add("open");
     $("throwBtn").disabled = false;
@@ -1680,42 +1720,47 @@
     gorillaDraw();
   }
   function buildSkyline() {
-    /* height map: top surface y for every column, plus a colour per column */
     gor.top = new Array(GOR.W);
     gor.col = new Array(GOR.W);
     var shades = ["#2C3462", "#343C70", "#3C447E", "#262E58"];
     var x = 0, bi = 0;
     while (x < GOR.W) {
       var w = ri(28, 46);
-      var h = ri(48, 120);
+      var h = ri(44, Math.round(GOR.H * 0.5));
       var top = GOR.H - h;
       var shade = shades[bi % shades.length];
       for (var i = x; i < Math.min(GOR.W, x + w); i++) { gor.top[i] = top; gor.col[i] = shade; }
       x += w; bi++;
     }
-    /* gorillas stand on their own buildings, near each edge */
-    gor.me = { x: ri(26, 54) };
-    gor.foe = { x: ri(266, 294) };
+    gor.me = { x: ri(26, Math.round(GOR.W * 0.17)) };
     gor.me.y = gor.top[gor.me.x] - 12;
-    gor.foe.y = gor.top[gor.foe.x] - 12;
+    gor.foe = {};
+    hopRival();
+  }
+  function hopRival() {
+    /* the rival relocates after every hit it takes, so the same shot twice
+       never works — you have to re-read the distance each time */
+    var lo = Math.round(GOR.W * 0.55), hi = GOR.W - 26;
+    var nx;
+    do { nx = ri(lo, hi); } while (gor.foe.x !== undefined && Math.abs(nx - gor.foe.x) < 30);
+    gor.foe.x = nx;
+    gor.foe.y = gor.top[nx] - 12;
   }
   function gorillaStat() {
-    $("gorillaStat").textContent = "You " + gor.wins + " – " + gor.losses + " Rival";
+    $("gorillaStat").textContent = "🍌 " + gor.hits + " hit" + (gor.hits === 1 ? "" : "s") + " · " + gor.left + " left";
   }
   function gorillaDraw() {
     var c = gor.c;
     if (!c) return;
-    /* night sky + stars */
     var sky = c.createLinearGradient(0, 0, 0, GOR.H);
     sky.addColorStop(0, "#10142B");
     sky.addColorStop(1, "#2A2F62");
     c.fillStyle = sky; c.fillRect(0, 0, GOR.W, GOR.H);
     c.fillStyle = "rgba(255,255,255,0.5)";
-    for (var s = 0; s < 26; s++) {
-      var sx = (s * 97) % GOR.W, sy = (s * 53) % 90;
+    for (var s = 0; s < 30; s++) {
+      var sx = (s * 97) % GOR.W, sy = (s * 53) % Math.round(GOR.H * 0.36);
       c.fillRect(sx, sy, 1.6, 1.6);
     }
-    /* buildings from the height map, with lit windows */
     for (var x = 0; x < GOR.W; x++) {
       c.fillStyle = gor.col[x];
       c.fillRect(x, gor.top[x], 1, GOR.H - gor.top[x]);
@@ -1727,16 +1772,13 @@
         if (gor.top[wx] < wy - 4) c.fillRect(wx, wy, 4, 6);
       }
     }
-    /* wind arrow */
     var wpx = Math.round(gor.wind * 900);
     c.font = "700 12px sans-serif"; c.textAlign = "center"; c.textBaseline = "middle";
     c.fillStyle = "#A9C6F5";
     c.fillText("wind " + (wpx === 0 ? "calm" : (wpx < 0 ? "◀" : "▶") + " " + Math.abs(wpx)), GOR.W / 2, 14);
-    /* gorillas */
     c.font = "22px sans-serif";
     c.fillText("🦍", gor.me.x, gor.me.y);
     c.fillText("🦍", gor.foe.x, gor.foe.y);
-    /* banana + trail */
     if (gor.trail.length) {
       c.strokeStyle = "rgba(255,214,94,0.45)"; c.lineWidth = 2;
       c.beginPath();
@@ -1751,15 +1793,14 @@
       c.fillText("🍌", 0, 0);
       c.restore();
     }
-    /* banner */
     if (gor.msg) {
       var good = gor.msg.indexOf("HIT") === 0;
       c.font = "800 26px sans-serif";
       c.shadowColor = good ? "rgba(124,245,172,0.9)" : "rgba(255,210,63,0.9)";
       c.shadowBlur = 14;
       c.lineWidth = 5; c.strokeStyle = "#10142B"; c.fillStyle = "#FFFFFF";
-      c.strokeText(gor.msg, GOR.W / 2, 118);
-      c.fillText(gor.msg, GOR.W / 2, 118);
+      c.strokeText(gor.msg, GOR.W / 2, Math.round(GOR.H * 0.47));
+      c.fillText(gor.msg, GOR.W / 2, Math.round(GOR.H * 0.47));
       c.shadowBlur = 0;
     }
   }
@@ -1771,7 +1812,6 @@
       var bottom = iy + bite;
       if (bottom > gor.top[cx] && iy - bite < gor.top[cx]) gor.top[cx] = Math.min(GOR.H, bottom);
     }
-    /* a gorilla whose roof is gone drops onto the new surface */
     gor.me.y = Math.min(gor.me.y, gor.top[gor.me.x] - 12);
     gor.foe.y = Math.min(gor.foe.y, gor.top[gor.foe.x] - 12);
   }
@@ -1812,7 +1852,6 @@
       endThrow(true, b.x, b.y);
       return;
     }
-    /* a wild shot can hit the thrower's own roof, but never scores */
     if (Math.abs(b.x - thrower.x) < GOR.HIT_R && Math.abs(b.y - thrower.y) < GOR.HIT_R && gor.trail.length > 6) {
       endThrow(false, b.x, b.y);
       return;
@@ -1826,49 +1865,53 @@
     gor.banana = null;
     gor.trail = [];
     if (ix > -40 && ix < GOR.W + 40) carveCrater(ix, iy);
-    if (hit) {
-      sfx.boom();
-      if (gor.fromMe) { gor.wins++; gor.msg = "HIT! 🎉"; sfx.cheer(); }
-      else { gor.losses++; gor.msg = "Ouch! 🍌"; }
+    sfx.boom();
+    var mine = gor.fromMe;
+    if (hit && mine) {
+      gor.hits++;
+      gor.msg = "HIT! 🎉";
+      sfx.cheer();
+      hopRival();
+    } else if (hit) {
+      gor.bonks++;
+      gor.msg = "Bonk! 🍌";           /* costs nothing but pride */
+    } else if (!mine) {
+      gor.msg = "Rival missed!";
+    } else if (ix < gor.foe.x - GOR.HIT_R) {
+      gor.msg = "Too short!"; gor.lastHint = "short";
+    } else if (ix > gor.foe.x + GOR.HIT_R) {
+      gor.msg = "Too far!"; gor.lastHint = "far";
     } else {
-      sfx.boom();
-      if (!gor.fromMe) { gor.msg = "Rival missed!"; }
-      else if (ix < gor.foe.x - GOR.HIT_R) { gor.msg = "Too short!"; gor.lastHint = "short"; }
-      else if (ix > gor.foe.x + GOR.HIT_R) { gor.msg = "Too far!"; gor.lastHint = "far"; }
-      else { gor.msg = "So close!"; gor.lastHint = "close"; }
+      gor.msg = "So close!"; gor.lastHint = "close";
     }
     gorillaStat();
     gorillaDraw();
     gor.wait = setTimeout(function () {
       gor.msg = "";
-      if (gor.wins >= GOR.WIN || gor.losses >= GOR.WIN) { endGorilla(); return; }
+      if (gor.left <= 0) { endGorilla(); return; }
       gor.wind = (Math.random() * 2 - 1) * 0.02; /* fresh wind every turn */
-      if (gor.fromMe) { rivalTurn(); }
+      if (mine) rivalTurn();
       else { gor.phase = "aim"; $("throwBtn").disabled = false; gorillaDraw(); }
-    }, 950);
+    }, 900);
   }
   function rivalTurn() {
     gor.phase = "rival";
     gorillaDraw();
     gor.wait = setTimeout(function () {
       if (!gor.playing) return;
-      /* solve for the power that would land on the player at a chosen angle,
-         then miss on purpose a bit — a rival who never misses is no fun */
-      var dx = gor.me.x - gor.foe.x;             /* negative: throws left */
+      /* solves the real projectile equation for the player's position, then
+         misses on purpose a fair bit — it is a sparring partner, not a boss */
+      var dx = gor.me.x - gor.foe.x;
       var dy = gor.me.y - gor.foe.y;
       var ang = ri(35, 58);
       var a = ang * Math.PI / 180;
       var denom = Math.cos(a) * Math.cos(a) * (dy + Math.abs(dx) * Math.tan(a));
       var v2 = denom > 0 ? (0.5 * GOR.G * dx * dx) / denom : 16;
       var power = Math.sqrt(Math.max(1, v2)) / GOR.K;
-      /* rubber band: the rival gets sloppier while it is ahead and sharper
-         when the kid is ahead, so a round stays winnable and still tense */
-      var lead = gor.losses - gor.wins;
-      var slack = Math.max(0.12, Math.min(0.52, 0.34 + 0.14 * lead));
-      power *= 1 + (Math.random() * 2 - 1) * slack;
-      var wobble = Math.round(4 + 10 * slack);
+      power *= 1 + (Math.random() * 2 - 1) * GOR.SLACK;
+      var wobble = Math.round(4 + 10 * GOR.SLACK);
       launch(false, ang + ri(-wobble, wobble), Math.max(20, Math.min(100, power)));
-    }, 500);
+    }, 450);
   }
   function stopGorilla() {
     if (gor.raf) cancelAnimationFrame(gor.raf);
@@ -1879,16 +1922,17 @@
     }
   }
   function endGorilla() {
-    var won = gor.wins >= GOR.WIN;
+    var h = gor.hits;
     stopGorilla();
-    if (won) { sfx.bigwin(); confetti(); } else sfx.trombone();
-    $("gorillaOverHead").textContent = won
-      ? "🦍 You win " + gor.wins + "–" + gor.losses + "!"
-      : "🍌 The rival got you " + gor.losses + "–" + gor.wins + "!";
+    if (h >= 5) { sfx.bigwin(); confetti(); }
+    else if (h >= 2) sfx.fanfare();
+    else sfx.trombone();
+    $("gorillaOverHead").textContent = h === GOR.SHOTS
+      ? "🍌 PERFECT — " + h + " for " + GOR.SHOTS + "!"
+      : "🍌 " + h + " hit" + (h === 1 ? "" : "s") + " out of " + GOR.SHOTS + "!";
     $("gorillaOverSub").textContent =
-      (gor.wasBest ? "🏆 New best — won in " + gor.throws + " throws! "
-        : (state.best.gorilla === null ? "" : "Best: won in " + state.best.gorilla + " throws. ")) +
-      (won ? "" : "Tip: watch where your banana lands, then nudge the power. ") +
+      (gor.wasBest ? "🏆 New best! " : (state.best.gorilla === null ? "" : "Best: 🍌 " + state.best.gorilla + "/10. ")) +
+      (h === 0 ? "That rival is a slippery one. " : "") +
       questReminder();
     $("gorillaOver").classList.add("show");
   }
@@ -1902,8 +1946,9 @@
     angleIn.addEventListener("input", sync);
     powerIn.addEventListener("input", sync);
     $("throwBtn").addEventListener("click", function () {
-      if (!gor.playing || gor.phase !== "aim") return;
-      gor.throws++;
+      if (!gor.playing || gor.phase !== "aim" || gor.left <= 0) return;
+      gor.left--;
+      gorillaStat();
       launch(true, +angleIn.value, +powerIn.value);
     });
   })();
