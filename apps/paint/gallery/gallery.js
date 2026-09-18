@@ -67,8 +67,9 @@
   function buildVersions(data) {
     var host = document.getElementById("versions");
     var items = data.items || [];
+    var wanted = (host.getAttribute("data-versions") || ORDER.join(",")).split(",");
 
-    ORDER.forEach(function (key) {
+    ORDER.filter(function (key) { return wanted.indexOf(key) >= 0; }).forEach(function (key) {
       var meta = data.versions && data.versions[key];
       if (!meta) return;
       var itemsForVersion = items.filter(function (it) {
@@ -92,8 +93,10 @@
   }
 
   function render(data) {
-    document.title = data.title || "Gallery";
-    document.getElementById("page-title").textContent = data.title || "Gallery";
+    var h1 = document.getElementById("page-title");
+    var title = h1.getAttribute("data-title") || data.title || "Gallery";
+    document.title = title;
+    h1.textContent = title;
     buildPhoto(data);
     buildVersions(data);
   }
