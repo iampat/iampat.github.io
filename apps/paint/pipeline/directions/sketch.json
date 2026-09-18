@@ -1,0 +1,589 @@
+{
+ "style": "sketch",
+ "regions_file": "portrait_at_the_lake.json",
+ "canvas": [
+  1440,
+  1920
+ ],
+ "target": "{TARGET}",
+ "reference": "{REFERENCE}",
+ "seed": 7,
+ "max_strokes": 15000,
+ "ground": "#f8f8f6",
+ "metric": {
+  "ms_ssim": 0.5,
+  "gradient": 0.3,
+  "color": 0.2
+ },
+ "layers": [
+  {
+   "name": "sky",
+   "region": "sky",
+   "tool": "bristle",
+   "overflow": 40,
+   "alpha": [
+    0.2,
+    0.45
+   ],
+   "curvature": 0.15,
+   "levels": [
+    {
+     "size": 80.0,
+     "count": 24,
+     "threshold": 0.0
+    },
+    {
+     "size": 44.0,
+     "count": 72,
+     "threshold": 0.0
+    },
+    {
+     "size": 24.0,
+     "count": 96,
+     "threshold": 0.0
+    }
+   ],
+   "length": [
+    3,
+    10
+   ],
+   "jitter": 0.25
+  },
+  {
+   "name": "mountains-left",
+   "region": "mtn_left",
+   "tool": "bristle",
+   "overflow": 16,
+   "alpha": [
+    0.2,
+    0.45
+   ],
+   "levels": [
+    {
+     "size": 28.0,
+     "count": 36,
+     "threshold": 0.0
+    },
+    {
+     "size": 14.4,
+     "count": 72,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.25,
+   "length": [
+    3,
+    10
+   ]
+  },
+  {
+   "name": "mountains-right",
+   "region": "mtn_right",
+   "tool": "bristle",
+   "overflow": 16,
+   "alpha": [
+    0.2,
+    0.45
+   ],
+   "levels": [
+    {
+     "size": 28.0,
+     "count": 36,
+     "threshold": 0.0
+    },
+    {
+     "size": 14.4,
+     "count": 72,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.25,
+   "length": [
+    3,
+    10
+   ]
+  },
+  {
+   "name": "water",
+   "region": "water",
+   "tool": "bristle",
+   "overflow": 30,
+   "alpha": [
+    0.2,
+    0.45
+   ],
+   "curvature": 0.05,
+   "length": [
+    3,
+    10
+   ],
+   "levels": [
+    {
+     "size": 36.0,
+     "count": 48,
+     "threshold": 0.0
+    },
+    {
+     "size": 18.0,
+     "count": 120,
+     "threshold": 0.0
+    },
+    {
+     "size": 9.600000000000001,
+     "count": 240,
+     "threshold": 0.0
+    },
+    {
+     "size": 4.800000000000001,
+     "count": 300,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.25
+  },
+  {
+   "name": "headland",
+   "region": "headland",
+   "tool": "bristle",
+   "overflow": 8,
+   "alpha": [
+    0.2,
+    0.45
+   ],
+   "levels": [
+    {
+     "size": 16.0,
+     "count": 24,
+     "threshold": 0.0
+    },
+    {
+     "size": 8.0,
+     "count": 48,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.25,
+   "length": [
+    3,
+    10
+   ]
+  },
+  {
+   "name": "neck",
+   "region": "neck",
+   "tool": "bristle",
+   "overflow": 6,
+   "alpha": [
+    0.35,
+    0.7
+   ],
+   "levels": [
+    {
+     "size": 18.0,
+     "count": 24,
+     "threshold": 0.0
+    },
+    {
+     "size": 9.0,
+     "count": 48,
+     "threshold": 0.0
+    },
+    {
+     "size": 4.5,
+     "count": 72,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.25,
+   "length": [
+    3,
+    10
+   ]
+  },
+  {
+   "name": "sweater",
+   "region": "sweater",
+   "tool": "bristle",
+   "overflow": 14,
+   "alpha": [
+    0.35,
+    0.7
+   ],
+   "curvature": 0.2,
+   "flow": "sweater",
+   "flow_weight": 0.3,
+   "levels": [
+    {
+     "size": 45.0,
+     "count": 96,
+     "threshold": 0.0
+    },
+    {
+     "size": 22.5,
+     "count": 240,
+     "threshold": 0.0
+    },
+    {
+     "size": 11.25,
+     "count": 480,
+     "threshold": 0.0
+    },
+    {
+     "size": 5.4,
+     "count": 600,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.25,
+   "length": [
+    3,
+    10
+   ]
+  },
+  {
+   "name": "hair-mass",
+   "region": "hair_core",
+   "tool": "bristle",
+   "overflow": 6,
+   "alpha": [
+    0.35,
+    0.7
+   ],
+   "curvature": 0.3,
+   "flow": "hair",
+   "flow_weight": 0.4,
+   "levels": [
+    {
+     "size": 27.0,
+     "count": 120,
+     "threshold": 0.0
+    },
+    {
+     "size": 13.5,
+     "count": 240,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.25,
+   "length": [
+    3,
+    10
+   ]
+  },
+  {
+   "name": "face-mass",
+   "region": "face",
+   "tool": "bristle",
+   "overflow": 4,
+   "alpha": [
+    0.35,
+    0.7
+   ],
+   "levels": [
+    {
+     "size": 21.6,
+     "count": 48,
+     "threshold": 0.0
+    },
+    {
+     "size": 10.8,
+     "count": 144,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.25,
+   "length": [
+    3,
+    10
+   ]
+  },
+  {
+   "name": "hair-strands",
+   "region": "hair_core",
+   "tool": "bristle",
+   "overflow": 8,
+   "alpha": [
+    0.35,
+    0.7
+   ],
+   "curvature": 0.3,
+   "flow": "hair",
+   "flow_weight": 0.3,
+   "length": [
+    3,
+    10
+   ],
+   "levels": [
+    {
+     "size": 6.3,
+     "count": 600,
+     "threshold": 0.0
+    },
+    {
+     "size": 3.15,
+     "count": 1080,
+     "threshold": 0.0
+    },
+    {
+     "size": 2,
+     "count": 1440,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.25
+  },
+  {
+   "name": "face-form",
+   "region": "face",
+   "tool": "bristle",
+   "overflow": 4,
+   "alpha": [
+    0.35,
+    0.7
+   ],
+   "drift": 10,
+   "levels": [
+    {
+     "size": 7.2,
+     "count": 360,
+     "threshold": 0.0
+    },
+    {
+     "size": 3.6,
+     "count": 600,
+     "threshold": 0.0
+    },
+    {
+     "size": 2,
+     "count": 720,
+     "threshold": 0.0
+    },
+    {
+     "size": 2,
+     "count": 600,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.25,
+   "length": [
+    3,
+    10
+   ]
+  },
+  {
+   "name": "face-accents",
+   "region": "face",
+   "tool": "pencil",
+   "overflow": 2,
+   "alpha": [
+    0.35,
+    0.7
+   ],
+   "drift": 8,
+   "levels": [
+    {
+     "size": 2,
+     "count": 360,
+     "threshold": 1e-05
+    },
+    {
+     "size": 2,
+     "count": 360,
+     "threshold": 1e-05
+    }
+   ],
+   "jitter": 0.25,
+   "length": [
+    3,
+    10
+   ]
+  },
+  {
+   "name": "sunglasses",
+   "region": "sunglasses",
+   "tool": "bristle",
+   "overflow": 3,
+   "alpha": [
+    0.35,
+    0.7
+   ],
+   "drift": 10,
+   "levels": [
+    {
+     "size": 5.4,
+     "count": 72,
+     "threshold": 0.0
+    },
+    {
+     "size": 2.7,
+     "count": 120,
+     "threshold": 0.0
+    },
+    {
+     "size": 2,
+     "count": 168,
+     "threshold": 0.0
+    },
+    {
+     "size": 2,
+     "count": 180,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.25,
+   "length": [
+    3,
+    10
+   ]
+  },
+  {
+   "name": "sunglasses-lines",
+   "region": "sunglasses",
+   "tool": "pencil",
+   "overflow": 2,
+   "alpha": [
+    0.35,
+    0.7
+   ],
+   "drift": 8,
+   "levels": [
+    {
+     "size": 2,
+     "count": 180,
+     "threshold": 5e-06
+    }
+   ],
+   "jitter": 0.25,
+   "length": [
+    3,
+    10
+   ]
+  },
+  {
+   "name": "water-sparkle",
+   "region": "water_visible",
+   "tool": "bristle",
+   "overflow": 0,
+   "alpha": [
+    0.2,
+    0.45
+   ],
+   "length": [
+    3,
+    10
+   ],
+   "levels": [
+    {
+     "size": 4.0,
+     "count": 150,
+     "threshold": 0.0
+    },
+    {
+     "size": 3,
+     "count": 150,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.25
+  },
+  {
+   "name": "sweater-folds",
+   "region": "sweater",
+   "tool": "bristle",
+   "overflow": 6,
+   "alpha": [
+    0.35,
+    0.7
+   ],
+   "flow": "sweater",
+   "flow_weight": 0.3,
+   "levels": [
+    {
+     "size": 3.6,
+     "count": 360,
+     "threshold": 0.0
+    },
+    {
+     "size": 2,
+     "count": 360,
+     "threshold": 0.0
+    }
+   ],
+   "jitter": 0.25,
+   "length": [
+    3,
+    10
+   ]
+  },
+  {
+   "name": "details",
+   "region": "figure",
+   "tool": "bristle",
+   "overflow": 0,
+   "alpha": [
+    0.35,
+    0.7
+   ],
+   "drift": 8,
+   "levels": [
+    {
+     "size": 2.25,
+     "count": 600,
+     "threshold": 3e-05
+    },
+    {
+     "size": 2,
+     "count": 600,
+     "threshold": 3e-05
+    }
+   ],
+   "jitter": 0.25,
+   "length": [
+    3,
+    10
+   ]
+  },
+  {
+   "name": "shading",
+   "region": "figure",
+   "tool": "pencil",
+   "overflow": 2,
+   "alpha": [
+    0.3,
+    0.55
+   ],
+   "drift": 14,
+   "angle": -40,
+   "angle_weight": 0.6,
+   "length": [
+    6,
+    14
+   ],
+   "levels": [
+    {
+     "size": 2.2,
+     "count": 1200,
+     "threshold": 3e-06
+    }
+   ]
+  },
+  {
+   "name": "contours",
+   "region": "figure",
+   "tool": "pencil",
+   "overflow": 2,
+   "alpha": [
+    0.55,
+    0.85
+   ],
+   "drift": 8,
+   "levels": [
+    {
+     "size": 1.6,
+     "count": 700,
+     "threshold": 3e-06
+    }
+   ]
+  }
+ ]
+}
