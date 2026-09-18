@@ -1,0 +1,179 @@
+/* A light retro MS-Paint look: grey chrome, bevelled buttons, one white page. */
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: #7e8ea3;
+  font: 13px/1.4 "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #111;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #d4d0c8;
+  border: 2px solid #f4f2ee;
+  border-right-color: #6f6b66;
+  border-bottom-color: #6f6b66;
+}
+
+.titlebar {
+  background: linear-gradient(#2a5fa8, #4a86d8);
+  color: #fff;
+  font-weight: 600;
+  padding: 4px 8px;
+}
+
+.menubar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 5px 8px;
+  border-bottom: 1px solid #9a968f;
+}
+
+.sep {
+  width: 1px;
+  height: 20px;
+  background: #9a968f;
+  box-shadow: 1px 0 0 #fff;
+}
+
+.btn {
+  font: inherit;
+  padding: 3px 10px;
+  background: #d4d0c8;
+  border: 2px solid;
+  border-color: #fff #6f6b66 #6f6b66 #fff;
+  cursor: pointer;
+}
+.btn:active { border-color: #6f6b66 #fff #fff #6f6b66; }
+.btn.file { position: relative; overflow: hidden; display: inline-block; }
+.btn.file input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+
+.slider { display: flex; align-items: center; gap: 4px; }
+.slider input { width: 110px; }
+
+.body { flex: 1; display: flex; min-height: 0; }
+
+/* ---- tool box ---- */
+.tools {
+  width: 142px;
+  padding: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 4px;
+  border-right: 1px solid #9a968f;
+}
+
+.tool {
+  width: 58px;
+  height: 46px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  background: #d4d0c8;
+  border: 2px solid;
+  border-color: #fff #6f6b66 #6f6b66 #fff;
+  cursor: pointer;
+}
+.tool b { font-size: 9px; font-weight: 500; }
+.tool svg { width: 20px; height: 20px; fill: none; stroke: #1a1a1a; stroke-width: 1.3; stroke-linejoin: round; stroke-linecap: round; }
+.tool.on { border-color: #6f6b66 #fff #fff #6f6b66; background: #bfbbb4; }
+
+.ctl { width: 100%; margin-top: 8px; display: flex; flex-direction: column; gap: 2px; }
+.ctl label { font-size: 11px; color: #333; }
+.ctl input { width: 100%; }
+
+/* ---- canvas ---- */
+.stage {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background: #808080;
+  overflow: auto;
+}
+
+.paper {
+  position: relative;
+  line-height: 0;
+  background: #fff;
+  box-shadow: 0 0 0 1px #3a3a3a, 3px 3px 8px rgba(0, 0, 0, .4);
+}
+
+#canvas {
+  display: block;
+  height: min(960px, calc(100vh - 200px));
+  width: auto;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+#overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ---- reference ---- */
+.ref {
+  width: 218px;
+  padding: 8px;
+  border-left: 1px solid #9a968f;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow: auto;
+}
+.ref h2 { font-size: 12px; margin: 0; text-transform: uppercase; letter-spacing: .06em; color: #444; }
+#refcanvas { width: 100%; height: auto; background: #bfbbb4; border: 1px solid #6f6b66; }
+.hint { font-size: 11px; color: #4a4a4a; margin: 0; }
+
+/* ---- palette ---- */
+.palette {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-top: 1px solid #9a968f;
+}
+.current { display: flex; align-items: center; gap: 6px; }
+.swatch {
+  width: 30px;
+  height: 30px;
+  background: #000;
+  border: 2px solid;
+  border-color: #6f6b66 #fff #fff #6f6b66;
+}
+.grid { display: grid; grid-template-columns: repeat(14, 20px); grid-auto-rows: 20px; gap: 2px; }
+.grid button {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 1px solid;
+  border-color: #6f6b66 #fff #fff #6f6b66;
+  cursor: pointer;
+}
+
+.status {
+  padding: 3px 8px;
+  font-size: 11px;
+  color: #333;
+  border-top: 1px solid #9a968f;
+  background: #cdc9c1;
+}
+
+@media (max-width: 900px) { .ref { display: none; } }
