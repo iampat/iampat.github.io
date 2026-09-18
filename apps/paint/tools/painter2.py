@@ -26,7 +26,18 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import quality as QQ  # noqa: E402
 
 BG = (255.0, 255.0, 255.0)
-TOOLS = ("brush", "pencil", "bristle", "spray", "eraser", "flat", "knife")
+TOOLS = ("brush", "pencil", "bristle", "spray", "eraser", "flat", "knife", "crayon")
+MODES = ("block", "refine", "trace")
+CRAYON_PRESSURE = 0.7          # engine.js default
+PAPER_TOL = 8.0                # Lab dE from the paper: a pixel carries pigment
+CANVAS_SEED = 1                # the paper seed the crayon draws on: the ENGINE's
+                               # canvas seed, which render.mjs fixes at 1
+                               # (new PaintEngine(canvas, {seed: 1, scale})).
+                               # It is NOT the direction's stroke seed: the paper
+                               # is a property of the sheet, not of the plan, and
+                               # the two renderers must agree on it.
+CANVAS_W = 1440                # the canvas the paper is made for
+CANVAS_H = 1920
 SELFTEST_PER_LAYER = 3
 SELFTEST_TOL = 1e-6
 FAIL_STREAK = 50
@@ -428,6 +439,94 @@ def _draw_knife(lay, local, size, colour):
     lay.add_full(cov, np.clip(col, 0.0, 255.0))
 
 
+# ---------------------------------------------------------------------------
+# the crayon (Part A lives in tools/crayon_np.py: paper_height + draw_crayon)
+# ---------------------------------------------------------------------------
+
+_CRAYON_MOD = "unset"
+_PAPER_CACHE = {}
+
+
+def crayon_mod():
+    """tools/crayon_np.py, Part A of the crayon contract. None if it is absent,
+    and then a hard stand-in mark draws instead (TODO(crayon) below)."""
+    global _CRAYON_MOD
+    if _CRAYON_MOD == "unset":
+        try:
+            import crayon_np as m
+        except Exception:
+            m = None
+        _CRAYON_MOD = m
+    return _CRAYON_MOD
+
+
+def canvas_paper():
+    """The sheet the whole canvas is drawn on. One per (size, seed): the paper
+    tooth is a property of the canvas, so every stroke reads the same map."""
+    m = crayon_mod()
+    if m is None:
+        return None
+    key = (CANVAS_W, CANVAS_H, CANVAS_SEED)
+    p = _PAPER_CACHE.get(key)
+    if p is None:
+        p = m.paper_height(CANVAS_W, CANVAS_H, CANVAS_SEED, 1.0)
+        _PAPER_CACHE.clear()
+        _PAPER_CACHE[key] = p
+    return p
+
+
+class _PlacedLayer:
+    """`lay`'s pixels, seen at their CANVAS coordinates.
+
+    A candidate is scored on a crop, so a Layer's x0/y0 are crop-relative. The
+    paper belongs to the canvas, so the crayon is handed the layer's real place
+    and canvas-space points; otherwise the same stroke would land on different
+    paper when it is scored and when it is drawn.
+    """
+
+    __slots__ = ("P", "A", "w", "h", "x0", "y0", "_lay")
+
+    def __init__(self, lay, gx, gy):
+        self.P, self.A, self.w, self.h = lay.P, lay.A, lay.w, lay.h
+        self.x0, self.y0 = int(gx), int(gy)
+        self._lay = lay
+
+    def add_full(self, alpha, colour):
+        self._lay.add_full(alpha, colour)
+
+
+def _crayon_standin(lay, local, size, colour, pressure):
+    """TODO(crayon): only used when tools/crayon_np.py is missing. A hard
+    pencil-like band, no paper tooth. It is NOT the crayon of the contract."""
+    arr = np.round(np.array(local, np.float64)).astype(np.int32)
+    wd = max(1, int(round(size)))
+    m = aa_mask(lay.h, lay.w,
+                lambda img: cv2.polylines(img, [arr], False, 255, wd, cv2.LINE_AA))
+    lay.add_full(m * float(clamp(0.35 + 0.65 * pressure, 0.2, 1.0)), colour)
+
+
+def draw_crayon(lay, local, size, colour, pressure, gx, gy):
+    """One crayon stroke into `lay`, which sits at (gx, gy) on the canvas.
+    The caller composites the layer at the action's alpha, as for every tool."""
+    m = crayon_mod()
+    if m is None:
+        _crayon_standin(lay, local, size, colour, pressure)
+        return
+    pts = [(float(x) + gx, float(y) + gy) for (x, y) in local]
+    m.draw_crayon(_PlacedLayer(lay, gx, gy), pts, size, colour,
+                  pressure=pressure, paper=canvas_paper())
+
+
+def paper_ground(canvas, colour):
+    """{"t": "clear", "color": c, "paper": true}: the colour, tinted by the
+    coarse tooth so an untouched area reads as paper and not as a flat fill."""
+    m = crayon_mod()
+    if m is None:
+        canvas[:, :, :] = np.asarray(colour, np.float32)[None, None, :]
+        return
+    m.draw_paper_ground(canvas, np.asarray(colour, np.float64), canvas_paper())
+
+
 def render_stroke(canvas, action, rng, w, h, ox=0, oy=0):
     """Render one stroke into `canvas`, whose top-left sits at (ox, oy)."""
     pts = [(float(p[0]) - ox, float(p[1]) - oy) for p in action["pts"]]
@@ -455,6 +554,11 @@ def render_stroke(canvas, action, rng, w, h, ox=0, oy=0):
 
     elif tool == "knife":
         _draw_knife(lay, local, size, colour)
+
+    elif tool == "crayon":
+        draw_crayon(lay, local, size, colour,
+                    float(action.get("pressure", CRAYON_PRESSURE)),
+                    ox + lay.x0, oy + lay.y0)
 
     elif tool == "spray":
         R = max(1.0, size / 2.0)
@@ -508,14 +612,72 @@ def render_stroke(canvas, action, rng, w, h, ox=0, oy=0):
 
 
 def render_actions(actions, w, h, seed=1):
+    global CANVAS_W, CANVAS_H
+    CANVAS_W, CANVAS_H = int(w), int(h)   # `seed` drives the stroke rng, not the paper
     canvas = np.full((h, w, 3), 255.0, np.float32)
     for i, a in enumerate(actions):
         t = a.get("t")
         if t == "clear":
-            canvas[:, :, :] = rgb_of(a.get("color", "#ffffff"))[None, None, :]
+            col = rgb_of(a.get("color", "#ffffff"))
+            if a.get("paper"):
+                paper_ground(canvas, col)
+            else:
+                canvas[:, :, :] = col[None, None, :]
         elif t == "stroke":
             render_stroke(canvas, a, np.random.default_rng([seed, i]), w, h)
     return canvas
+
+
+# ---------------------------------------------------------------------------
+# stroke order: how the hand travels over the paper
+# ---------------------------------------------------------------------------
+
+def travel_of(strokes, start=(0.0, 0.0)):
+    """Pen-up travel: the sum of the jumps from one stroke's end to the next
+    stroke's start, in plan px."""
+    cx, cy = float(start[0]), float(start[1])
+    tot = 0.0
+    for a in strokes:
+        p0 = a["pts"][0]
+        tot += math.hypot(float(p0[0]) - cx, float(p0[1]) - cy)
+        p1 = a["pts"][-1]
+        cx, cy = float(p1[0]), float(p1[1])
+    return tot
+
+
+def sweep_strokes(strokes, start=(0.0, 0.0)):
+    """Greedy nearest-neighbour order from the top-left: from the previous
+    stroke's end, take the stroke with the nearest END POINT (either end) and
+    flip its points when its far end is the nearer one.
+
+    Returns (ordered strokes, pen-up travel px).
+    """
+    n = len(strokes)
+    if n < 2:
+        return list(strokes), travel_of(strokes, start)
+    A = np.array([[float(a["pts"][0][0]), float(a["pts"][0][1])] for a in strokes])
+    B = np.array([[float(a["pts"][-1][0]), float(a["pts"][-1][1])] for a in strokes])
+    left = np.ones(n, bool)
+    cur = np.array([float(start[0]), float(start[1])])
+    out = []
+    travel = 0.0
+    for _ in range(n):
+        d0 = ((A - cur) ** 2).sum(axis=1)
+        d1 = ((B - cur) ** 2).sum(axis=1)
+        d0 = np.where(left, d0, np.inf)
+        d1 = np.where(left, d1, np.inf)
+        i0, i1 = int(np.argmin(d0)), int(np.argmin(d1))
+        flip = d1[i1] < d0[i0]
+        i = i1 if flip else i0
+        travel += math.sqrt(float(d1[i1] if flip else d0[i0]))
+        a = strokes[i]
+        if flip:
+            a = dict(a)
+            a["pts"] = list(reversed(a["pts"]))
+        out.append(a)
+        cur = np.array([float(a["pts"][-1][0]), float(a["pts"][-1][1])])
+        left[i] = False
+    return out, travel
 
 
 # ---------------------------------------------------------------------------
@@ -544,7 +706,18 @@ class Painter:
         self.canvas = self.q.img      # one buffer: commit() writes straight into it
         self.nstrokes = 0
         self._level_cache = {}
+        self._trace_cache = {}
+        self._group_cache = {}
+        self._mark = None
+        self.paper = self.paper_colour()
+        self.paper_lab = QQ.to_lab(self.paper.reshape(1, 1, 3)).reshape(3)
+        self.paper_tol = float(direction.get("paper_tol", PAPER_TOL))
+        self.travel = []
+        self.reordered = False
+        self.rerender_seconds = 0.0
         self.selftest = []
+        global CANVAS_W, CANVAS_H
+        CANVAS_W, CANVAS_H = self.W, self.H   # the paper keeps CANVAS_SEED
 
     # -- caches ------------------------------------------------------------
 
@@ -555,6 +728,105 @@ class Painter:
                 raise SystemExit("painter2: unknown flow " + str(name))
             self.flows[name] = build_flow_field(spec["curves"], self.W, self.H)
         return self.flows[name]
+
+    def paper_colour(self):
+        """The direction's "paper" hex, or the median of the brightest fifth."""
+        spec = self.d.get("paper")
+        if spec:
+            return rgb_of(spec)
+        L = QQ.to_lab(self.target)[:, :, 0].ravel()
+        sel = L >= float(np.percentile(L, 80.0))
+        return np.median(self.target.reshape(-1, 3)[sel], axis=0).astype(np.float32)
+
+    def mark(self):
+        """The target at MARK scale (sigma 1): the colour of one crayon line,
+        before the level blur mixes the paper back into it."""
+        if self._mark is None:
+            rgb = cv2.GaussianBlur(self.target, (0, 0), 1.0)
+            self._mark = {"rgb": rgb, "lab": QQ.to_lab(rgb)}
+        return self._mark
+
+    def trace_maps(self, size):
+        """The pigment mask M at one scale and the half-width of its marks.
+
+        M = the level target more than `paper_tol` (Lab dE) off the paper.
+        The distance transform of M is the local mark half-width, so the
+        stroke size can follow how wide the mark under it is.
+        """
+        key = round(float(size), 3)
+        got = self._trace_cache.get(key)
+        if got is not None:
+            return got
+        lab = self.level(size)["lab"]
+        d = lab - self.paper_lab[None, None, :]
+        de = np.sqrt((d * d).sum(axis=2))
+        m = (de > self.paper_tol).astype(np.uint8)
+        got = {"mask": m, "half": cv2.distanceTransform(m, cv2.DIST_L2, 3)}
+        if len(self._trace_cache) >= 4:
+            self._trace_cache.clear()
+        self._trace_cache[key] = got
+        return got
+
+    def group_mask(self, spec):
+        """A layer's colour group, read off the mark-scale target:
+        {"lightness": [lo, hi]} | {"hue": [lo, hi]} | {"outline": true}
+        (outline = chroma < 12 and L < 45). None when the layer sets none."""
+        if not spec:
+            return None
+        if isinstance(spec, str):
+            spec = {spec: True}
+        key = json.dumps(spec, sort_keys=True)
+        got = self._group_cache.get(key)
+        if got is not None:
+            return got
+        lab = self.mark()["lab"]
+        L, A, B = lab[:, :, 0], lab[:, :, 1], lab[:, :, 2]
+        m = np.ones(L.shape, bool)
+        if spec.get("outline"):
+            m &= (np.sqrt(A * A + B * B) < 12.0) & (L < 45.0)
+        if "lightness" in spec:
+            lo, hi = as_range(spec["lightness"], (0.0, 100.0))
+            m &= (L >= lo) & (L <= hi)
+        if "hue" in spec:
+            lo, hi = as_range(spec["hue"], (0.0, 360.0))
+            hue = (np.degrees(np.arctan2(B, A)) + 360.0) % 360.0
+            m &= ((hue >= lo) & (hue <= hi)) if lo <= hi else ((hue >= lo) | (hue <= hi))
+        out = m.astype(np.uint8)
+        if spec.get("outline"):
+            # outlines are 2-4 px wide, so give the seeds a pixel of slack
+            out = cv2.dilate(out, np.ones((3, 3), np.uint8))
+        self._group_cache[key] = out
+        return out
+
+    def group_ok(self, spec, lab, slack):
+        """Is this stroke colour still the layer's colour group?
+
+        The seeds are inside the group, but a stroke's colour is the median
+        along its whole path, and a mark may run into its neighbour. `slack`
+        (the layer's "group_slack", 8 L by default) is how far out of the band
+        a stroke may still be kept, so light -> mid -> dark stay separate.
+        """
+        if not spec:
+            return True
+        if isinstance(spec, str):
+            spec = {spec: True}
+        L, A, B = float(lab[0]), float(lab[1]), float(lab[2])
+        if spec.get("outline"):
+            if math.sqrt(A * A + B * B) > 12.0 + slack * 0.75 or L > 45.0 + slack:
+                return False
+        if "lightness" in spec:
+            lo, hi = as_range(spec["lightness"], (0.0, 100.0))
+            if L < lo - slack or L > hi + slack:
+                return False
+        if "hue" in spec:
+            lo, hi = as_range(spec["hue"], (0.0, 360.0))
+            hue = (math.degrees(math.atan2(B, A)) + 360.0) % 360.0
+            d = 2.0 * slack
+            inside = ((hue >= lo - d) and (hue <= hi + d)) if lo <= hi else \
+                     ((hue >= lo - d) or (hue <= hi + d))
+            if not inside:
+                return False
+        return True
 
     def level(self, size):
         """The blurred target, its Lab and its ETF at one brush scale."""
@@ -585,12 +857,15 @@ class Painter:
         if action.get("t") == "stroke":
             self.nstrokes += 1
 
-    def stroke_action(self, tool, pts, size, alpha, colour):
-        return {
+    def stroke_action(self, tool, pts, size, alpha, colour, pressure=None):
+        a = {
             "t": "stroke", "tool": tool, "color": hex_of(colour),
             "size": round(float(size), 2), "alpha": round(float(alpha), 3),
             "pts": [[round(float(x), 1), round(float(y), 1)] for x, y in pts],
         }
+        if pressure is not None:
+            a["pressure"] = round(float(pressure), 3)
+        return a
 
     # -- the ground pass ---------------------------------------------------
 
@@ -599,6 +874,21 @@ class Painter:
         if not spec:
             return 0.0
         t0 = time.time()
+        if isinstance(spec, dict):
+            col = (rgb_of(spec["color"]) if spec.get("color")
+                   else np.asarray(self.paper, np.float32))
+            act = {"t": "clear", "color": hex_of(col)}
+            if spec.get("paper"):
+                act["paper"] = True
+            self.emit(act)
+            if spec.get("paper"):
+                paper_ground(self.canvas, col)
+            else:
+                self.canvas[:, :, :] = col[None, None, :]
+            self.emit({"t": "mark", "name": "ground"})
+            self.q.set_image(self.canvas)
+            self.canvas = self.q.img
+            return time.time() - t0
         if str(spec).lower() == "auto":
             lab = QQ.to_lab(self.target).reshape(-1, 3)
             col = lab_to_rgb(np.median(lab, axis=0))
@@ -710,14 +1000,8 @@ class Painter:
 
     # -- one layer level ---------------------------------------------------
 
-    def run_level(self, layer, li, lv, spec, mask, inside, rng, stats):
-        size = float(spec["size"])
-        count = int(spec.get("count", 0))
-        threshold = float(spec.get("threshold", 0.0) or 0.0)
-        if count <= 0 or not mask.any():
-            return
-        lvl = self.level(size)
-        lab_lvl = lvl["lab"]
+    def biased_dirs(self, layer, lvl):
+        """The ETF at this scale, with the layer's flow and angle bias mixed in."""
         dirs = lvl["etf"]
         fname = layer.get("flow")
         if fname:
@@ -729,6 +1013,17 @@ class Painter:
             bias[:, :, 0] = math.cos(a)
             bias[:, :, 1] = math.sin(a)
             dirs = mix_fields(dirs, bias, float(layer.get("angle_weight", 0.3)))
+        return dirs
+
+    def run_level(self, layer, li, lv, spec, mask, inside, rng, stats):
+        size = float(spec["size"])
+        count = int(spec.get("count", 0))
+        threshold = float(spec.get("threshold", 0.0) or 0.0)
+        if count <= 0 or not mask.any():
+            return
+        lvl = self.level(size)
+        lab_lvl = lvl["lab"]
+        dirs = self.biased_dirs(layer, lvl)
 
         tool = layer.get("tool", "brush")
         if tool not in TOOLS:
@@ -836,12 +1131,213 @@ class Painter:
             "seconds": time.time() - t0,
         })
 
+    # -- one trace level ---------------------------------------------------
+
+    def trace_pressure(self, spec, dark):
+        """Crayon pressure from the local darkness relative to the paper.
+
+        No "pressure" in the layer  -> 0.4 + 0.6 * dark   (the contract).
+        A number p                  -> that rule scaled by p / 0.7, so the
+                                       engine default 0.7 reproduces it.
+        A pair [lo, hi]             -> lo + (hi - lo) * dark.
+        """
+        if spec is None:
+            p = 0.4 + 0.6 * dark
+        elif isinstance(spec, (list, tuple)):
+            lo, hi = as_range(spec, (0.4, 1.0))
+            p = lo + (hi - lo) * dark
+        else:
+            p = float(spec) * (0.4 + 0.6 * dark) / CRAYON_PRESSURE
+        return float(clamp(p, 0.3, 1.0))
+
+    def run_trace(self, layer, li, lv, spec, mask, inside, rng, stats):
+        """Reproduce the marks of the target: strokes that run ALONG the
+        pigment, one colour each, sized by how wide the mark under them is."""
+        smin, smax = as_range(spec.get("size", layer.get("size")), (3.0, 9.0))
+        if smax < smin:
+            smin, smax = smax, smin
+        count = int(spec.get("count", 0))
+        threshold = float(spec.get("threshold", 0.0) or 0.0)
+        if count <= 0 or not mask.any():
+            return
+        base = 0.5 * (smin + smax)
+        lvl = self.level(base)
+        lab_lvl = lvl["lab"]
+        dirs = self.biased_dirs(layer, lvl)
+        maps = self.trace_maps(base)
+        M = maps["mask"] > 0
+        half = maps["half"]
+        mark_lab = self.mark()["lab"]
+
+        tool = layer.get("tool", "crayon")
+        if tool not in TOOLS:
+            raise SystemExit("painter2: layer %r asks for unknown tool %r (have %s)"
+                             % (layer.get("name"), tool, ", ".join(TOOLS)))
+        grp = self.group_mask(layer.get("color_group"))
+        seed_mask = (mask > 0) & M
+        if grp is not None:
+            seed_mask &= grp > 0
+        seed_mask = seed_mask.astype(np.uint8)
+        field = inside & M                       # where a stroke may run
+        if not seed_mask.any():
+            stats.append({"layer": layer.get("name"), "level": lv, "size": base,
+                          "mode": "trace", "tried": 0, "kept": 0, "count": count,
+                          "path_px": 0.0, "seed_px": 0,
+                          "q_before": self.q.value(), "q_after": self.q.value(),
+                          "seconds": 0.0})
+            return
+
+        alo, ahi = as_range(layer.get("alpha"), (0.85, 1.0))
+        llo, lhi = as_range(layer.get("length"), (3.0, 12.0))
+        curv = float(clamp(float(layer.get("curvature", 0.5)), 0.0, 1.0))
+        drift = float(layer.get("drift", 14.0))
+        nc = int(layer.get("candidates", 8))
+        value = float(layer.get("value", 0.0))
+        sat = float(layer.get("saturation", 0.0))
+        jitter = float(layer.get("jitter", 0.0))
+        press = layer.get("pressure", spec.get("pressure"))
+        gslack = float(layer.get("group_slack", 8.0))
+        paper_L = max(1.0, float(self.paper_lab[0]))
+
+        # seeds keep size * 0.5 apart, at the size of the mark under them
+        used = np.zeros((self.H, self.W), np.uint8)
+        kept = tried = fails = 0
+        path_px = 0.0
+        q_before = self.q.value()
+        t0 = time.time()
+        tests = 0
+        rounds = 0
+
+        while kept < count and fails < FAIL_STREAK and rounds < 6:
+            # the error map ages as the layer fills, so the seeds are redrawn
+            # in rounds instead of once for the whole layer
+            rounds += 1
+            seeds = self.seed_stream(seed_mask, base, rng, count * 3 + 256)
+            for flat_idx in seeds:
+                if kept >= count or self.nstrokes >= self.max_strokes:
+                    break
+                if fails >= FAIL_STREAK:
+                    break
+                sy, sx = divmod(int(flat_idx), self.W)
+                if used[sy, sx]:
+                    continue
+                ssz0 = clamp(2.0 * float(half[sy, sx]), smin, smax)
+                cv2.circle(used, (sx, sy), int(round(max(1.0, ssz0 * 0.5))), 1, -1)
+                tried += 1
+                best = None
+                for _ in range(nc):
+                    cx = clamp(sx + (rng.random() * 2.0 - 1.0) * ssz0 * 0.3, 0, self.W - 1)
+                    cy = clamp(sy + (rng.random() * 2.0 - 1.0) * ssz0 * 0.3, 0, self.H - 1)
+                    ix, iy = int(round(cx)), int(round(cy))
+                    if not field[iy, ix]:
+                        continue
+                    ssz = clamp(2.0 * float(half[iy, ix]) * (0.9 + rng.random() * 0.2),
+                                smin, smax)
+                    ang = math.atan2(float(dirs[iy, ix, 1]), float(dirs[iy, ix, 0]))
+                    ang += math.radians((rng.random() * 2.0 - 1.0) * 8.0)
+                    ang += math.radians((rng.random() * 2.0 - 1.0) * 30.0 * jitter)
+                    length = ssz * (llo + rng.random() * max(0.0, lhi - llo))
+                    self.step_size = clamp(ssz * 0.5, 1.5, 6.0)
+                    raw = self.build_path(cx, cy, dirs, ang, length / 2.0, curv,
+                                          field, lab_lvl, lab_lvl[iy, ix], drift)
+                    npts = int(clamp(round(path_length(raw) / max(1.0, ssz)) + 4, 6, 14))
+                    pts = self.smooth_path(raw, npts)
+                    # one colour per stroke: the median of the mark-scale target
+                    # under the path, and the pressure of its darkness
+                    px = np.clip(np.round([p[0] for p in pts]).astype(np.int64), 0, self.W - 1)
+                    py = np.clip(np.round([p[1] for p in pts]).astype(np.int64), 0, self.H - 1)
+                    lab = np.median(mark_lab[py, px], axis=0).astype(np.float32)
+                    if grp is not None and not self.group_ok(layer.get("color_group"),
+                                                             lab, gslack):
+                        continue
+                    dark = clamp((paper_L - float(lab[0])) / paper_L, 0.0, 1.0)
+                    pressure = self.trace_pressure(press, dark)
+                    lab[0] = clamp(float(lab[0]) + (rng.random() * 2.0 - 1.0) * 2.0, 0.0, 100.0)
+                    lab[0] = clamp(float(lab[0]) * (1.0 + value), 0.0, 100.0)
+                    lab[1] *= (1.0 + sat)
+                    lab[2] *= (1.0 + sat)
+                    colour = np.clip(lab_to_rgb(lab), 0.0, 255.0)
+                    alpha = alo + rng.random() * max(0.0, ahi - alo)
+                    box = bbox_of(pts, ssz + 6.0, self.W, self.H)
+                    if box[2] <= box[0] or box[3] <= box[1]:
+                        continue
+                    act = self.stroke_action(tool, pts, ssz, alpha, colour, pressure)
+                    crop = self.q.crop_box(box)
+                    sub = self.canvas[crop[1]:crop[3], crop[0]:crop[2]].copy()
+                    render_stroke(sub, act, rng, crop[2] - crop[0], crop[3] - crop[1],
+                                  crop[0], crop[1])
+                    gain, payload = self.q.delta(box, crop, sub)
+                    if best is None or gain > best[0]:
+                        best = (gain, payload, act)
+                ok = best is not None and (best[0] > 0.0 if threshold <= 0.0
+                                           else best[0] >= threshold)
+                if not ok:
+                    fails += 1
+                    continue
+                fails = 0
+                gain, payload, act = best
+                q_pre = self.q.value()
+                self.q.commit(payload)
+                self.emit(act)
+                kept += 1
+                path_px += path_length(act["pts"])
+                if tests < SELFTEST_PER_LAYER:
+                    tests += 1
+                    full = QQ.QMetric(self.target, self.d.get("metric"))
+                    q_full = full.set_image(self.q.img)
+                    err = abs(q_full - self.q.value())
+                    self.selftest.append({
+                        "layer": layer.get("name"), "size": base, "stroke": len(self.actions),
+                        "q_incremental": self.q.value(), "q_full": q_full, "abs_err": err,
+                        "gain": gain, "gain_full": q_pre - q_full,
+                    })
+                    if err > SELFTEST_TOL:
+                        raise SystemExit(
+                            "painter2: Q self-test failed on layer %s size %g: "
+                            "incremental %.9f vs full %.9f (err %.3e)"
+                            % (layer.get("name"), base, self.q.value(), q_full, err))
+            if self.nstrokes >= self.max_strokes:
+                break
+        stats.append({
+            "layer": layer.get("name"), "level": lv, "size": base,
+            "mode": "trace", "tried": tried, "kept": kept, "count": count,
+            "path_px": path_px, "seed_px": int(seed_mask.sum()),
+            "q_before": q_before, "q_after": self.q.value(),
+            "seconds": time.time() - t0,
+        })
+
     # -- the run -----------------------------------------------------------
+
+    def layer_specs(self, layer):
+        """A trace layer may carry its size/count on the layer itself; every
+        other layer lists its pyramid levels as v4 does."""
+        levels = layer.get("levels")
+        if levels:
+            return levels
+        if layer.get("mode") == "trace":
+            return [{"size": layer.get("size", [3.0, 9.0]),
+                     "count": int(layer.get("count", 0) or 0),
+                     "threshold": layer.get("threshold", 0.0)}]
+        return []
 
     def run(self):
         t0 = time.time()
         stats = []
         ground_s = self.ground()
+        # where the crayon is: it starts at the top-left corner and then stays
+        # where the last stroke left it. The per-layer travel chains through
+        # this cursor, so the table's TOTAL is the run's real pen-up travel and
+        # the sweep also minimizes the jump into the next layer.
+        cursor = (0.0, 0.0)
+        gstrokes = [a for a in self.actions if a.get("t") == "stroke"]
+        if gstrokes:
+            gt = travel_of(gstrokes, cursor)
+            self.travel.append({
+                "layer": "ground", "order": "placed", "strokes": len(gstrokes),
+                "travel_placed": gt, "travel": gt,
+                "path_px": sum(path_length(a["pts"]) for a in gstrokes),
+            })
+            cursor = (float(gstrokes[-1]["pts"][-1][0]), float(gstrokes[-1]["pts"][-1][1]))
         for li, layer in enumerate(self.d.get("layers", [])):
             name = layer.get("name", "layer%d" % li)
             rname = layer.get("region")
@@ -852,16 +1348,50 @@ class Painter:
                 inside = cv2.dilate(mask, k) > 0
             else:
                 inside = mask > 0
-            for lv, spec in enumerate(layer.get("levels", [])):
+            mode = str(layer.get("mode", "block"))
+            if mode not in MODES:
+                raise SystemExit("painter2: layer %r asks for unknown mode %r (have %s)"
+                                 % (name, mode, ", ".join(MODES)))
+            first = len(self.actions)
+            for lv, spec in enumerate(self.layer_specs(layer)):
                 rng = np.random.default_rng([self.seed, li, lv])
-                self.run_level(layer, li, lv, spec, mask, inside, rng, stats)
+                if mode == "trace":
+                    self.run_trace(layer, li, lv, spec, mask, inside, rng, stats)
+                else:
+                    self.run_level(layer, li, lv, spec, mask, inside, rng, stats)
                 if self.nstrokes >= self.max_strokes:
                     break
+            # stroke order inside the layer: "sweep" walks the crayon from one
+            # mark to the nearest next one, which is how a hand fills a page
+            body = self.actions[first:]
+            order = str(layer.get("order", "sweep" if mode == "trace" else "placed"))
+            before = travel_of(body, cursor)
+            after = before
+            if order == "sweep" and len(body) > 1:
+                ordered, after = sweep_strokes(body, cursor)
+                self.actions[first:] = ordered
+                self.reordered = True
+                body = ordered
+            if body:
+                cursor = (float(body[-1]["pts"][-1][0]), float(body[-1]["pts"][-1][1]))
+            self.travel.append({
+                "layer": name, "order": order, "strokes": len(body),
+                "travel_placed": before, "travel": after,
+                "path_px": sum(path_length(a["pts"]) for a in body),
+            })
             # the mark closes the layer, as demo_plan.js does, so the harness
             # checkpoint named after a layer shows that layer finished
             self.emit({"t": "mark", "name": name})
             if self.nstrokes >= self.max_strokes:
                 break
+        if self.reordered:
+            # the strokes now go down in a different order than they were
+            # scored in, so the canvas (and Q, and error.png) is rebuilt from
+            # the action list itself: what render.mjs will draw
+            t1 = time.time()
+            self.q.set_image(render_actions(self.actions, self.W, self.H, self.seed))
+            self.canvas = self.q.img
+            self.rerender_seconds = time.time() - t1
         self.seconds = time.time() - t0
         self.ground_seconds = ground_s
         self.stats = stats
@@ -903,6 +1433,12 @@ def write_reports(p, args):
         "strokes": len(strokes),
         "seconds": p.seconds,
         "ground_seconds": p.ground_seconds,
+        "rerender_seconds": p.rerender_seconds,
+        "paper": hex_of(p.paper),
+        "paper_tol": p.paper_tol,
+        "path_px": sum(path_length(a["pts"]) for a in strokes),
+        "travel_px": travel_of(strokes),
+        "travel": p.travel,
         "tools": sorted({a.get("tool") for a in strokes}),
         "q_vs_target": {"q": q_target, "ms_ssim": t_target["ms_ssim"],
                         "gms": t_target["gms"], "delta_e": t_target["delta_e"],
@@ -923,7 +1459,10 @@ def write_reports(p, args):
     L.append("canvas %dx%d   seed %d   max strokes %d" % (p.W, p.H, p.seed, p.max_strokes))
     L.append("actions %d   strokes %d   tools %s" % (len(p.actions), len(strokes),
                                                      ", ".join(rep["tools"])))
-    L.append("time %.1f s  (ground pass %.1f s)" % (p.seconds, p.ground_seconds))
+    L.append("time %.1f s  (ground pass %.1f s, rerender %.1f s)"
+             % (p.seconds, p.ground_seconds, p.rerender_seconds))
+    L.append("paper %s (dE > %.0f is pigment)   path %.0f px   pen-up travel %.0f px"
+             % (rep["paper"], p.paper_tol, rep["path_px"], rep["travel_px"]))
     L.append("")
     L.append("Q vs target   %.6f   (MS-SSIM %.4f, GMS %.4f, Lab dE %.2f)"
              % (q_target, t_target["ms_ssim"], t_target["gms"], t_target["delta_e"]))
@@ -937,16 +1476,38 @@ def write_reports(p, args):
              % (len(p.selftest), SELFTEST_TOL, rep["selftest"]["worst_abs_err"],
                 "PASS" if rep["selftest"]["worst_abs_err"] <= SELFTEST_TOL else "FAIL"))
     L.append("")
-    L.append("%-16s %-4s %-6s %-7s %-7s %-11s %-11s %-7s"
-             % ("layer", "lvl", "size", "tried", "kept", "Q before", "Q after", "sec"))
+    L.append("%-16s %-4s %-6s %-7s %-7s %-9s %-11s %-11s %-7s"
+             % ("layer", "lvl", "size", "tried", "kept", "path px",
+                "Q before", "Q after", "sec"))
     for s in p.stats:
-        L.append("%-16s %-4d %-6.4g %-7d %-7d %-11.6f %-11.6f %-7.1f"
+        L.append("%-16s %-4d %-6.4g %-7d %-7d %-9.0f %-11.6f %-11.6f %-7.1f"
                  % (s["layer"], s["level"], s["size"], s["tried"], s["kept"],
-                    s["q_before"], s["q_after"], s["seconds"]))
+                    s.get("path_px", 0.0), s["q_before"], s["q_after"], s["seconds"]))
     tried = sum(s["tried"] for s in p.stats)
     kept = sum(s["kept"] for s in p.stats)
-    L.append("%-16s %-4s %-6s %-7d %-7d" % ("TOTAL", "", "", tried, kept))
+    L.append("%-16s %-4s %-6s %-7d %-7d %-9.0f"
+             % ("TOTAL", "", "", tried, kept, sum(s.get("path_px", 0.0) for s in p.stats)))
     L.append("")
+    if p.travel:
+        # the per-layer rows chain through the pen position, so their TOTAL is
+        # the same number as the headline pen-up travel; say so if it ever drifts
+        tsum = sum(t["travel"] for t in p.travel)
+        if abs(tsum - rep["travel_px"]) > max(1.0, 1e-6 * rep["travel_px"]):
+            raise SystemExit("painter2: travel accounting mismatch: table total "
+                             "%.1f px vs run total %.1f px" % (tsum, rep["travel_px"]))
+        L.append("stroke order (pen-up travel, plan px)")
+        L.append("%-16s %-8s %-8s %-11s %-11s %-11s"
+                 % ("layer", "order", "strokes", "path", "as placed", "as ordered"))
+        for t in p.travel:
+            L.append("%-16s %-8s %-8d %-11.0f %-11.0f %-11.0f"
+                     % (t["layer"], t["order"], t["strokes"], t["path_px"],
+                        t["travel_placed"], t["travel"]))
+        L.append("%-16s %-8s %-8d %-11.0f %-11.0f %-11.0f"
+                 % ("TOTAL", "", sum(t["strokes"] for t in p.travel),
+                    sum(t["path_px"] for t in p.travel),
+                    sum(t["travel_placed"] for t in p.travel),
+                    sum(t["travel"] for t in p.travel)))
+        L.append("")
     L.append("files: actions.json, preview.png, error.png, report.json, report.txt")
     with open(os.path.join(p.out, "report.txt"), "w") as fh:
         fh.write("\n".join(L) + "\n")

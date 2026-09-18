@@ -60,6 +60,7 @@ render.mjs: new flags `--width W --height H` for the plan size (default 720 x 96
 H*scale; h.W/h.H follow; frames are (W*frameScale) x (H*frameScale). Progressive pacing: new flag `--pace size` makes a
 stroke's time share = path length * sqrt(size) so big marks are slow and fine marks fast (default: `--pace length`, the
 current rule). compare.py: compare at the reference image's own size (resize the painting to it), so 1440x1920 works.
+v5 adds a third tool, "crayon", and the paper it draws on: see "v5 addition: the crayon tool and the paper" below.
 
 ## Part B: $APP/tools/painter2.py  (the placer)
   $VENV/bin/python $APP/tools/painter2.py --direction <json> --out <run dir> [--seed 7] [--max-strokes N]
@@ -135,3 +136,75 @@ a parsed scores.json. Never send anything but these images.
 Checks: no poly/ellipse/bucket in actions.json; preview.png and render/final.png (downscaled) agree; the Q assert
 self-test passes; the video shows strokes growing; report.txt readable; painter2 under 10 minutes at the 15000 cap
 (measured on an M-series Mac: oil 5-6 min, sketch 5 min, watercolor 6.5 min, pencil 9 min).
+
+## v5 addition: the crayon tool and the paper (crayon contract, Part A)
+A third stroke tool, `"crayon"`, and the sheet it draws on. Both are deterministic and take no PRNG: the grain comes
+from the paper, so the same action always lays the same wax.
+  {"t": "stroke", "tool": "crayon", "color": "#hex", "size": s, "alpha": a, "pressure": 0.3..1, "pts": [[x,y],...]}
+- The paper. A height map H(x, y) in [0, 1], built once per engine from its seed and kept across `clear`: value noise
+  at two scales (fine period 2.5 plan px, coarse 11 plan px) mixed 60/40. It is one sheet at every render scale, so
+  the periods are multiplied by `--scale`: the same paper, drawn bigger. A lattice point is hashed once and the
+  pixels between them are a smoothstep lerp, so an 11 Mpx sheet costs well under a second.
+  The seed is the ENGINE's canvas seed, which render.mjs fixes at 1. It is NOT the direction's stroke seed: the sheet
+  belongs to the canvas, not to the plan, so painter2.py holds CANVAS_SEED at 1 whatever `"seed"` the direction sets.
+  Take the paper from the direction seed instead and painter2 plans on one sheet while render.mjs draws on another -
+  the preview then differs from final.png by about 8 levels on average, with no visible cause.
+- The mark. A soft square of side `size`, turned to the path, is walked along it every size*0.25 px. Inside the
+  footprint the local pressure is p = pressure * edge(d) * ramp(t), where d is the Chebyshev distance in the
+  footprint's own frame; edge(d) holds full pressure under the flat of the tip and falls to 0 over the outer 30%,
+  its shoulder moved about by 0.25 * the fine noise so the two rails come out ragged; ramp(t) rises over the first
+  8% of the path and falls over the last 8%. The wax lands where the pressure beats the tooth:
+  c = smoothstep(H - 0.15, H + 0.15, p). Stamps compose over each other and so do passes, so a second pass fills the
+  valleys the first one skipped - that is how a crayon builds up. The two long edges of the swath sit 3% darker.
+  The stroke is one coverage buffer, put on the action's layer in one go, so it composites once at `alpha` like
+  every other tool. `pressure` defaults to 0.7.
+- The ground. `{"t": "clear", "color": "#hex", "paper": true}` fills with the colour and then tints it by the coarse
+  tooth, +-2 levels, so an untouched area reads as paper and not as a flat fill.
+- The numpy mirror is $APP/tools/crayon_np.py: `paper_height(w, h, seed, scale)` and
+  `draw_crayon(layer_or_canvas, pts, size, color, alpha, pressure, paper, rng)` (`rng` is accepted for a uniform tool
+  signature and unused), plus `draw_paper_ground`. It repeats engine.js step for step - the same uint32 hash, the
+  same lattice, the same footprint walk, the same 8-bit rounding - so painter2.py's preview is the picture render.mjs
+  will draw: on a six-stroke fixture (sizes 3/5/9, pressures 0.35/0.7/0.95) the mean absolute difference is 0.007
+  levels and the worst pixel is 1 level.
+The UI gets a Crayon button and a pressure slider. render.mjs validation accepts the tool, a numeric `pressure` and a
+boolean `paper` on `clear`. Old tools stay byte-identical (verified with cmp on a plan using every other action type,
+at scale 2 and through the progressive video).
+render.mjs video flags: `--pace travel [--speed MMPS] [--px-per-mm P] [--lapse F]` prices a stroke in real drawing
+time instead of sharing a fixed budget - length / (P * MMPS) seconds of hand travel, divided by the time-lapse factor
+F, times fps - so the movie runs at the speed of the hand and `--seconds` only caps it (every share is scaled down
+together when the sum overruns). Defaults: 200 mm/s, 6.86 px/mm (A4 width = 1440 px), lapse 10. A stroke worth less
+than one frame is still grouped as before. `--cursor crayon` stamps a crayon tip - a 26 x 8 rounded body in the
+stroke's colour, a darker nib on the stroke's live end, a soft shadow, lying along the last path segment and pointing
+ahead of it - into the movie frames only, never into final.png or the checkpoints.
+
+## v5 addition: trace mode in painter2.py (crayon contract, Part B)
+A layer may set `"mode": "trace"` (the other modes, `block` and `refine`, are the level-based placer above, and
+`block` is the default). Trace reproduces the MARKS of the target instead of its tones, so a finished drawing can be
+copied stroke by stroke. It reads the direction's `"paper"` hex (or the median of the brightest fifth of the target)
+and `"paper_tol"` (Lab dE, default 8).
+  {"name": "...", "mode": "trace", "tool": "crayon", "region": "...", "order": "sweep",
+   "size": [min, max], "count": N, "threshold": t,          (or the usual "levels" list, one entry per size range)
+   "color_group": {"lightness": [lo, hi]} | {"hue": [lo, hi]} | {"outline": true},
+   "group_slack": 8, "pressure": 0.35 | [lo, hi], "length": [min, max], "drift": dE, "candidates": 8}
+Per layer:
+  1. Pigment mask M = the level target more than `paper_tol` off the paper colour (Lab dE). The distance transform of
+     M is the local mark half-width, so a stroke's size = clamp(2 * half-width, size min, size max).
+  2. Seeds: importance sampling on the error map inside region & M & the colour group, spacing size * 0.5, redrawn in
+     rounds as the error map ages.
+  3. Path: a streamline of the ETF at the layer's size, both ways from the seed, stopping when it leaves M, when the
+     level colour drifts more than `drift` from the seed's, or at the length limit.
+  4. Colour: the median of the target at MARK scale (sigma 1) along the path, one colour per stroke. A stroke whose
+     colour leaves its colour group by more than `group_slack` (L, default 8) is dropped.
+  5. Pressure (crayon): 0.4 + 0.6 * darkness relative to the paper. A layer `"pressure": p` scales that by p / 0.7
+     (so 0.7 is the plain rule), and `"pressure": [lo, hi]` maps the darkness into that range instead.
+  6. Candidates and scoring exactly as in refine: the score is the change of the whole-picture Q.
+  7. `"order": "sweep"` (the default for trace) reorders the layer's strokes after placement: greedy nearest
+     neighbour from the previous stroke's end to the nearest END of the next stroke, flipping it when its far end is
+     nearer, starting at the top-left. The pen position carries over from one layer to the next (and from the ground
+     pass, when it draws strokes), so a layer's first stroke is chosen from where the crayon really is. The canvas is
+     then rebuilt from the action list, so preview.png, error.png and the reported Q are the picture render.mjs will
+     draw. report.txt prints the path length and the pen-up travel, as placed and as ordered. Because the rows chain,
+     the table TOTAL is the same number as the headline pen-up travel of the run.
+`{"t": "clear", "color": "#hex", "paper": true}` as the `ground` tints the ground with the coarse paper noise, so an
+untouched area reads as paper. The crayon itself lives in tools/crayon_np.py (paper_height, draw_crayon) and is
+mirrored by engine.js.

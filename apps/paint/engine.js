@@ -294,6 +294,168 @@
     }
   }
 
+  /* ---------- paper and crayon ---------- */
+
+  /* The paper. A fixed height map H(x, y) in [0, 1] for this canvas: value
+     noise at two scales (fine period 2.5 plan px, coarse 11 plan px), mixed
+     60/40. It is the same sheet at every render scale, so the periods are
+     multiplied by `scale`: --scale 2 draws the same paper bigger.
+     tools/crayon_np.py mirrors hash2() and valueNoise() exactly, so the numpy
+     preview and this renderer agree to a level or two. */
+  var PAPER_FINE = 2.5;      /* fine tooth period, plan px */
+  var PAPER_COARSE = 11;     /* coarse tooth period, plan px */
+  var PAPER_MIX = 0.6;       /* weight of the fine scale in H */
+  var PAPER_TINT = 4;        /* clear{paper:true} tints the ground by +-2 levels */
+
+  /* crayon */
+  var CRAYON_STEP = 0.25;    /* footprint walk, as a fraction of size */
+  var CRAYON_SOFT = 0.30;    /* half width of the smoothstep against the tooth */
+  var CRAYON_DEPOSIT = 0.28; /* wax laid per stamp at full pressure (the passes build up) */
+  var CRAYON_RAG = 0.25;     /* raggedness added to the footprint edge */
+  var CRAYON_EDGE = 0.3;     /* the footprint holds full pressure to 1 - this */
+  var CRAYON_RAMP = 0.08;    /* pressure ramp, as a fraction of the path */
+  var CRAYON_RIM = 0.03;     /* the two long edges sit 3% darker */
+
+  /* 32-bit integer hash of a lattice point -> [0, 1). Every step is uint32, so
+     numpy reproduces it bit for bit. */
+  function hash2(ix, iy, salt) {
+    var h = (Math.imul(ix | 0, 0x27d4eb2d) ^ Math.imul(iy | 0, 0x85ebca6b) ^
+      Math.imul(salt | 0, 0x9e3779b1)) >>> 0;
+    h = Math.imul(h ^ (h >>> 15), 0x2c1b3c6d) >>> 0;
+    h = Math.imul(h ^ (h >>> 13), 0x297a2d39) >>> 0;
+    h = (h ^ (h >>> 16)) >>> 0;
+    return h / 4294967296;
+  }
+
+  /* Value noise on a w x h grid: one hashed lattice point every `period` px,
+     sampled at pixel centres with a smoothstep fade. The hash runs once per
+     lattice point, so a big canvas costs w*h lerps, not w*h hashes. */
+  function valueNoise(w, h, period, salt) {
+    var gw = Math.ceil(w / period) + 2, gh = Math.ceil(h / period) + 2;
+    var lat = new Float32Array(gw * gh);
+    var gx, gy;
+    for (gy = 0; gy < gh; gy++) {
+      for (gx = 0; gx < gw; gx++) lat[gy * gw + gx] = hash2(gx, gy, salt);
+    }
+    var out = new Float32Array(w * h);
+    for (var y = 0; y < h; y++) {
+      var fy = (y + 0.5) / period;
+      var iy = Math.floor(fy);
+      var ty = fy - iy;
+      var uy = ty * ty * (3 - 2 * ty);
+      var r0 = iy * gw, r1 = (iy + 1) * gw, row = y * w;
+      for (var x = 0; x < w; x++) {
+        var fx = (x + 0.5) / period;
+        var ix = Math.floor(fx);
+        var tx = fx - ix;
+        var ux = tx * tx * (3 - 2 * tx);
+        var a = lat[r0 + ix], b = lat[r0 + ix + 1];
+        var c = lat[r1 + ix], d = lat[r1 + ix + 1];
+        var top = a + (b - a) * ux, bot = c + (d - c) * ux;
+        out[row + x] = top + (bot - top) * uy;
+      }
+    }
+    return out;
+  }
+
+  /* Crayon. Wax pressed onto a toothed paper.
+     A soft square of side `size`, turned to the path, is walked along it every
+     size*0.25 px. Inside the footprint the local pressure is
+        p = pressure * edge(d) * ramp(t)
+     where d is the Chebyshev distance in the footprint's own frame and edge(d)
+     falls from 1 at the centre to 0 at the footprint edge: full pressure under
+     the flat of the tip, then a shoulder over the outer 30%, its position moved
+     about by the fine paper noise so the two rails come out ragged. ramp(t)
+     rises over the first 8% of the path and falls over the last 8%. The wax lands where the pressure
+     beats the tooth: coverage c = smoothstep(H - 0.15, H + 0.15, p). Passes
+     compose over each other, so a second pass fills the valleys the first one
+     missed. The two long edges of the swath sit 3% darker, which is the waxy
+     ridge a crayon pushes to its sides.
+     The stroke is built as one coverage buffer and put on the action's layer in
+     one go, so it composites once at `alpha` like every other tool. */
+  function drawCrayon(c, box, paper, pts, size, color, pressure, s) {
+    var bw = box.w, bh = box.h;
+    if (!bw || !bh) return;
+    var pw = paper.w, fine = paper.fine, coarse = paper.coarse;
+    var half = Math.max(0.5, size * s / 2);
+    var step = Math.max(0.5, size * s * CRAYON_STEP);
+    var n = Math.ceil(1.6 * half) + 1;   /* window: the ragged square's corners */
+    var i, L = 0;
+    for (i = 1; i < pts.length; i++) {
+      var ax = pts[i].x - pts[i - 1].x, ay = pts[i].y - pts[i - 1].y;
+      L += Math.sqrt(ax * ax + ay * ay);
+    }
+    /* walk() emits its k-th point at arc length k*step */
+    var dab = L < step;                 /* no room to ramp: a single dab */
+    var rampLen = CRAYON_RAMP * L;
+
+    var cov = new Float32Array(bw * bh);
+    var wsum = new Float32Array(bw * bh);   /* coverage-weighted mean of the */
+    var dsum = new Float32Array(bw * bh);   /* across-path offset, for the rim */
+    var k = 0;
+    walk(pts, step, function (x, y, ux, uy) {
+      var t = k * step;
+      k++;
+      var ramp = dab ? 1 : Math.min(1, Math.min(t, L - t) / rampLen);
+      if (ramp <= 0) return;
+      var pk = pressure * ramp;
+      var ix = Math.floor(x), iy = Math.floor(y);
+      for (var oy = -n; oy <= n; oy++) {
+        var py = iy + oy;
+        if (py < box.y || py >= box.y + bh) continue;
+        var dy = py + 0.5 - y;
+        var prow = py * pw, brow = (py - box.y) * bw - box.x;
+        for (var ox = -n; ox <= n; ox++) {
+          var px = ix + ox;
+          if (px < box.x || px >= box.x + bw) continue;
+          var dx = px + 0.5 - x;
+          var da = dx * ux + dy * uy;
+          var db = dy * ux - dx * uy;
+          if (da < 0) da = -da;
+          if (db < 0) db = -db;
+          da /= half;
+          db /= half;
+          var dd = da > db ? da : db;
+          var pi = prow + px;
+          var e = (1 - dd + CRAYON_RAG * (fine[pi] - 0.5)) / CRAYON_EDGE;
+          if (e <= 0) continue;
+          if (e > 1) e = 1;
+          var hgt = PAPER_MIX * fine[pi] + (1 - PAPER_MIX) * coarse[pi];
+          var u = (pk * e - hgt + CRAYON_SOFT) / (2 * CRAYON_SOFT);
+          if (u <= 0) continue;
+          if (u > 1) u = 1;
+          var cc = u * u * (3 - 2 * u);
+          cc *= CRAYON_DEPOSIT * (0.4 + 0.6 * pk);   /* a pass leaves a fraction of wax */
+          var bi = brow + px;
+          cov[bi] += cc - cov[bi] * cc;
+          wsum[bi] += cc;
+          dsum[bi] += cc * (db > 1 ? 1 : db);
+        }
+      }
+    });
+
+    var im = c.createImageData(bw, bh);
+    var data = im.data;
+    var col = hexToRgb(color);
+    var np = bw * bh;
+    for (var j = 0; j < np; j++) {
+      var a = cov[j];
+      if (a <= 0) continue;
+      if (a > 1) a = 1;
+      var r = wsum[j] > 0 ? dsum[j] / wsum[j] : 0;
+      var tt = (r - 0.5) / 0.5;
+      if (tt < 0) tt = 0;
+      else if (tt > 1) tt = 1;
+      var f = 1 - CRAYON_RIM * tt * tt * (3 - 2 * tt);
+      var o = j * 4;
+      data[o] = Math.round(col[0] * f);
+      data[o + 1] = Math.round(col[1] * f);
+      data[o + 2] = Math.round(col[2] * f);
+      data[o + 3] = Math.round(a * 255);
+    }
+    c.putImageData(im, box.x, box.y);
+  }
+
   /* scanline flood fill, tol = max per-channel distance */
   function bucketFill(ctx, w, h, sx, sy, hex, tol, alpha) {
     sx = Math.round(sx); sy = Math.round(sy);
@@ -401,6 +563,40 @@
     }
   };
 
+  /* The paper, built once per engine and kept across reset(): it is one sheet,
+     not something a clear() replaces. */
+  PaintEngine.prototype.paper = function () {
+    if (this._paper) return this._paper;
+    var s = this.scale;
+    this._paper = {
+      w: this.width,
+      h: this.height,
+      fine: valueNoise(this.width, this.height, PAPER_FINE * s, (this.seed * 2 + 1) | 0),
+      coarse: valueNoise(this.width, this.height, PAPER_COARSE * s, (this.seed * 2 + 2) | 0)
+    };
+    return this._paper;
+  };
+
+  /* {t:"clear", color, paper:true}: the ground takes a faint version of the
+     coarse tooth, +-2 levels, so an untouched area reads as paper. */
+  PaintEngine.prototype._grainPaper = function (hex) {
+    var paper = this.paper();
+    var col = hexToRgb(hex);
+    var w = this.width, h = this.height;
+    var im = this.ctx.createImageData(w, h);
+    var data = im.data;
+    var np = w * h;
+    for (var j = 0; j < np; j++) {
+      var t = (paper.coarse[j] - 0.5) * PAPER_TINT;
+      var o = j * 4;
+      data[o] = clamp(Math.round(col[0] + t), 0, 255);
+      data[o + 1] = clamp(Math.round(col[1] + t), 0, 255);
+      data[o + 2] = clamp(Math.round(col[2] + t), 0, 255);
+      data[o + 3] = 255;
+    }
+    this.ctx.putImageData(im, 0, 0);
+  };
+
   PaintEngine.prototype.rngFor = function (index) {
     /* two odd constants keep neighbouring (seed, index) pairs far apart */
     return mulberry32((Math.imul(this.seed | 0, 0x9e3779b1) ^ Math.imul(index + 1, 0x85ebca6b)) >>> 0);
@@ -439,9 +635,11 @@
 
     if (a.t === 'clear') {
       var c = this.ctx;
+      var ground = a.color || this.bg || '#ffffff';
       c.globalAlpha = 1;
-      c.fillStyle = a.color || this.bg || '#ffffff';
+      c.fillStyle = ground;
       c.fillRect(0, 0, this.width, this.height);
+      if (a.paper) this._grainPaper(ground);
       return;
     }
 
@@ -467,7 +665,10 @@
       else if (tool === 'bristle') drawBristle(lc, pts, size, color, rng, s);
       else if (tool === 'flat') drawFlat(lc, pts, size, color, rng, s);
       else if (tool === 'knife') drawKnife(lc, pts, size, color, s);
-      else drawHardLine(lc, pts, size, color, s); /* pencil and eraser */
+      else if (tool === 'crayon') {
+        drawCrayon(lc, this._box, this.paper(), pts, size, color,
+          clamp(a.pressure == null ? 0.7 : +a.pressure, 0, 1), s);
+      } else drawHardLine(lc, pts, size, color, s); /* pencil and eraser */
       this._closeLayer(alpha);
       return;
     }
@@ -542,6 +743,8 @@
 
   /* handy for the UI and the render harness */
   PaintEngine.mulberry32 = mulberry32;
+  PaintEngine.hash2 = hash2;
+  PaintEngine.valueNoise = valueNoise;
   PaintEngine.hexToRgb = hexToRgb;
   PaintEngine.rgbToHex = rgbToHex;
   PaintEngine.shade = shade;
