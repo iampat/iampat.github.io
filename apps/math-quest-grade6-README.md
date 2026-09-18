@@ -17,11 +17,12 @@ offline, from a USB stick, on a school laptop or a phone.
   lights up green with a ✅, and a plain-language explanation appears. Only the streak
   resets.
 - The next question loads on its own. "⏭️ New question" skips without penalty.
-- **Every 5 questions answered — right or wrong — a prize unlocks:** pick 🐍 Snake or
-  ⚽ Penalty Kicks. Both are short by design (Snake is a 45-second round; Penalty Kicks
-  is 5 shots against a goalie who remembers your favourite corner), keep a session high
-  score, and always show "Back to the quest". Progress dots under the buttons count
-  down to the next prize.
+- **Every 5 questions answered — right or wrong — a prize unlocks:** pick 🐍 Snake,
+  ⚽ Penalty Kicks or 🦍 Banana Blast. All three are short by design (Snake is a
+  45-second round; Penalty Kicks is 5 shots against a goalie who remembers your
+  favourite corner; Banana Blast is a first-to-2-hits artillery duel, ~30-60 seconds),
+  keep a session high score, and always show "Back to the quest". Progress dots under
+  the buttons count down to the next prize.
 - Three tabs: 🎲 Mixed, 🍫 Fractions, 📐 Shapes. No difficulty settings — just play.
 - 🔊 mutes everything. All sound is synthesized (WebAudio) and deliberately mild so it
   won't take over a room.
@@ -99,6 +100,21 @@ answers the number ranges grow, and again after 18 (bigger denominators, bigger 
 Question types are drawn from a shuffled bag so the same question family never repeats
 back-to-back (adding and subtracting count as one family), and the last 25 exact
 questions are remembered so the same one doesn't come around again soon.
+
+## Banana Blast (the gorilla game)
+
+A banana-artillery duel on a night-time skyline, in the spirit of the old QBasic
+*Gorillas*. Pick an **angle** and a **power** with two sliders, watch the **wind
+arrow**, and lob a banana at the rival gorilla; first to 2 hits wins. Explosions carve
+real craters into the buildings (the skyline is a per-column height map), and after
+every miss the game tells you **"Too short!"** or **"Too far!"** so the next shot is an
+informed adjustment rather than a guess — the same estimate-and-correct loop the angle
+work in the curriculum is after.
+
+The rival rubber-bands: it aims with a real projectile solution but grows sloppier
+while it is ahead and sharper when the player is ahead. A simulated player who just
+follows the short/far hints wins about 65% of rounds in ~7.5 throws, so it stays
+winnable without being a walkover. Best score is the fewest throws taken to win.
 
 ## Ranks and XP
 
