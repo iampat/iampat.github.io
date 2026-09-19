@@ -7,8 +7,18 @@
 
 The style templates in directions/ hold the layers, the ground and the metric.
 They carry no shapes: "regions" and "flows" come from a regions file, so all
-four styles share one set of shapes per photo. The template names its default
-regions file in "regions_file"; --regions overrides it.
+four painting styles share one set of shapes per photo. The template names its
+default regions file in "regions_file"; --regions overrides it.
+
+A trace template (the crayon style) needs no shapes at all: its layers follow
+the marks of the target. Such a template sets "border_frac" in place of
+"regions_file", and this script builds "all", "main" and "border" from the
+canvas. "border_frac" is the width of the border ring, as a fraction of the
+shorter canvas side. 0 makes "main" the whole sheet and "border" empty.
+
+For a trace template this script also prints where "max_strokes" cuts the layer
+list, because the cap stops the whole run and drops the late layers. See
+budget_note below.
 
 The template's "target" and "reference" are the placeholders "{TARGET}" and
 "{REFERENCE}". This script replaces them with the two paths you pass, written
@@ -20,10 +30,11 @@ import collections
 import json
 import os
 import sys
+import textwrap
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-KEY_ORDER = ["canvas", "target", "reference", "seed", "max_strokes",
-             "ground", "metric", "regions", "flows", "layers"]
+KEY_ORDER = ["note", "canvas", "target", "reference", "seed", "max_strokes",
+             "paper", "paper_tol", "ground", "metric", "regions", "flows", "layers"]
 
 
 def load_json(path):
@@ -60,6 +71,86 @@ def resolve_regions(arg, template, template_path):
     raise SystemExit("error: no regions file named %s under %s" % (name, os.path.join(HERE, "regions")))
 
 
+def canvas_regions(canvas, border_frac):
+    """The shapes a trace direction needs, straight from the canvas.
+
+    A trace layer follows the marks of the target, so it needs no hand-drawn
+    shapes. It needs the whole sheet, and the ring between the sheet and the
+    picture when the drawing has a frame around it. `border_frac` is that ring's
+    width, as a fraction of the shorter canvas side, so one template fits any
+    drawing at any canvas size.
+    """
+    w, h = int(canvas[0]), int(canvas[1])
+    frac = float(border_frac or 0.0)
+    if not 0.0 <= frac < 0.5:
+        raise SystemExit("error: \"border_frac\" must be 0 or more and less than 0.5 (got %r)" % border_frac)
+    inset = int(round(frac * min(w, h)))
+    full = [0, 0, w - 1, h - 1]
+    return collections.OrderedDict([
+        ("all", collections.OrderedDict([("rect", list(full))])),
+        ("main", collections.OrderedDict([("rect", [inset, inset, w - 1 - inset, h - 1 - inset])])),
+        ("border", collections.OrderedDict([("rect", list(full)), ("minus", ["main"])])),
+    ])
+
+
+def layer_count(layer):
+    """The strokes one layer may keep: its "count", or the sum of its levels."""
+    if "levels" in layer:
+        return sum(int(lv.get("count", 0)) for lv in layer["levels"])
+    return int(layer.get("count", 0))
+
+
+def budget_note(d):
+    """Where "max_strokes" cuts the layer list of a trace direction.
+
+    The placer walks the layers in order and stops the whole run at
+    "max_strokes". A low cap therefore drops the late layers. It does not thin
+    every layer, so the picture comes back missing its colour, its outlines and
+    its frame, not lighter all over.
+
+    Only a trace direction gets this note. A trace layer keeps exactly its
+    "count", so the cumulative sum says which layer the cap lands in. A painting
+    layer drops any stroke that misses its "threshold", so there the sum is an
+    upper bound and the cut lands later than the arithmetic says.
+
+    Returns the note, or None when the cap reaches the end of the list.
+    """
+    layers = d.get("layers") or []
+    if not layers or not all(l.get("mode") == "trace" for l in layers):
+        return None
+    cap = int(d.get("max_strokes", 0))
+    if cap <= 0:
+        return None
+    running = []
+    total = 0
+    for l in layers:
+        total += layer_count(l)
+        running.append((str(l.get("name", "?")), total))
+    if cap >= total:
+        return None
+    stop = next(i for i, (_, c) in enumerate(running) if c > cap)
+    into = cap - (running[stop - 1][1] if stop else 0)
+    if into == 0:
+        head = 'max strokes %d of %d: the run ends with "%s" (layer %d of %d)' % (
+            cap, total, running[stop - 1][0], stop, len(running))
+        skipped = [n for n, _ in running[stop:]]
+    else:
+        head = 'max strokes %d of %d: the run stops %d strokes into "%s" (layer %d of %d)' % (
+            cap, total, into, running[stop][0], stop + 1, len(running))
+        skipped = [n for n, _ in running[stop + 1:]]
+    lines = ["  budget     " + head,
+             textwrap.fill("cumulative: " + ", ".join("%s %d" % (n, c) for n, c in running),
+                           width=92, initial_indent="             ",
+                           subsequent_indent="               ")]
+    if skipped:
+        lines.append(textwrap.fill("these layers place nothing: " + ", ".join(skipped),
+                                   width=92, initial_indent="             ",
+                                   subsequent_indent="               "))
+    lines.append("             the whole picture needs %d strokes. Raise --max-strokes, or leave it off."
+                 % total)
+    return "\n".join(lines)
+
+
 def rel_to(path, out_dir):
     """Relative path from out_dir when it stays short, else absolute.
 
@@ -76,7 +167,8 @@ def rel_to(path, out_dir):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="build a direction.json from a style template")
-    ap.add_argument("--style", required=True, help="oil | watercolor | pencil | sketch | path to a template json")
+    ap.add_argument("--style", required=True,
+                    help="oil | watercolor | pencil | sketch | crayon | path to a template json")
     ap.add_argument("--target", required=True, help="the style target image (what the painting copies)")
     ap.add_argument("--reference", required=True, help="the reference photo (likeness truth)")
     ap.add_argument("--out", required=True, help="path of the direction.json to write")
@@ -87,8 +179,13 @@ def main(argv=None):
 
     template_path = resolve_style(a.style)
     template = load_json(template_path)
-    regions_path = resolve_regions(a.regions, template, template_path)
-    regions = load_json(regions_path)
+    border_frac = template.get("border_frac")
+    from_canvas = a.regions is None and "regions_file" not in template and border_frac is not None
+    regions_path = None
+    regions = None
+    if not from_canvas:
+        regions_path = resolve_regions(a.regions, template, template_path)
+        regions = load_json(regions_path)
 
     out_dir = os.path.dirname(os.path.abspath(a.out)) or "."
     os.makedirs(out_dir, exist_ok=True)
@@ -96,11 +193,18 @@ def main(argv=None):
     d = collections.OrderedDict(template)
     d.pop("style", None)
     d.pop("regions_file", None)
-    d["canvas"] = regions.get("canvas", d.get("canvas"))
+    d.pop("border_frac", None)
     d["target"] = rel_to(a.target, out_dir)
     d["reference"] = rel_to(a.reference, out_dir)
-    d["regions"] = regions["regions"]
-    d["flows"] = regions.get("flows", {})
+    if from_canvas:
+        d["regions"] = canvas_regions(d["canvas"], border_frac)
+        d["flows"] = collections.OrderedDict()
+        regions_name = "from the canvas, border_frac %g" % float(border_frac)
+    else:
+        d["canvas"] = regions.get("canvas", d.get("canvas"))
+        d["regions"] = regions["regions"]
+        d["flows"] = regions.get("flows", {})
+        regions_name = os.path.basename(regions_path)
     if a.max_strokes is not None:
         d["max_strokes"] = a.max_strokes
     if a.seed is not None:
@@ -113,9 +217,12 @@ def main(argv=None):
     with open(a.out, "w") as fh:
         json.dump(ordered, fh, indent=1)
     print("direction  %s\n  style      %s\n  regions    %s (%d regions, %d flows)\n  canvas     %dx%d, max strokes %d, seed %d"
-          % (a.out, os.path.basename(template_path), os.path.basename(regions_path),
+          % (a.out, os.path.basename(template_path), regions_name,
              len(ordered["regions"]), len(ordered.get("flows", {})),
              ordered["canvas"][0], ordered["canvas"][1], ordered["max_strokes"], ordered["seed"]))
+    note = budget_note(ordered)
+    if note:
+        print(note)
     return 0
 
 

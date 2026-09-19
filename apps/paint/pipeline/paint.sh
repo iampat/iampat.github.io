@@ -1,31 +1,47 @@
 #!/bin/bash
-# paint.sh <photo.jpg> <oil|watercolor|pencil|sketch> <workdir> [options]
+# paint.sh <image.jpg> <oil|watercolor|pencil|sketch|crayon> <workdir> [options]
 #
-#   --max-strokes N   stop after N strokes (use 3000 while you iterate)
+#   --max-strokes N   stop after N strokes. 3000 while you iterate on one of the
+#                     four painting styles. crayon needs 18600 or more: see below.
 #   --seed N          the placer seed (default 7)
 #   --skip-target     use a target image already in place, and skip Gemini
 #   --no-judge        skip the Gemini judge (the only language-model step)
-#   --tidy            remove the video frames at the end (about 1.5 GB)
+#   --tidy            remove the video frames at the end (1.5 GB, 7.2 GB crayon)
 #   --log FILE        send every line of output to FILE instead of the terminal
 #
-# Paints one photo in one style, end to end: style target, direction, stroke
+# Paints one image in one style, end to end: style target, direction, stroke
 # placer, browser render, video, quality numbers, Gemini judge, and a
 # gallery-ready folder. Every path comes from the arguments.
 #
-# <photo.jpg> and <workdir> are separate arguments. The photo may sit anywhere,
+# <image.jpg> and <workdir> are separate arguments. The image may sit anywhere,
 # in the work dir or outside the repo. <workdir> is where the run writes.
 #
-# The style word must be one of oil, watercolor, pencil, sketch. British and
-# long spellings (watercolour, graphite, coloured pencil) map to those four.
+# The style word must be one of oil, watercolor, pencil, sketch, crayon. British
+# and long spellings (watercolour, graphite, coloured pencil, crayons, wax) map
+# to those five.
 #
-# A run takes 6 to 12 minutes. To run it in the background and watch it:
+# The first four styles paint a photo: Gemini makes a style target, and the
+# placer paints that target. crayon traces a finished crayon drawing instead.
+# The input image IS the target, so no model runs: the placer follows the marks
+# of the drawing with the crayon tool, and the video shows the crayon tip.
+#
+# --max-strokes caps the whole run. The placer walks the layer list in order, so
+# a low cap drops the late layers. It does not thin each layer. The seven crayon
+# layers carry 600, 3000, 6000, 5000, 1800, 2200 and 2500 strokes. So
+# --max-strokes 3000 stops 2400 strokes into light-colors: the outline pass and
+# a little pale fill, no mid tones, no darks, no frame. Use 18600 to reach the
+# end of the border ring. Use 21100, or no --max-strokes at all, for the whole
+# picture. The direction step prints where the cap lands.
+#
+# A run takes 6 to 12 minutes, and a full crayon run 9 to 10. To run it in the
+# background and watch it:
 #   paint.sh photo.jpg oil <workdir> --log <workdir>/oil.log &
 #   tail -f <workdir>/oil.log
 #
 # Layout it builds under <workdir>:
-#   photo_1440x1920.png              the photo in plan space
-#   targets/<style>_2k.raw.png|.jpg  the Gemini target, as it came back
-#   targets/<style>_1440x1920.png    the target in plan space
+#   photo_1440x1920.png              the image in plan space
+#   targets/<style>_2k.raw.png|.jpg  the Gemini target, as it came back (not crayon)
+#   targets/<style>_1440x1920.png    the target in plan space (crayon: the image again)
 #   <style>/                         direction.json, actions.json, report.txt, error.png,
 #                                    render/, painting.mp4, poster.jpg, q_target/, q_photo/, judge/
 #   gallery/<style>/                 final.jpg, final.png, painting.mp4, poster.jpg,
@@ -33,8 +49,12 @@
 #
 # --skip-target needs a target already in place. Put it at
 # <workdir>/targets/<style>_2k.raw.png (or .raw.jpg, or <style>_1440x1920.png).
-# --tidy removes the video frames at the end. They hold about 1.5 GB per run and
-# the mp4 no longer needs them.
+# crayon ignores --skip-target: it makes the target from the image itself. It
+# runs the judge only when GEMINI_API_KEY is set and --no-judge is absent, and
+# the judge then sees the drawing as both the photo and the target.
+# --tidy removes the video frames at the end. They hold about 1.5 GB per run,
+# and 7.2 GB for a full crayon run, because a crayon frame carries more ink. The
+# mp4 no longer needs them.
 set -euo pipefail
 
 PIPELINE_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
@@ -80,14 +100,14 @@ STYLE=$(echo "$STYLE" | tr '[:upper:]' '[:lower:]' | tr ' _' '--')
 case "$STYLE" in
     watercolour|water-colour|water-color) STYLE=watercolor ;;
     graphite|graphite-sketch|charcoal) STYLE=sketch ;;
-    coloured-pencil|colored-pencil|pencils|crayon) STYLE=pencil ;;
+    coloured-pencil|colored-pencil|pencils) STYLE=pencil ;;
     oils|oil-paint|oil-painting) STYLE=oil ;;
+    crayons|wax|wax-crayon) STYLE=crayon ;;
 esac
 case "$STYLE" in
-    oil|watercolor|pencil|sketch) ;;
-    *) echo "error: style must be oil, watercolor, pencil or sketch (got $STYLE_IN)"; exit 1 ;;
+    oil|watercolor|pencil|sketch|crayon) ;;
+    *) echo "error: style must be oil, watercolor, pencil, sketch or crayon (got $STYLE_IN)"; exit 1 ;;
 esac
-[[ "$STYLE" == "$STYLE_IN" ]] || echo "note: style \"$STYLE_IN\" means $STYLE"
 [[ -f "$PHOTO" ]] || { echo "error: no photo at $PHOTO"; exit 1; }
 
 if [[ -n "$LOG" ]]; then
@@ -95,6 +115,8 @@ if [[ -n "$LOG" ]]; then
     echo "log: $LOG   (watch it with: tail -f $LOG)"
     exec >"$LOG" 2>&1
 fi
+# after the redirect, so the log keeps the note
+[[ "$STYLE" == "$STYLE_IN" ]] || echo "note: style \"$STYLE_IN\" means $STYLE"
 
 mkdir -p "$WORKDIR"
 WORKDIR=$(cd "$WORKDIR" && pwd)
@@ -180,7 +202,14 @@ find_raw_target() {
 step "style target ($STYLE)"
 RAW_TARGET=""
 TARGET_MODEL="supplied"
-if [[ $SKIP_TARGET -eq 1 ]]; then
+if [[ "$STYLE" == crayon ]]; then
+    # crayon traces a finished drawing: the input image is the target, and no
+    # model runs. --skip-target has nothing to skip here.
+    cp "$PHOTO_PLAN" "$TARGET_PLAN"
+    TARGET_MODEL="none (the drawing is the target)"
+    echo "   the drawing is the target: $TARGET_PLAN"
+    [[ $SKIP_TARGET -eq 0 ]] || echo "   --skip-target: crayon never asks for a target anyway"
+elif [[ $SKIP_TARGET -eq 1 ]]; then
     if [[ -f "$TARGET_PLAN" ]]; then
         echo "   --skip-target: using $TARGET_PLAN"
     elif RAW_TARGET=$(find_raw_target); then
@@ -233,9 +262,17 @@ done_step painter2
 
 # ---------------------------------------------------------------- 6. render
 step "render.mjs (Chrome, scale 2, progressive video frames)"
-node "$TOOLS_DIR/render.mjs" --actions "$RUN/actions.json" --out "$RUN/render" \
-    --width "$PLAN_W" --height "$PLAN_H" --ref "$PHOTO_PLAN" \
-    --scale 2 --frame-scale 1 --video progressive --seconds 90 --fps 10 --pace size
+if [[ "$STYLE" == crayon ]]; then
+    # the hand's own pace, sped up 10 times, with the crayon tip in every frame
+    node "$TOOLS_DIR/render.mjs" --actions "$RUN/actions.json" --out "$RUN/render" \
+        --width "$PLAN_W" --height "$PLAN_H" --ref "$PHOTO_PLAN" \
+        --scale 2 --frame-scale 1 --video progressive \
+        --pace travel --lapse 10 --cursor crayon --seconds 150 --fps 30
+else
+    node "$TOOLS_DIR/render.mjs" --actions "$RUN/actions.json" --out "$RUN/render" \
+        --width "$PLAN_W" --height "$PLAN_H" --ref "$PHOTO_PLAN" \
+        --scale 2 --frame-scale 1 --video progressive --seconds 90 --fps 10 --pace size
+fi
 done_step render
 
 # ---------------------------------------------------------------- 7. video
@@ -259,6 +296,7 @@ step "Gemini judge"
 if [[ "$NO_JUDGE" == 1 ]]; then
     echo "   --no-judge: skipping the judge"
 elif [[ -n "${GEMINI_API_KEY:-}" ]]; then
+    [[ "$STYLE" != crayon ]] || echo "   crayon: the drawing goes in as both the photo and the target"
     if "$PY" "$PIPELINE_DIR/judge_gemini.py" --painting "$RUN/render/final.png" \
             --photo "$PHOTO_PLAN" --target "$TARGET_PLAN" --out "$RUN/judge" >/dev/null; then
         "$PY" -c "import json,sys; j=json.load(open(sys.argv[1])); print('   ', {k:v for k,v in j.items() if k!='problems'})" "$RUN/judge/scores.json"

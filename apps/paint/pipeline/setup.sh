@@ -72,10 +72,13 @@ fi
 echo
 if [[ $ok -eq 0 ]]; then
     echo "setup complete. Run one style:"
-    echo "  $PIPELINE_DIR/paint.sh <photo.jpg> <style> <workdir>"
-    echo "  style is oil, watercolor, pencil or sketch"
+    echo "  $PIPELINE_DIR/paint.sh <image.jpg> <style> <workdir>"
+    echo "  style is oil, watercolor, pencil, sketch or crayon"
+    echo "  the first four paint a photo. crayon traces a finished crayon drawing."
     echo "  <workdir> is any folder under $APP_DIR/work; git ignores it"
-    echo "  add --max-strokes 3000 for a quick look, and"
+    echo "  add --max-strokes 3000 for a quick look at the four painting styles."
+    echo "     crayon needs far more: 18600 to reach the border ring, 21100 for"
+    echo "     the whole picture. 3000 gives an unfinished drawing."
     echo "  --log <workdir>/run.log to run it in the background and tail the log"
 else
     echo "setup incomplete: install the parts marked MISSING and run this again."
