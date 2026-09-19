@@ -1,0 +1,223 @@
+{
+ "style": "crayon",
+ "note": "The crayon style traces a finished crayon drawing. The drawing itself is the target and the reference, so no model makes a style target. Every layer runs mode \"trace\": the placer reads the marks of the target and lays them again with the crayon tool, light colours first and the outlines last. The shapes come from the canvas, not from a regions file. make_direction.py builds \"all\", \"main\" and \"border\" from \"border_frac\", the width of the border ring as a fraction of the shorter canvas side. Set \"border_frac\" to 0 for a drawing with no drawn frame: \"main\" is then the whole sheet and the border layer places nothing. The paper colour is measured from the target, because no \"paper\" hex is set. \"paper_tol\" is the Lab dE that separates pigment from paper. The levers are the per-layer \"count\", \"pressure\", \"size\" and \"paper_tol\".",
+ "border_frac": 0.095,
+ "canvas": [
+  1440,
+  1920
+ ],
+ "target": "{TARGET}",
+ "reference": "{REFERENCE}",
+ "seed": 7,
+ "max_strokes": 24000,
+ "paper_tol": 8,
+ "ground": {
+  "paper": true
+ },
+ "metric": {
+  "ms_ssim": 0.5,
+  "gradient": 0.3,
+  "color": 0.2
+ },
+ "layers": [
+  {
+   "name": "sketch-lines",
+   "mode": "trace",
+   "tool": "crayon",
+   "region": "main",
+   "color_group": {
+    "outline": true
+   },
+   "order": "sweep",
+   "size": [
+    2,
+    3.5
+   ],
+   "count": 600,
+   "threshold": 0.0,
+   "pressure": 0.4,
+   "alpha": [
+    0.7,
+    0.85
+   ],
+   "length": [
+    6,
+    20
+   ],
+   "curvature": 0.6,
+   "drift": 20,
+   "candidates": 8
+  },
+  {
+   "name": "light-colors",
+   "mode": "trace",
+   "tool": "crayon",
+   "region": "main",
+   "color_group": {
+    "lightness": [
+     70,
+     100
+    ]
+   },
+   "order": "sweep",
+   "size": [
+    3,
+    6
+   ],
+   "count": 3000,
+   "threshold": 0.0,
+   "alpha": [
+    0.85,
+    1.0
+   ],
+   "length": [
+    6,
+    20
+   ],
+   "curvature": 0.5,
+   "drift": 16,
+   "candidates": 8,
+   "pressure": 0.75
+  },
+  {
+   "name": "mid-colors",
+   "mode": "trace",
+   "tool": "crayon",
+   "region": "main",
+   "color_group": {
+    "lightness": [
+     40,
+     70
+    ]
+   },
+   "order": "sweep",
+   "size": [
+    3,
+    6
+   ],
+   "count": 6000,
+   "threshold": 0.0,
+   "alpha": [
+    0.85,
+    1.0
+   ],
+   "length": [
+    6,
+    20
+   ],
+   "curvature": 0.5,
+   "drift": 16,
+   "candidates": 8,
+   "pressure": 0.8
+  },
+  {
+   "name": "dark-colors",
+   "mode": "trace",
+   "tool": "crayon",
+   "region": "main",
+   "color_group": {
+    "lightness": [
+     15,
+     40
+    ]
+   },
+   "order": "sweep",
+   "size": [
+    3,
+    5
+   ],
+   "count": 5000,
+   "threshold": 0.0,
+   "alpha": [
+    0.9,
+    1.0
+   ],
+   "length": [
+    5,
+    18
+   ],
+   "curvature": 0.55,
+   "drift": 16,
+   "candidates": 8,
+   "pressure": 0.85
+  },
+  {
+   "name": "outlines",
+   "mode": "trace",
+   "tool": "crayon",
+   "region": "main",
+   "color_group": {
+    "outline": true
+   },
+   "order": "sweep",
+   "size": [
+    2.5,
+    4.5
+   ],
+   "count": 1800,
+   "threshold": 0.0,
+   "pressure": 1.0,
+   "alpha": [
+    0.95,
+    1.0
+   ],
+   "length": [
+    6,
+    25
+   ],
+   "curvature": 0.6,
+   "drift": 20,
+   "candidates": 8
+  },
+  {
+   "name": "border",
+   "mode": "trace",
+   "tool": "crayon",
+   "region": "border",
+   "order": "sweep",
+   "size": [
+    3,
+    6
+   ],
+   "count": 2200,
+   "threshold": 0.0,
+   "alpha": [
+    0.9,
+    1.0
+   ],
+   "length": [
+    4,
+    14
+   ],
+   "curvature": 0.55,
+   "drift": 18,
+   "candidates": 8,
+   "pressure": 0.8
+  },
+  {
+   "name": "details",
+   "mode": "trace",
+   "tool": "crayon",
+   "region": "all",
+   "order": "sweep",
+   "size": [
+    2,
+    3
+   ],
+   "count": 2500,
+   "threshold": 1e-06,
+   "alpha": [
+    0.9,
+    1.0
+   ],
+   "length": [
+    4,
+    12
+   ],
+   "curvature": 0.6,
+   "drift": 14,
+   "candidates": 10,
+   "pressure": 0.8
+  }
+ ]
+}
