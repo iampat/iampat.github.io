@@ -44,7 +44,7 @@ def load_json(path):
 
 def resolve_style(style):
     """A style name (oil) or a path to a template json."""
-    if os.path.exists(style):
+    if os.path.isfile(style) and (style.endswith('.json') or os.sep in style):
         return style
     guess = os.path.join(HERE, "directions", style + ".json")
     if os.path.exists(guess):
