@@ -16,7 +16,7 @@
    "image": "apples/oil.jpg",
    "video": "apples/oil.mp4",
    "poster": "apples/oil.poster.jpg",
-   "ready": true
+   "ready": false
   },
   {
    "version": "v4",
@@ -26,7 +26,7 @@
    "image": "apples/watercolor.jpg",
    "video": "apples/watercolor.mp4",
    "poster": "apples/watercolor.poster.jpg",
-   "ready": true
+   "ready": false
   },
   {
    "version": "v4",
