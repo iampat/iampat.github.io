@@ -38,8 +38,9 @@ STYLES = {
 }
 
 BASE = ("Turn this photo into {style}. Keep EXACTLY the same composition, framing, pose, head size and position, "
-        "facial proportions and expression, the sunglasses on the head, the hair shape, the pink sweater, the lake, the hazy mountains "
-        "and the sunset sky. The person must remain clearly recognisable as the same person. Do not add or remove anything. "
+        "facial proportions and expression, the same hairstyle, the same clothing and accessories, the same objects in the hands, "
+        "and the same background with the same colours and light. The person must remain clearly recognisable as the same person. "
+        "Do not add or remove anything, and do not replace the background with a different scene. "
         "Do not add text, borders or a signature. Portrait orientation, 3:4 aspect ratio, same crop as the input.")
 
 
