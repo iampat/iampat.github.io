@@ -33,6 +33,7 @@ STYLES = {
   "oil": "a traditional oil painting on canvas: confident visible brush strokes, thick paint, soft blended edges in the hair and the haze, crisp edges on the sweater silhouette, a slightly simplified palette, warm sunset light",
   "watercolor": "a watercolour painting on textured paper: transparent washes, soft wet edges, some granulation in the sky and water, light areas left as paper, loose but accurate drawing of the face",
   "pencil": "a coloured pencil drawing on cream paper: visible hatching strokes that follow the forms, layered colour, softly blended skin, precise but hand-drawn features",
+  "crayon": "a wax crayon drawing on white paper: bold coloured crayon strokes with visible hatching and paper grain, simplified shapes, clean dark outlines drawn with a black crayon, cheerful colours, the background reduced to a few crayon marks",
   "sketch": "a plain graphite pencil sketch in black and white on white paper: no colour at all, clean confident pencil lines for the contours, light hatching and soft smudged shading for the tones, the background only lightly suggested, the face and hair drawn with care",
 }
 
