@@ -41,6 +41,8 @@ CANVAS_H = 1920
 SELFTEST_PER_LAYER = 3
 SELFTEST_TOL = 1e-6
 FAIL_STREAK = 50
+INK_RECHECK = 200              # kept strokes between two deficit measurements
+STOP_ROUNDS = 60               # seed rounds a density-stopped trace layer may run
 
 
 # ---------------------------------------------------------------------------
@@ -708,6 +710,7 @@ class Painter:
         self._level_cache = {}
         self._trace_cache = {}
         self._group_cache = {}
+        self._ink_cache = {}
         self._mark = None
         self.paper = self.paper_colour()
         self.paper_lab = QQ.to_lab(self.paper.reshape(1, 1, 3)).reshape(3)
@@ -766,6 +769,41 @@ class Painter:
             self._trace_cache.clear()
         self._trace_cache[key] = got
         return got
+
+    # -- ink and the deficit -----------------------------------------------
+
+    def ink_of(self, lab):
+        """ink(x, y) = Lab dE from the paper colour: how much wax a pixel
+        carries. Paper itself is 0, a saturated mark is 40-60."""
+        d = lab - self.paper_lab[None, None, :]
+        return np.sqrt((d * d).sum(axis=2))
+
+    def ink_target(self, size):
+        """The ink of the finished drawing, at the layer's scale (cached)."""
+        key = round(float(size), 3)
+        got = self._ink_cache.get(key)
+        if got is None:
+            got = self.ink_of(self.level(size)["lab"])
+            if len(self._ink_cache) >= 4:
+                self._ink_cache.clear()
+            self._ink_cache[key] = got
+        return got
+
+    def ink_canvas(self, size):
+        """The ink the canvas carries now, at the same scale. ~60 ms."""
+        blur = cv2.GaussianBlur(np.clip(self.canvas, 0.0, 255.0), (0, 0),
+                                max(0.6, float(size) / 2.0))
+        return self.ink_of(QQ.to_lab(blur))
+
+    def deficit_map(self, size):
+        """max(0, ink_target - ink_canvas): the wax still missing, per pixel.
+
+        Both sides are blurred by size/2, so this is the density the eye reads
+        at the scale of the layer's marks, not a per-pixel colour error. It is
+        never negative: ink already laid where the target has none is the Q
+        metric's business, not this one's.
+        """
+        return np.maximum(0.0, self.ink_target(size) - self.ink_canvas(size))
 
     def group_mask(self, spec):
         """A layer's colour group, read off the mark-scale target:
@@ -916,9 +954,14 @@ class Painter:
 
     # -- seeds -------------------------------------------------------------
 
-    def seed_stream(self, mask, size, rng, want):
-        """Indices drawn from the error map with probability proportional to it."""
-        err = self.q.contribution()
+    def seed_stream(self, mask, size, rng, want, weight=None):
+        """Indices drawn from a map with probability proportional to it.
+
+        The map is the per-pixel contribution to Q, or `weight` when the layer
+        sows by something else (a density-stopped trace layer sows by its ink
+        deficit, so the strokes go where the wax is missing).
+        """
+        err = self.q.contribution() if weight is None else weight
         err = cv2.GaussianBlur(err, (0, 0), max(0.6, size / 2.0))
         err = np.maximum(err, 0.0)
         idx = np.flatnonzero(mask.ravel() > 0)
@@ -1150,6 +1193,29 @@ class Painter:
             p = float(spec) * (0.4 + 0.6 * dark) / CRAYON_PRESSURE
         return float(clamp(p, 0.3, 1.0))
 
+    def deficit_pressure(self, spec, ratio):
+        """Crayon pressure from the wax that is still MISSING, not from the
+        mark's darkness: `"pressure_from": "deficit"`.
+
+        ratio = local deficit / local target ink, both measured at the seed on
+        the size/2 blur, so it is 1 on bare paper and 0 where the drawing is
+        already dense enough. p = clamp(0.45 + 0.55 * ratio, 0.35, 1.0), times
+        the layer's pressure scale (p / 0.7, as everywhere else); a pair
+        [lo, hi] maps the ratio into that range instead.
+
+        The old rule reads the target alone, so a mid tone on bare paper and
+        the same tone over three passes ask for the same light stroke, and a
+        tan skin never gets past a wash. This one presses hard while the paper
+        still shows and eases off as the area fills.
+        """
+        if isinstance(spec, (list, tuple)):
+            lo, hi = as_range(spec, (0.45, 1.0))
+            return float(clamp(lo + (hi - lo) * ratio, 0.35, 1.0))
+        p = clamp(0.45 + 0.55 * ratio, 0.35, 1.0)
+        if spec is not None:
+            p *= float(spec) / CRAYON_PRESSURE
+        return float(clamp(p, 0.35, 1.0))
+
     def run_trace(self, layer, li, lv, spec, mask, inside, rng, stats):
         """Reproduce the marks of the target: strokes that run ALONG the
         pigment, one colour each, sized by how wide the mark under them is."""
@@ -1158,6 +1224,18 @@ class Painter:
             smin, smax = smax, smin
         count = int(spec.get("count", 0))
         threshold = float(spec.get("threshold", 0.0) or 0.0)
+        # "stop": {"deficit": D, "max_count": N} - the layer draws until the
+        # ink it still misses falls under D instead of counting to a fixed N
+        stop = layer.get("stop", spec.get("stop"))
+        stop_de = None
+        max_rounds = 6
+        if stop is not None:
+            if not isinstance(stop, dict):
+                raise SystemExit('painter2: layer %r: "stop" must be an object '
+                                 '{"deficit": D, "max_count": N}' % layer.get("name"))
+            stop_de = float(stop.get("deficit", 0.0))
+            count = int(stop.get("max_count", count) or count)
+            max_rounds = int(stop.get("rounds", STOP_ROUNDS))
         if count <= 0 or not mask.any():
             return
         base = 0.5 * (smin + smax)
@@ -1182,7 +1260,9 @@ class Painter:
         if not seed_mask.any():
             stats.append({"layer": layer.get("name"), "level": lv, "size": base,
                           "mode": "trace", "tried": 0, "kept": 0, "count": count,
-                          "path_px": 0.0, "seed_px": 0,
+                          "path_px": 0.0, "seed_px": 0, "rounds": 0,
+                          "stop_deficit": stop_de, "deficit_before": None,
+                          "deficit_after": None, "stop_reason": "empty",
                           "q_before": self.q.value(), "q_after": self.q.value(),
                           "seconds": 0.0})
             return
@@ -1196,8 +1276,28 @@ class Painter:
         sat = float(layer.get("saturation", 0.0))
         jitter = float(layer.get("jitter", 0.0))
         press = layer.get("pressure", spec.get("pressure"))
+        press_from = str(layer.get("pressure_from", spec.get("pressure_from", "darkness")))
+        if press_from not in ("darkness", "deficit"):
+            raise SystemExit('painter2: layer %r: "pressure_from" is "darkness" '
+                             'or "deficit" (got %r)' % (layer.get("name"), press_from))
+        by_deficit = press_from == "deficit"
         gslack = float(layer.get("group_slack", 8.0))
         paper_L = max(1.0, float(self.paper_lab[0]))
+
+        # the layer's own pixels: its region, the pigment mask and its colour
+        # group. The deficit is the mean of max(0, ink_target - ink_canvas)
+        # over exactly these, so one layer is never judged on another's work.
+        layer_px = seed_mask > 0
+        npx = int(layer_px.sum())
+        ink_t = self.ink_target(base)
+        live = stop_de is not None or by_deficit      # the map steers the run
+
+        def measure():
+            m = self.deficit_map(base)
+            return m, (float(m[layer_px].mean()) if npx else 0.0)
+
+        dmap, deficit = measure()
+        deficit_before = deficit
 
         # seeds keep size * 0.5 apart, at the size of the mark under them
         used = np.zeros((self.H, self.W), np.uint8)
@@ -1207,12 +1307,26 @@ class Painter:
         t0 = time.time()
         tests = 0
         rounds = 0
+        checked = 0
+        stop_reason = "count" if stop_de is None else "max_count"
 
-        while kept < count and fails < FAIL_STREAK and rounds < 6:
+        while kept < count and fails < FAIL_STREAK and rounds < max_rounds:
             # the error map ages as the layer fills, so the seeds are redrawn
             # in rounds instead of once for the whole layer
             rounds += 1
-            seeds = self.seed_stream(seed_mask, base, rng, count * 3 + 256)
+            if live and kept != checked:
+                dmap, deficit = measure()
+                checked = kept
+            if stop_de is not None and deficit <= stop_de:
+                stop_reason = "deficit"
+                break
+            if live and rounds > 1:
+                # a second pass over an area is how a crayon builds up, so the
+                # spacing mask starts every round empty; inside a round the
+                # seeds stay size * 0.5 apart as before
+                used[:, :] = 0
+            seeds = self.seed_stream(seed_mask, base, rng, count * 3 + 256,
+                                     weight=dmap if stop_de is not None else None)
             for flat_idx in seeds:
                 if kept >= count or self.nstrokes >= self.max_strokes:
                     break
@@ -1250,8 +1364,13 @@ class Painter:
                     if grp is not None and not self.group_ok(layer.get("color_group"),
                                                              lab, gslack):
                         continue
-                    dark = clamp((paper_L - float(lab[0])) / paper_L, 0.0, 1.0)
-                    pressure = self.trace_pressure(press, dark)
+                    if by_deficit:
+                        ti = float(ink_t[iy, ix])
+                        ratio = clamp(float(dmap[iy, ix]) / ti, 0.0, 1.0) if ti > 1e-6 else 0.0
+                        pressure = self.deficit_pressure(press, ratio)
+                    else:
+                        dark = clamp((paper_L - float(lab[0])) / paper_L, 0.0, 1.0)
+                        pressure = self.trace_pressure(press, dark)
                     lab[0] = clamp(float(lab[0]) + (rng.random() * 2.0 - 1.0) * 2.0, 0.0, 100.0)
                     lab[0] = clamp(float(lab[0]) * (1.0 + value), 0.0, 100.0)
                     lab[1] *= (1.0 + sat)
@@ -1281,6 +1400,13 @@ class Painter:
                 self.emit(act)
                 kept += 1
                 path_px += path_length(act["pts"])
+                if live and kept - checked >= INK_RECHECK:
+                    # the canvas is in memory, so a fresh measurement costs one
+                    # blur: read the density again every INK_RECHECK strokes
+                    dmap, deficit = measure()
+                    checked = kept
+                    if stop_de is not None and deficit <= stop_de:
+                        break          # the round ends; the while head stops the layer
                 if tests < SELFTEST_PER_LAYER:
                     tests += 1
                     full = QQ.QMetric(self.target, self.d.get("metric"))
@@ -1298,12 +1424,32 @@ class Painter:
                             % (layer.get("name"), base, self.q.value(), q_full, err))
             if self.nstrokes >= self.max_strokes:
                 break
+        dmap, deficit = measure()
+        if self.nstrokes >= self.max_strokes:
+            stop_reason = "budget"
+        elif stop_de is not None and deficit <= stop_de:
+            stop_reason = "deficit"
+        elif kept >= count:
+            stop_reason = "max_count" if stop_de is not None else "count"
+        elif fails >= FAIL_STREAK:
+            stop_reason = "seeds"
+        elif rounds >= max_rounds:
+            stop_reason = "rounds"
+        secs = time.time() - t0
+        print("[trace] %-14s kept %5d/%-5d  ink deficit %5.2f -> %5.2f%s  "
+              "pressure %-8s stop: %-9s %5.1f s"
+              % (layer.get("name"), kept, count, deficit_before, deficit,
+                 (" (target %.2f)" % stop_de) if stop_de is not None else "",
+                 press_from, stop_reason, secs), flush=True)
         stats.append({
             "layer": layer.get("name"), "level": lv, "size": base,
             "mode": "trace", "tried": tried, "kept": kept, "count": count,
-            "path_px": path_px, "seed_px": int(seed_mask.sum()),
+            "path_px": path_px, "seed_px": int(seed_mask.sum()), "rounds": rounds,
+            "pressure_from": press_from, "stop_deficit": stop_de,
+            "deficit_before": deficit_before, "deficit_after": deficit,
+            "stop_reason": stop_reason,
             "q_before": q_before, "q_after": self.q.value(),
-            "seconds": time.time() - t0,
+            "seconds": secs,
         })
 
     # -- the run -----------------------------------------------------------
@@ -1488,6 +1634,21 @@ def write_reports(p, args):
     L.append("%-16s %-4s %-6s %-7d %-7d %-9.0f"
              % ("TOTAL", "", "", tried, kept, sum(s.get("path_px", 0.0) for s in p.stats)))
     L.append("")
+    dens = [s for s in p.stats if s.get("deficit_before") is not None]
+    if dens:
+        # ink = Lab dE from the paper colour; the deficit is the mean of
+        # max(0, ink_target - ink_canvas) over the layer's own pixels
+        L.append("ink density (Lab dE from the paper, over the layer's own pixels)")
+        L.append("%-16s %-7s %-9s %-9s %-8s %-9s %-7s %s"
+                 % ("layer", "kept", "deficit", "-> after", "stop at", "pressure",
+                    "rounds", "stop"))
+        for s in dens:
+            L.append("%-16s %-7d %-9.2f %-9.2f %-8s %-9s %-7d %s"
+                     % (s["layer"], s["kept"], s["deficit_before"], s["deficit_after"],
+                        ("%.2f" % s["stop_deficit"]) if s.get("stop_deficit") is not None
+                        else "-", s.get("pressure_from", "darkness"),
+                        s.get("rounds", 0), s.get("stop_reason", "")))
+        L.append("")
     if p.travel:
         # the per-layer rows chain through the pen position, so their TOTAL is
         # the same number as the headline pen-up travel; say so if it ever drifts

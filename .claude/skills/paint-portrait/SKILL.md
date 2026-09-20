@@ -78,7 +78,7 @@ belong to one photo, so a photo the pipeline has not seen needs its own file in
 new face. Step 8 has the steps. `crayon` needs no regions file at all.
 
 Options: `--max-strokes N` (3000 while you iterate, for the four painting
-styles only. crayon needs 18600 or more, and step 3a says why), `--seed N`,
+styles only. crayon needs 31600 or more, and step 3a says why), `--seed N`,
 `--tidy` (removes the video frames at the end: 1.5 GB for a painting style,
 7.2 GB for a full crayon run), `--log FILE`, and
 `--no-judge` to run without any language model (Nano Banana still makes the
@@ -133,39 +133,44 @@ What is different:
 ### The stroke budget: 3000 is far too low for crayon
 
 `--max-strokes` caps the whole run. The placer walks the layer list in order,
-so a low cap drops the late layers. It does not thin each layer. A trace layer
-keeps exactly its `count`, so the cumulative column says where any cap lands.
-Q is the measured value at the end of that layer, from `report.txt`.
+so a low cap drops the late layers. It does not thin each layer. A layer without
+`stop` keeps exactly its `count`; the three colour layers stop on ink density at
+a cap of 9000 each, so for them the cumulative column is an upper bound. Q is
+the measured value at the end of that layer, from `report.txt`, on the apples
+drawing at seed 7.
 
-| Layer | `count` | Cumulative | Q after | What it adds |
+| Layer | strokes | Cumulative | Q after | What it adds |
 | --- | --- | --- | --- | --- |
-| sketch-lines | 600 | 600 | 0.61 | the construction lines |
-| light-colors | 3000 | 3600 | 0.56 | the pale fills |
-| mid-colors | 6000 | 9600 | 0.45 | the colour starts to read |
-| dark-colors | 5000 | 14600 | 0.37 | the darks |
-| outlines | 1800 | 16400 | 0.34 | the second outline pass |
-| border | 2200 | 18600 | 0.26 | the frame |
-| details | 2500 | 21100 | 0.25 | the small marks |
+| sketch-lines | 600 | 600 | 0.67 | the construction lines |
+| light-colors | 9000 max | 9600 | 0.56 | the pale fills |
+| mid-colors | 9000 max | 18600 | 0.47 | the colour starts to read |
+| dark-colors | 9000 max | 27600 | 0.40 | the darks |
+| outlines | 1800 | 29400 | 0.37 | the second outline pass |
+| border | 2200 | 31600 | 0.32 | the frame |
+| details | 2500 | 34100 | 0.31 | the small marks |
+
+All three colour layers ran to their 9000 cap on that drawing and still wanted
+more ink, so the run placed 34000 strokes and the cap cut the last 100 off
+`details`.
 
 `--max-strokes 3000` stops 2400 strokes into `light-colors`. You get the outline
 pass and part of the pale fill: no mid tones, no darks, no second outline pass,
-no frame, no details. Q is 0.57 and the judge scores it 2 of 10. Do not use it
-to judge a crayon run or a crayon change. It is not the fast look. It is a
-different, unfinished picture.
+no frame, no details. Do not use it to judge a crayon run or a crayon change. It
+is not the fast look. It is a different, unfinished picture.
 
-- 9600 is the smallest cap that shows the colour, and it has no darks and no
+- 18600 is the smallest cap that shows the colour, and it has no darks and no
   frame.
-- 18600 is the first honest look, because it ends with the border ring.
-- 21100, or no `--max-strokes` at all, is the result.
+- 31600 is the first honest look, because it ends with the border ring.
+- 34000, or no `--max-strokes` at all, is the result.
 
 The `direction json` step prints where the cap lands, with this same list, in
 every crayon run. Read that line in the log before you read the picture.
 
-The levers are the per-layer `count` (21100 strokes over seven layers),
-`pressure` (0.4 for the first lines, 1.0 for the outlines), `size` in plan
-pixels, and `paper_tol` for the whole direction. Raise `paper_tol` when the
-paper grain of the input turns into strokes. Lower it when a faint mark is
-missed.
+The levers are the per-layer `stop` on the three colour layers, `count` on the
+other four, `pressure` (0.4 for the first lines, 1.0 for the outlines),
+`pressure_from`, `size` in plan pixels, and `paper_tol` for the whole
+direction. Raise `paper_tol` when the paper grain of the input turns into
+strokes. Lower it when a faint mark is missed.
 
 Every key a trace layer uses, all in `PAINTER_SPEC.md`. The first two sit on the
 direction, the rest on the layer:
@@ -179,16 +184,34 @@ direction, the rest on the layer:
 | `"region"` | `main` inside the frame, `border` the ring, `all` the sheet. `make_direction.py` builds the three from `border_frac`. |
 | `"size"` | `[min, max]` in plan pixels. The pigment width picks inside the range, mark by mark. |
 | `"count"` | the strokes the layer may keep. See the budget table above. |
+| `"stop"` | `{"deficit": D, "max_count": N}`: draw until the layer's ink deficit falls under D, at most N strokes. Replaces `"count"`. |
 | `"threshold"` | the smallest gain in Q that keeps a stroke. 0 keeps every one. |
 | `"color_group"` | `{"lightness": [lo, hi]}`, `{"hue": [lo, hi]}` or `{"outline": true}` |
 | `"group_slack"` | how far a stroke colour may sit outside its group, in L (default 8) |
-| `"pressure"` | one number scales the darkness rule by p / 0.7. `[lo, hi]` maps the darkness into that range. |
+| `"pressure"` | one number scales the pressure rule by p / 0.7. `[lo, hi]` maps the rule's 0..1 reading into that range. |
+| `"pressure_from"` | `"darkness"` (the default) or `"deficit"`: press by the ink still missing, not by the target's darkness |
 | `"alpha"` | `[min, max]` opacity |
 | `"length"` | `[min, max]` path length, in multiples of `size` |
 | `"curvature"` | 0 to 1, how far the path may bend away from the flow |
 | `"drift"` | how far the target colour may move along the path, in Lab dE, before the stroke stops |
 | `"candidates"` | strokes tried per seed. More is slower and slightly better. |
 | `"order": "sweep"` | reorder the layer so the crayon travels a short way |
+
+### Density stopping and deficit pressure
+
+Ink is Lab dE from the paper colour. A layer's deficit is the mean of
+`max(0, ink_target - ink_canvas)` over its own pixels, which are its region, the
+pigment mask and its colour group. The three colour layers carry
+`"stop": {"deficit": 4, "max_count": 9000}` instead of a `count`: they draw
+until that deficit falls under 4, sow their seeds by the deficit map, and stop
+on the cap, on 50 dead seeds in a row or on `--max-strokes`. They also carry
+`"pressure_from": "deficit"`, so a stroke presses
+`clamp(0.45 + 0.55 * missing / wanted, 0.35, 1.0)` times the layer's
+`"pressure"`, hard while the paper still shows and lighter as the area fills.
+The default rule reads the target's darkness alone, which leaves a mid tone like
+skin a wash however many strokes reach it. `report.txt` has a density table with
+the deficit before and after and the stop reason; the placer prints the same
+line per layer while it runs. Read it when the skin of a face looks blurred.
 
 The crayon tool has two constants in two files: `CRAYON_DEPOSIT` (0.28) and
 `CRAYON_SOFT` (0.30), in `apps/paint/engine.js` and in
@@ -222,14 +245,14 @@ published portrait:
 | sketch | 0.26 | 0.24 |
 | crayon | 0.57, an unfinished picture | 0.25 |
 
-A full run is the default 15000 cap for the four painting styles, and 21100
+A full run is the default 15000 cap for the four painting styles, and 34000
 strokes for crayon. A 3000-stroke run of a painting style scores worse
 everywhere, by 0.03 to 0.14. That is the budget, not a mistake. Another photo
 shifts the whole column.
 
 crayon is the odd row. 3000 strokes buy it two of its seven layers, so 0.57
 measures a different picture, not a rougher one. Compare a crayon run only with
-another at 18600 or more. Step 3a has the budget.
+another at 31600 or more. Step 3a has the budget.
 
 Two runs of the same style at the same budget still differ by about 0.02,
 because Gemini paints a new style target each time. Only `--skip-target` holds
@@ -257,7 +280,7 @@ How to work:
 
 1. Change one layer.
 2. Run again with `--max-strokes 3000` into a fresh workdir, or the same one.
-   For crayon, use 18600. A 3000-stroke run stops in the second of its seven
+   For crayon, use 31600. A 3000-stroke run stops in the second of its seven
    layers, so it never reaches most of the direction. Step 3a has the budget.
 3. Compare `summary.txt` and `final.jpg` against the last run.
 4. Keep the change when Q drops and the picture looks better. The numbers alone
@@ -331,6 +354,11 @@ the hand's travel, so it writes about 2450 frames at full size:
 | video | 2 s | 9 s | 10 to 15 s |
 | quality | 1 s | 1 s | 4 s |
 | **one crayon run** | **70 s** | **7 min** | **8 to 11 min** |
+
+That table was measured before the colour layers stopped on ink density. A full
+run is now about 34000 strokes, and the placer takes 5.8 minutes for them on an
+idle M-series Mac, measured. The render, the video and the disk grow with the
+stroke count.
 
 A busy machine adds half again to the placer. Watch the disk: a crayon frame
 carries more ink than a painting frame, so the full run writes 7.2 GB of frames

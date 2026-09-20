@@ -1,6 +1,6 @@
 {
  "style": "crayon",
- "note": "The crayon style traces a finished crayon drawing. The drawing itself is the target and the reference, so no model makes a style target. Every layer runs mode \"trace\": the placer reads the marks of the target and lays them again with the crayon tool, light colours first and the outlines last. The shapes come from the canvas, not from a regions file. make_direction.py builds \"all\", \"main\" and \"border\" from \"border_frac\", the width of the border ring as a fraction of the shorter canvas side. Set \"border_frac\" to 0 for a drawing with no drawn frame: \"main\" is then the whole sheet and the border layer places nothing. The paper colour is measured from the target, because no \"paper\" hex is set. \"paper_tol\" is the Lab dE that separates pigment from paper. The levers are the per-layer \"count\", \"pressure\", \"size\" and \"paper_tol\".",
+ "note": "The crayon style traces a finished crayon drawing. The drawing itself is the target and the reference, so no model makes a style target. Every layer runs mode \"trace\": the placer reads the marks of the target and lays them again with the crayon tool, light colours first and the outlines last. The shapes come from the canvas, not from a regions file. make_direction.py builds \"all\", \"main\" and \"border\" from \"border_frac\", the width of the border ring as a fraction of the shorter canvas side. Set \"border_frac\" to 0 for a drawing with no drawn frame: \"main\" is then the whole sheet and the border layer places nothing. The paper colour is measured from the target, because no \"paper\" hex is set. \"paper_tol\" is the Lab dE that separates pigment from paper. The three colour layers do not count strokes: they carry \"stop\": {\"deficit\": D, \"max_count\": N} and draw until the ink they still miss (Lab dE from the paper, over their own pixels) falls under D. They also set \"pressure_from\": \"deficit\", so a stroke presses hard while the paper still shows through and eases off as the area fills. Without those two a mid tone like skin stays a wash, because every layer stopped at a fixed count and every stroke pressed by the target's darkness alone. The levers are the per-layer \"stop\", \"pressure\", \"size\" and \"paper_tol\".",
  "border_frac": 0.095,
  "canvas": [
   1440,
@@ -9,7 +9,7 @@
  "target": "{TARGET}",
  "reference": "{REFERENCE}",
  "seed": 7,
- "max_strokes": 24000,
+ "max_strokes": 34000,
  "paper_tol": 8,
  "ground": {
   "paper": true
@@ -64,7 +64,10 @@
     3,
     6
    ],
-   "count": 3000,
+   "stop": {
+    "deficit": 4,
+    "max_count": 9000
+   },
    "threshold": 0.0,
    "alpha": [
     0.85,
@@ -77,7 +80,8 @@
    "curvature": 0.5,
    "drift": 16,
    "candidates": 8,
-   "pressure": 0.75
+   "pressure": 0.75,
+   "pressure_from": "deficit"
   },
   {
    "name": "mid-colors",
@@ -95,7 +99,10 @@
     3,
     6
    ],
-   "count": 6000,
+   "stop": {
+    "deficit": 4,
+    "max_count": 9000
+   },
    "threshold": 0.0,
    "alpha": [
     0.85,
@@ -108,7 +115,8 @@
    "curvature": 0.5,
    "drift": 16,
    "candidates": 8,
-   "pressure": 0.8
+   "pressure": 0.8,
+   "pressure_from": "deficit"
   },
   {
    "name": "dark-colors",
@@ -126,7 +134,10 @@
     3,
     5
    ],
-   "count": 5000,
+   "stop": {
+    "deficit": 4,
+    "max_count": 9000
+   },
    "threshold": 0.0,
    "alpha": [
     0.9,
@@ -139,7 +150,8 @@
    "curvature": 0.55,
    "drift": 16,
    "candidates": 8,
-   "pressure": 0.85
+   "pressure": 0.85,
+   "pressure_from": "deficit"
   },
   {
    "name": "outlines",
