@@ -16,6 +16,10 @@ the marks of the target. Such a template sets "border_frac" in place of
 canvas. "border_frac" is the width of the border ring, as a fraction of the
 shorter canvas side. 0 makes "main" the whole sheet and "border" empty.
 
+A uniform template (the four *-uniform styles) needs no shapes either: every
+layer paints the whole sheet. It names neither "regions_file" nor
+"border_frac", and this script builds the one region "all" from the canvas.
+
 For a trace template this script also prints where "max_strokes" cuts the layer
 list, because the cap stops the whole run and drops the late layers. See
 budget_note below.
@@ -34,7 +38,8 @@ import textwrap
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 KEY_ORDER = ["note", "canvas", "target", "reference", "seed", "max_strokes",
-             "paper", "paper_tol", "ground", "metric", "regions", "flows", "layers"]
+             "paper", "paper_tol", "ground", "metric", "locality", "regions",
+             "flows", "layers"]
 
 
 def load_json(path):
@@ -72,25 +77,31 @@ def resolve_regions(arg, template, template_path):
 
 
 def canvas_regions(canvas, border_frac):
-    """The shapes a trace direction needs, straight from the canvas.
+    """The shapes a direction without a regions file needs, from the canvas.
 
-    A trace layer follows the marks of the target, so it needs no hand-drawn
-    shapes. It needs the whole sheet, and the ring between the sheet and the
-    picture when the drawing has a frame around it. `border_frac` is that ring's
-    width, as a fraction of the shorter canvas side, so one template fits any
-    drawing at any canvas size.
+    A trace layer follows the marks of the target, and a uniform layer paints
+    the whole sheet, so neither needs hand-drawn shapes. Both need "all".
+
+    `border_frac` adds the two shapes a frame needs: "main" is the picture and
+    "border" is the ring around it. It is that ring's width, as a fraction of
+    the shorter canvas side, so one template fits any drawing at any canvas
+    size. 0 makes "main" the whole sheet and "border" empty. None leaves both
+    out, which is what a uniform template wants.
     """
     w, h = int(canvas[0]), int(canvas[1])
-    frac = float(border_frac or 0.0)
+    full = [0, 0, w - 1, h - 1]
+    out = collections.OrderedDict([
+        ("all", collections.OrderedDict([("rect", list(full))])),
+    ])
+    if border_frac is None:
+        return out
+    frac = float(border_frac)
     if not 0.0 <= frac < 0.5:
         raise SystemExit("error: \"border_frac\" must be 0 or more and less than 0.5 (got %r)" % border_frac)
     inset = int(round(frac * min(w, h)))
-    full = [0, 0, w - 1, h - 1]
-    return collections.OrderedDict([
-        ("all", collections.OrderedDict([("rect", list(full))])),
-        ("main", collections.OrderedDict([("rect", [inset, inset, w - 1 - inset, h - 1 - inset])])),
-        ("border", collections.OrderedDict([("rect", list(full)), ("minus", ["main"])])),
-    ])
+    out["main"] = collections.OrderedDict([("rect", [inset, inset, w - 1 - inset, h - 1 - inset])])
+    out["border"] = collections.OrderedDict([("rect", list(full)), ("minus", ["main"])])
+    return out
 
 
 def layer_count(layer):
@@ -192,7 +203,7 @@ def main(argv=None):
     template_path = resolve_style(a.style)
     template = load_json(template_path)
     border_frac = template.get("border_frac")
-    from_canvas = a.regions is None and "regions_file" not in template and border_frac is not None
+    from_canvas = a.regions is None and "regions_file" not in template
     regions_path = None
     regions = None
     if not from_canvas:
@@ -211,7 +222,8 @@ def main(argv=None):
     if from_canvas:
         d["regions"] = canvas_regions(d["canvas"], border_frac)
         d["flows"] = collections.OrderedDict()
-        regions_name = "from the canvas, border_frac %g" % float(border_frac)
+        regions_name = ("from the canvas, the whole sheet" if border_frac is None
+                        else "from the canvas, border_frac %g" % float(border_frac))
     else:
         d["canvas"] = regions.get("canvas", d.get("canvas"))
         d["regions"] = regions["regions"]

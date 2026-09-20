@@ -1,0 +1,132 @@
+{
+ "style": "oil-uniform",
+ "note": "A uniform style: no regions file, no head passes. Every layer paints the whole canvas, coarse to fine, and \"locality\" keeps each stroke near the last one, so the hand works one area at a time. make_direction.py builds the \"all\" region from the canvas.",
+ "canvas": [
+  1440,
+  1920
+ ],
+ "target": "{TARGET}",
+ "reference": "{REFERENCE}",
+ "seed": 7,
+ "max_strokes": 13000,
+ "ground": "auto",
+ "metric": {
+  "ms_ssim": 0.5,
+  "gradient": 0.3,
+  "color": 0.2
+ },
+ "locality": {
+  "sigma": 200,
+  "floor": 0.02,
+  "round": 4
+ },
+ "layers": [
+  {
+   "name": "flat",
+   "region": "all",
+   "tool": "flat",
+   "overflow": 0,
+   "alpha": [
+    0.7,
+    0.95
+   ],
+   "drift": 12,
+   "levels": [
+    {
+     "size": 120,
+     "count": 80,
+     "threshold": 0.0
+    },
+    {
+     "size": 60,
+     "count": 200,
+     "threshold": 0.0
+    },
+    {
+     "size": 30,
+     "count": 500,
+     "threshold": 0.0
+    },
+    {
+     "size": 16,
+     "count": 1200,
+     "threshold": 0.0
+    },
+    {
+     "size": 8,
+     "count": 2500,
+     "threshold": 0.0
+    },
+    {
+     "size": 4,
+     "count": 3000,
+     "threshold": 0.0
+    }
+   ]
+  },
+  {
+   "name": "knife",
+   "region": "all",
+   "tool": "knife",
+   "overflow": 0,
+   "alpha": [
+    0.7,
+    0.95
+   ],
+   "drift": 12,
+   "levels": [
+    {
+     "size": 40,
+     "count": 400,
+     "threshold": 0.0
+    },
+    {
+     "size": 20,
+     "count": 600,
+     "threshold": 0.0
+    }
+   ]
+  },
+  {
+   "name": "bristle",
+   "region": "all",
+   "tool": "bristle",
+   "overflow": 0,
+   "alpha": [
+    0.6,
+    0.9
+   ],
+   "drift": 12,
+   "levels": [
+    {
+     "size": 6,
+     "count": 1500,
+     "threshold": 0.0
+    },
+    {
+     "size": 3,
+     "count": 1500,
+     "threshold": 0.0
+    }
+   ]
+  },
+  {
+   "name": "pencil",
+   "region": "all",
+   "tool": "pencil",
+   "overflow": 0,
+   "alpha": [
+    0.6,
+    0.85
+   ],
+   "drift": 8,
+   "levels": [
+    {
+     "size": 2,
+     "count": 600,
+     "threshold": 0.0
+    }
+   ]
+  }
+ ]
+}

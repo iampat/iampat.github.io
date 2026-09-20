@@ -18,7 +18,7 @@ drawing and needs no model at all. See "Crayon" below.
 | `setup.sh` | Makes the venv, installs the requirements, checks Chrome and ffmpeg. |
 | `PAINTER_SPEC.md` | The contract: the tools, the placer, the metric Q, the judge, the run order. |
 | `make_direction.py` | Builds a runnable `direction.json` from a style template and a regions file. |
-| `directions/*.json` | The five style templates: layers, ground colour, metric weights. No shapes. |
+| `directions/*.json` | The nine style templates: layers, ground colour, metric weights. No shapes. |
 | `regions/*.json` | The shapes for one photo: region masks and flow curves. |
 | `stylize_gemini.py` | Asks Gemini for the style target of a photo. |
 | `judge_gemini.py` | Asks Gemini to score a finished painting 1 to 10. |
@@ -66,6 +66,18 @@ spelling. `paint.sh` also takes `watercolour`, `graphite`, `coloured pencil`,
 `crayons` and `wax` and maps them to those five, and says which one it used. Any
 other word stops the run. The first four paint a photo. `crayon` traces a
 finished crayon drawing, and the section after the timings covers it.
+
+**Uniform styles.** `oil-uniform`, `watercolor-uniform`, `pencil-uniform` and
+`sketch-uniform` paint the whole canvas with one set of layers, coarse to fine.
+They use no regions file and no head passes, so a photo the pipeline has never
+seen works straight away. Reach for one when the photo has no shapes yet, or
+when the shapes of a hand-made direction fight the picture. The command is the
+usual one: `paint.sh photo.jpg oil-uniform <workdir>`. `uniform-oil` and
+`oil uniform` mean the same. The style target still comes from the base style,
+so `oil-uniform` asks Gemini for an oil target and reads
+`targets/oil_1440x1920.png`. The run writes to `<workdir>/oil-uniform/`, so it
+never overwrites an `oil` run. `--regions` is ignored, with a note. Every
+uniform template turns `"locality"` on: see "Iterate on a direction" below.
 
 Options: `--max-strokes N` for a quick look, `--seed N`, `--no-judge` to skip
 the Gemini judge (then Nano Banana is the only model call), `--skip-target` when
@@ -364,6 +376,27 @@ again. The levers, per layer:
   placer tries per seed. More candidates is slower and slightly better.
 - `photo_mix` on a layer takes the colour from the photo, not the target, when
   the target loses the likeness.
+
+**Locality.** `"locality": {"sigma": 200, "floor": 0.02, "round": 4}` sits beside
+`"metric"`, at the top of the direction, not in a layer. It makes the placer
+sow each seed near the hand. Every mode weights its seed map by
+`floor + (1 - floor) * exp(-d / sigma)`. `d` is the distance in plan pixels from
+the end of the last kept stroke, and the placer redraws that weight every 24
+seeds. The painting then grows area by area instead of jumping over the canvas,
+which is what the process video shows. `report.txt` prints the mean jump
+between strokes, so you can measure the change. `floor` is the share of the
+weight that stays flat over the region, so the layer can still repair the worst
+error anywhere. On a 1440 x 1920 canvas, `sigma` 200 and `floor` 0.15 leave
+about a third of the seeds near the hand, and the mean jump falls by 5 to 15
+per cent. Lower the floor to pull the hand in harder. `"round"` is the third
+key, 24 by default: one falloff serves that many seeds, so a small round
+follows the hand more closely and costs one more exp per few strokes.
+`{"sigma": 200, "floor": 0.02, "round": 4}` is the tight end. A layer may carry
+its own
+`"locality"`, or `"locality": false` to sow over its whole region. Locality is
+off unless the direction asks for it, and only the four uniform templates do.
+When it is on, the layer's stroke order defaults to `none`, because the
+placement order is already hand order.
 
 A crayon layer takes a different set, because it traces instead of paints. The
 main levers are `count`, `pressure`, `size`, `color_group` and `order`, plus

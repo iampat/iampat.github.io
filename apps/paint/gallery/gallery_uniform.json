@@ -1,0 +1,109 @@
+{
+ "title": "Every part the same way",
+ "subjects": [
+  {
+   "title": "Portrait at the lake",
+   "photo": "photo.jpg",
+   "versions": {
+    "v4": {
+     "title": "Agent K learns to paint",
+     "note": "Every picture starts with broad strokes and ends with fine details. Play a video to watch it happen."
+    }
+   },
+   "items": [
+    {
+     "version": "v4",
+     "key": "oil",
+     "title": "Oil",
+     "note": "Thick paint, broad strokes, a palette knife on the water.",
+     "image": "uniform/lake/oil.jpg",
+     "video": "uniform/lake/oil.mp4",
+     "poster": "uniform/lake/oil.poster.jpg",
+     "ready": true
+    },
+    {
+     "version": "v4",
+     "key": "watercolor",
+     "title": "Watercolour",
+     "note": "Thin washes over paper, soft edges, light left in the paper.",
+     "image": "uniform/lake/watercolor.jpg",
+     "video": "uniform/lake/watercolor.mp4",
+     "poster": "uniform/lake/watercolor.poster.jpg",
+     "ready": true
+    },
+    {
+     "version": "v4",
+     "key": "pencil",
+     "title": "Coloured pencil",
+     "note": "Coloured pencil, layered hatching on cream paper.",
+     "image": "uniform/lake/pencil.jpg",
+     "video": "uniform/lake/pencil.mp4",
+     "poster": "uniform/lake/pencil.poster.jpg",
+     "ready": true
+    },
+    {
+     "version": "v4",
+     "key": "sketch",
+     "title": "Graphite sketch",
+     "note": "Graphite only, black and white on white paper.",
+     "image": "uniform/lake/sketch.jpg",
+     "video": "uniform/lake/sketch.mp4",
+     "poster": "uniform/lake/sketch.poster.jpg",
+     "ready": true
+    }
+   ]
+  },
+  {
+   "title": "Apples",
+   "photo": "apples.jpg",
+   "versions": {
+    "v4": {
+     "title": "Agent K learns to paint",
+     "note": "Every picture starts with broad strokes and ends with fine details. Play a video to watch it happen."
+    }
+   },
+   "items": [
+    {
+     "version": "v4",
+     "key": "oil",
+     "title": "Oil",
+     "note": "Thick paint, broad strokes, a palette knife on the water.",
+     "image": "uniform/apples/oil.jpg",
+     "video": "uniform/apples/oil.mp4",
+     "poster": "uniform/apples/oil.poster.jpg",
+     "ready": true
+    },
+    {
+     "version": "v4",
+     "key": "watercolor",
+     "title": "Watercolour",
+     "note": "Thin washes over paper, soft edges, light left in the paper.",
+     "image": "uniform/apples/watercolor.jpg",
+     "video": "uniform/apples/watercolor.mp4",
+     "poster": "uniform/apples/watercolor.poster.jpg",
+     "ready": true
+    },
+    {
+     "version": "v4",
+     "key": "pencil",
+     "title": "Coloured pencil",
+     "note": "Coloured pencil, layered hatching on cream paper.",
+     "image": "uniform/apples/pencil.jpg",
+     "video": "uniform/apples/pencil.mp4",
+     "poster": "uniform/apples/pencil.poster.jpg",
+     "ready": true
+    },
+    {
+     "version": "v4",
+     "key": "sketch",
+     "title": "Graphite sketch",
+     "note": "Graphite only, black and white on white paper.",
+     "image": "uniform/apples/sketch.jpg",
+     "video": "uniform/apples/sketch.mp4",
+     "poster": "uniform/apples/sketch.poster.jpg",
+     "ready": true
+    }
+   ]
+  }
+ ]
+}

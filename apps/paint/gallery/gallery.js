@@ -10,8 +10,8 @@
     return node;
   }
 
-  function buildPhoto(data) {
-    var block = document.getElementById("photo-block");
+  function buildPhoto(data, block) {
+    block = block || document.getElementById("photo-block");
     var img = el("img");
     img.src = data.photo;
     img.alt = "Original photo";
@@ -64,10 +64,11 @@
     return card;
   }
 
-  function buildVersions(data) {
-    var host = document.getElementById("versions");
+  function buildVersions(data, host) {
+    var root = document.getElementById("versions");
+    host = host || root;
     var items = data.items || [];
-    var wanted = (host.getAttribute("data-versions") || ORDER.join(",")).split(",");
+    var wanted = (root.getAttribute("data-versions") || ORDER.join(",")).split(",");
 
     ORDER.filter(function (key) { return wanted.indexOf(key) >= 0; }).forEach(function (key) {
       var meta = data.versions && data.versions[key];
@@ -97,6 +98,20 @@
     var title = h1.getAttribute("data-title") || data.title || "Gallery";
     document.title = title;
     h1.textContent = title;
+    if (Array.isArray(data.subjects)) {
+      // several photos on one page: a block per subject, each with its own photo and cards
+      var root = document.getElementById("versions");
+      data.subjects.forEach(function (subject) {
+        var block = el("section", "subject");
+        block.appendChild(el("h2", null, subject.title));
+        var photo = el("div", "photo-block");
+        buildPhoto(subject, photo);
+        block.appendChild(photo);
+        buildVersions(subject, block);
+        root.appendChild(block);
+      });
+      return;
+    }
     buildPhoto(data);
     buildVersions(data);
   }

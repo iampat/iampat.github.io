@@ -1,12 +1,16 @@
 #!/bin/bash
-# paint.sh <image.jpg> <oil|watercolor|pencil|sketch|crayon> <workdir> [options]
+# paint.sh <image.jpg> <style> <workdir> [options]
+#
+#   style: oil | watercolor | pencil | sketch | crayon
+#          oil-uniform | watercolor-uniform | pencil-uniform | sketch-uniform
 #
 #   --max-strokes N   stop after N strokes. 3000 while you iterate on one of the
 #                     four painting styles. crayon needs 31600 or more: see below.
 #   --seed N          the placer seed (default 7)
 #   --skip-target     use a target image already in place, and skip Gemini
 #   --no-judge        skip the Gemini judge (the only language-model step)
-#   --regions FILE    a regions file for this photo (default: the template's own)
+#   --regions FILE    a regions file for this photo (default: the template's own).
+#                     A uniform style paints the whole canvas, so it ignores this.
 #   --tidy            remove the video frames at the end (1.5 GB, 7.2 GB crayon)
 #   --log FILE        send every line of output to FILE instead of the terminal
 #
@@ -17,9 +21,18 @@
 # <image.jpg> and <workdir> are separate arguments. The image may sit anywhere,
 # in the work dir or outside the repo. <workdir> is where the run writes.
 #
-# The style word must be one of oil, watercolor, pencil, sketch, crayon. British
-# and long spellings (watercolour, graphite, coloured pencil, crayons, wax) map
-# to those five.
+# The style word must be one of oil, watercolor, pencil, sketch, crayon, or one
+# of the four uniform styles. British and long spellings (watercolour, graphite,
+# coloured pencil, crayons, wax) map to the five base names.
+#
+# A uniform style paints the whole canvas with one set of layers, coarse to
+# fine. It uses no regions file and no head passes, and its direction turns
+# "locality" on, so the placer keeps each stroke near the last one. Say
+# "oil-uniform", "uniform-oil" or "oil uniform": all three mean the same. The
+# style target and the target file name come from the BASE style, so
+# oil-uniform reads targets/oil_1440x1920.png and asks Gemini for an oil
+# target. The run writes to <workdir>/oil-uniform/ and
+# <workdir>/gallery/oil-uniform/, so it never overwrites an oil run.
 #
 # The first four styles paint a photo: Gemini makes a style target, and the
 # placer paints that target. crayon traces a finished crayon drawing instead.
@@ -98,9 +111,15 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# the four style words, and the spellings people reach for
+# the style words, and the spellings people reach for
 STYLE_IN="$STYLE"
 STYLE=$(echo "$STYLE" | tr '[:upper:]' '[:lower:]' | tr ' _' '--')
+# "uniform" may come first or last: uniform-oil, oil-uniform, "oil uniform"
+UNIFORM=0
+case "$STYLE" in
+    uniform-*) UNIFORM=1; STYLE="${STYLE#uniform-}" ;;
+    *-uniform) UNIFORM=1; STYLE="${STYLE%-uniform}" ;;
+esac
 case "$STYLE" in
     watercolour|water-colour|water-color) STYLE=watercolor ;;
     graphite|graphite-sketch|charcoal) STYLE=sketch ;;
@@ -110,8 +129,16 @@ case "$STYLE" in
 esac
 case "$STYLE" in
     oil|watercolor|pencil|sketch|crayon) ;;
-    *) echo "error: style must be oil, watercolor, pencil, sketch or crayon (got $STYLE_IN)"; exit 1 ;;
+    *) echo "error: style must be oil, watercolor, pencil, sketch, crayon, or one"
+       echo "       of oil-uniform, watercolor-uniform, pencil-uniform, sketch-uniform (got $STYLE_IN)"; exit 1 ;;
 esac
+if [[ $UNIFORM -eq 1 && "$STYLE" == crayon ]]; then
+    echo "error: there is no crayon-uniform style: crayon already traces the whole drawing"; exit 1
+fi
+# BASE_STYLE names the style target and the target file. STYLE names the
+# template, the run folder and the gallery folder.
+BASE_STYLE="$STYLE"
+[[ $UNIFORM -eq 0 ]] || STYLE="${STYLE}-uniform"
 [[ -f "$PHOTO" ]] || { echo "error: no photo at $PHOTO"; exit 1; }
 
 if [[ -n "$LOG" ]]; then
@@ -119,8 +146,15 @@ if [[ -n "$LOG" ]]; then
     echo "log: $LOG   (watch it with: tail -f $LOG)"
     exec >"$LOG" 2>&1
 fi
-# after the redirect, so the log keeps the note
+# after the redirect, so the log keeps the notes
 [[ "$STYLE" == "$STYLE_IN" ]] || echo "note: style \"$STYLE_IN\" means $STYLE"
+if [[ $UNIFORM -eq 1 ]]; then
+    echo "note: $STYLE paints the whole canvas; the target style is $BASE_STYLE"
+    if [[ -n "$REGIONS" ]]; then
+        echo "note: $STYLE uses no regions file, so --regions $REGIONS is ignored"
+        REGIONS=""
+    fi
+fi
 
 mkdir -p "$WORKDIR"
 WORKDIR=$(cd "$WORKDIR" && pwd)
@@ -129,7 +163,7 @@ RUN="$WORKDIR/$STYLE"
 TARGETS="$WORKDIR/targets"
 GAL="$WORKDIR/gallery/$STYLE"
 PHOTO_PLAN="$WORKDIR/photo_${PLAN_W}x${PLAN_H}.png"
-TARGET_PLAN="$TARGETS/${STYLE}_${PLAN_W}x${PLAN_H}.png"
+TARGET_PLAN="$TARGETS/${BASE_STYLE}_${PLAN_W}x${PLAN_H}.png"
 mkdir -p "$RUN" "$TARGETS" "$GAL"
 
 TOTAL_START=$SECONDS
@@ -163,6 +197,7 @@ fi
 echo "   python $("$PY" -V 2>&1 | cut -d' ' -f2), node $(node -v), ffmpeg ok, chrome ok"
 echo "   photo   $PHOTO"
 echo "   style   $STYLE"
+[[ $UNIFORM -eq 0 ]] || echo "   target  style $BASE_STYLE, file $(basename "$TARGET_PLAN")"
 echo "   workdir $WORKDIR"
 done_step prerequisites
 
@@ -193,9 +228,9 @@ done_step photo-resize
 # the newest target image for this style, whatever name it came under
 find_raw_target() {
     local newest="" f
-    for f in "$TARGETS/${STYLE}_2k.raw.png" "$TARGETS/${STYLE}_2k.raw.jpg" \
-             "$TARGETS/${STYLE}_2k.png" "$TARGETS/${STYLE}_2k.jpg" \
-             "$TARGETS/${STYLE}.raw.png" "$TARGETS/${STYLE}.raw.jpg"; do
+    for f in "$TARGETS/${BASE_STYLE}_2k.raw.png" "$TARGETS/${BASE_STYLE}_2k.raw.jpg" \
+             "$TARGETS/${BASE_STYLE}_2k.png" "$TARGETS/${BASE_STYLE}_2k.jpg" \
+             "$TARGETS/${BASE_STYLE}.raw.png" "$TARGETS/${BASE_STYLE}.raw.jpg"; do
         [[ -f "$f" ]] || continue
         if [[ -z "$newest" || "$f" -nt "$newest" ]]; then newest="$f"; fi
     done
@@ -203,7 +238,7 @@ find_raw_target() {
     echo "$newest"
 }
 
-step "style target ($STYLE)"
+step "style target ($BASE_STYLE)"
 RAW_TARGET=""
 TARGET_MODEL="supplied"
 if [[ "$STYLE" == crayon ]]; then
@@ -220,20 +255,20 @@ elif [[ $SKIP_TARGET -eq 1 ]]; then
         echo "   --skip-target: using $RAW_TARGET"
     else
         echo "error: --skip-target but no target found."
-        echo "       Put the 2K target at $TARGETS/${STYLE}_2k.raw.png (or .raw.jpg),"
+        echo "       Put the 2K target at $TARGETS/${BASE_STYLE}_2k.raw.png (or .raw.jpg),"
         echo "       or a plan-space one at $TARGET_PLAN."
         exit 1
     fi
 else
     [[ -n "${GEMINI_API_KEY:-}" ]] || { echo "error: GEMINI_API_KEY is not set (or pass --skip-target)"; exit 1; }
-    echo "   asking $PRO_MODEL for a 2K $STYLE target"
+    echo "   asking $PRO_MODEL for a 2K $BASE_STYLE target"
     if "$PY" "$PIPELINE_DIR/stylize_gemini.py" --photo "$PHOTO" --out "$TARGETS" \
-            --styles "$STYLE" --model "$PRO_MODEL" --size 2K --suffix _2k; then
+            --styles "$BASE_STYLE" --model "$PRO_MODEL" --size 2K --suffix _2k; then
         TARGET_MODEL="$PRO_MODEL"
     else
         echo "   the Pro call failed, falling back to $FALLBACK_MODEL"
         "$PY" "$PIPELINE_DIR/stylize_gemini.py" --photo "$PHOTO" --out "$TARGETS" \
-            --styles "$STYLE" --model "$FALLBACK_MODEL" --suffix _2k
+            --styles "$BASE_STYLE" --model "$FALLBACK_MODEL" --suffix _2k
         TARGET_MODEL="$FALLBACK_MODEL"
     fi
     RAW_TARGET=$(find_raw_target) || { echo "error: Gemini returned no image"; exit 1; }
