@@ -43,6 +43,7 @@ SELFTEST_TOL = 1e-6
 FAIL_STREAK = 50
 INK_RECHECK = 200              # kept strokes between two deficit measurements
 STOP_ROUNDS = 60               # seed rounds a density-stopped trace layer may run
+LOCAL_ROUND = 24               # seeds per round when a layer sows near the cursor
 
 
 # ---------------------------------------------------------------------------
@@ -716,6 +717,12 @@ class Painter:
         self.paper_lab = QQ.to_lab(self.paper.reshape(1, 1, 3)).reshape(3)
         self.paper_tol = float(direction.get("paper_tol", PAPER_TOL))
         self.travel = []
+        # the hand: it starts in the middle of the sheet and then stays where
+        # the last kept stroke ended. "locality" sows the next seeds around it,
+        # and `jumps` keeps every pen-up distance in the order the strokes were
+        # placed, which is what the report's mean jump measures.
+        self.cursor = (self.W / 2.0, self.H / 2.0)
+        self.jumps = []
         self.reordered = False
         self.rerender_seconds = 0.0
         self.selftest = []
@@ -954,28 +961,95 @@ class Painter:
 
     # -- seeds -------------------------------------------------------------
 
-    def seed_stream(self, mask, size, rng, want, weight=None):
+    def locality_of(self, layer):
+        """(sigma, floor, round) for this layer, or None when locality is off.
+
+        The direction sets "locality": {"sigma": 200, "floor": 0.15}. A layer
+        may carry its own, or "locality": false to sow over its whole region
+        as v4 does. Absent everywhere, the placer behaves exactly as v4.
+
+        "round" is how many seeds one falloff serves, LOCAL_ROUND by default.
+        Every seed of a round is drawn around the SAME cursor, so the round
+        size is a floor under the jump: two seeds of one round sit about
+        2.3 * sigma apart. A small round follows the hand more closely and
+        costs one more exp per few strokes.
+        """
+        spec = "-" if layer is None else layer.get("locality", "-")
+        if spec == "-" or spec is None:
+            spec = self.d.get("locality")
+        if not spec:
+            return None
+        if not isinstance(spec, dict):
+            raise SystemExit('painter2: "locality" is false, or '
+                             '{"sigma": px, "floor": 0..1} (got %r)' % (spec,))
+        sigma = float(spec.get("sigma", 200.0))
+        floor = float(clamp(float(spec.get("floor", 0.15)), 0.0, 1.0))
+        nround = max(1, int(spec.get("round", LOCAL_ROUND)))
+        if sigma <= 0.0:
+            return None
+        return (sigma, floor, nround)
+
+    @staticmethod
+    def _pick(idx, p, rng, n):
+        """`n` indices out of `idx`, with probability proportional to `p`."""
+        if p.sum() <= 1e-12:
+            p = np.ones(len(idx), np.float64)
+        cdf = np.cumsum(p)
+        cdf /= cdf[-1]
+        u = rng.random(int(n))
+        return idx[np.searchsorted(cdf, u, side="right").clip(0, len(idx) - 1)]
+
+    def seed_stream(self, mask, size, rng, want, weight=None, local=None):
         """Indices drawn from a map with probability proportional to it.
 
         The map is the per-pixel contribution to Q, or `weight` when the layer
         sows by something else (a density-stopped trace layer sows by its ink
         deficit, so the strokes go where the wax is missing).
+
+        `local` is the layer's (sigma, floor, round). The map is then multiplied
+        by floor + (1 - floor) * exp(-d / sigma), where d is the distance from
+        the cursor. The cursor moves with every kept stroke, so the seeds come
+        in rounds of `round` and each round redraws the falloff around the new
+        place. One round costs one exp over the region, about 10 ms.
         """
         err = self.q.contribution() if weight is None else weight
         err = cv2.GaussianBlur(err, (0, 0), max(0.6, size / 2.0))
         err = np.maximum(err, 0.0)
         idx = np.flatnonzero(mask.ravel() > 0)
         if len(idx) == 0:
-            return np.zeros(0, np.int64)
-        p = err.ravel()[idx].astype(np.float64)
-        tot = p.sum()
-        if tot <= 1e-12:
-            p = np.ones(len(idx), np.float64)
-            tot = float(len(idx))
-        cdf = np.cumsum(p)
-        cdf /= cdf[-1]
-        u = rng.random(int(want))
-        return idx[np.searchsorted(cdf, u, side="right").clip(0, len(idx) - 1)]
+            return
+        base = err.ravel()[idx].astype(np.float64)
+        if base.sum() <= 1e-12:
+            base = np.ones(len(idx), np.float64)
+        if local is None:
+            for s in self._pick(idx, base, rng, int(want)):
+                yield s
+            return
+        sigma, floor, nround = local
+        fx = (idx % self.W).astype(np.float32)
+        fy = (idx // self.W).astype(np.float32)
+        left = int(want)
+        while left > 0:
+            n = min(nround, left)
+            dx = fx - np.float32(self.cursor[0])
+            dy = fy - np.float32(self.cursor[1])
+            fall = np.exp(np.sqrt(dx * dx + dy * dy) / np.float32(-sigma))
+            fall *= np.float32(1.0 - floor)
+            fall += np.float32(floor)
+            for s in self._pick(idx, base * fall, rng, n):
+                yield s
+            left -= n
+
+    def move_cursor(self, act):
+        """The hand is now at the end of this stroke. Keep the pen-up distance
+        it jumped to start it, in the order the strokes were placed."""
+        p0, p1 = act["pts"][0], act["pts"][-1]
+        self.jumps.append(math.hypot(float(p0[0]) - self.cursor[0],
+                                     float(p0[1]) - self.cursor[1]))
+        self.cursor = (float(p1[0]), float(p1[1]))
+
+    def mean_jump(self):
+        return float(np.mean(self.jumps)) if self.jumps else 0.0
 
     # -- one stroke --------------------------------------------------------
 
@@ -1086,7 +1160,8 @@ class Painter:
         spacing = max(1.0, size * 0.4)
         used = np.zeros((self.H, self.W), np.uint8)
         want = count * 8 + 512
-        seeds = self.seed_stream(mask, size, rng, want)
+        seeds = self.seed_stream(mask, size, rng, want,
+                                 local=self.locality_of(layer))
         kept = tried = 0
         fails = 0
         q_before = self.q.value()
@@ -1151,6 +1226,7 @@ class Painter:
             q_pre = self.q.value()
             self.q.commit(payload)
             self.emit(act)
+            self.move_cursor(act)
             kept += 1
             if tests < SELFTEST_PER_LAYER:
                 tests += 1
@@ -1326,7 +1402,8 @@ class Painter:
                 # seeds stay size * 0.5 apart as before
                 used[:, :] = 0
             seeds = self.seed_stream(seed_mask, base, rng, count * 3 + 256,
-                                     weight=dmap if stop_de is not None else None)
+                                     weight=dmap if stop_de is not None else None,
+                                     local=self.locality_of(layer))
             for flat_idx in seeds:
                 if kept >= count or self.nstrokes >= self.max_strokes:
                     break
@@ -1398,6 +1475,7 @@ class Painter:
                 q_pre = self.q.value()
                 self.q.commit(payload)
                 self.emit(act)
+                self.move_cursor(act)
                 kept += 1
                 path_px += path_length(act["pts"])
                 if live and kept - checked >= INK_RECHECK:
@@ -1510,7 +1588,13 @@ class Painter:
             # stroke order inside the layer: "sweep" walks the crayon from one
             # mark to the nearest next one, which is how a hand fills a page
             body = self.actions[first:]
-            order = str(layer.get("order", "sweep" if mode == "trace" else "placed"))
+            # the sweep is an after-the-fact reorder. A layer that sowed around
+            # the cursor is already in hand order, so locality turns it off.
+            if self.locality_of(layer):
+                fallback = "none"
+            else:
+                fallback = "sweep" if mode == "trace" else "placed"
+            order = str(layer.get("order", fallback))
             before = travel_of(body, cursor)
             after = before
             if order == "sweep" and len(body) > 1:
@@ -1585,6 +1669,8 @@ def write_reports(p, args):
         "path_px": sum(path_length(a["pts"]) for a in strokes),
         "travel_px": travel_of(strokes),
         "travel": p.travel,
+        "locality": p.d.get("locality") or None,
+        "mean_jump_px": p.mean_jump(),
         "tools": sorted({a.get("tool") for a in strokes}),
         "q_vs_target": {"q": q_target, "ms_ssim": t_target["ms_ssim"],
                         "gms": t_target["gms"], "delta_e": t_target["delta_e"],
@@ -1609,6 +1695,12 @@ def write_reports(p, args):
              % (p.seconds, p.ground_seconds, p.rerender_seconds))
     L.append("paper %s (dE > %.0f is pigment)   path %.0f px   pen-up travel %.0f px"
              % (rep["paper"], p.paper_tol, rep["path_px"], rep["travel_px"]))
+    loc = rep["locality"]
+    L.append("mean jump %.0f px between strokes, in the order placed   locality %s"
+             % (rep["mean_jump_px"],
+                ("sigma %g, floor %g" % (float(loc.get("sigma", 200.0)),
+                                         float(loc.get("floor", 0.15))))
+                if isinstance(loc, dict) else "off"))
     L.append("")
     L.append("Q vs target   %.6f   (MS-SSIM %.4f, GMS %.4f, Lab dE %.2f)"
              % (q_target, t_target["ms_ssim"], t_target["gms"], t_target["delta_e"]))

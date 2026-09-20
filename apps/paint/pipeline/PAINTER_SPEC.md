@@ -72,6 +72,7 @@ Direction json
   "canvas": [1440, 1920], "target": "...png", "reference": "...png", "seed": 7, "max_strokes": 15000,
   "ground": "#hex" | "auto",                       (one wide flat-brush pass in this colour over the whole canvas, no clear except white)
   "metric": {"ms_ssim": 0.5, "gradient": 0.3, "color": 0.2},   weights of Q (see Part C)
+  "locality": {"sigma": 200, "floor": 0.02, "round": 4},       optional, off when absent (see "v6 addition" below)
   "regions": { name: {"poly": [[x,y],...]} | {"polys": [...]} | {"rect": [x0,y0,x1,y1]} | {..., "minus": [names]} },
      loose shapes by the director, ONLY used as masks for layer order; never drawn.
   "flows": { name: {"curves": [[[x,y],...], ...]} },   optional bias fields
@@ -228,3 +229,30 @@ Per layer:
 `{"t": "clear", "color": "#hex", "paper": true}` as the `ground` tints the ground with the coarse paper noise, so an
 untouched area reads as paper. The crayon itself lives in tools/crayon_np.py (paper_height, draw_crayon) and is
 mirrored by engine.js.
+
+## v6 addition: locality, and the four uniform styles
+
+`"locality": {"sigma": 200, "floor": 0.02, "round": 4}` is a direction-level key, beside `"metric"`. It makes every mode (block,
+refine and trace) sow its seeds near the hand instead of over the whole region. The placer keeps a cursor: it starts at
+the centre of the canvas, moves to the end point of every kept stroke, and carries across layers. The seed map is
+multiplied by `floor + (1 - floor) * exp(-d / sigma)`, where `d` is the distance in plan px from that cursor. The cursor
+moves with every stroke, so the seeds are drawn in rounds of 24 and the falloff is redrawn from the new place each
+round. One round costs one exp over the region, about 10 ms. `floor` is the flat share of the weight, so the
+layer can still repair the worst error anywhere: over a 1440 x 1920 region, sigma 200 and floor 0.15 leave about a
+third of the seeds near the hand, which cuts the mean jump by 5 to 15 per cent. `"round"` sets the seeds one falloff
+serves (24 by default): every seed of a round is drawn around the SAME cursor, so the round size is a floor under the
+jump, two seeds of one round sitting about 2.3 * sigma apart. `{"sigma": 200, "floor": 0.02, "round": 4}` is the tight
+end. The spacing mask, the candidates, the scoring and every
+other rule are unchanged, and the rng is the same seeded numpy Generator. A layer may carry its own `"locality"`, or
+`"locality": false` to sow over its whole region. With locality on, a layer's `"order"` defaults to `"none"` (no
+reorder), because the placement order is already hand order; a trace layer keeps `"sweep"` only when the direction asks
+for it. With no `"locality"` anywhere, `actions.json` is byte-identical to v4. report.txt and report.json carry the mean
+jump between consecutive strokes, in the order they were placed.
+
+The four uniform styles (`oil-uniform`, `watercolor-uniform`, `pencil-uniform`, `sketch-uniform`, templates in
+`directions/`) paint the whole canvas with one set of layers, coarse to fine. They name no `"regions_file"` and no
+`"border_frac"`, so `make_direction.py` builds the single region `all` from the canvas. They carry no head passes and no
+flows, and every layer sets `"region": "all"` with `"overflow": 0`. Each one turns `"locality"` on. `paint.sh` takes the
+uniform name, and also `uniform-oil` and `oil uniform`. The style target and the target file name come from the BASE
+style, so `oil-uniform` reads `targets/oil_1440x1920.png`, and `--regions` is ignored with a note. Use a uniform style
+for a photo with no regions file of its own.

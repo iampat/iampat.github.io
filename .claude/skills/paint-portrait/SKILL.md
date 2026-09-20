@@ -1,6 +1,6 @@
 ---
 name: paint-portrait
-description: Paint a portrait photo stroke by stroke in the paint app, in one of five styles named oil, watercolor, pencil, sketch or crayon, with the process video, and package the result for the gallery. The crayon style traces a finished crayon drawing instead of painting a photo. Use when the user asks to paint or repaint a photo with the v4 pipeline, to trace a drawing in crayon, to tune a style direction, to add a new photo, or to publish a painting to apps/paint/gallery.
+description: Paint a portrait photo stroke by stroke in the paint app, in one of five styles named oil, watercolor, pencil, sketch or crayon, or in one of the four uniform styles that need no regions file, with the process video, and package the result for the gallery. The crayon style traces a finished crayon drawing instead of painting a photo. Use when the user asks to paint or repaint a photo with the v4 pipeline, to trace a drawing in crayon, to tune a style direction, to add a new photo, or to publish a painting to apps/paint/gallery.
 ---
 
 # Paint a portrait
@@ -76,6 +76,17 @@ belong to one photo, so a photo the pipeline has not seen needs its own file in
 `apps/paint/pipeline/regions/`, and the template must name it in
 `"regions_file"`. Without that, the run paints the lake portrait's shapes over a
 new face. Step 8 has the steps. `crayon` needs no regions file at all.
+
+**Uniform styles.** `oil-uniform`, `watercolor-uniform`, `pencil-uniform` and
+`sketch-uniform` paint the whole canvas with one set of layers, coarse to fine.
+They use no regions file and no head passes, so a new photo works at once. Use
+one when the photo has no shapes yet, or when hand-made shapes fight the
+picture. The command is the usual one:
+`paint.sh <photo.jpg> oil-uniform <workdir>`. `uniform-oil` and `oil uniform`
+mean the same. The style target comes from the base style, so `oil-uniform`
+asks Gemini for an oil target and reads `targets/oil_1440x1920.png`. The run
+writes to `<workdir>/oil-uniform/`, so it never overwrites an `oil` run.
+`--regions` is ignored, with a note.
 
 Options: `--max-strokes N` (3000 while you iterate, for the four painting
 styles only. crayon needs 31600 or more, and step 3a says why), `--seed N`,
@@ -289,6 +300,22 @@ How to work:
 Layers run in order, background to details, coarse to fine. A late layer paints
 over an early one. Weak marks usually mean the level size is too small for the
 region, or `count` runs out before the region is covered.
+
+**Locality.** `"locality": {"sigma": 200, "floor": 0.02, "round": 4}` sits beside
+`"metric"`, at the top of the direction, not in a layer. It makes the placer sow
+each seed near the hand. The seed map is weighted by
+`floor + (1 - floor) * exp(-d / sigma)`, where `d` is the distance in plan pixels
+from the end of the last kept stroke. The weight is redrawn every 24 seeds, so
+the painting grows area by area instead of jumping over the canvas. The process
+video shows the difference, and `report.txt` prints the mean jump between
+strokes. `floor` is the share of the weight that stays flat over the region, so
+the layer can still repair the worst error anywhere. Lower it to pull the hand
+in harder. `"round"` is the third key, 24 by default: one falloff serves that
+many seeds, so a small round follows the hand more closely.
+`{"sigma": 200, "floor": 0.02, "round": 4}` is the tight end. A layer may carry
+its own `"locality"`, or `"locality": false` to sow
+over its whole region. Locality is off unless the direction asks for it, and
+only the four uniform templates do.
 
 ## 6. Publish to the gallery
 
