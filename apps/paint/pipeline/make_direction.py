@@ -94,7 +94,14 @@ def canvas_regions(canvas, border_frac):
 
 
 def layer_count(layer):
-    """The strokes one layer may keep: its "count", or the sum of its levels."""
+    """The strokes one layer may keep: its "count", or the sum of its levels.
+
+    A layer that stops on ink density carries "stop": {"max_count": N}: N is
+    then the cap, and the layer usually stops well under it.
+    """
+    stop = layer.get("stop")
+    if isinstance(stop, dict) and stop.get("max_count"):
+        return int(stop["max_count"])
     if "levels" in layer:
         return sum(int(lv.get("count", 0)) for lv in layer["levels"])
     return int(layer.get("count", 0))
@@ -148,6 +155,11 @@ def budget_note(d):
                                    subsequent_indent="               "))
     lines.append("             the whole picture needs %d strokes. Raise --max-strokes, or leave it off."
                  % total)
+    if any(isinstance(l.get("stop"), dict) for l in layers):
+        lines.append(textwrap.fill(
+            'a layer with "stop" quits when its ink deficit is met, so its "max_count" is an '
+            "upper bound and the cut lands later than this note says",
+            width=92, initial_indent="             ", subsequent_indent="               "))
     return "\n".join(lines)
 
 

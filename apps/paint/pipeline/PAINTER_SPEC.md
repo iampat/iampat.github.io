@@ -184,8 +184,10 @@ copied stroke by stroke. It reads the direction's `"paper"` hex (or the median o
 and `"paper_tol"` (Lab dE, default 8).
   {"name": "...", "mode": "trace", "tool": "crayon", "region": "...", "order": "sweep",
    "size": [min, max], "count": N, "threshold": t,          (or the usual "levels" list, one entry per size range)
+   "stop": {"deficit": D, "max_count": N},                  (instead of "count": draw until the ink is there)
    "color_group": {"lightness": [lo, hi]} | {"hue": [lo, hi]} | {"outline": true},
-   "group_slack": 8, "pressure": 0.35 | [lo, hi], "length": [min, max], "drift": dE, "candidates": 8}
+   "group_slack": 8, "pressure": 0.35 | [lo, hi], "pressure_from": "darkness" | "deficit",
+   "length": [min, max], "drift": dE, "candidates": 8}
 Per layer:
   1. Pigment mask M = the level target more than `paper_tol` off the paper colour (Lab dE). The distance transform of
      M is the local mark half-width, so a stroke's size = clamp(2 * half-width, size min, size max).
@@ -197,8 +199,26 @@ Per layer:
      colour leaves its colour group by more than `group_slack` (L, default 8) is dropped.
   5. Pressure (crayon): 0.4 + 0.6 * darkness relative to the paper. A layer `"pressure": p` scales that by p / 0.7
      (so 0.7 is the plain rule), and `"pressure": [lo, hi]` maps the darkness into that range instead.
+     `"pressure_from": "deficit"` swaps the darkness for the wax that is still MISSING: with
+     ink(x, y) = Lab dE from the paper colour, r = deficit / ink_target read at the seed on the size/2 blur,
+     pressure = clamp(0.45 + 0.55 * r, 0.35, 1.0), scaled by the layer's `"pressure"` the same way (a `[lo, hi]`
+     pair maps r into that range). r is 1 on bare paper and 0 where the area already carries its ink, so the first
+     pass presses hard and a later pass over the same spot eases off. The darkness rule is the default and reads
+     the target alone: a mid tone on white paper and the same tone over three passes ask for the same light stroke,
+     which is why tan skin used to stay a wash.
   6. Candidates and scoring exactly as in refine: the score is the change of the whole-picture Q.
-  7. `"order": "sweep"` (the default for trace) reorders the layer's strokes after placement: greedy nearest
+  7. `"stop": {"deficit": D, "max_count": N}` replaces the fixed `"count"`: the layer draws until the ink it still
+     misses falls under D. ink(x, y) = Lab dE from the paper colour, on the target and on the canvas, both blurred
+     by size/2; the layer's deficit is the mean of max(0, ink_target - ink_canvas) over the layer's OWN pixels
+     (region mask AND pigment mask AND colour group), so no layer is judged on another's work. The seeds are then
+     importance-sampled by that deficit map instead of the Q contribution, spacing unchanged; the spacing mask
+     starts every seed round empty, because a second pass over an area is how a crayon builds up. The deficit is
+     measured again every 200 kept strokes on the canvas in memory (one blur, about 60 ms). The layer stops on the
+     first of: the deficit at or under D, N strokes kept, 50 seeds in a row that no candidate improves ("seeds"),
+     the run's `max_strokes` ("budget"), or 60 seed rounds ("rounds"). report.txt prints a density table with the
+     strokes kept, the deficit before and after, the target D and the stop reason, and the placer prints one line
+     per trace layer while it runs.
+  8. `"order": "sweep"` (the default for trace) reorders the layer's strokes after placement: greedy nearest
      neighbour from the previous stroke's end to the nearest END of the next stroke, flipping it when its far end is
      nearer, starting at the top-left. The pen position carries over from one layer to the next (and from the ground
      pass, when it draws strokes), so a layer's first stroke is chosen from where the crayon really is. The canvas is

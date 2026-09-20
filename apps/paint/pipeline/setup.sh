@@ -77,7 +77,7 @@ if [[ $ok -eq 0 ]]; then
     echo "  the first four paint a photo. crayon traces a finished crayon drawing."
     echo "  <workdir> is any folder under $APP_DIR/work; git ignores it"
     echo "  add --max-strokes 3000 for a quick look at the four painting styles."
-    echo "     crayon needs far more: 18600 to reach the border ring, 21100 for"
+    echo "     crayon needs far more: 31600 to reach the border ring, 34000 for"
     echo "     the whole picture. 3000 gives an unfinished drawing."
     echo "  --log <workdir>/run.log to run it in the background and tail the log"
 else

@@ -2,7 +2,7 @@
 # paint.sh <image.jpg> <oil|watercolor|pencil|sketch|crayon> <workdir> [options]
 #
 #   --max-strokes N   stop after N strokes. 3000 while you iterate on one of the
-#                     four painting styles. crayon needs 18600 or more: see below.
+#                     four painting styles. crayon needs 31600 or more: see below.
 #   --seed N          the placer seed (default 7)
 #   --skip-target     use a target image already in place, and skip Gemini
 #   --no-judge        skip the Gemini judge (the only language-model step)
@@ -28,11 +28,12 @@
 #
 # --max-strokes caps the whole run. The placer walks the layer list in order, so
 # a low cap drops the late layers. It does not thin each layer. The seven crayon
-# layers carry 600, 3000, 6000, 5000, 1800, 2200 and 2500 strokes. So
-# --max-strokes 3000 stops 2400 strokes into light-colors: the outline pass and
-# a little pale fill, no mid tones, no darks, no frame. Use 18600 to reach the
-# end of the border ring. Use 21100, or no --max-strokes at all, for the whole
-# picture. The direction step prints where the cap lands.
+# layers carry 600 strokes, then three colour layers of at most 9000 each, then
+# 1800, 2200 and 2500. The colour layers stop on ink density and often keep
+# fewer. So --max-strokes 3000 stops 2400 strokes into light-colors: the outline
+# pass and a little pale fill, no mid tones, no darks, no frame. Use 31600 to
+# reach the end of the border ring. Use 34000, or no --max-strokes at all, for
+# the whole picture. The direction step prints where the cap lands.
 #
 # A run takes 6 to 12 minutes, and a full crayon run 9 to 10. To run it in the
 # background and watch it:

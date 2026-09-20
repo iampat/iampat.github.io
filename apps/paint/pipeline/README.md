@@ -70,7 +70,7 @@ finished crayon drawing, and the section after the timings covers it.
 Options: `--max-strokes N` for a quick look, `--seed N`, `--no-judge` to skip
 the Gemini judge (then Nano Banana is the only model call), `--skip-target` when
 you already have a target image, `--tidy`, and `--log FILE`.
-`--max-strokes 3000` suits the four painting styles. crayon needs 18600 or more:
+`--max-strokes 3000` suits the four painting styles. crayon needs 31600 or more:
 see "The stroke budget" below. With
 `--skip-target`, put the target at `<workdir>/targets/<style>_2k.raw.png`
 (`.raw.jpg` also works), or a plan-space one at
@@ -178,30 +178,36 @@ crayon and the size pacing for the other four.
 
 `--max-strokes` caps the whole run. The placer walks the layer list in order and
 stops there, so a low cap drops the late layers. It does not thin each layer.
-A trace layer keeps exactly its `count`, so the cumulative column says where any
-cap lands. Q is the value at the end of that layer, read from `report.txt`.
-Every number here is measured, on the published drawing.
+A layer without `stop` keeps exactly its `count`. The three colour layers carry
+`"stop": {"deficit": 4, "max_count": 9000}`, so 9000 is their cap and the
+cumulative column is an upper bound for them. Q is the value at the end of that
+layer, read from `report.txt`. Every number here is measured, on the apples
+drawing at seed 7.
 
-| Layer | `count` | Cumulative | Q after | What it adds |
+| Layer | strokes | Cumulative | Q after | What it adds |
 | --- | --- | --- | --- | --- |
-| sketch-lines | 600 | 600 | 0.61 | the construction lines |
-| light-colors | 3000 | 3600 | 0.56 | the pale fills |
-| mid-colors | 6000 | 9600 | 0.45 | the colour starts to read |
-| dark-colors | 5000 | 14600 | 0.37 | the darks |
-| outlines | 1800 | 16400 | 0.34 | the second outline pass |
-| border | 2200 | 18600 | 0.26 | the frame |
-| details | 2500 | 21100 | 0.25 | the small marks |
+| sketch-lines | 600 | 600 | 0.67 | the construction lines |
+| light-colors | 9000 max | 9600 | 0.56 | the pale fills |
+| mid-colors | 9000 max | 18600 | 0.47 | the colour starts to read |
+| dark-colors | 9000 max | 27600 | 0.40 | the darks |
+| outlines | 1800 | 29400 | 0.37 | the second outline pass |
+| border | 2200 | 31600 | 0.32 | the frame |
+| details | 2500 | 34100 | 0.31 | the small marks |
+
+All three colour layers ran to their 9000 cap on that drawing and still wanted
+more ink, so the run placed 34000 strokes and the cap cut the last 100 off
+`details`.
 
 The four painting styles iterate at `--max-strokes 3000`. For crayon that cap
 stops 2400 strokes into `light-colors`. It gives the outline pass and part of
 the pale fill: no mid tones, no darks, no second outline pass, no frame, no
-details. Q is 0.57 and the judge scores it 2 of 10. That is not a fast look at
-the drawing. It is a different, unfinished picture.
+details. That is not a fast look at the drawing. It is a different, unfinished
+picture.
 
-- 9600 is the smallest cap that shows the colour. It still has no darks and no
+- 18600 is the smallest cap that shows the colour. It still has no darks and no
   frame.
-- 18600 is the first honest look, because it ends with the border ring.
-- 21100, or no `--max-strokes` at all, is the result.
+- 31600 is the first honest look, because it ends with the border ring.
+- 34000, or no `--max-strokes` at all, is the result.
 
 `make_direction.py` prints where the cap lands, with this same cumulative list,
 in the `direction json` step of every crayon run. Change a `count` in
@@ -220,6 +226,11 @@ Timings on an idle M-series Mac, measured:
 A busy machine adds half again to the placer. The spread in the table is the
 load, not the direction.
 
+That table was measured before the colour layers stopped on ink density. A full
+run is now about 34000 strokes: the placer takes 5.8 minutes for them on an idle
+M-series Mac, measured, and the render, the video and the disk grow with the
+stroke count.
+
 The frames are the disk cost, and they grow with the ink on the sheet. The full
 run writes about 2450 frames and 7.2 GB. An 18600-stroke run writes 2315 frames
 and 6.8 GB, a 4000-stroke run 525 frames and 800 MB, and a 3000-stroke run 392
@@ -227,11 +238,16 @@ frames and 525 MB. `--tidy` removes them after the encode.
 
 The levers, per layer:
 
-- `count`: the strokes that colour group may keep. The seven layers carry
-  21100 strokes in all. `--max-strokes` cuts the run at that total, so a small
-  cap stops in the middle of the list and the late layers place nothing.
+- `stop`: `{"deficit": D, "max_count": N}` on the three colour layers. They draw
+  until the ink they still miss falls under D, not to a fixed stroke count. See
+  "Density stopping and deficit pressure" below.
+- `count`: the strokes a layer without `stop` may keep. `--max-strokes` cuts the
+  run at the total, so a small cap stops in the middle of the list and the late
+  layers place nothing.
 - `pressure`: 0.4 for the first construction lines, 1.0 for the outlines. It
-  scales the darkness rule, so a low value leaves a pale line.
+  scales the pressure rule, so a low value leaves a pale line.
+- `pressure_from`: `"deficit"` presses by the wax that is missing instead of by
+  the target's darkness. The three colour layers use it.
 - `size`: `[min, max]` in plan pixels. The distance transform of the pigment
   picks the size inside that range, mark by mark.
 - `paper_tol`: the Lab dE that separates pigment from paper, for the whole
@@ -250,10 +266,12 @@ on the direction, the rest on the layer:
 | `"region"` | where the layer may draw: `main` inside the frame, `border` the ring, `all` the sheet. `make_direction.py` builds the three from `border_frac`. |
 | `"size"` | `[min, max]` in plan pixels. The distance transform of the pigment picks the size inside that range, mark by mark. |
 | `"count"` | the strokes the layer may keep. A trace layer keeps all of them. |
+| `"stop"` | `{"deficit": D, "max_count": N}`: draw until the layer's ink deficit falls under D, at most N strokes. Replaces `"count"`. |
 | `"threshold"` | the smallest gain in Q that keeps a stroke. 0 keeps every stroke, which is what the colour layers want. |
 | `"color_group"` | `{"lightness": [lo, hi]}`, `{"hue": [lo, hi]}` or `{"outline": true}` |
 | `"group_slack"` | how far a stroke colour may sit outside its group, in L (default 8). Raise it when a layer drops many strokes, lower it to keep the groups apart. |
-| `"pressure"` | one number scales the darkness rule by p / 0.7. A `[lo, hi]` pair maps the darkness into that range instead. |
+| `"pressure"` | one number scales the pressure rule by p / 0.7. A `[lo, hi]` pair maps the rule's 0..1 reading into that range instead. |
+| `"pressure_from"` | `"darkness"` (the default) or `"deficit"`: press by the ink still missing, not by the target's darkness |
 | `"alpha"` | `[min, max]` opacity |
 | `"length"` | `[min, max]` path length, in multiples of `size` |
 | `"curvature"` | 0 to 1, how far the path may bend away from the flow |
@@ -263,6 +281,30 @@ on the direction, the rest on the layer:
 
 `value`, `saturation` and `jitter` work in a trace layer too, the same way as in
 a painting layer.
+
+### Density stopping and deficit pressure
+
+Ink is Lab dE from the paper colour: 0 on bare paper, 40 to 60 under a solid
+mark. A layer's deficit is the mean of `max(0, ink_target - ink_canvas)` over
+its own pixels, which are its region, the pigment mask and its colour group,
+both sides blurred by half the layer's stroke size. `"stop": {"deficit": D,
+"max_count": N}` makes the layer draw until that deficit falls under D, at most
+N strokes; the seeds then follow the deficit map, so the strokes go where the
+wax is missing, and the spacing mask starts each seed round empty because a
+second pass over an area is how a crayon builds up. The layer also stops on 50
+seeds in a row that no candidate improves, on `--max-strokes`, or on 60 rounds.
+`report.txt` gets a density table with the strokes kept, the deficit before and
+after and the stop reason, and the placer prints the same line per layer while
+it runs.
+
+`"pressure_from": "deficit"` changes what a stroke presses with. The old rule,
+still the default, reads the target alone: pressure = 0.4 + 0.6 * darkness. A
+mid tone on bare paper and the same tone over three passes then ask for the same
+light stroke, so a tan skin never gets past a wash. The deficit rule reads the
+ratio of missing ink to wanted ink at the seed, r, and presses
+`clamp(0.45 + 0.55 * r, 0.35, 1.0)`, scaled by the layer's `"pressure"` the same
+way. It presses hard while the paper still shows and eases off as the area
+fills.
 
 The crayon tool has two constants that live in two files:
 `CRAYON_DEPOSIT` (0.28, the wax one pass lays) and `CRAYON_SOFT` (0.30, the
@@ -289,14 +331,14 @@ measured numbers for the published portrait:
 | sketch | 0.26 | 0.24 |
 | crayon | 0.57, an unfinished picture | 0.25 |
 
-A full run is the default 15000 cap for the four painting styles, and 21100
+A full run is the default 15000 cap for the four painting styles, and 34000
 strokes for crayon. A 3000-stroke run of a painting style scores 0.03 to 0.14
 worse. That is the budget, not a fault in the direction. Another photo moves the
 whole column.
 
 crayon is the odd row. 3000 strokes buy it two of its seven layers, so 0.57
 measures a different picture, not a rougher one. Compare a crayon run only with
-another at 18600 or more. "The stroke budget" above has the numbers.
+another at 31600 or more. "The stroke budget" above has the numbers.
 
 Two runs of one style at one budget still differ by about 0.02, because Gemini
 makes a new style target every run. `--skip-target` reuses the target already in
@@ -338,7 +380,7 @@ not the number: compare the new 3000-stroke run with the last 3000-stroke run.
 
 That holds for the four painting styles. crayon is the exception: 3000 strokes
 stop in the second of its seven layers, so the run shows no mid tones, no darks
-and no frame at all. Iterate a crayon layer at 18600 and read "The stroke
+and no frame at all. Iterate a crayon layer at 31600 and read "The stroke
 budget" above.
 
 ## A new photo
