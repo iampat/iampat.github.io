@@ -46,7 +46,7 @@
    "image": "apples/sketch.jpg",
    "video": "apples/sketch.mp4",
    "poster": "apples/sketch.poster.jpg",
-   "ready": false
+   "ready": true
   },
   {
    "version": "v4",
