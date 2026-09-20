@@ -16,7 +16,7 @@
    "image": "apples/oil.jpg",
    "video": "apples/oil.mp4",
    "poster": "apples/oil.poster.jpg",
-   "ready": false
+   "ready": true
   },
   {
    "version": "v4",
