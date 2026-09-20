@@ -125,7 +125,7 @@
       return;
     }
 
-    fetch("gallery.json")
+    fetch(document.getElementById("versions").getAttribute("data-manifest") || "gallery.json")
       .then(function (res) {
         if (!res.ok) throw new Error("bad response");
         return res.json();

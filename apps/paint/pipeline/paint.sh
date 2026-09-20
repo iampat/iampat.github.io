@@ -6,6 +6,7 @@
 #   --seed N          the placer seed (default 7)
 #   --skip-target     use a target image already in place, and skip Gemini
 #   --no-judge        skip the Gemini judge (the only language-model step)
+#   --regions FILE    a regions file for this photo (default: the template's own)
 #   --tidy            remove the video frames at the end (1.5 GB, 7.2 GB crayon)
 #   --log FILE        send every line of output to FILE instead of the terminal
 #
@@ -81,12 +82,14 @@ SKIP_TARGET=0
 TIDY=0
 LOG=""
 NO_JUDGE=0
+REGIONS=""
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --max-strokes) MAX_STROKES="$2"; shift 2 ;;
         --seed) SEED="$2"; shift 2 ;;
         --skip-target) SKIP_TARGET=1; shift ;;
         --no-judge) NO_JUDGE=1; shift ;;
+        --regions) REGIONS="$2"; shift 2 ;;
         --tidy) TIDY=1; shift ;;
         --log) LOG="$2"; shift 2 ;;
         -h|--help) usage ;;
@@ -252,7 +255,8 @@ step "direction json"
 DIRECTION="$RUN/direction.json"
 "$PY" "$PIPELINE_DIR/make_direction.py" --style "$STYLE" --target "$TARGET_PLAN" \
     --reference "$PHOTO_PLAN" --out "$DIRECTION" \
-    ${MAX_STROKES:+--max-strokes "$MAX_STROKES"} ${SEED:+--seed "$SEED"}
+    ${MAX_STROKES:+--max-strokes "$MAX_STROKES"} ${SEED:+--seed "$SEED"} \
+    ${REGIONS:+--regions "$REGIONS"}
 done_step direction
 
 # ---------------------------------------------------------------- 5. the strokes
