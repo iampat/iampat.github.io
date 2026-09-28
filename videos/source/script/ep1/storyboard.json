@@ -1,0 +1,1218 @@
+{
+  "title": "Three Spins and a Line",
+  "logline": "Alone on a floodlit pitch at nine at night, a young player misses a shot against a goalkeeper they imagined out of chalk. One line drawn on the ball shows the spin behind every fix: a slow backward roll for the laces drive, sideways for the curler, forward for the volley, backward for the bonus chip, and almost none for a knuckleball teaser. Each chapter ends with body cues, the classic mistake and a solo drill for the next practice, and the bonus chip gets its own practice card.",
+  "characters": [
+    {
+      "name": "Tavi (the player, spoken to only as 'you')",
+      "design": "Right-footed 14-year-old, about 5.5 heads tall, built only from rounded rectangles and circles (corner radius at least 15% of the short side, no outlines). Teal shirt #3FE0D0 with darker teal shade shapes and one orange chest band #FF7A3D that rhymes with the line on the ball. Shorts #232B5C, teal socks, chalk-white boots #F4F1E8 with a pale lace zone. Warm brown skin #A0673F with one shade #7E4E2F. Rounded cloud-tuft hair in #232B5C. Two oval eyes #151A3D and a small mouth dash. Eyes grow 10% for surprise. Rig: 2-bone IK arms and legs, pelvis turn, spine lean. Idle breathing loop 2-4 px, 3 s. Keyed poses: idle, walk, drop_ball, draw_line, approach, plant, backswing, whip, contact_drive, follow_through, lean_back, curl_wipe, thigh_lift, volley_set, volley_contact, chip_stab, knuckle_stab, shout, fist_out, shrug, pick_up_walk.",
+      "role": "The viewer's stand-in. The narrator never says the name. Tavi misses the first shot, solves one problem per chapter, shows every mistake, fix and drill, and replays the first shot correctly at the end."
+    },
+    {
+      "name": "Chalk (the imagined goalkeeper)",
+      "design": "Tall capsule-shaped keeper made of pitch paint. Chalk white #F4F1E8 with one pale shade tone and a faint 3% dusty grain. Huge rounded mitten gloves. Two dot eyes #151A3D and short eyebrow dashes that carry every expression. No outlines, no mouth. He builds out of the goal line: the line lifts (trim path), folds and morphs into his body. At the end he sinks back into it. Each move gives off 8-12 chalk-dust particles. Poses: rise, ready, arms_crossed, reach_big, dive_left, dive_right, punch_clear, catch, rush_out, draw_wall, shuffle, lean_wrong, confused, squint, sink.",
+      "role": "The deadpan problem-setter. He never speaks and he learns after each goal. Chapter 1: he stands big in the middle. Chapter 2: he draws a chalk wall and guards the near post. Chapter 3: he punches the ball clear, then rushes out for the chip. Teaser: he cannot read the knuckleball at all."
+    },
+    {
+      "name": "The Ball and its Line (motif)",
+      "design": "Orange ball #FF7A3D in every palette, with a darker crescent shade and a light rim on the lit edge. Tavi draws one chalk-white line around it in the cold open. The line is a true 3D great circle, projected every frame from the spin state, so every kind of spin reads on screen: slow backward roll (drive), sideways turn that is anticlockwise seen from above, with the front edge swinging left (curler), forward roll (volley), faster backward roll on a slow ball (chip), almost still (knuckleball). The ball squashes on contact. A ghost variant is a dashed outline at 40% with no line.",
+      "role": "The motif. Planted in the cold open ('Remember that line'), it shows the spin in every chapter. It pays off in the ending ('It told you everything') and in the teaser, where the line hardly turns."
+    },
+    {
+      "name": "The Air Crowd",
+      "design": "Tiny round particles with two dot eyes, #7FB8FF in the X-ray palette and #F4FBFF in the Open Sky palette. They move in streams. Small #FF4FA3 puffs pop where they bump into each other. Faces show only in close-ups. In wide shots they are plain moving dashes.",
+      "role": "The metaphor for air. The crowd rushes past the ball, gets thrown aside by a spinning ball and shoves back. Used for sideways spin, the forward-spin dive, the chip float and the knuckleball flag."
+    }
+  ],
+  "component_kit": [
+    {
+      "name": "World",
+      "props": "{ palette: 'Floodlit Pitch'|'Open Sky'|'X-ray Physics'|'Title'; view: 'side'|'top'|'behind'|'pov'|'wide'|'aerial'; camera: {x:number; y:number; zoom:number}; floodlights?: {onFrame:number; offFrame?:number}[]; clock?: {hour:number; minute:number}; wallTape?: {height:0.5}; carPark?: {x:30.1; alarmFrame?:number; hazardFrame?:number}; cityLights?: boolean; starSeed:number; parallax?: [0.2,0.5,1,1.3]; metresToPx?: 60 }",
+      "notes": "One canvas in metres (x toward the goal, y left, z up) for every pitch and sky view, so sim paths drop in with no hand fitting. Floodlit Pitch: sky #151A3D, stands #232B5C, mowing stripes #0F5A45/#177A58, chalk #F4F1E8, floodlights #FFD166 with 4 glow rings of #FFE9B0 (radius x1.5 each, 20/12/6/3%). The stand has a clock (9:00 in s01, 9:30 in s23) and a concrete wall with knee-height tape. Behind the goal: a low fence, and a car park at the MISS landing spot 12 m past the goal line. Open Sky: gradient #1A4FA3 to #4A93E6 to #9FD8F5, clouds #F4FBFF/#C7E3F5, labels and arrows #1B2A6B. Keep the orange path in the upper band, with a #FFF4D6 core on the pale horizon. X-ray Physics: #06202A with a #0F3A47 grid (60 px) and 3 dust layers. Title: #151A3D base. 3-layer star field with offset twinkle. Idle loops 2-6 px, 2-4 s, random phase. No outlines."
+    },
+    {
+      "name": "CameraRig",
+      "props": "{ keys: {frame:number; x:number; y:number; zoom:number; rot?:number}[]; ease: 'easeInOutSine'|'criticalSpring'; zoomThrough?: {target:[number,number]; toScale:number; frames:number} }",
+      "notes": "Push-ins of 5-15% over 4-8 s with cubic-bezier(0.37,0,0.63,1) or a critically damped spring (stiffness 80, damping 17.9). Zoom-throughs carry the scale shifts: stadium to boot, boot to air, air to sky, pitch to city lights (0.8-1.5 s). Never snap. At most one hard cut every 10-15 s. Keys follow Whisper word timestamps from the TTS audio."
+    },
+    {
+      "name": "Goal",
+      "props": "{ view: 'side'|'front'|'top'|'pov'; width: 7.32; barHeight: 2.44; netRipple?: {frame:number; y:number; z:number}; reachBubble?: {side:'full'|'near'; opacity:number} }",
+      "notes": "Chalk-white posts and bar. The net is a soft grid. The ripple is a damped sine that starts on the frame the sim ball crosses the line. The reach bubble shows what Chalk covers."
+    },
+    {
+      "name": "Player",
+      "props": "{ pose: 'idle'|'walk'|'drop_ball'|'draw_line'|'approach'|'plant'|'backswing'|'whip'|'contact_drive'|'follow_through'|'lean_back'|'curl_wipe'|'thigh_lift'|'volley_set'|'volley_contact'|'chip_stab'|'knuckle_stab'|'shout'|'fist_out'|'shrug'|'pick_up_walk'; t:number; facing: 1|-1; leanDeg:number; standingFoot: {along:number; beside:number; toeYawDeg:number}; ankle:'locked'|'loose'; toes:'down'|'up'; swingArc?: {show:boolean; lowPointX:number}; speech?: string; ghost?: boolean; eyeScale?: number; mirror?: boolean }",
+      "notes": "Tavi. 2-bone IK. Kick overlap: standing foot, hip, knee, foot, 3-5 frames apart. Hold the key pose 20 frames before contact. The contact frame is the FlightSim start frame. swingArc draws the playground-swing arc from the hip. speech pops a bubble with the snappy spring. mirror flips the rig for the 'Left-footed? Flip it.' beat. Idle breathing 2-4 px, 3 s. The narration always says 'standing foot', never 'plant'."
+    },
+    {
+      "name": "Keeper",
+      "props": "{ pose: 'rise'|'ready'|'arms_crossed'|'reach_big'|'dive_left'|'dive_right'|'punch_clear'|'catch'|'rush_out'|'draw_wall'|'shuffle'|'lean_wrong'|'confused'|'squint'|'sink'; t:number; build:number; reactionDelayFrames:number; eyeScale?: number }",
+      "notes": "Chalk. build runs 0 to 1: the goal-line stroke lifts (trim path) and morphs into the body. Reversed, he sinks back. Every move gives off 8-12 chalk-dust particles. Dive side and timing read the sim ball position, so saves (TOE_HIT, CURLER_AIM_MISS) and late dives stay honest. Eyes grow 10% for shock."
+    },
+    {
+      "name": "Props",
+      "props": "{ kind: 'chalkWall'|'disc'|'flag'|'cone'|'bag'|'tape'|'targetBox'; x:number; y:number; build?:number; crumble?:number; count?:number; height?:number; text?:string }",
+      "notes": "Small chalk-white pitch objects. chalkWall: 4 chalk defenders, 1.8 m tall, 9.15 m from the ball. They rise from a toe-drawn line and crumble into dust. disc is the standing-foot marker, flag the aim-off point, bag the kit-bag drill marker (on the target line at 10 m in s12). cone is the tall-cone option named on the s12 board."
+    },
+    {
+      "name": "Ball",
+      "props": "{ radiusPx:number; spinAxis:[number,number,number]; spinRps:number; timeScale:number; phase:number; squash?: {amount:number; dir:number}; line:boolean; ghost?: boolean; arrows?: 'none'|'spin'; arrowColor?: string }",
+      "notes": "#FF7A3D in every palette, with a crescent shade and a rim light. The line is a 3D great circle projected every frame from the spin state. Its plane sits 60 deg off the spin axis, so any spin shows. Use the same spinAxis as the FlightSim shot. The curler reads anticlockwise seen from above (front edge swings left). Never describe it as a clock hand. At 30 fps, show fast spin only at timeScale 1/10 or slower, to avoid strobing. Ghost: dashed outline at 40%, no line. Spin arrows are lime #B6F24A, or blue #4A93E6 (chip) and orange (volley) in the mirror."
+    },
+    {
+      "name": "FlightSim",
+      "props": "{ name: string; v0:number; elevDeg:number; azimDeg:number; z0?:number; spinRps:number; spinAxis:[number,number,number]; cd:number; clFixed?:number; spinPush?: boolean; sideForce?: {peakN:number; wavelengthM:number; phase:number}; stopAt: 'goalLine'|'ground'|number; startFrame:number; slowMo?:number }",
+      "notes": "useFlight hook. Point mass 0.43 kg, radius 0.11 m, air 1.2 kg/m3, area 0.038 m2, gravity 9.81. Ball on the ground starts at z0 0.11 m. Air brake = 0.5*rho*A*Cd*v^2 against the velocity. Spin push = 0.5*rho*A*Cl*v^2 along unit(spinAxis x velocity), with Cl = min(0.35, 0.5*sqrt(r*omega/v)) unless clFixed is set. Spin decays 2%/s. sideForce (knuckle only) is a sine along the path. Integrate at dt 1/600 s and sample at 60 fps. Axis vectors, for a shot a degrees right of +x (heading (cos a, -sin a, 0)): backspin = -(sin a, cos a, 0), topspin = +(sin a, cos a, 0). Per shot: MISS, DRIVE_WALL, CHIP, CHIP_GHOST [0,-1,0]; DRIVE_R and TOE_HIT (a 8.5) [-0.148,-0.989,0]; DRIVE_L (a -8.5) [0.148,-0.989,0]; VOLLEY (a 10) [0.174,0.985,0]; CURLER (a 8) = 0.891 x [0,0,1] - 0.454 x (sin 8, cos 8, 0) = [-0.063,-0.450,0.891]; CURLER_AIM_MISS (a 0) [0,-0.454,0.891]. Named shots: MISS, DRIVE_R, DRIVE_L, DRIVE_WALL, TOE_HIT, CURLER, CURLER_AIM_MISS, DROP, VOLLEY, VOLLEY_GHOST, EASY, SMASH, BOUNCE_DRILL, CHIP, CHIP_GHOST, KNUCKLE (values in each scene; all checks were run again in this model). Precompute every shot to JSON in a build step. A validator checks each scene's stated values (height at the line within 0.1 m, side position within 0.1 m, time within 0.05 s). It also checks the signs: backspin pushes up, VOLLEY pushes down and CURLER pushes toward +y (left). So calculateMetadata never throws. The ball in flight moves on linear time with no design ease. Slow motion only when labelled."
+    },
+    {
+      "name": "Trajectory",
+      "props": "{ samples: Vec3[]; progress:number; style: 'solid'|'dotted'|'ghost'; color:string; view: 'side'|'top'|'pov'; startLine?: boolean; brackets?: {atM:number; label?:string}[]; circle?: boolean; highlight?: {fromM:number; toM:number} }",
+      "notes": "Draws a sim path with @remotion/paths evolvePath. Ghosts at 30%. startLine draws the dashed launch line. Brackets measure the gap or dip from the samples and are never typed by hand. circle extends a curler into its full faint circle at true scale. highlight glows part of a path (the second half in s11). This replaces the separate aim guide."
+    },
+    {
+      "name": "XRayLeg",
+      "props": "{ view: 'side'|'top'|'behind'; mode: 'whip'|'contact'|'ankle'|'curl'|'volley'|'chip'|'knuckle'; ankle: 'locked'|'loose'; toes: 'down'|'up'; contact: 'mid-laces'|'toe'|'inside-right-of-centre'|'low'|'centre'; timeScale:number; glow?: {thigh?:number; shin?:number}; tags?: {joint:'knee'|'toe'; text:string; icon:'bike'|'car'}[]; morph?: 'whip'|'hammer'|'racket'; mirror?: boolean }",
+      "notes": "Bones glow #C9F6FF, soft tissue #2A7F8F at 40-60%, active muscle #FF4FA3. A loose ankle gives toward more toes-down, the true direction, and costs only a little speed. Morphs use interpolatePath between matched point counts: whip, loose-headed hammer, tennis racket. The curl wipe moves forward and to the right, toward the aim-off flag, and drags the back of the ball to the right."
+    },
+    {
+      "name": "AirFlow",
+      "props": "{ mode: 'top'|'side'; flowSpeed:number; particles:number; faces?: boolean; coat?: boolean; spinDir:number; hugSide?: 'left'|'right'|'top'|'bottom'; wakeAngleDeg:number; bumpPuffs?: boolean; flap?: {ampDeg:number; hz:number}; seed:number }",
+      "notes": "The Air Crowd, 300-400 particles. #7FB8FF in X-ray, #F4FBFF in Open Sky. faces adds two dot eyes for close-ups. Bump puffs #FF4FA3. Top views put the flight toward the top of the frame, so the with-flow side of an anticlockwise ball is screen-left. Sideways spin: the side moving with the flow holds it longer, the wake swings the other way, and the ball moves toward the with-flow side. Forward spin: flick up, push down. Backward spin: flick down, push up. Knuckle: the wake flaps like a flag."
+    },
+    {
+      "name": "ForceArrow",
+      "props": "{ origin: [number,number]; angleDeg:number; lengthRatio:number; color:string; label?: 'weight'|'side push'|'float'|'dive'|'air' }",
+      "notes": "lengthRatio 1 = ball weight. The shaft draws in 24 frames, the head pops in 8 (easeOutBack), the label pops 5 frames later. Plain-word labels only. Lengths follow the verified ratios: side push about 1/2, volley dive about 1/3, chip float about 1/4."
+    },
+    {
+      "name": "HUD",
+      "props": "{ kind: 'stopwatch'|'tag'|'bars'|'counter'|'dots'|'timeline'|'meter'; value?:number; unit?:string; icon?:string; bars?: {label:string; value:number; color:string}[]; dots?: {total:507; lit:96; cols:39}; showDigits?: boolean; font: 'JetBrains Mono'|'Barlow Condensed'|'Space Grotesk' }",
+      "notes": "Counting digits in JetBrains Mono so they do not jitter. Only verified numbers, always with '≈'. The contact stopwatch stops at 0.009 s in s02. The s04 speed tag reads '≈ 67 km/h' with '≈ 42 mph' under it (club players, age 12), on a ghost ball beside Tavi. bars cover foot vs ball, speed vs spin and the '-15% (toe hit)' bar. dots is the volley goal share (visual only in s13) and needs its source caption. meter is the top-of-bounce hover meter and the drill power meter."
+    },
+    {
+      "name": "MetaphorInset",
+      "props": "{ kind: 'trolley'|'trampoline'|'hammer'|'skateboard'|'rampCars'|'wheelRamp'|'thumb'|'flag'|'bike'|'car'; progress:number; anchor: [number,number]; frame: 'card'|'none' }",
+      "notes": "A rounded card with one small parametric SVG per metaphor, 6 rounded shapes or fewer. Each metaphor appears once, then a cut back to the pitch shows the payoff. The trolley is about four times the ball's weight, so the ball leaves only a little faster. The same drawings serve as mini icons on the PracticeBoard and HUD tags."
+    },
+    {
+      "name": "ChapterCard",
+      "props": "{ variant: 'title'|'chapter'|'spinRow'|'end'; index?:number; title?:string; subtitle?:string; surface: 'grass'|'sky'; writeOnFrames:number; slots?: {spin:'slow'|'side'|'forward'|'back'|'none'|'?'; icon:string}[] }",
+      "notes": "Chalk letters #F4F1E8 in Rubik 800 (96-120 px), underline #FF7A3D, glow #FFD166, written on the grass like pitch paint. Chapter subtitles: 'slow spin', 'sideways spin', 'forward spin'. spinRow draws the ending's chalk boxes with a Ball in each. Entrance 0.4-0.5 s decelerate, exit 0.2-0.3 s accelerate. No Nexa, no Montserrat, no copied layout."
+    },
+    {
+      "name": "Caption",
+      "props": "{ text: string; anchor: [number,number]; variant: 'label'|'note'|'source'|'stamp'; pop: 'soft'|'snappy' }",
+      "notes": "4 words max for labels. Nunito 700 for labels, Atkinson Hyperlegible for notes and sources. Soft pop: spring stiffness 120, damping 14. Snappy: stiffness 300, damping 20. No technical terms in any label. Real terms appear only on a WordCard."
+    },
+    {
+      "name": "PracticeBoard",
+      "props": "{ cues?: {icon:string; text:string}[]; mistake?: string; fix?: string; drill?: {text:string; icon:string}; safety?: string; note?: string; activeIndex:number; layout: 'board'|'stamp' }",
+      "notes": "One layout for every practical beat, so viewers learn the 'use this' moment. 3 cues max. Stamps: MISTAKE #FF4FA3, FIX #3FE0D0, DRILL #FFD166, CUE #F4F1E8, 8-frame pop with overshoot. activeIndex follows word timestamps. Wall drills (s07, s18) show: 'Solid wall, no windows. Nobody near the wall. Pick a spot far from roads and parked cars. Jog and pass easy for 5 minutes. Start at half power.' Goal drills (s12, the rope-on-a-goal option in s07 and the chip card in s20) show: 'Nobody in or behind the goal. Pick a spot far from roads and parked cars. Jog and pass easy for 5 minutes. Start at half power.' The drive board cues are 'Run-up at an angle', 'Hand-width beside ball' and 'Toes down, locked'. The volley board cues are 'Eyes on the ball', 'Arms out wide' and 'Knee over ball'. The drive board also shows the note 'No wall? Tie a rope across a goal at knee height.'"
+    },
+    {
+      "name": "SplitScreen",
+      "props": "{ left: ReactNode; right: ReactNode; divider:number; merge:number; dial?: number }",
+      "notes": "The divider draws with a trim path. merge (0-1) slides both halves into one ball. dial runs -1 (backward, float) to +1 (forward, dive) and swaps the spin arrows and paths between CHIP and VOLLEY. Chip on the left, volley on the right."
+    },
+    {
+      "name": "WordCard",
+      "props": "{ term: string; meaning: string; anchor: [number,number]; holdFrames: number; icon?: 'arrowBack'|'arrowForward'|'boot'|'spinPush' }",
+      "notes": "The one place a real term appears on screen. It pops on the term's word timestamp with the snappy spring. Chalk card #F4F1E8 on a soft #151A3D plate. Term in Rubik 800 with the orange underline #FF7A3D, plain meaning under it in Nunito 700. Hold 2-2.5 s, then shrink to a small chip in the frame corner. Used once per learn-word, at its first use: instep (s05), backspin (s06), Magnus effect (s10), topspin (s16). Spin words describe how the top of the ball turns. Caption labels stay plain words."
+    }
+  ],
+  "learn_words": [
+    {
+      "term": "instep",
+      "meaning": "the laces part of your foot, not the inside",
+      "scene": "s05"
+    },
+    {
+      "term": "backspin",
+      "meaning": "the top of the ball turns back toward you as it flies",
+      "scene": "s06"
+    },
+    {
+      "term": "Magnus effect",
+      "meaning": "the spin push: air shoves a spinning ball sideways, up or down",
+      "scene": "s10"
+    },
+    {
+      "term": "topspin",
+      "meaning": "the top of the ball turns toward the goal as it flies",
+      "scene": "s16"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "s01",
+      "chapter": "Cold open",
+      "palette": "Floodlit Pitch",
+      "narration": "Nine at night. An empty pitch. <short pause> Just you, one ball, and a keeper in your head. His name is Chalk. <short pause> You draw one line around the ball. Remember that line. <short pause> You shoot. <long pause> Over the bar. <short pause> You shout at it. It doesn't listen. <short pause> Chalk doesn't even move.",
+      "word_count": 46,
+      "est_seconds": 20.4,
+      "visual_beats": [
+        "[1 s silent pre-roll] Dark sky #151A3D with a 3-layer star field. Four floodlights clunk on one after another. Each blooms 4 glow rings in 0.4 s.",
+        "'Nine at night.' Slow push (easeInOutSine, 8% over 5 s) past the stand. The stand clock shows nine.",
+        "'An empty pitch.' Wide side view in 4 parallax layers (0.2x, 0.5x, 1x, 1.3x). Dust drifts in the light beams. Behind the goal: a low fence and a dark car park.",
+        "'Just you, one ball,' Tavi walks in from the left and drops the ball 18 m out. Two small sim bounces, then it settles.",
+        "'and a keeper in your head.' The goal-line paint peels up, folds and builds into Chalk (trim path 0.8 s, then morph). He blinks awake.",
+        "'His name is Chalk.' Chalk claps his mittens and a puff of chalk dust rises. Label 'CHALK' pops.",
+        "'You draw one line around the ball.' Top-down close-up: a marker draws one white line all the way round the orange ball (trim path, 30 frames).",
+        "'Remember that line.' The line glows once. Everything else dims by 20%.",
+        "'You shoot.' Side view. Three-step run-up from a slight angle, with a long last stride. The standing foot lands behind the ball. Tavi's chest stays behind the ball (lean_back). Contact.",
+        "[long pause] The ball climbs on the MISS sim. In a tracking close-up the line rolls backward. The camera tilts up after it.",
+        "'Over the bar.' The ball clears the bar by about half a metre and drops over the fence into the car park. A faint car alarm chirps once.",
+        "'You shout at it.' Speech bubble from Tavi: 'DOWN! DOWN!' (snappy pop).",
+        "'It doesn't listen.' The car alarm chirps again. The bubble shrinks away.",
+        "'Chalk doesn't even move.' The camera eases back to Chalk: arms crossed, one eyebrow up, feet exactly where they were."
+      ],
+      "components": [
+        "World",
+        "CameraRig",
+        "Player",
+        "Keeper",
+        "Ball",
+        "FlightSim",
+        "Trajectory",
+        "Goal",
+        "Caption"
+      ],
+      "transition_out": "Zoom-through: the camera rushes back to the spot and into Tavi's boot at the contact frame. The frame freezes and s02 opens on it.",
+      "facts_used": [
+        "No narrated numbers. Bar height 2.44 m in the sim comes from 'A full-size goal is 7.32 m wide and 2.44 m high' (chip safe list).",
+        "'clears the bar by about half a metre' (visual) is sim geometry: ball centre about 3.06 m, ball bottom about 2.95 m, bar 2.44 m."
+      ],
+      "physics_sim": "MISS: start 18 m out, central, z0 0.11 m. 21 m/s (76 km/h), 18 deg up, 0 deg sideways. Backspin 5 rev/s, spinAxis [0,-1,0] (top of the ball turning back toward the kicker). Cd 0.25, Cl from the kit model (about 0.20 at launch, lift about 1.9 N). Checks: ball centre about 3.06 m high at the goal line after about 1.05 s (ball bottom about 2.95 m, so it clears the bar by about 0.5 m). Peak about 3.1 m. Lands about 30 m from the kick (12 m past the goal line) after about 1.9 s. Put the car park at that spot and fire the alarm on the landing frame. Control check for s20: the same launch with no spin crosses at about 1.25 m, under the bar.",
+      "sfx": [
+        "floodlight clunk x4 with a rising electrical hum",
+        "soft footsteps on grass",
+        "two ball-drop thuds",
+        "chalk scrape and dust puff",
+        "marker squeak",
+        "run-up footsteps",
+        "dull, slightly wrong contact thump",
+        "airy whoosh fading upward",
+        "far car alarm chirp, twice",
+        "speech-bubble pop",
+        "tiny comic whistle on Chalk"
+      ]
+    },
+    {
+      "id": "s02",
+      "chapter": "Cold open (question and title)",
+      "palette": "Title",
+      "narration": "What went wrong? <short pause> Your foot touches the ball for about a hundredth of a second. After that, it's on its own. <short pause> Three kicks tonight, one idea: spin. How much, which way, or none at all. <short pause> By lights out, you'll score this shot.",
+      "word_count": 42,
+      "est_seconds": 18.7,
+      "visual_beats": [
+        "'What went wrong?' Rewind: the MISS sim plays backward. The ball drops out of the sky onto Tavi's boot.",
+        "'Your foot touches the ball for about a hundredth of a second.' Freeze at contact, the ball slightly squashed on the laces. HUD stopwatch (JetBrains Mono) creeps from 0.000 to 0.009 s.",
+        "'After that, it's on its own.' Unfreeze. A dotted tether between boot and ball snaps with a small spark. A fan of faint orange ghost paths (30%) sprays out from the contact point: low, curling, dipping, floating.",
+        "'Three kicks tonight,' Three paths brighten. Small icons tag them: laces, inside of foot, volley.",
+        "'one idea: spin.' A lime spin arrow draws around the ball and the line starts to turn.",
+        "'How much, which way,' The arrow speeds up, then flips its axis through four states: slow back, sideways, forward, back (0.5 s each).",
+        "'or none at all.' The arrow fades and the line almost stops. One beat of silence.",
+        "'By lights out, you'll score this shot.' The ghost fan fades. One dotted path (DRIVE_L preview) skims low into the bottom-left corner. A tiny floodlight icon in the frame corner blinks off once.",
+        "[2.5 s hold] The camera cranes up to top-down. The pitch markings slide into the title 'THREE SPINS AND A LINE' in chalk letters (Rubik 800) with an orange underline. Original title sting."
+      ],
+      "components": [
+        "CameraRig",
+        "Player",
+        "Ball",
+        "HUD",
+        "FlightSim",
+        "Trajectory",
+        "ChapterCard"
+      ],
+      "transition_out": "The title letters slide back into pitch markings. The camera tilts down to the ball spot, where chalk writes chapter card 1 on the grass.",
+      "facts_used": [
+        "'about a hundredth of a second' <- 'Foot and ball touch for only about 9 thousandths of a second (9.1 ms at 1000 Hz, 9.12 ms at 4500 fps)' (drive) and 'In a real curve kick, the foot touches the ball for only about 10 thousandths of a second (9.6 to 12 ms, measured at 2500 frames per second)' (curler). 'About' holds for both.",
+        "Stopwatch stops at 0.009 s because the shot on screen is a laces kick (drive value, about 9 ms).",
+        "Cut for the word budget: 'That tiny moment decides everything.' The ghost fan now plays under 'After that, it's on its own.'"
+      ],
+      "physics_sim": "MISS samples in reverse. Ghost fan at 30%: DRIVE_R, CURLER, VOLLEY and CHIP, all redrawn from one contact point. Promise path: DRIVE_L samples, dotted.",
+      "sfx": [
+        "reverse whoosh",
+        "clock tick on the freeze",
+        "tiny snap for the tether",
+        "soft shimmer as the ghost paths fan out",
+        "three light pops on the icons",
+        "spin whirr that changes pitch with each axis",
+        "silence",
+        "soft blip as the floodlight icon blinks",
+        "original title sting, 2.5 s rising three-note figure"
+      ]
+    },
+    {
+      "id": "s03",
+      "chapter": "Ch1 The Drive",
+      "palette": "Floodlit Pitch",
+      "narration": "Problem one: a shot Chalk can't reach. Low and hard. <short pause> Weird fact: after a clean strike, the ball can fly faster than your foot. How?",
+      "word_count": 25,
+      "est_seconds": 11.1,
+      "visual_beats": [
+        "[1 s card] Chalk writes '1 · THE DRIVE' on the grass, subtitle 'slow spin'. The card's ball line rolls slowly backward.",
+        "'Problem one: a shot Chalk can't reach.' Chalk stands tall in the goal with arms wide. A pale reach bubble covers the middle of the goal.",
+        "'Low and hard.' Two small target boxes glow in the bottom corners, outside the bubble.",
+        "'Weird fact:' Side view of Tavi at the ball. A chalk '!' pops.",
+        "'after a clean strike, the ball can fly faster than your foot.' Slow-motion replay (tag 'SLOW MOTION'). HUD bars ride along: FOOT (teal) and BALL (orange). After contact the BALL bar passes the FOOT bar. No digits.",
+        "'How?' A big chalk question mark. Chalk peeks round the post and scratches his head. The camera starts its push toward the boot."
+      ],
+      "components": [
+        "ChapterCard",
+        "World",
+        "Keeper",
+        "Goal",
+        "Player",
+        "Ball",
+        "HUD",
+        "Caption",
+        "CameraRig"
+      ],
+      "transition_out": "Push into the boot. The boot turns see-through and the X-ray leg builds inside it (match morph, 1 s).",
+      "facts_used": [
+        "No spoken number. 'faster than your foot' <- 'A skilled adult sends the ball about 1.35 times faster than the centre of the foot moves' and 'Strike quality rises with age: the ball/foot speed ratio goes from about 1.0 at U9 to 1.26 at U20.' The word 'can' covers younger players.",
+        "Subtitle 'slow spin' <- 'A normal laces drive spins about 4 turns per second' (the knuckleball, at about 0.9, is the one that almost stops)."
+      ],
+      "physics_sim": "Slow-motion replay: the first 0.25 s of DRIVE_R at 1/10 speed. The foot-speed bar reads from the rig.",
+      "sfx": [
+        "chalk scratching for the card",
+        "soft pops on the target boxes",
+        "slow-motion drone",
+        "two rising whooshes for the bars",
+        "short question sting"
+      ]
+    },
+    {
+      "id": "s04",
+      "chapter": "Ch1 The Drive",
+      "palette": "X-ray Physics",
+      "narration": "First, the whip. Your thigh swings, slows, and flings your shin forward. <short pause> Then, the trampoline. The ball squashes and springs back. Your leg is way heavier, so the ball bounces off faster than your foot. <short pause> Club players your age shoot about sixty-seven kilometres an hour.",
+      "word_count": 45,
+      "est_seconds": 20.0,
+      "visual_beats": [
+        "'First, the whip.' X-ray leg on the teal-ink grid (#06202A, grid #0F3A47). Bones glow #C9F6FF. Label 'WHIP' pops.",
+        "'Your thigh swings, slows, and flings your shin forward.' At 1/20 speed the thigh glows pink #FF4FA3 and swings. As it slows, the pink glow fades from the thigh and a pulse of light runs down to the shin, which snaps forward. No brake icon: the leg keeps swinging through the ball. The leg morphs into a bullwhip for 0.8 s and back. The toes glow much brighter than the knee (no digits on the leg).",
+        "'Then, the trampoline.' The ball turns into a cutaway with a small trampoline inside.",
+        "'The ball squashes and springs back.' The ball flattens a few centimetres against the laces. The mat stretches, then flings. A thin timer ring fills around the ball.",
+        "'Your leg is way heavier, so the ball bounces off faster than your foot.' Inset: a heavy trolley, about four times the ball's weight, bumps a ball, which bounces off a little faster than the trolley moves. Back in X-ray, the ball leaves with a slightly longer arrow than the foot's arrow.",
+        "'Club players your age shoot about sixty-seven kilometres an hour.' A dashed ghost foot beside Tavi kicks a ghost ball. A HUD speed tag rides with the ghost ball and counts up to '≈ 67 km/h', with '≈ 42 mph' in smaller type under it. Small note: 'club players, age 12'. A tiny town car rolls along the bottom of the frame, and the ghost ball overtakes it (no speed sign, no digits)."
+      ],
+      "components": [
+        "World",
+        "XRayLeg",
+        "Ball",
+        "HUD",
+        "MetaphorInset",
+        "ForceArrow",
+        "Caption"
+      ],
+      "transition_out": "Pan down the X-ray leg to the ankle. A divider draws in and splits the frame in two.",
+      "facts_used": [
+        "'about sixty-seven kilometres an hour' <- 'Trained 12-year-olds kick at about 18.5 m/s at full power, 14-year-olds at about 21 m/s, and 16-year-olds at about 22.6 m/s' (18.5 m/s ≈ 67 km/h) and 'Youth shot speeds: about 67 km/h at U13, 77 km/h at U15, 81 km/h at U17'. 'Club players your age' = trained players of about 12, the U13 value. The tag rides on a ghost ball, because Tavi is 14 and his own drives run at about 78 km/h (U15).",
+        "'≈ 42 mph' (visual only) is a unit change of 67 km/h (41.6 mph) for North American viewers.",
+        "Town car (visual only, no digits, no words) is general knowledge: town speed limits are usually 50 km/h (30 mph) or lower, less than 67 km/h.",
+        "'slows' <- drive cue 'Swing from the hip, snap from the knee. Keep the knee relaxed so the thigh leads and the shin whips' and 'Do not slow the leg down before contact. Swing through the ball.' The thigh slows as the shin whips, but no one tells a player to stop the leg, so the brake icon is gone.",
+        "Toes glow brighter than the knee (visual only, no digits) <- 'At impact the toe area moves at about 22 m/s (79 km/h), but the knee moves at only about 5 m/s (17 km/h).' These are skilled-adult values, so no number is spoken or shown.",
+        "Squash (visual only) <- 'The ball squashes by about 3 to 7 cm, depending on how it is measured.'",
+        "Timer ring (visual only) <- 'Foot and ball touch for only about 9 thousandths of a second.'",
+        "'way heavier, so the ball bounces off faster than your foot' plus the trampoline follow the drive mechanism correction: the ball beats the foot only because the effective striking mass (about 1.7-2.1 kg) is several times the ball's mass AND the ball springs back. It holds for club players of 12 and up: 'the ball/foot speed ratio goes from about 1.0 at U9 to 1.26 at U20.' Whip and trampoline come before the speed, so the speed is credited to both.",
+        "Trolley at about four times the ball (visual only) <- the same 1.7-2.1 kg against a 0.43 kg ball."
+      ],
+      "physics_sim": "",
+      "sfx": [
+        "sub-drop into slow motion",
+        "low swoosh of the thigh, then a whip crack",
+        "soft trampoline boing",
+        "trolley bump and a light ball tap",
+        "soft counter tick-up on the speed tag",
+        "small car hum passing"
+      ]
+    },
+    {
+      "id": "s05",
+      "chapter": "Ch1 The Drive",
+      "palette": "X-ray Physics",
+      "narration": "A floppy ankle is a hammer with a loose head. Some of the hit leaks away. <short pause> So: toes down, ankle locked. Hit with the middle of your laces. That's your instep. Hit near your toes, and it's about fifteen percent slower.",
+      "word_count": 41,
+      "est_seconds": 18.2,
+      "visual_beats": [
+        "'A floppy ankle is a hammer with a loose head.' Split screen with two X-ray ankles side by side. Left: the foot morphs into a hammer whose head hangs on a hinge.",
+        "'Some of the hit leaks away.' Left: at impact the toes are pushed further down and the hinge folds. A few orange leak puffs escape. The ball's arrow is only a little shorter than on the right.",
+        "'So: toes down, ankle locked.' Right: the toes point down, a lock icon snaps onto the ankle, and foot and shin glow as one piece. Two labels pop in order: TOES DOWN · ANKLE LOCKED.",
+        "'Hit with the middle of your laces.' A green band marks the middle of the laces. Label: MIDDLE OF LACES.",
+        "'That's your instep.' The whole laces zone glows under the green band.",
+        "WordCard: \"instep\" = \"the laces part of your foot, not the inside\". A chalk card pops on the word 'instep' beside the X-ray foot and holds 2 s. A small cross flashes over the inside of the foot on the card.",
+        "'Hit near your toes, and it's about fifteen percent slower.' The contact dot slides to the toes. A speed bar drops, with the label '−15% (toe hit)'. Floodlit inset: the slower TOE_HIT ball arrives low and late, and Chalk's diving mitten meets it. Saved. Then a ghost of the full-speed DRIVE_R slips past the same mitten into the net."
+      ],
+      "components": [
+        "SplitScreen",
+        "XRayLeg",
+        "Ball",
+        "MetaphorInset",
+        "Caption",
+        "HUD",
+        "Keeper",
+        "Goal",
+        "FlightSim",
+        "Trajectory",
+        "WordCard"
+      ],
+      "transition_out": "Reverse zoom-through: pull back out of the boot to a side-on view of the pitch.",
+      "facts_used": [
+        "'about fifteen percent' <- 'The fastest spot is the middle of the laces, about 6 cm in front of the ankle joint. Contact at the toes or at the ankle gave about 15% less speed.'",
+        "Small loss on the loose-ankle side (no number spoken) <- 'In a kicking machine, a locked ankle gave about 4% more ball speed than a springy one.' The loose ankle folds toes-down, the direction given in the drive mechanism correction. The -15% label sits only on the toe-contact beat, so viewers do not mix the two.",
+        "Learn-word 'instep' (first use, WordCard) = 'the laces part of your foot, not the inside'. The narration says 'laces' first, because most coaches say 'laces' and some players use 'instep' for the inside of the foot.",
+        "Cut for the word budget: 'Chalk gets there.' The save stays on screen."
+      ],
+      "physics_sim": "Inset save: TOE_HIT = 18.4 m/s (66 km/h, 15% slower than DRIVE_R), 14 deg up, 8.5 deg right. Backspin 4 rev/s, spinAxis [-0.148,-0.989,0]. Cd 0.25. It crosses about 2.7 m right of centre, about 0.35 m high, after about 1.17 s (peak about 1.45 m). That is about 0.2 s after DRIVE_R, so Chalk's dive with the same reaction delay reaches it. The full-speed ghost is DRIVE_R (s07).",
+      "sfx": [
+        "hinge creak",
+        "soft leak hiss",
+        "lock click",
+        "clean thump",
+        "mitten slap",
+        "net swish"
+      ]
+    },
+    {
+      "id": "s06",
+      "chapter": "Ch1 The Drive",
+      "palette": "Floodlit Pitch",
+      "narration": "Your foot swings like a playground swing, flat only at the bottom. Meet the ball there. <short pause> So put your standing foot beside the ball, toes at the goal. Put it behind, and your kicking foot is already rising. Hello, car alarm. <short pause> Kicking knee and chest over the ball. Eyes on it. Strike through the middle. <short pause> The line turns slowly backward: a little backspin.",
+      "word_count": 63,
+      "est_seconds": 28.0,
+      "visual_beats": [
+        "'Your foot swings like a playground swing,' Side-on pitch view, Tavi at the ball. The swing arc draws from the hip and a small swing seat rides along it.",
+        "'flat only at the bottom.' A chalk dot marks the low point. A flat arrow appears there.",
+        "'Meet the ball there.' The low point slides onto the ball and the dot turns into a small target.",
+        "'So put your standing foot beside the ball, toes at the goal.' A flat disc marker lands beside the ball. A small hand icon measures the gap: one hand's width. A small arrow on the standing foot's toes points at the goal. The low point of the arc sits right at the ball.",
+        "'Put it behind, and your kicking foot is already rising.' The disc slides back and the low point moves back with it. The foot meets the ball on the way up (red arrow tilts up).",
+        "'Hello, car alarm.' A dotted ghost (the MISS path) clears the bar and drops over the fence onto a car roof. The alarm chirps and the hazard lights blink. It pays off the alarm from s01.",
+        "'Kicking knee and chest over the ball.' The disc returns. Tavi's kicking knee glows briefly, then knee and chest move over the ball and the shin stands upright.",
+        "'Eyes on it.' A thin dotted sight line runs from Tavi's eyes to the ball and holds through contact.",
+        "'Strike through the middle.' A ring target on the ball, contact at the centre. An effort bar fills almost all SPEED with only a thin SPIN sliver. After contact, Tavi lands on his kicking foot one step past the ball.",
+        "'The line turns slowly backward: a little backspin.' Tracking close-up of DRIVE_R at 1/10 speed. The line rolls slowly backward. Label: 'slow spin'.",
+        "WordCard: \"backspin\" = \"the top of the ball turns back toward you as it flies\". A chalk card pops on the word 'backspin' beside the close-up. A small arrow on the card curls backward over the top of the ball. Holds 2 s."
+      ],
+      "components": [
+        "World",
+        "Player",
+        "Props",
+        "Ball",
+        "FlightSim",
+        "Trajectory",
+        "HUD",
+        "Goal",
+        "Caption",
+        "WordCard"
+      ],
+      "transition_out": "The blinking hazard lights turn into the pop-in of the PracticeBoard (0.3 s swipe).",
+      "facts_used": [
+        "No spoken number. 'The line turns slowly backward: a little backspin' <- 'A normal laces drive spins about 4 turns per second.' Learn-word 'backspin' (first use, WordCard), meaning from the verified jargon map: 'the top of the ball turns back toward you'.",
+        "Swing and standing-foot cue <- drive cue 'Plant the standing foot beside the ball, toes to the target, with a comfortable gap (about a boot-width to a hand-span). This puts the bottom of your swing arc at the ball, so the foot moves level at contact.' and the confirmed coaching verdict 'Plant behind = ball rises'. The hand's-width gap is shown, not spoken, for the word budget.",
+        "'Kicking knee and chest over the ball' <- drive cue 'Knee over the ball, chest over the ball at contact.' 'Eyes on it' <- drive cue 'Eyes on the ball at contact and head still.'",
+        "Landing on the kicking foot (visual only) <- volley fix 'Kick through the ball. Finish with the foot toward the target and land on the kicking foot.' It is shown, not spoken, for the word budget.",
+        "Effort bar, almost all SPEED (visual only) <- 'A computer model showed that a centre hit gives about 26 m/s with almost no spin.' No digits."
+      ],
+      "physics_sim": "Ghost (standing foot behind) = MISS: 21 m/s, 18 deg up, backspin 5 rev/s, spinAxis [0,-1,0], Cd 0.25. About 3.06 m high at the goal line, lands about 30 m from the kick in the car park. Solid = DRIVE_R (see s07). Spin close-up: 4 rev/s at 1/10 speed.",
+      "sfx": [
+        "playground-swing creak",
+        "disc sliding on grass",
+        "tiny tick as the hand icon measures",
+        "rising whoosh for the ghost",
+        "car alarm chirp",
+        "clean thump",
+        "landing step",
+        "slow airy whirr"
+      ]
+    },
+    {
+      "id": "s07",
+      "chapter": "Ch1 The Drive (practice)",
+      "palette": "Floodlit Pitch",
+      "narration": "Classic mistake: toes up, so the ball hits your toes. Point your toes down, lock your ankle, then swing. <short pause> Solo drill: tape a line across a wall at knee height. From ten big steps, shoot ten under it. Start at half power. <short pause> Now, for real. <short pause> Chalk dives. Too late.",
+      "word_count": 49,
+      "est_seconds": 21.8,
+      "visual_beats": [
+        "'Classic mistake: toes up, so the ball hits your toes.' The PracticeBoard slides in with three cues: 'Run-up at an angle', 'Hand-width beside ball', 'Toes down, locked'. A pink MISTAKE stamp. A mini Tavi strikes with the toes up. The toe tip meets the ball, and the small '−15%' chip from s05 pops.",
+        "'Point your toes down, lock your ankle, then swing.' A teal FIX stamp. The toes point down and a lock clicks. Caption: 'point, lock, swing'.",
+        "'Solo drill: tape a line across a wall at knee height.' The camera pans to the concrete wall under the stand, in the same world. Tavi sticks tape across it at knee height (trim path). DRILL stamp. Board note: 'No wall? Tie a rope across a goal at knee height.' The goal safety line shows under that note.",
+        "'From ten big steps, shoot ten under it.' Tavi paces ten big steps back (tiny step counter). Each run-up starts from a slight angle. Balls thump the wall under the tape and leave hit marks. One ball rolls along the grass and its mark greys out. HUD counter ends at 7/10. Board note: 'Rollers don't count. 7 of 10? Step back. Then 5 with your other foot.'",
+        "'Start at half power.' A power meter on the board fills to half and locks. Wall safety line: 'Solid wall, no windows. Nobody near the wall. Pick a spot far from roads and parked cars. Jog and pass easy for 5 minutes. Start at half power.'",
+        "'Now, for real.' Pan back to the goal. Tavi on the 18 m spot. Chalk crouches.",
+        "'Chalk dives. Too late.' DRIVE_R skims low into the right corner. Chalk dives 12 frames late and lands flat. Net ripple and a chalk-dust puff. 1 s hold."
+      ],
+      "components": [
+        "PracticeBoard",
+        "Player",
+        "World",
+        "CameraRig",
+        "Keeper",
+        "Goal",
+        "Ball",
+        "FlightSim",
+        "Trajectory",
+        "HUD"
+      ],
+      "transition_out": "The net ripple wipes across the frame. Behind it, chalk writes chapter card 2 on the grass.",
+      "facts_used": [
+        "'toes up, so the ball hits your toes' <- volley mistake 'Floppy ankle or toes up: ... Toes up also tilts the laces face upward, so the ball climbs. Toe contact gave about 15% less speed than the middle of the laces.' The -15% chip reuses the s05 fact; no number is spoken here.",
+        "'ten big steps' (about 8-10 m), 'shoot ten under it', the 7-of-10 level-up, the other-foot note and the rope note are practice instructions from the drive drill 'Knee-height target band: tape a line or hang a rope at about 50-60 cm ... From 8-12 m, drive stationary balls under the line.' They are not facts.",
+        "Run-up cue on the board <- drive cue 'Approach from an angle (about 30-45 degrees) in 3-4 steps with a longer last stride ... so the toes can point down without hitting the ground.' Hand-width cue <- 'about a boot-width to a hand-span'.",
+        "'Start at half power' and both safety lines are PracticeBoard safety rules, not facts.",
+        "Sim speed 78 km/h <- 'Youth shot speeds: about 67 km/h at U13, 77 km/h at U15, 81 km/h at U17'."
+      ],
+      "physics_sim": "DRIVE_WALL (x10): from 10 m, 20 m/s (72 km/h), 5-6 deg up, backspin 4 rev/s, spinAxis [0,-1,0], Cd 0.25. It hits the wall at about 0.14-0.31 m, under the 0.5 m tape. DRIVE_R (goal): 18 m out, central. 21.7 m/s (78 km/h), 9 deg up, 8.5 deg right. Backspin 4 rev/s, spinAxis [-0.148,-0.989,0], Cd 0.25. Crosses about 2.7 m right of centre (post at 3.66 m), about 0.43 m high, after about 0.97 s. Peak about 1.0 m.",
+      "sfx": [
+        "board slide",
+        "stamp thud",
+        "lock click",
+        "tape rip",
+        "step ticks",
+        "ten wall thumps with counter ticks",
+        "meter click",
+        "crouch rustle",
+        "hard, clean thump",
+        "ball hiss",
+        "body flop on grass",
+        "net swish"
+      ]
+    },
+    {
+      "id": "s08",
+      "chapter": "Ch2 The Curler",
+      "palette": "Floodlit Pitch",
+      "narration": "Problem two. He builds a wall and guards the near post. <short pause> You need a ball that starts wide and bends back. You need sideways spin.",
+      "word_count": 25,
+      "est_seconds": 11.1,
+      "visual_beats": [
+        "[1 s card] Chalk writes '2 · THE CURLER' on the grass, subtitle 'sideways spin'.",
+        "'Problem two.' Chalk taps his head and a small chalk light bulb pops above it.",
+        "'He builds a wall' Top-down. He drags one toe across the grass 9.15 m from the ball. The mark rises into four chalk defenders.",
+        "'and guards the near post.' Chalk shuffles to the near post. His reach bubble covers the near half of the goal. A dashed straight path from the ball hits the wall and snaps. Red cross.",
+        "'You need a ball that starts wide and bends back.' A dotted curve (CURLER preview) starts outside the far post and bends back inside it.",
+        "'You need sideways spin.' Top-view close-up of the ball. The line turns anticlockwise seen from above: its front edge swings left. Lime arrows show the same direction."
+      ],
+      "components": [
+        "ChapterCard",
+        "World",
+        "Keeper",
+        "Props",
+        "Goal",
+        "Trajectory",
+        "Ball"
+      ],
+      "transition_out": "Zoom into the inside of Tavi's boot. The X-ray foot builds, seen from above.",
+      "facts_used": [
+        "No numbers. Spin direction <- verified curler note: 'A right-footer's inside-foot curler spins anticlockwise from above and bends right to left.'",
+        "Cut for the word budget: 'Chalk learns fast.' The light-bulb gag carries it."
+      ],
+      "physics_sim": "Dotted preview only: CURLER samples (see s11).",
+      "sfx": [
+        "chalk writing",
+        "light-bulb ping",
+        "chalk scrape and four soft pops for the wall",
+        "shuffle steps",
+        "snap on the dashed path",
+        "spin whirr"
+      ]
+    },
+    {
+      "id": "s09",
+      "chapter": "Ch2 The Curler",
+      "palette": "X-ray Physics",
+      "narration": "New kick, new rule. Inside of your foot. This time, toes up, but the ankle stays locked: a firm, flat face. <short pause> Hit just right of centre. Wrap your foot around the ball, out to the right. Left-footed? Flip it.",
+      "word_count": 39,
+      "est_seconds": 17.3,
+      "visual_beats": [
+        "'New kick, new rule.' A chalk card flips from the chapter 1 laces icon to an inside-of-foot icon.",
+        "'Inside of your foot.' X-ray foot seen from above. The contact zone glows along the inside of the foot, between the big-toe joint and the inner arch.",
+        "'This time, toes up, but the ankle stays locked: a firm, flat face.' Side inset: the toes lift and turn out a little, a lock icon snaps on, and the inside of the foot shows as a flat plate.",
+        "'Hit just right of centre.' View from behind the ball. The back of the ball splits in two. The right half glows green, with the contact dot just right of the middle.",
+        "'Wrap your foot around the ball, out to the right.' One sweep arrow moves forward and to the right, toward the aim-off flag, at about 45 degrees to the foot's face. It moves one way only. It pulls the back of the ball to the right. Ultra slow motion: the ball squashes around the inner arch and leaves turning.",
+        "'Left-footed? Flip it.' The whole diagram mirrors left to right for 1 s, then flips back.",
+        "[0.5 s hold] The contact dot slides further out. An effort bar splits: SPIN grows as SPEED shrinks. Label: 'more spin, less speed'. No digits."
+      ],
+      "components": [
+        "XRayLeg",
+        "Ball",
+        "MetaphorInset",
+        "HUD",
+        "Caption"
+      ],
+      "transition_out": "Follow the spinning ball off the foot and zoom through its skin into the air around it (scale shift from boot to air, 0.8 s).",
+      "facts_used": [
+        "No numbers. 'toes up, but the ankle stays locked' <- curler research cue 'Lock the ankle, toes up and slightly out ... A firm foot passes more of the swing into the ball.' 'New kick, new rule' tells viewers that the chapter 1 'toes up' mistake is about the laces drive only.",
+        "Contact zone (visual) <- curler cue 'Contact with the inside of the foot, between the big-toe joint and the inner arch.'",
+        "'just right of centre' and the sweep direction <- verified curler note (anticlockwise from above, so the back of the ball moves to the right, seen from behind). No offset in cm is spoken, per the curler correction ('a few centimetres off centre, on the far half').",
+        "'Wrap your foot around the ball' <- national FA coaching advice for the curled pass: 'wrap the kicking foot around the far side of the ball with the instep'. 'out to the right' gives the direction that the wiper picture left open.",
+        "'more spin, less speed' (label only) <- 'A computer model showed that a centre hit gives about 26 m/s with almost no spin. Moving the contact 8 cm to the side gives about 18.5 m/s and about 10 turns per second.' The spoken line 'The catch? More spin, less speed.' is cut for the word budget."
+      ],
+      "physics_sim": "",
+      "sfx": [
+        "soft X-ray hum",
+        "card flip",
+        "lock click",
+        "split chime",
+        "one-way sweep swish",
+        "mirror flip whoosh",
+        "bar whirr"
+      ]
+    },
+    {
+      "id": "s10",
+      "chapter": "Ch2 The Curler",
+      "palette": "X-ray Physics",
+      "narration": "Air rushes past the ball like a crowd. <short pause> The spinning ball grabs the air and flings it to one side. Throw air one way, get shoved the other way. <short pause> That's the Magnus effect: the spin push.",
+      "word_count": 36,
+      "est_seconds": 16.0,
+      "visual_beats": [
+        "'Air rushes past the ball like a crowd.' The Air Crowd, top view, with the ball flying toward the top of the frame. Hundreds of #7FB8FF particles with dot eyes stream from top to bottom past it.",
+        "'The spinning ball grabs the air' A thin ring of particles turns with the ball, anticlockwise, with lime spin arrows. Left side: the ring and the crowd move the same way, and the streams wrap far round the back. Right side: particles bump with small #FF4FA3 puffs and break away early.",
+        "'and flings it to one side.' The wake of swirls swings to the right. A big blue arrow labelled 'air' rides on it.",
+        "'Throw air one way,' Inset: a skateboarder throws a heavy ball to the right.",
+        "'get shoved the other way.' The skateboarder rolls left. Back on the ball, a smaller orange arrow pushes it left. A WEIGHT arrow points down beside it. The side push starts at about half its length (sim value at launch, no digits, no text).",
+        "'That's the Magnus effect: the spin push.' The orange arrow gets the label 'spin push'. Chalk pops in at the frame edge and squints at the arrows.",
+        "WordCard: \"Magnus effect\" = \"the spin push: air shoves a spinning ball sideways, up or down\". A chalk card pops on 'Magnus effect' in the top corner of the X-ray frame and holds 2.5 s. Three tiny arrows on the card point left, up and down."
+      ],
+      "components": [
+        "World",
+        "AirFlow",
+        "Ball",
+        "ForceArrow",
+        "MetaphorInset",
+        "Keeper",
+        "Caption",
+        "WordCard"
+      ],
+      "transition_out": "Pull back out of the air and rise past the floodlights. The night sky warms into the Open Sky palette for a top-down flight map (1.2 s).",
+      "facts_used": [
+        "Direction <- verified curler mechanism note: 'The side that moves with the air separates later, the wake goes the other way, and the ball moves toward the with-flow side.' 'grabs the air and flings it to one side' is the plain version of the jargon map 'Downwash (deflected wake): the air trail thrown to one side by the spin'. 'Throw air one way, get shoved the other way' <- 'Push air one way, and the air pushes the ball the other way.' The wake story avoids the Bernoulli-only error, per the curler misconception note. The word 'drag' is not used.",
+        "Side-push arrow at about half the WEIGHT arrow (visual only, no text) <- 'The sideways push on a 19 m/s curler is about 2 newtons, roughly half the weight of the ball.' 19 m/s is an adult-level curler, not a U13 speed, so the number is no longer spoken. The arrow is the CURLER sim value at launch (about 2.1 N).",
+        "Learn-word 'Magnus effect' (first and only use, WordCard) = 'the spin push: air shoves a spinning ball sideways, up or down'. The card covers the later uses: down in s16 and up in s19. Name only; 'Magnus studied the effect in 1852' is not narrated.",
+        "Moved: 'all flight long' now lives in s11 as 'They bend about the same the whole way', so s10 ends on the term."
+      ],
+      "physics_sim": "No flight. Air flow around a ball held in a 19 m/s stream, spin 7 rev/s anticlockwise seen from above. The ball flies toward the top of the frame, so the with-flow side is screen-left. The wake is drawn about 10-15 deg toward the against-flow side (a drawing value, not narrated).",
+      "sfx": [
+        "murmuring crowd-of-air texture",
+        "soft hiss that follows the streams",
+        "small bump pops",
+        "turbulent flutter",
+        "whoosh to the right",
+        "skateboard roll",
+        "arrow pop",
+        "small chalk squeak for Chalk"
+      ]
+    },
+    {
+      "id": "s11",
+      "chapter": "Ch2 The Curler",
+      "palette": "Open Sky",
+      "narration": "Curlers seem to bend late. They don't. They bend about the same the whole way. <short pause> But the gap from a straight line grows faster and faster. From twenty metres, the gap is almost three metres. <short pause> So to the keeper, it looks late.",
+      "word_count": 42,
+      "est_seconds": 18.7,
+      "visual_beats": [
+        "'Curlers seem to bend late.' Keeper's-eye view: the ball comes straight, then seems to swerve late. A '!' pops.",
+        "'They don't.' The camera rises to top-down. The whole path shows as one smooth curve, a slice of a huge faint circle drawn at true scale (about 150 m across) that runs off the frame.",
+        "'They bend about the same the whole way.' A small curve gauge rides along the path. Its needle stays almost still. A small orange side-push arrow rides with the ball and stays on from the kick to the goal.",
+        "'But the gap from a straight line grows faster and faster.' A dashed launch line drops in like a ruler. Gap brackets pop at 5, 10, 15 and 20 m, each much bigger than the last (measured from the samples). The 20 m bracket splits into four copies of the 10 m bracket. The second half of the path glows: it fills about three quarters of the 20 m bracket.",
+        "'From twenty metres, the gap is almost three metres.' The last bracket gets the label '≈ 2.7 m'. A goal frame tips 90 degrees and lies beside the bracket. The bracket is longer than the goal is tall.",
+        "'So to the keeper, it looks late.' Night keeper POV: a ghost ball flies the straight line Chalk expects, and the real ball peels away late. Chalk's eyes grow 10%."
+      ],
+      "components": [
+        "World",
+        "CameraRig",
+        "Trajectory",
+        "FlightSim",
+        "Ball",
+        "Goal",
+        "Keeper",
+        "Caption"
+      ],
+      "transition_out": "Dive down along the curve into the night. The camera lands top-down over the floodlit pitch, on the same path.",
+      "facts_used": [
+        "'They don't. They bend about the same the whole way.' and the still curve gauge <- curler correction: 'the bend stays about the same tightness; the drift looks late mainly because of geometry'. The side-push arrow that stays on <- 'In flight, a curler lost about 22% of its speed in one second, but only about 2% of its spin.'",
+        "'grows faster and faster' and the bracket split and second-half glow (visual only) <- 'Drift grows with the square of distance. Twice the distance gives four times the drift, and about three quarters of the drift happens in the second half.'",
+        "'From twenty metres, the gap is almost three metres' <- 'A curler bends along a very large circle, about 150 m across. So a 20 m curler drifts about 2.7 m from the line it started on.'",
+        "Goal frame beside the bracket (visual only) <- 'A full-size goal is 7.32 m wide and 2.44 m high.' 2.7 m is more than the bar height (and more than the 2.13 m U11-U14 bar).",
+        "'it looks late' (no number) <- 'After the ball clears the wall, the keeper has only about 0.45 seconds.'"
+      ],
+      "physics_sim": "CURLER (right foot): 20 m out, left channel. 19 m/s (68 km/h), 20 deg up, 8 deg right of the target line. 7 rev/s, spinAxis [-0.063,-0.450,0.891] (tilted 63 deg from horizontal: mostly anticlockwise from above, part backspin). Cd 0.27, Cl from the kit model, spin decay 2%/s. Checks: spin push at launch about 2.1 N (about half the 4.2 N weight). Gap from the launch line about 0.7 m at 10 m and about 2.7 m at 20 m. About 2.3 m high at the 1.8 m wall at 9.15 m. Crosses the line on target after about 1.3 s at about 1.1 m. POV ghost: same launch, spin push off.",
+      "sfx": [
+        "bright airy pad",
+        "swerve whoosh",
+        "gauge tick",
+        "ruler clack",
+        "bracket pops rising in pitch",
+        "two pops",
+        "clunk as the goal frame tips",
+        "soft glow swell",
+        "surprised chalk squeak"
+      ]
+    },
+    {
+      "id": "s12",
+      "chapter": "Ch2 The Curler (practice)",
+      "palette": "Floodlit Pitch",
+      "narration": "From twenty metres, aim about three metres outside the far post. Point your standing foot there. Closer to goal? Aim less wide. <short pause> Classic mistake: aiming straight at the post. The spin pulls it back to Chalk. <short pause> Solo drill: put your bag halfway to the goal. Curl ten balls around it. <short pause> Starts wide. Comes home.",
+      "word_count": 54,
+      "est_seconds": 24.0,
+      "visual_beats": [
+        "'From twenty metres, aim about three metres outside the far post.' The PracticeBoard slides in. Top-down pitch, ball on the 20 m spot. A small flag plants itself about 2.7 m outside the far post. Board label: '≈ 3 big steps'.",
+        "'Point your standing foot there.' CUE stamp. Tavi's standing foot turns like a compass needle and points at the flag. A short launch arrow runs toward it.",
+        "'Closer to goal? Aim less wide.' The ball slides to a 10 m spot. The flag slides in to about 0.7 m outside the post.",
+        "'Classic mistake: aiming straight at the post.' MISTAKE stamp. Back at 20 m. A ghost ball launches straight at the far post.",
+        "'The spin pulls it back to Chalk.' It bends back toward the middle and crosses about 2.7 m inside the far post. Chalk steps across and catches it. A drift bracket shows the 2.7 m.",
+        "'Solo drill: put your bag halfway to the goal.' DRILL stamp. Tavi drops his kit bag at 10 m on the dashed straight line to the far post. Board note: 'Start near the edge of the box. No bag? Use a tall cone or a corner flag. Count how many go in.' Goal safety line: 'Nobody in or behind the goal. Pick a spot far from roads and parked cars. Jog and pass easy for 5 minutes. Start at half power.'",
+        "'Curl ten balls around it.' Ghost curlers pass beside the bag and bend into the goal. A fast counter ticks 1 to 10.",
+        "'Starts wide.' Behind-the-ball view. The real curler starts outside the far post and clears the chalk wall.",
+        "'Comes home.' It bends inside the far post. Chalk leans the wrong way. The net ripples and the chalk defenders crumble into dust. 1 s hold."
+      ],
+      "components": [
+        "PracticeBoard",
+        "World",
+        "Player",
+        "Props",
+        "Keeper",
+        "Goal",
+        "Ball",
+        "FlightSim",
+        "Trajectory",
+        "HUD"
+      ],
+      "transition_out": "The chalk dust swirls across the grass and settles as chapter card 3.",
+      "facts_used": [
+        "'From twenty metres, aim about three metres outside' <- 'a 20 m curler drifts about 2.7 m from the line it started on' and 'To land on target from 20 m, the ball must start about 7 to 8 degrees outside the target line.' 'From twenty metres' stays, because the drift is 2.7 m only at 20 m.",
+        "'Closer to goal? Aim less wide.' and the 0.7 m flag <- 'Drift grows with the square of distance. Twice the distance gives four times the drift' (2.7 m / 4 ≈ 0.7 m at 10 m).",
+        "Board label '≈ 3 big steps' is a practice unit (a big step for a 12-14-year-old is about 0.8-1 m, as in s07), not a fact.",
+        "Mistake direction <- verified curler note: the curler 'bends right to left', so a ball aimed at the far post bends back toward the middle.",
+        "Sim spin 7 rev/s <- 'University players' curlers left the foot at about 20 to 24 m/s (70 to 87 km/h) and spun 3 to 12 times each second. Most spun about 7 to 9 times.'",
+        "Drill <- curler research drill 'Pole bend gate'. The bag replaces the tall cone, because most players own a bag and flat discs, not tall cones. 'ten balls', the start spot and the count are practice instructions, not facts."
+      ],
+      "physics_sim": "CURLER (s11) for the real kick. Drill ghosts: CURLER samples. The bag sits on the target line at 10 m, where the path runs about 0.7 m to its side. CURLER_AIM_MISS: same speed, angle and spin, spinAxis [0,-0.454,0.891], launched straight at the far post (0 deg). It crosses the line about 2.7 m inside the far post (toward the middle), about 1.0 m high, after about 1.34 s.",
+      "sfx": [
+        "board slide",
+        "flag thunk",
+        "compass tick",
+        "flag slide",
+        "stamp thud",
+        "miss whoosh",
+        "mitten catch thump",
+        "soft bag thump",
+        "ten soft brushing thumps",
+        "curl hiss",
+        "net swish",
+        "chalk crumble"
+      ]
+    },
+    {
+      "id": "s13",
+      "chapter": "Ch3 The Volley",
+      "palette": "Floodlit Pitch",
+      "narration": "Problem three. Chalk punches it clear. You pop it up off your thigh. <short pause> Now hit it before it lands.",
+      "word_count": 19,
+      "est_seconds": 8.4,
+      "visual_beats": [
+        "[1 s card] Chalk writes '3 · THE VOLLEY' on the grass, subtitle 'forward spin'.",
+        "'Problem three. Chalk punches it clear.' Tavi shoots. Chalk punches the ball back out toward Tavi (punch_clear).",
+        "'You pop it up off your thigh.' Tavi cushions the ball up off his thigh to about 2 m. It falls straight down in front of him (DROP sim).",
+        "'Now hit it before it lands.' Freeze mid-fall. A small chalk arrow points from the ball to Tavi's laces.",
+        "[2.5 s hold, music only] HUD dot grid: 507 small dots fill row by row over the frozen scene, and 96 light orange. Label '≈ 1 in 5 goals'. Source caption: 'Volleys and half-volleys · 2018 + 2022 World Cups, Euro 2020 + 2024 · no penalties · StatsBomb open data'. One lit dot grows into a mini replay of a volley that dips under a bar."
+      ],
+      "components": [
+        "ChapterCard",
+        "World",
+        "Player",
+        "Keeper",
+        "Ball",
+        "FlightSim",
+        "HUD",
+        "Caption"
+      ],
+      "transition_out": "The dots dissolve into dust that falls with the ball. Time slows almost to a stop.",
+      "facts_used": [
+        "'Now hit it before it lands' is the plain meaning of a volley <- 'A volley is struck first time as the ball drops out of the air. Hit it on the bounce and it is a half-volley (England Football).'",
+        "Dot grid (visual only, no narrated number) <- 'At the 2018 and 2022 World Cups and Euro 2020 and 2024, about 1 in 5 non-penalty goals (96 of 507) came from volleys or half-volleys (StatsBomb open data).' On screen: 507 dots, 96 lit. The spoken version is cut for the word budget. The caption keeps 'no penalties' and names the four tournaments, so it never says 'the last two'.",
+        "Self-set drop keeps the verified speed: 'A ball dropped from about head height reaches knee height at about 17-20 km/h.' A punched ball that falls from a 5-8 m peak would arrive at about 35-45 km/h (volley correction), so the volley no longer comes straight off the punch."
+      ],
+      "physics_sim": "Punch: keyed arc, no sim (Chalk's punch carries the ball out to Tavi). DROP: after the thigh lift, the ball starts at rest 2.0 m up and falls with drag. It reaches knee height (0.4 m) after about 0.57 s at about 20 km/h (5.6 m/s). The mini replay in the dot is VOLLEY (see s16).",
+      "sfx": [
+        "chalk writing",
+        "mitten punch thump",
+        "soft thigh cushion",
+        "rising then falling whistle",
+        "time-stretch whoosh",
+        "rising dot ticks",
+        "soft chime on the lit dots",
+        "tiny net swish"
+      ]
+    },
+    {
+      "id": "s14",
+      "chapter": "Ch3 The Volley",
+      "palette": "Floodlit Pitch",
+      "narration": "The ball keeps falling while you swing. <short pause> So set your standing foot early, beside where it will drop. Start your swing early. Hit it at knee height or lower.",
+      "word_count": 29,
+      "est_seconds": 12.9,
+      "visual_beats": [
+        "'The ball keeps falling while you swing.' Time almost freezes. X-ray inset: a ghost ball where the ball was when the final whip started, and the real ball at contact. The gap bracket is wider than the ball. No digits.",
+        "'So set your standing foot early, beside where it will drop.' A disc lands beside the drop spot before the ball arrives. A small arrow on its toes points at the goal. Small clock icon: 'early'.",
+        "'Start your swing early.' The final whip starts while the ball is still about 37 cm above knee height, more than one and a half ball widths. A ghost ball marks where it was.",
+        "'Hit it at knee height or lower.' A dashed knee-height line glows. Contact happens on the line, with the kicking knee over the ball. Label: 'knee height or lower'."
+      ],
+      "components": [
+        "World",
+        "Player",
+        "Ball",
+        "HUD",
+        "XRayLeg",
+        "Props",
+        "Caption"
+      ],
+      "transition_out": "Zoom into the shin and foot. The X-ray foot morphs into a tennis racket.",
+      "facts_used": [
+        "'The ball keeps falling while you swing' and the ghost-ball gap (visual only, no number) <- 'In a full-power kick at a still ball, the last whip of the leg, from full knee bend to impact, takes about 70 thousandths of a second (20 elite players)' and 'A ball dropped from about head height reaches knee height at about 17-20 km/h. In the last 70 ms it falls about 30-37 cm.' The ball is about 22 cm wide. Nobody has measured volley timing, so no timing claim is spoken.",
+        "'Hit it at knee height or lower' <- volley cue 'Let it drop: for a front-on volley, wait until the ball is below knee height (US Youth Soccer).' It replaces 'while it's still above your knee', which players can hear as 'hit it above your knee'.",
+        "Standing-foot cue and the toe arrow at the goal (visual) <- volley cue 'Set early: plant the standing foot beside where the ball will land, toes at the target.'"
+      ],
+      "physics_sim": "DROP samples. Ghost marker at the ball's position 70 ms before contact: about 0.37 m higher.",
+      "sfx": [
+        "time-stretch whoosh",
+        "disc pop",
+        "clock tick",
+        "swing whoosh"
+      ]
+    },
+    {
+      "id": "s15",
+      "chapter": "Ch3 The Volley",
+      "palette": "X-ray Physics",
+      "narration": "Your instep is a tennis racket. Toes down, and it tilts forward. Lean back, and the ball flies over.",
+      "word_count": 19,
+      "est_seconds": 8.4,
+      "visual_beats": [
+        "'Your instep is a tennis racket.' The X-ray shin and foot morph into a racket. The laces become the strings.",
+        "'Toes down, and it tilts forward.' The racket face tilts forward. The launch arrow still leaves about 20-25 degrees up, never downward. The path peaks above the bar and dips back under it. A thin cone tilts up from the ball to above the bar: the take-off angles that score. Label: 'aim high, it falls'.",
+        "'Lean back, and the ball flies over.' The figure leans back. The face tilts up, the arrow swings to about 35 degrees (red), and the path sails over the bar."
+      ],
+      "components": [
+        "XRayLeg",
+        "ForceArrow",
+        "Trajectory",
+        "World",
+        "Player",
+        "Goal",
+        "Caption"
+      ],
+      "transition_out": "Back into the X-ray contact, now in ultra slow motion (sub-drop, 0.8 s).",
+      "facts_used": [
+        "No spoken number. Scoring cone above the bar (visual only) <- 'With no spin from 16 m, the take-off angles that score are about 12-21 degrees at 72 km/h' (model).",
+        "The closed face that still launches upward <- volley mechanism correction: 'Close the face' means 'do not launch too steeply', not 'launch down'. The '5 degrees of tilt = 1.4 m' claim is not used. The spoken line 'The ball stays under the bar.' is cut for the word budget. The scoring cone carries it.",
+        "Cut for the word budget: the fist-at-arm's-length image ('From 16 m, with contact at knee height, the goal spans only about 8 degrees of take-off angle')."
+      ],
+      "physics_sim": "Launch arrows: closed face about 20-25 deg up, open face about 35 deg up. Closed-face path = VOLLEY samples (peak about 2.65 m, about 1.8 m at the line). Open-face path: same speed at 35 deg, over the bar (drawing only).",
+      "sfx": [
+        "racket string twang",
+        "low whoosh",
+        "soft ping as the cone draws",
+        "high whoosh over the bar"
+      ]
+    },
+    {
+      "id": "s16",
+      "chapter": "Ch3 The Volley",
+      "palette": "X-ray Physics",
+      "narration": "The falling ball rolls down your laces. That can give it topspin. <short pause> It flicks air up, so the spin push points down. <short pause> It dives, up to about a metre lower than with no spin.",
+      "word_count": 34,
+      "est_seconds": 15.1,
+      "visual_beats": [
+        "'The falling ball rolls down your laces.' Ultra slow motion, X-ray side view. The foot swings level into the falling ball. The ball slides a little down the laces (short slip streaks), then sticks (grip spark).",
+        "'That can give it topspin.' The line rolls forward. Lime spin arrows curl forward. Inset: a wheel rolls down a ramp.",
+        "WordCard: \"topspin\" = \"the top of the ball turns toward the goal as it flies\". A chalk card pops on the word 'topspin'. Its small arrow curls forward over the top of the ball, the mirror of the backspin card. Holds 2 s.",
+        "'It flicks air up,' Air Crowd particles flick upward off the back of the ball.",
+        "'so the spin push points down.' An orange 'dive' arrow points down, about a third the length of the ball's weight arrow beside it.",
+        "'It dives, up to about a metre lower than with no spin.' Pull out to the Open Sky side view. From 16 m, the dotted no-spin ghost clears the bar and the solid forward-spin path dips under it. Bracket 'up to ≈ 1 m'. Small note: 'model'. The ghost drops about 7 m behind the goal, and far away the car-park hazard lights blink (no words). The real ball drops in high, inside the right post."
+      ],
+      "components": [
+        "XRayLeg",
+        "Ball",
+        "MetaphorInset",
+        "AirFlow",
+        "ForceArrow",
+        "World",
+        "FlightSim",
+        "Trajectory",
+        "Goal",
+        "Caption",
+        "WordCard"
+      ],
+      "transition_out": "Stay in the Open Sky side view. A second ball appears on the same launch spot.",
+      "facts_used": [
+        "'up to about a metre lower' <- 'With an assumed 4 turns a second of topspin at 90 km/h, the ball arrives up to about 1 m lower than a no-spin shot, and the scoring window shifts about 3-5 degrees without getting wider (model)' and the corrected verdict 'about 0.9-1.6 m at 72 km/h'. The sim at 72 km/h gives about 0.97 m.",
+        "Dive arrow at about a third of the weight <- 'At 90 km/h and 4 turns a second, the topspin push is about a third to a half of the ball's weight (model, assumed spin).'",
+        "'That can give it topspin', not 'gives': the volley verification says forward spin comes only if the foot moves level or down relative to the falling ball, and nobody has measured volley spin. The foot swings level on screen. 'rolls down your laces' replaces 'rubs'.",
+        "Learn-word 'topspin' (first use, WordCard), meaning from the verified jargon map: 'the top of the ball turns toward the goal'. 'the spin push' reuses the meaning of 'Magnus effect' from s10, now pointing down.",
+        "Cut: the third car callback ('Car park, or the corner.'). The hazard lights stay on screen as a silent callback."
+      ],
+      "physics_sim": "VOLLEY: 16 m out, contact 0.4 m high. 20 m/s (72 km/h), 23 deg up, 10 deg right. Forward spin 4 rev/s (assumed: no volley spin has been measured), spinAxis [0.174,0.985,0]. Cl fixed at 0.14, so the push is about 1.3 N (about a third of the weight). Cd 0.27. It crosses about 2.8 m right of centre, about 1.81 m high, after about 0.98 s: under the bar. VOLLEY_GHOST: same launch, no spin. About 2.78 m high: over. Gap about 0.97 m. The ghost lands about 23 m from the kick, about 7 m past the goal line.",
+      "sfx": [
+        "slow-motion rubbery squeak",
+        "grip tick",
+        "wheel roll",
+        "air flick",
+        "downward whoosh",
+        "far car alarm chirp",
+        "net swish"
+      ]
+    },
+    {
+      "id": "s17",
+      "chapter": "Ch3 The Volley (mistake)",
+      "palette": "Open Sky",
+      "narration": "Classic mistake? Smashing it. <short pause> Same angle, but the harder shot flies over. It arrives sooner, so it has less time to fall. <short pause> Fix: nose over knee, knee over ball. Hit the middle, not the bottom. Clean beats hard.",
+      "word_count": 38,
+      "est_seconds": 16.9,
+      "visual_beats": [
+        "'Classic mistake? Smashing it.' PracticeBoard stamp: MISTAKE. A Tavi silhouette winds up a huge backswing.",
+        "'Same angle, but the harder shot flies over.' Two balls leave at the same angle, tagged EASY and SMASH. SMASH sails over the bar. EASY dips under it.",
+        "'It arrives sooner,' Replay with a stopwatch under each ball. SMASH reaches the goal line first. No digits.",
+        "'so it has less time to fall.' Weight arrows on both balls. A drop bracket under the EASY path grows longer than the one under SMASH. Inset: two small cars jump a ramp, and the faster one lands further away.",
+        "'Fix: nose over knee, knee over ball.' FIX stamp. Three dots on Tavi's side view (nose, knee, ball) snap into one vertical line.",
+        "'Hit the middle, not the bottom.' A green band glows on and just above the middle of the ball, and the bottom of the ball glows red.",
+        "'Clean beats hard.' The label 'Clean beats hard' pops."
+      ],
+      "components": [
+        "PracticeBoard",
+        "World",
+        "Trajectory",
+        "FlightSim",
+        "Ball",
+        "HUD",
+        "ForceArrow",
+        "MetaphorInset",
+        "Goal",
+        "Player",
+        "Caption"
+      ],
+      "transition_out": "The camera drops from the sky to the wall beside the pitch, and the palette cools back to night.",
+      "facts_used": [
+        "'Classic', not 'biggest': no source ranks volley mistakes.",
+        "'Same angle ... flies over' <- 'With no spin from 16 m, the take-off angles that score are about 12-21 degrees at 72 km/h but about 7-15 degrees at 90 km/h (model).'",
+        "'arrives sooner, so it has less time to fall' <- 'From 16 m, the ball takes about 0.9 s at 72 km/h and about 0.7 s at 90 km/h, so a harder hit has less time to fall.' The stopwatches race with no digits. 'gravity' is no longer a learn-word, so the plain words 'less time to fall' replace it.",
+        "'Hit the middle, not the bottom' and the green band and red bottom <- US Youth Soccer cue 'hit at or slightly above the ball's middle line to keep it low' and the confirmed failed-volley study: 'failed volleys that flew over the goal hit the bottom part of the ball'.",
+        "'nose over knee, knee over ball' <- volley cue 'Nose over knee, knee over ball.'",
+        "'Clean beats hard' <- 'Accurate kicks are generally slower than powerful kicks' (Kellis and Katis review)."
+      ],
+      "physics_sim": "Both balls from 16 m, contact 0.4 m, no spin, 18 deg up, Cd 0.27. EASY: 20 m/s (72 km/h). About 1.52 m at the line after about 0.95 s: goal. SMASH: 25 m/s (90 km/h). About 2.99 m after about 0.76 s: over.",
+      "sfx": [
+        "stamp thud",
+        "big wind-up whoosh",
+        "whoosh over the bar, then a swish",
+        "stopwatch clicks",
+        "car revs and a ramp jump",
+        "three snaps",
+        "soft buzz on the red half",
+        "fix chime"
+      ]
+    },
+    {
+      "id": "s18",
+      "chapter": "Ch3 The Volley (practice)",
+      "palette": "Floodlit Pitch",
+      "narration": "Solo drill: drop the ball three big steps from a wall. Let it bounce once. Volley it at the top, where it almost stops. Start soft. Stay under the tape. <short pause> Now, for real. <short pause> Under the bar.",
+      "word_count": 36,
+      "est_seconds": 16.0,
+      "visual_beats": [
+        "'Solo drill: drop the ball three big steps from a wall.' DRILL stamp. The PracticeBoard shows three cues: 'Eyes on the ball', 'Arms out wide', 'Knee over ball'. Tavi paces three big steps (about 2-3 m) back from the wall and drops the ball.",
+        "'Let it bounce once.' The ball bounces up off the turf.",
+        "'Volley it at the top, where it almost stops.' At the top, a hover meter fills while the ball barely moves. The laces meet it.",
+        "'Start soft.' A power meter on the board fills to a third. Wall safety line: 'Solid wall, no windows. Nobody near the wall. Pick a spot far from roads and parked cars. Jog and pass easy for 5 minutes. Start at half power.'",
+        "'Stay under the tape.' The ball hits the wall under the chapter 1 tape. The counter ticks. Board notes: 'Level 2: hit it just as it leaves the grass. That is a half-volley.' and 'Tricky? Throw the ball to yourself at first.'",
+        "'Now, for real.' Back at the goal. Chalk punches the ball clear again. Tavi lifts it with his thigh, and it drops.",
+        "'Under the bar.' Tavi volleys and the line rolls forward. The ball dives under the bar, inside the right post, just past Chalk's mitten. The net ripples. 1 s hold."
+      ],
+      "components": [
+        "PracticeBoard",
+        "Player",
+        "World",
+        "Ball",
+        "FlightSim",
+        "Trajectory",
+        "HUD",
+        "Keeper",
+        "Goal"
+      ],
+      "transition_out": "A divider line draws down the middle of the frame and splits it into the chip mirror.",
+      "facts_used": [
+        "'Volley it at the top' <- volley cue 'Easiest first volley: hit it at the top of its bounce, where it hangs still.' The draft called this a half-volley. Coaches teach the half-volley as a strike just as the ball leaves the grass, so that is now the board's Level 2 <- volley cue 'Half-volley: hit it as it leaves the grass, no more than about 5 cm up (US Youth Soccer: 2 inches).'",
+        "'where it almost stops' <- 'At the top of a bounce, the ball stays within 1 cm of its highest point for about 90 ms, and within 2 cm for about 130 ms.'",
+        "Bounce height in the sim <- 'On FIFA-tested artificial turf, a ball dropped from 2 m bounces back only about 0.60-0.85 m. It leaves at about 55-65% of its landing speed (ball and turf together).'",
+        "Board cues <- volley cues 'Head still, turn it with the ball. Watch it onto your laces.' and 'Nose over knee, knee over ball.' 'Arms out wide' is a balance cue from the review, not a fact.",
+        "Drill <- volley drill 'Top-of-bounce volley (solo)', plus the volley safety rules. 'three big steps', 'Start soft' and the board notes are practice instructions, not facts."
+      ],
+      "physics_sim": "BOUNCE_DRILL: drop from 1 m onto turf. It leaves at about 60% of its landing speed, so it rises to about 0.35 m. Strike at the top. Real shot: DROP (s13), then VOLLEY (s16).",
+      "sfx": [
+        "stamp thud",
+        "ball drop",
+        "turf bounce",
+        "soft rising tone for the hover meter",
+        "meter click",
+        "wall thump",
+        "mitten punch",
+        "soft thigh cushion",
+        "clean volley thump",
+        "dive hiss",
+        "net swish"
+      ]
+    },
+    {
+      "id": "s19",
+      "chapter": "Ch3 The Volley (chip mirror)",
+      "palette": "X-ray Physics",
+      "narration": "Bonus kick: the chip. Same air, opposite spin. <short pause> Jab your laces under the ball, a thumb's width above the grass. Then stop your foot. <short pause> It pops up steep with backspin, flicks air down, and hangs over a rushing keeper.",
+      "word_count": 39,
+      "est_seconds": 17.3,
+      "visual_beats": [
+        "'Bonus kick: the chip.' The frame splits. Right: the volley with orange spin arrows. Left: a still ball on the grass with blue #4A93E6 arrows. Chalk writes 'BONUS · THE CHIP' at the top of the left half.",
+        "'Same air, opposite spin.' The left spin dial turns and its arrows flip direction.",
+        "'Jab your laces under the ball, a thumb's width above the grass.' Left X-ray: the standing foot sets a little behind the ball. The toes point down and the front of the laces jabs low under the ball. A thumb icon measures the gap above the grass.",
+        "'Then stop your foot.' The foot freezes low after contact. A faded ghost shows the big follow-through it did not do.",
+        "'It pops up steep with backspin,' Left: the ball leaves at a steep angle and the line rolls backward.",
+        "'flicks air down,' Air Crowd particles flick down off the back. An up arrow 'float' pops, about a quarter the length of the 'weight' arrow.",
+        "'and hangs over a rushing keeper.' The left half becomes an Open Sky side view. A slow, high arc (CHIP) hangs over Chalk as he rushes out. A dotted no-spin ghost flies a little lower and also clears him: the steep take-off does most of the work. On the right, the volley dives under the bar."
+      ],
+      "components": [
+        "SplitScreen",
+        "XRayLeg",
+        "Ball",
+        "AirFlow",
+        "ForceArrow",
+        "World",
+        "FlightSim",
+        "Trajectory",
+        "Keeper",
+        "MetaphorInset",
+        "Caption"
+      ],
+      "transition_out": "The two halves slide together into one ball with a spin dial. The camera pulls out to the night pitch.",
+      "facts_used": [
+        "Float arrow at about a quarter of the weight <- 'A chip at about 50 km/h with 6 turns a second of backspin gets about a quarter of its weight in lift (model with measured coefficients).'",
+        "'Jab your laces under the ball' <- chip cue 'Toes down, ankle locked, and slide the front of the laces/instep under the ball'. 'a thumb's width above the grass' <- chip mistake fix 'Aim for the bottom third of the ball, about a thumb's width above the grass.' 'Then stop your foot' <- chip cue 'Stop the foot at contact. Finish low, not high.'",
+        "Standing foot a little behind the ball (visual only) <- chip cue 'Plant the standing foot close beside the ball, level with it or slightly behind.' It is shown, not spoken, for the word budget.",
+        "'pops up steep' and 'hangs', not 'floats over': in the sim the no-spin CHIP_GHOST also clears Chalk (about 4.0 m against 4.5 m). The steep take-off does most of the work, and the backspin holds it up a little longer.",
+        "Chip speed <- 'To lob a keeper from 14 m, the ball needs only about 45-55 km/h' (chip safe list).",
+        "Modest spin arrows <- 'Real kicks spin at no more than about 10 turns a second (Asai 2007).'"
+      ],
+      "physics_sim": "CHIP: 14 m out, Chalk rushing, 6 m from the ball. 13.9 m/s (50 km/h), 45 deg up, backspin 6 rev/s, spinAxis [0,-1,0]. Cd 0.43 (slow ball, more drag). Cl from the kit model (about 0.27 at launch, lift about 1.2 N). Passes about 4.5 m high over Chalk after about 0.7 s. About 1.97 m at the line after about 1.86 s. CHIP_GHOST: no spin. About 4.0 m over Chalk, about 1.08 m at the line after about 1.73 s. Right half: VOLLEY (s16).",
+      "sfx": [
+        "divider swish",
+        "dial click",
+        "short stab thump, then silence",
+        "soft upward flutter",
+        "slow floating whoosh",
+        "net swish on the right"
+      ]
+    },
+    {
+      "id": "s20",
+      "chapter": "Ch3 The Volley (chip mirror)",
+      "palette": "Floodlit Pitch",
+      "narration": "That first shot tonight? <short pause> Your foot came up under it. It took off steep, with backspin, like a chip. By accident. <short pause> Chip on purpose, when the keeper rushes out.",
+      "word_count": 29,
+      "est_seconds": 12.9,
+      "visual_beats": [
+        "'That first shot tonight?' A see-through ghost replay of the cold-open miss.",
+        "'Your foot came up under it.' Freeze at contact: markers show the standing foot behind the ball, the chest behind it, and the foot meeting it low, on the way up.",
+        "'It took off steep, with backspin, like a chip.' The ghost ball's line rolls backward and a float arrow pops. A take-off angle arc shows the steep launch.",
+        "'By accident.' Stamp: 'LIKE A CHIP, BY ACCIDENT'.",
+        "'Chip on purpose, when the keeper rushes out.' Live play: Chalk rushes out. Tavi chips, and the ball floats over him and drops into the goal. Chalk turns round, puzzled.",
+        "[2.5 s hold, music only] A small chip PracticeBoard slides into the corner. MISTAKE: 'Big follow-through: over the bar.' DRILL: '12 big steps out. Bag 4 steps ahead. Chip 10 over it, under the bar.' Note: 'On turf or hard ground, start soft. Don't dig your toes in.' Goal safety line: 'Nobody in or behind the goal. Pick a spot far from roads and parked cars. Jog and pass easy for 5 minutes. Start at half power.'"
+      ],
+      "components": [
+        "Player",
+        "Ball",
+        "FlightSim",
+        "Trajectory",
+        "Keeper",
+        "Goal",
+        "Caption",
+        "ForceArrow",
+        "PracticeBoard",
+        "Props"
+      ],
+      "transition_out": "The camera glides back to the 18 m spot and settles on the exact framing of s01.",
+      "facts_used": [
+        "'Your foot came up under it. It took off steep, with backspin' <- drive research 'If you lean back, or plant behind the ball, your foot meets the ball on the way up and under its centre. The ball climbs and gets backspin', and the confirmed plant-behind verdict. The cause is the take-off angle, not only the spin: MISS (5 rev/s, 76 km/h, 18 deg) and DRIVE_R (4 rev/s, 78 km/h, 9 deg) get about the same spin push in the kit model (about 1.9-2.0 N).",
+        "'like a chip', not 'a chip': MISS is a 76 km/h laces drive at 18 deg. A chip needs only about 45-55 km/h (chip safe list) and leaves at about 45 deg.",
+        "The backspin held the steep shot up (visual float arrow) <- sim control check: the MISS launch with no spin crosses at about 1.25 m, under the bar.",
+        "'when the keeper rushes out' <- chip mistake fix 'Chip only when the keeper is well off the line and coming forward.'",
+        "Board MISTAKE <- chip mistake 'Big, lifting follow-through ... adds too much ball speed (over the bar)', fix 'Stab and stop'. Board DRILL <- chip drill 'Over the fence into the bucket'. The step counts and '10' are practice instructions, not facts. The toe note follows the review's safety point for turf and hard ground."
+      ],
+      "physics_sim": "Ghost replay: MISS samples. Chip on purpose: CHIP (s19). The chip board is text only, with no sim.",
+      "sfx": [
+        "rewind shimmer",
+        "freeze tick",
+        "soft flutter",
+        "stamp thud",
+        "light chip tap",
+        "floating whoosh",
+        "soft brush of the net",
+        "puzzled puff of chalk dust",
+        "board slide"
+      ]
+    },
+    {
+      "id": "s21",
+      "chapter": "Ending",
+      "palette": "Floodlit Pitch",
+      "narration": "The first shot again. Standing foot beside the ball. Toes down, ankle locked. <short pause> Low. Hard. In. No shouting needed. <long pause> And that line? It told you everything. A little backspin, hard and low: speed. Sideways: bend. Topspin: dive. Backspin, soft and high: float.",
+      "word_count": 42,
+      "est_seconds": 18.7,
+      "visual_beats": [
+        "'The first shot again.' The exact s01 framing: same spot, same ball, same line, same floodlight hum. Tavi's run-up starts from a slight angle.",
+        "'Standing foot beside the ball.' A disc icon pops over Tavi's pose. A knee arrow shows over the ball without words.",
+        "'Toes down, ankle locked.' A lock icon pops.",
+        "'Low. Hard. In.' DRIVE_L skims into the bottom left corner. Chalk dives late and the net ripples.",
+        "'No shouting needed.' A tiny empty speech bubble pops beside Tavi and vanishes. The long pause holds on the ripple.",
+        "'And that line? It told you everything.' The camera pushes in on the ball in the net. The line glows.",
+        "'A little backspin, hard and low: speed.' A row of chalk boxes appears. Ball 1 rolls slowly backward, over a fast, low, flat flight icon.",
+        "'Sideways: bend.' Ball 2 spins sideways, anticlockwise from above, with a curved flight icon.",
+        "'Topspin: dive.' Ball 3 rolls forward, with a dipping flight icon.",
+        "'Backspin, soft and high: float.' Ball 4 rolls backward faster, over a slow, high-arc icon."
+      ],
+      "components": [
+        "World",
+        "CameraRig",
+        "Player",
+        "Keeper",
+        "Goal",
+        "Ball",
+        "FlightSim",
+        "Trajectory",
+        "Caption",
+        "ChapterCard"
+      ],
+      "transition_out": "A fifth, empty box appears at the end of the row with a '?'. The camera pushes into it.",
+      "facts_used": [
+        "No narrated numbers. Sim speed 78 km/h <- 'Youth shot speeds: about 67 km/h at U13, 77 km/h at U15, 81 km/h at U17.'",
+        "Cues match chapter 1: 'toes down, ankle locked' (drive cue) and the standing-foot cue from s06 ('beside').",
+        "'A little backspin, hard and low: speed' vs 'Backspin, soft and high: float': DRIVE_R (4 rev/s, 78 km/h, 9 deg) gets about 1.9 N of spin push in the kit model. CHIP (6 rev/s, 50 km/h, 45 deg) gets about 1.2 N ('For a 50 km/h chip with 6 turns per second of backspin, the lift at launch is about 1.2 N'). The chip floats because it is slow and high, so the push has about 1.9 s to act. The drive's push keeps a low shot off the grass. No number is spoken. The spin row reuses the learn-words backspin and topspin."
+      ],
+      "physics_sim": "DRIVE_L: DRIVE_R mirrored, 8.5 deg to the left, spinAxis [0.148,-0.989,0]. About 0.43 m high, about 2.7 m left of centre, inside the left post, after about 0.97 s.",
+      "sfx": [
+        "floodlight hum, the same as s01",
+        "three soft ticks",
+        "hard, clean thump",
+        "ball hiss",
+        "net swish",
+        "silence",
+        "four soft notes, one per ball"
+      ]
+    },
+    {
+      "id": "s22",
+      "chapter": "Ending: knuckleball teaser",
+      "palette": "Floodlit Pitch",
+      "narration": "What if the line hardly turns? <short pause> A knuckleball turns less than once a second. <short pause> The air behind it flaps like a flag, and the ball zigzags. Chalk has no idea. Neither do you. <short pause> Nail the drive first. Then come back for the knuckleball.",
+      "word_count": 43,
+      "est_seconds": 19.1,
+      "visual_beats": [
+        "'What if the line hardly turns?' Ball 5 in the fifth box. Its line is almost still. A '?' pops.",
+        "'A knuckleball turns less than once a second.' Two HUD counters: DRIVE '≈ 4 turns/s' with a spinning line, and KNUCKLE '< 1 turn/s' with a line that hardly moves. Caption: 'The line hardly moves.'",
+        "'The air behind it flaps like a flag,' Tavi on a spot 25 m out strikes. Tracking close-up in flight: stars and floodlights streak past while the line holds almost still. The wake flaps from side to side. A small flag inset flutters.",
+        "'and the ball zigzags.' Top-down inset: the KNUCKLE path drifts gently one way, then the other.",
+        "'Chalk has no idea.' Chalk shifts left, right, left, then dives the wrong way.",
+        "'Neither do you.' Tavi shrugs.",
+        "'Nail the drive first.' The drive icon ticks on. Replay of the strike: a short, firm stab with a small follow-through, contact dot dead centre. Label: 'dead centre'.",
+        "'Then come back for the knuckleball.' Card: 'Next level: 9 of 10 drives under the tape'. Three icons tick on: drive, curler, volley. No age ticker."
+      ],
+      "components": [
+        "ChapterCard",
+        "Player",
+        "Ball",
+        "HUD",
+        "FlightSim",
+        "Trajectory",
+        "AirFlow",
+        "MetaphorInset",
+        "Keeper",
+        "Goal",
+        "Caption"
+      ],
+      "transition_out": "The floodlights start to switch off one by one, continuing into s23.",
+      "facts_used": [
+        "'less than once a second' and the HUD counters <- 'A knuckle shot spins about 0.9 turns per second. A normal laces drive spins about 4 turns per second.' The drive value is now on the HUD only.",
+        "'zigzags' and the wobble force in the sim <- 'Knuckling happens mostly at about 15 to 25 m/s (54 to 90 km/h). One zigzag needs about 13.5 m of flight.' and 'The wobbling side force on a knuckleball peaks at about 2 N, about half the ball's weight, and flips about 3.5 times a second.' The path drifts gently (about 0.4 m off the line in the sim); it does not shake in place.",
+        "'Nail the drive first' and the dead-centre stab (visual) <- drive research knuckle drill 'Strike dead-centre with a short, firm, stabbing contact and a small follow-through.'",
+        "The 'Next level' card is a skill goal that links back to the s07 wall drill, not a research fact. The age ticker and the 'Try at 15-16' card are removed."
+      ],
+      "physics_sim": "KNUCKLE: 25 m out. 22 m/s (79 km/h), 23 deg up. Spin 0.9 rev/s with the spin push off. Cd 0.25. Side force: a sine along the path, 2 N peak, wavelength 13.5 m, phase 0.79 rad. Result: about 1.2 m high at the line after about 1.47 s, speed at the line about 15.7 m/s (inside the knuckle band). The sideways path ends about 0.4 m off the straight line (max about 0.44 m) with 3 small reversals. Do not use random flip times: in tests they gave up to 3.5 m of drift.",
+      "sfx": [
+        "question pluck",
+        "two spin whirrs, one fast and one almost silent",
+        "short, firm stab thump",
+        "wind rush",
+        "flag flutter",
+        "Chalk scramble and flop",
+        "cloth rustle on the shrug",
+        "tick on the drive icon",
+        "card pop",
+        "three soft ticks"
+      ]
+    },
+    {
+      "id": "s23",
+      "chapter": "Ending",
+      "palette": "Floodlit Pitch",
+      "narration": "Half past nine. Lights out. <short pause> Your foot gets about a hundredth of a second with the ball. <long pause> Now you know how to spend it.",
+      "word_count": 24,
+      "est_seconds": 10.7,
+      "visual_beats": [
+        "'Half past nine.' The hands of the stand clock move to half past nine.",
+        "'Lights out.' The floodlights clunk off one by one, the reverse of s01. Their glow rings shrink away.",
+        "'Your foot gets about a hundredth of a second with the ball.' Chalk sinks back into the goal line, which lies flat again. The contact moment flashes once more with the stopwatch '0.01 s'.",
+        "[long pause] Tavi picks up the ball and walks away. A last pool of light stays on the ball's line.",
+        "'Now you know how to spend it.' The line glows once. The camera pulls back: the dark pitch, then the stadium as one warm dot among the city lights.",
+        "[2.5 s hold] End card: 'THREE SPINS AND A LINE' in chalk letters, then a fade to #151A3D."
+      ],
+      "components": [
+        "World",
+        "CameraRig",
+        "Keeper",
+        "Player",
+        "Ball",
+        "HUD",
+        "ChapterCard"
+      ],
+      "transition_out": "Fade to the night-sky colour #151A3D. End.",
+      "facts_used": [
+        "'about a hundredth of a second' is the same fact as s02: about 9 ms in an instep kick and 9.6-12 ms in a curve kick."
+      ],
+      "physics_sim": "",
+      "sfx": [
+        "clock tick",
+        "four floodlight clunks with a falling hum",
+        "soft chalk slide",
+        "one quiet, echoing contact thump",
+        "footsteps fading away",
+        "final soft chord"
+      ]
+    }
+  ],
+  "total_words": 859,
+  "total_seconds": 381.8,
+  "music_cues": [
+    "s01 cold open: a low original synth pad under the floodlight hum. One soft bell note on 'Remember that line'. Full silence on the miss. A small comic pluck on the car alarm and on 'Chalk doesn't even move'.",
+    "s02 title: the pad swells under the ghost fan. A small rising lift on 'By lights out, you'll score this shot.' Title sting: an original 2.5 s motif on a warm plucked synth and marimba, a rising three-note figure (one note per kick) that resolves on the title hold.",
+    "Ch1 (s03-s06): a steady low pulse at about 90-96 bpm, with a muted kick drum on each contact frame. In X-ray scenes, filter the music down and add a sub-drop into slow motion. A hard stop and a low comic blip on 'Hello, car alarm.'",
+    "Practice loop (s07, s12, s17, s18, and the s20 chip card): one short, bright loop reused for every PracticeBoard, in the same key each time and ducked 12 dB, so viewers learn the 'use this' moment.",
+    "Ch2 (s08-s11): a floating major-key arpeggio whose pitch bends follow the curl, panned right to left with the ball. A soft granular 'crowd of air' texture in s10. A lift on the goal in s12.",
+    "Ch3 (s13-s16): a syncopated rhythm with a ticking hi-hat for timing tension. A short bass drop on 'It dives', then a brighter lift as the ball goes under the bar.",
+    "Chip mirror (s19-s20): the chapter 3 melody upside down on the left channel (chip) and the right way up on the right (volley). They merge into one chord as the halves join.",
+    "s21: a warm build to 'Low. Hard. In.', a beat of silence on 'No shouting needed', then four soft notes, one per ball in the spin row.",
+    "s22 knuckleball: a slightly detuned, wobbling synth over the practice-loop drums. It cuts to silence on 'Neither do you.', then the practice loop returns softly under 'Nail the drive first.'",
+    "s23: the title motif returns slowly on piano and pad at the calmer pace. Silence under the last line, then one closing chord on the end card.",
+    "Mix rules: the voice stays on top, with music 10-15 dB under it that rises in the gaps. Lock picture first, then score to it. All music and sound design are original: no Epic Mountain tracks, no Kurzgesagt sting and no sound-alike cues."
+  ]
+}
