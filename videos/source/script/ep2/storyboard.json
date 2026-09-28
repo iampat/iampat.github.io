@@ -1,0 +1,1428 @@
+{
+  "title": "Why the Best Players Look Slow",
+  "logline": "The next night on the same floodlit pitch, a young player's friend Sam passes the balls in while Chalk, the keeper made of pitch paint, chases instead of guarding. The first pass bounces off a stiff foot and is gone in two seconds: where did the time go? A glowing ring shows the answer, the seconds until Chalk reaches the ball, and three chapters buy more of it: look before the ball arrives, cushion the first touch into space, and receive half-turned on the back foot. The same pass at the end reads four times the time. Same legs, same speed: that is why the best players look slow.",
+  "characters": [
+    {
+      "name": "Tavi (the player, spoken to only as 'you')",
+      "design": "As episode 1: teal shirt, orange chest band, dark shorts, chalk-white boots, warm brown skin, cloud-tuft hair, rounded shapes, no outlines. New this episode: headTurn 0..1 for scans (about 12 frames out and back), the receive pose family (receiveReady, receiveSoft, receiveStiff, lookBack, passInside) and a side-on stance hinted with a small body twist. Faces: focus when scanning, wince on the stiff-foot bounce, happy at the end. In the map view: TopPlayer kind 'tavi' with facing, look and a VisionFan.",
+      "role": "The viewer's stand-in. Never named in narration. Faces Sam straight on in the cold open, meets the pass with a locked foot and loses the ball in two seconds. Learns to look, touch and shape, then replays the first pass with two scans, a jog to meet the ball, a half-turn and a back-foot cushion into space."
+    },
+    {
+      "name": "Sam (the friend, the passer)",
+      "design": "Player with colors SAM_COLORS from the kit: orange shirt, no chest band, lighter skin, short dark hair, same build as Tavi. Calm, always the passer. Carries a net bag of balls in the cold open. In the map view: TopPlayer kind 'sam'. Side view: stands left and passes with passInside.",
+      "role": "Feeds every pass from behind Tavi (Tavi's back to the goal). Calls a cone colour in the LOOK drill and a gate in the SHAPE drill. Never speaks in narration; two speech bubbles in practice ('WHITE!', 'LEFT!'). Moves left after the ending pass to receive Tavi's calm second touch."
+    },
+    {
+      "name": "Chalk (the keeper made of pitch paint, now chasing)",
+      "design": "As episode 1: capsule body of chalk white, mitten gloves, dot eyes and eyebrow dashes, chalk dust at every step. New: runA/runB chasing cycle with flip on, puffed pose when he arrives late, a small wave and two blinking dot eyes from the dark half of the map, a grey blob variant for the blurry side-vision beats, a cone stand-in with one eyebrow in the wall drill. Never speaks. One eyebrow when beaten, two after the fake.",
+      "role": "The deadpan problem-setter, out of the goal all night. He always jogs at 4 m/s from the same mark, 11 m on the goal side of Tavi, starting on the kick frame, so the only thing that changes between the cold open and the ending is Tavi. Steals the ball in the cold open (skids past, turns, pokes it away at about two seconds) and arrives to nothing at the end."
+    },
+    {
+      "name": "The Time Bubble (motif)",
+      "design": "TimeBubble ring around Tavi with a mono seconds readout: distance to Chalk divided by his jog of 4 m/s (secondsToReach, CLOSING_SPEED). Pink under 0.5 s with an alarm pulse, amber near 1 s, lime from 2 s. Squashed in side views, round in the map. Planted with 'Remember this ring' in b02; a grey sprint ghost ring in b02 shows that a faster Chalk shrinks the numbers, not the fixes.",
+      "role": "The honest scoreboard of the episode. Reads 0.6 s in the cold open and 2.4 s in the ending. Each chapter ends with it growing or being used as the skill is applied: 1.0 s after LOOK's early step, 0.7 s against 0.2 s after TOUCH's touch away, and after SHAPE's half-turn 1.0 s at the ready frame against 0.4 s for the straight-on receiver, who is only ready after her turn. Chalk's jog never changes with Tavi's stance, so the ring never 'holds'; skills change when Tavi is ready and where the ball is. Every reading comes from a distance in the sims; it never uses top speed."
+    },
+    {
+      "name": "Snapshots and the map in your head (motif)",
+      "design": "Snapshot polaroids pop with a camera-flash frame on every scan (tick) and fly into a ThoughtBubble over Tavi's head. Before scanning the bubble shows UnknownFog question marks; after two scans it is a tiny top-down map with Chalk's dot and arrow and a lime patch of space. A small lime eye icon marks 'eyes on the ball' after the second look.",
+      "role": "Shows that a scan is a snapshot, not a stare, and that two looks (kick frame and halfway) build the picture before the ball arrives, with the eyes back on the ball for the touch. Pays off in the ending when the two snapshots match and the ring is already there before the ball is, and in the last line ('take a snapshot')."
+    }
+  ],
+  "learn_words": [
+    {
+      "term": "scan",
+      "meaning": "a quick look over your shoulder, away from the ball, to see where the defender and the space are, then back",
+      "scene": "b04"
+    },
+    {
+      "term": "first touch",
+      "meaning": "your first contact with a pass, and where it sends the ball",
+      "scene": "b09"
+    },
+    {
+      "term": "cushion",
+      "meaning": "the inside of your foot gives way as the ball arrives, so the bounce dies and the ball stays close",
+      "scene": "b10"
+    },
+    {
+      "term": "half-turn",
+      "meaning": "standing side-on to the passer, so the passer is on one side of you and the goal on the other, and every look is a small turn",
+      "scene": "b15"
+    },
+    {
+      "term": "back foot",
+      "meaning": "the foot further from the passer, not the foot behind you",
+      "scene": "b16"
+    }
+  ],
+  "sims": [
+    {
+      "name": "PASS_IN",
+      "kind": "ground pass",
+      "start": "Sam at (-12.0, 0.0), ball centre z 0.11 m",
+      "direction": "+x (toward Tavi and the goal), 0 degrees",
+      "speed": "6.5 m/s",
+      "decel": "0.8 m/s^2 (ROLL_DECEL_GRASS)",
+      "checks": "reaches x = 0 after 2.12 s at 4.80 m/s; reaches x = -4.0 after 1.34 s at 5.43 m/s; reaches x = -0.88 after 1.94 s at 4.95 m/s; halfway (x = -6.0) at 0.98 s; would roll 26.4 m if untouched",
+      "used_in": [
+        "b01",
+        "b02",
+        "b06",
+        "b07",
+        "b08",
+        "b09",
+        "b16",
+        "b19",
+        "b20"
+      ]
+    },
+    {
+      "name": "CHALK_CHASE",
+      "kind": "defender run",
+      "start": "Chalk at (10.9, -1.5), 11.0 m from Tavi's mark (0, 0)",
+      "direction": "toward Tavi's current position",
+      "speed": "4 m/s (CHASE_SPEED), starts on the kick frame, no reaction delay",
+      "checks": "distance to Tavi 11.0 m at t 0 (ring 2.75 s), 10.6 m at 0.1 s (2.65 s), 9.0 m at 0.5 s (2.25 s), 7.4 m at 0.9 s (1.85 s), 6.2 m at 1.2 s (1.55 s), 5.0 m at 1.5 s (1.25 s), 2.5 m at 2.12 s (0.63 s, the cold-open reading). Cold open after the bounce: reaches her mark at +0.63 s, overruns about 1 m, stops (+0.9 s), turns (+1.3 s), jogs about 2.2 m to the ball and pokes it at about +2.0 s",
+      "used_in": [
+        "b01",
+        "b02",
+        "b06",
+        "b07",
+        "b08",
+        "b19",
+        "b20",
+        "b21"
+      ]
+    },
+    {
+      "name": "STIFF_BOUNCE",
+      "kind": "first touch (mistake)",
+      "start": "ball at (0, 0) arriving at 4.8 m/s along +x; foot and ankle locked, still",
+      "direction": "normal (-0.95, 0.31, 0), e 0.35, grip 0.8",
+      "speed": "out 1.62 m/s along (-0.88, 0.48): 34% of the pass speed",
+      "decel": "0.8 m/s^2",
+      "checks": "would roll 1.65 m and stop after 2.03 s; Tavi stops it dead at about +1.1 s, 1.3 m from her mark near (-1.14, 0.62), and looks up at about +1.4 s; Chalk pokes it away about 2.0 s after the ball first touched her (see CHALK_CHASE)",
+      "used_in": [
+        "b01",
+        "b02"
+      ]
+    },
+    {
+      "name": "LOOK_STEP",
+      "kind": "receiver move",
+      "start": "Tavi at (0, 0); scans at 0.1-0.5 s and 0.9-1.2 s, eyes on the ball from 1.2 s",
+      "direction": "-x toward the ball",
+      "speed": "2 m/s from t 1.5 s",
+      "checks": "meets PASS_IN at t 1.94 s, x -0.88, ball 4.95 m/s; Chalk has run 7.77 m to (3.2, -0.5) and is 4.1 m away: ring 1.03 s; eyes on the ball for 0.7 s before the touch",
+      "used_in": [
+        "b07",
+        "b08",
+        "b11",
+        "b14",
+        "b16"
+      ]
+    },
+    {
+      "name": "TOUCH_STIFF",
+      "kind": "first touch (demo)",
+      "start": "ball 4.8 m/s along +x; foot still, knee and hip locked",
+      "direction": "normal (-1, 0, 0), e 0.35, grip 0.8",
+      "speed": "out 1.68 m/s back toward Sam (35%)",
+      "decel": "0.8 m/s^2",
+      "checks": "rolls 1.8 m. e 0.35 stands for a real foot's limited mass (verification: 20-40%); do not use the kit default e 0.6 here",
+      "used_in": [
+        "b09",
+        "b10"
+      ]
+    },
+    {
+      "name": "TOUCH_CUSHION",
+      "kind": "first touch (demo)",
+      "start": "ball 4.8 m/s along +x; inside of the foot giving way along +x from the knee and hip",
+      "direction": "normal (-1, 0, 0), e 0.35",
+      "speed": "foot 1.25 m/s gives out 0.01 m/s (dead stop); foot 1.6 m/s gives out +0.48 m/s (rolls 0.15 m); foot 1.0 m/s gives out -0.33 m/s",
+      "decel": "0.8 m/s^2",
+      "checks": "dead stop at a foot retreat of about a quarter of the ball speed, inside the verification's 15-30% band. Wall version (b12): ball 3.15 m/s, foot 0.8 m/s gives out -0.02 m/s",
+      "used_in": [
+        "b09",
+        "b10",
+        "b12"
+      ]
+    },
+    {
+      "name": "TOUCH_DEAD",
+      "kind": "first touch (dead stop under pressure)",
+      "start": "ball at (-0.88, 0) after LOOK_STEP, Chalk at (3.2, -0.5), 4.1 m away",
+      "direction": "none: the ball stays under the foot",
+      "speed": "0",
+      "decel": "n/a",
+      "checks": "Chalk 0.9 m away after 0.8 s (ring 0.23 s), then on the ball",
+      "used_in": [
+        "b11"
+      ]
+    },
+    {
+      "name": "TOUCH_AWAY",
+      "kind": "first touch into space",
+      "start": "ball at (-0.88, 0) at 4.95 m/s after LOOK_STEP, Chalk at (3.2, -0.5), 4.1 m away",
+      "direction": "footVel (-0.87, 1.16, 0), normal (-0.6, 0.8, 0), e 0.35, grip 1.0; out along (-0.6, 0.8), away from Chalk to the open side",
+      "speed": "3.0 m/s",
+      "decel": "0.8 m/s^2",
+      "checks": "rolls 2.14 m in 0.8 s (rollAt(3.0, 0.8)) to about (-2.17, 1.72), where Tavi takes her second touch; Chalk runs 3.2 m toward it and is 2.6 m from the ball: ring 0.65 s, against 0.9 m and 0.23 s for TOUCH_DEAD. Box drill version (b12): 2.0 m/s sideways, rolls 2.5 m",
+      "used_in": [
+        "b09",
+        "b11",
+        "b12"
+      ]
+    },
+    {
+      "name": "SHAPE_TURN",
+      "kind": "receiver turn (mistake)",
+      "start": "straight-on receiver after LOOK_STEP, Chalk 4.1 m",
+      "direction": "180 degree turn with the ball",
+      "speed": "0.6 s to turn (youth run-and-turn test 0.56-0.66 s)",
+      "checks": "Chalk closes 2.4 m during the turn (two footprints 1 m apart), leaving 1.7 m: ring 0.43 s. At +0.3 s both the straight-on and the half-turned receiver read about 0.7 s (Chalk's jog does not depend on stance); the half-turned receiver is ready at the touch (1.03 s), the straight-on receiver only at +0.6 s (0.43 s)",
+      "used_in": [
+        "b14",
+        "b16"
+      ]
+    },
+    {
+      "name": "BACK_FOOT",
+      "kind": "first touch on the far foot",
+      "start": "ball 4.95 m/s along +x at the LOOK_STEP receive; Tavi side-on facing +y, toes of the far foot open toward the goal side",
+      "direction": "footVel (0.8, 0.4, 0), normal (-0.5, 0.87, 0), e 0.35, grip 0.9",
+      "speed": "out (0.67, 1.30, 0): 1.5 m/s forward and across",
+      "decel": "0.8 m/s^2",
+      "checks": "rolls about 1.3 m on the goal side; no body rotation; ready at the touch with the ring at 1.03 s",
+      "used_in": [
+        "b16"
+      ]
+    },
+    {
+      "name": "ENDING_RUN",
+      "kind": "receiver move",
+      "start": "Tavi at (0, 0), leaves at t 0.20 s; scans at 0.1-0.5 s and 0.6-0.9 s",
+      "direction": "-x toward the ball, drifting to y -0.3, running face-on and opening side-on (chest to +y) in the last two strides",
+      "speed": "3.5 m/s jog",
+      "checks": "meets PASS_IN at t 1.34 s at (-4.0, -0.3), ball 5.43 m/s; at 0.9 s the ball is 4.0 m away at about 9.3 m/s closing, so the eyes are back on it 0.43 s before contact; ring 2.65 s at t 0.1, 2.50 s at 0.5, 2.45 s at 0.9, 2.41 s at 1.2, 2.39 s at the touch (Chalk at about (5.6, -1.1), 9.6 m)",
+      "used_in": [
+        "b19",
+        "b20",
+        "b21"
+      ]
+    },
+    {
+      "name": "ENDING_TOUCH",
+      "kind": "first touch into space (soft)",
+      "start": "ball at (-4.0, -0.3) at 5.43 m/s along +x",
+      "direction": "footVel (1.0, 1.0, 0) (giving along the ball and sweeping across), normal (-0.75, 0.66, 0), e 0.35, grip 0.8; out along (0.11, 0.99), almost straight across to the open side",
+      "speed": "out 2.26 m/s (42% of arrival)",
+      "decel": "0.8 m/s^2",
+      "checks": "would roll 3.2 m; ring with Chalk chasing the ball 2.2 s at +0.2 s (8.8 m), 1.9 s at +0.5 s (7.6 m), 1.55 s at +0.86 s (6.2 m) when the second touch is a pass back to Sam; Chalk reaches the receiving spot at t 3.74 s, about 2.4 s after the touch",
+      "used_in": [
+        "b20",
+        "b21"
+      ]
+    },
+    {
+      "name": "FEINT",
+      "kind": "dribble push",
+      "start": "Tavi with the ball, Chalk 3 m away at 4 m/s",
+      "direction": "shoulders left, ball pushed right",
+      "speed": "3.0 m/s",
+      "decel": "0.8 m/s^2",
+      "checks": "ball 1.9 m away after 0.7 s (rollAt(3.0, 0.7)); Chalk leans the wrong way for 0.5 s (adult screen test), two footprints of 1 m each, then reverses",
+      "used_in": [
+        "b18"
+      ]
+    },
+    {
+      "name": "DRILL_PASSES",
+      "kind": "ground passes",
+      "start": "8 m at 5 m/s on a 10 s timeline, leaving at 8.1 s (b04); 10 m at 5.5 m/s (b08); 10 m at 5 m/s (b17); wall pass at 6 m/s from 5 m, the wall returns 0.8 of the speed (b12)",
+      "direction": "+x or toward the wall",
+      "speed": "see start",
+      "decel": "0.8 m/s^2",
+      "checks": "8 m at 5 m/s arrives in 1.9 s; 10 m at 5.5 m/s arrives in 2.2 s and is halfway at 1.0 s (the call must be out by then); 10 m at 5 m/s in 2.5 s at 3 m/s; wall rebound arrives back at about 3.2 m/s after 2.2 s; box touch 2.0 m/s rolls 2.5 m; gate touch 2.5 m/s rolls 3.9 m through a gate centred 3.6 m away (3 m behind, 2 m to the side)",
+      "used_in": [
+        "b04",
+        "b08",
+        "b12",
+        "b17"
+      ]
+    }
+  ],
+  "scenes": [
+    {
+      "id": "b01",
+      "chapter": "Cold open",
+      "palette": "Floodlit Pitch",
+      "narration": "The next night. <short pause> Your friend Sam's on passing duty. <short pause> Chalk's out of goal, chasing. <short pause> Your back's to the goal. You face Sam. The pass comes. <short pause> Stiff foot. It bounces away. You look up. <long pause> Chalk's already there. Ball gone. <short pause> You had the ball for two seconds. It felt like nothing. Where did the time go?",
+      "word_count": 54,
+      "est_seconds": 24.0,
+      "visual_beats": [
+        "[1 s silent pre-roll] Same dark sky and star field as s01. The four floodlights clunk on one after another, each blooming its glow rings. The StandClock reads nine (hours 21).",
+        "'The next night.' Slow push (8% over 5 s) past the stand. A chalk caption on the grass: 'NIGHT 2'. Dust drifts in the beams. The goal line lies flat and empty: no keeper in it.",
+        "'Your friend Sam's on passing duty.' Sam (Player, colors SAM_COLORS: orange shirt, no band) jogs in from the left with a net bag of balls and tips them out. Two small sim bounces per ball. Label 'SAM' pops. He taps one ball forward with the inside of the foot (passInside).",
+        "'Chalk's out of goal, chasing.' The goal-line paint peels up and builds Chalk, as in s01, but he steps OFF the line (flip on) and jogs to a spot 11 m on the goal side of Tavi's mark. He mimes two quick run steps (runA/runB) and a dust puff. Label 'CHALK' pops, one eyebrow lift, then eyebrows down: business.",
+        "'Your back's to the goal.' Tavi walks to the mark 12 m in front of Sam. A faint chalk arrow from her back to the goal, far right.",
+        "'You face Sam.' She stands square to him (flip on, facing left). Wide side view settles: Sam left, Tavi centre, Chalk far right.",
+        "'The pass comes.' PASS_IN: Sam side-foots the ball along the grass. Chalk starts jogging the moment the ball leaves Sam's foot (CHALK_CHASE). Tavi's eyes follow the ball only (receiveReady, face neutral).",
+        "'Stiff foot.' STIFF_BOUNCE: the ball reaches Tavi at about 4.8 m/s and meets a locked, still foot and ankle (receiveStiff). Squash on contact. Face wince.",
+        "'It bounces away.' The ball rebounds at about 1.6 m/s back toward Sam and a little left, short trail. Tavi turns after it and stops it dead under the sole about a metre away.",
+        "'You look up.' Only now her head lifts and turns toward the goal side (headTurn). Face focus. Chalk's shadow slides in from the right. Whoosh.",
+        "[long pause] Camera pushes 10% toward Tavi. Chalk skids past her mark, stops, turns.",
+        "'Chalk's already there.' He jogs the last two metres, pokes the ball away with a mitten and stands over it. One eyebrow up.",
+        "'Ball gone.' The ball rolls out of frame right. Tavi's shoulders drop (shrug pose, half).",
+        "'You had the ball for two seconds.' A chalk stopwatch Readout pops above Tavi: it fills 0.0 to 2.0 s while the last two seconds replay as a faint ghost overlay.",
+        "'It felt like nothing.' The stopwatch face turns pink and the hands spin away to nothing.",
+        "'Where did the time go?' Everything dims 30% except Tavi and the empty grass where the ball was. A chalk '?' is written at her feet."
+      ],
+      "components": [
+        "Stage",
+        "Camera",
+        "Sky",
+        "Stars",
+        "Floodlight",
+        "Stands",
+        "StandClock",
+        "GroundSide",
+        "Player",
+        "Keeper",
+        "Ball",
+        "Label",
+        "Readout",
+        "Dust",
+        "Sfx",
+        "rollPass",
+        "firstTouch"
+      ],
+      "physics_sim": "PASS_IN: ground pass from Sam at (-12, 0) along +x at 6.5 m/s, rolling decel 0.8 m/s^2; reaches Tavi at (0, 0) after 2.12 s at 4.80 m/s. CHALK_CHASE: Chalk starts at (10.9, -1.5), 11.0 m from Tavi, and jogs at 4 m/s toward her from the kick frame; at the arrival frame he is 2.5 m away. STIFF_BOUNCE: firstTouch with ballVel (4.8, 0, 0), footVel 0, normal (-0.95, 0.31, 0), e 0.35 (a real foot's limited mass, not the kit's heavy-foot 0.6), grip 0.8: the ball leaves at 1.62 m/s toward (-0.88, 0.48), 34% of the pass speed, and would roll 1.65 m. Tavi stops it dead at about +1.1 s, 1.3 m from her mark near (-1.14, 0.62), and looks up at about +1.4 s. Chalk reaches her old mark at +0.63 s, overruns about a metre and stops (+0.9 s), turns (+1.3 s), jogs about 2.2 m back to the ball (+1.85 s) and pokes it away at about +2.0 s after the ball first touched her.",
+      "sfx": [
+        "four floodlight clunks with a rising hum",
+        "bag of balls tipped out, soft thuds",
+        "chalk scrape as Chalk builds, then chalk footsteps",
+        "side-foot pass thump",
+        "grass roll hiss",
+        "dull thud with a wrong note on the stiff foot",
+        "sole stop thud",
+        "whoosh and skid on Chalk's arrival",
+        "mitten poke, ball rolls away",
+        "stopwatch tick-up, then a pink slump tone",
+        "chalk squeak for the question mark"
+      ],
+      "transition_out": "The camera cranes straight up from the question mark into a top-down map of the same spot. The side-view figures become TopPlayer tokens as it rises.",
+      "facts_used": [
+        "'two seconds' is sim time: the ball first touches Tavi at t = 2.12 s and Chalk pokes it away about 2.0 s later (STIFF_BOUNCE plus CHALK_CHASE with the overrun, stop and turn). Pros hold the ball about 1.1 s per possession (Ligue 1), so two seconds is generous, and it still feels like nothing.",
+        "Chalk's 4 m/s jog is the episode's CLOSING_SPEED (challenge tweak 3: a jog is more honest than top speed; youth top speeds are about 6.3-7.4 m/s).",
+        "The stiff-foot rebound of about a third <- verification: a still firm foot returns about 20-40% of the pass speed. Sim gives 34%. The mistake is a locked foot and ankle, not a shin: a rolling pass meets the foot."
+      ]
+    },
+    {
+      "id": "b02",
+      "chapter": "Cold open: the ring",
+      "palette": "Floodlit Pitch",
+      "narration": "This ring is your time. <short pause> It counts the seconds until Chalk reaches the ball, if he keeps coming at a jog. <short pause> Sprinting shrinks the numbers, not the fixes. <short pause> When the pass arrived: just over half a second. One heartbeat. <short pause> Remember this ring.",
+      "word_count": 42,
+      "est_seconds": 18.7,
+      "visual_beats": [
+        "'This ring is your time.' Top-down map (TopField around the mark, camera zoomed so tokens are at least 44 px). Rewind: the ball slides back to Sam's foot and Chalk back to his start, 11 m on the goal side. Tavi's token faces Sam. The half of the pitch behind her is drawn dark. Bell: a TimeBubble ring pops around Tavi with overshoot, 2.7 s in lime at the kick frame.",
+        "'It counts the seconds until Chalk reaches the ball,' The pass replays at real speed. A dotted line runs from Chalk to the ball with a metre Readout. The ring shrinks as Chalk jogs: 2.2, 1.7, 1.2 (lime to amber). Soft ticking.",
+        "'if he keeps coming at a jog.' A small jogging Chalk icon with a Label '4 metres every second' in plain words. No formula on screen.",
+        "'Sprinting shrinks the numbers, not the fixes.' A ghost Chalk sprints the same line beside the jogging one, and a second, smaller ring shrinks faster (grey, no digits). Under both rings the same three chapter icons (eye, boot, side-on body) stay lit. The ghost fades.",
+        "'When the pass arrived:' Freeze on the arrival frame. The dotted line reads '2.5 m'.",
+        "'just over half a second.' The ring reads 0.6 s in pink and pulses once (alarm).",
+        "'One heartbeat.' A small chalk heart beats once beside the ring, in time with a low thump.",
+        "'Remember this ring.' The ring glows once and everything else dims 20%, the same treatment as 'Remember that line' in s01."
+      ],
+      "components": [
+        "Stage",
+        "Camera",
+        "TopField",
+        "TopPlayer",
+        "TimeBubble",
+        "Ball",
+        "Arrow",
+        "Label",
+        "Readout",
+        "Sfx",
+        "secondsToReach",
+        "bubbleColor"
+      ],
+      "physics_sim": "PASS_IN and CHALK_CHASE replayed in the map view. Ring value = distance from Chalk to the ball / 4 m/s: 2.75 s at t = 0 (11.0 m), 2.25 s at 0.5 s (9.0 m), 1.75 s at 1.0 s (7.0 m), 1.25 s at 1.5 s (5.0 m), 0.63 s at 2.12 s (2.5 m). Colour from bubbleColor: lime above 2.2 s, amber near 1 s, pink at 0.6 s. Sprint ghost: 7 m/s for the picture only, no digits.",
+      "sfx": [
+        "reverse whoosh",
+        "bell on the ring reveal",
+        "soft ticking as the ring shrinks",
+        "fast ghost footsteps, then a fade",
+        "freeze click",
+        "pink alarm pulse",
+        "one low heartbeat thump",
+        "soft shimmer on the glow"
+      ],
+      "transition_out": "The ring's glow spreads to fill the frame with the night-sky colour. The title scene opens on it.",
+      "facts_used": [
+        "'just over half a second' <- sim: Chalk 2.5 m from the ball at the arrival frame, at 4 m/s = 0.63 s (touch.test.ts: bubbleSeconds(2.5) = 0.625).",
+        "'if he keeps coming at a jog' states the closing-speed assumption once in plain words (EP2-VISUAL: never use top speed). 4 m/s is below youth top sprint speeds (about 6.3 m/s at U12, 7.4 m/s at U16, general boys). 'Sprinting shrinks the numbers, not the fixes' answers the viewer who knows real defenders sprint: the three skills work at any closing speed, only the readings change.",
+        "'One heartbeat' is a comparison: a resting heartbeat lasts about 0.6-1.0 s (general knowledge, no number spoken)."
+      ]
+    },
+    {
+      "id": "b03",
+      "chapter": "Cold open (question and title)",
+      "palette": "Title",
+      "narration": "Football isn't only a game of speed. It's a game of time. <short pause> The best players look slow. They bought time before anyone noticed. <short pause> Three ways to buy it. Look. Touch. Shape. <short pause> By lights out: four times the time.",
+      "word_count": 38,
+      "est_seconds": 19.4,
+      "visual_beats": [
+        "'Football isn't only a game of speed.' Title palette, star field. A chalk sprinter icon dashes across the frame with a speed trail, then slows and stops, still standing.",
+        "'It's a game of time.' The time ring draws itself around the standing sprinter, big and lime, ticking. He is inside it now.",
+        "'The best players look slow.' A calm chalk player token strolls into the ring at walking pace beside the sprinter. No trail.",
+        "'They bought time before anyone noticed.' ChalkSketch coins: three chalk discs with a clock face drop into the ring one by one with soft pops. The ring grows a step each time.",
+        "'Three ways to buy it.' The three coins line up and turn into three chapter icons.",
+        "'Look.' Coin one becomes an eye with a small head-turn arrow.",
+        "'Touch.' Coin two becomes a boot giving way under a ball.",
+        "'Shape.' Coin three becomes a side-on body outline with a half circle of sight.",
+        "'By lights out: four times the time.' A pink ring at 0.6 s swells to a lime ring at 2.4 s and holds. A tiny floodlight icon in the corner blinks off once (the s02 promise treatment).",
+        "[2.5 s hold] The icons slide up and pitch lines slide in to write the title 'WHY THE BEST PLAYERS LOOK SLOW' in chalk letters with the orange underline. Title sting."
+      ],
+      "components": [
+        "Stage",
+        "Camera",
+        "Stars",
+        "TimeBubble",
+        "TitleCard",
+        "ChapterCard",
+        "Label",
+        "Dust",
+        "ChalkSketch",
+        "Sfx"
+      ],
+      "physics_sim": "No ball flight. Ring animation: 0.6 s grows to 2.4 s over 1.2 s with EASE.standard (radius from secondsToReach).",
+      "sfx": [
+        "fast footsteps and a whoosh for the sprinter, then a stop",
+        "ring redraw shimmer",
+        "slow footsteps",
+        "three soft coin pops",
+        "three icon ticks",
+        "ring swell shimmer, floodlight blip",
+        "original title sting, 2.5 s"
+      ],
+      "transition_out": "The title letters slide back into pitch lines. The camera tilts down to the grass, where chalk writes chapter card 1.",
+      "facts_used": [
+        "'four times the time' <- the two sim ring readings: 0.63 s at the cold-open arrival frame (b02) and 2.39 s at the ending touch (b20), ratio 3.8, 'about four times' as the concept states.",
+        "'isn't only a game of speed' <- challenge advice 7: speed still matters (sprints preceded about 41% of World Cup open-play goals); time is what makes speed useful. The sprinter stays standing inside the ring instead of crumbling.",
+        "'They bought time before anyone noticed' is the concept's framing ('bought their time before anyone noticed', CONCEPT-2.md); the challenge asks that scanning be shown as a small, free edge, never as what makes superstars, and b07 and b21 keep that promise."
+      ]
+    },
+    {
+      "id": "b04",
+      "chapter": "Ch1 Look: what a scan is",
+      "palette": "Floodlit Pitch",
+      "narration": "Way one: look. <short pause> Before the ball comes, look over your shoulder. You know this one: a scan. <short pause> A snapshot, not a stare. Click, and back. Your eyes barely stop. <short pause> One question: where's Chalk? <short pause> Pros do it right up to the touch.",
+      "word_count": 41,
+      "est_seconds": 19.2,
+      "visual_beats": [
+        "[1 s card] Chalk writes '1 · LOOK' on the grass, subtitle 'buy time before the ball'. The card's ring icon is lime.",
+        "'Way one: look.' Side view. Tavi waits for a pass from Sam. Her head turns over her shoulder toward the goal side (headTurn 0 to 1 and back over about 12 frames). Face focus.",
+        "'Before the ball comes, look over your shoulder.' SlowMoTag. The head turn replays at 1/4 speed with a thin arc Arrow from the ball to over the shoulder. A stopwatch Readout beside her head counts 0.00 to 0.40 s. Caption under it: 'pro midfielders, Norway'.",
+        "'You know this one: a scan.' WordCard: scan, a quick look over your shoulder, away from the ball, to see where the defender and the space are, then back. The card pops with a small 'yes, that one' nod from Tavi.",
+        "'A snapshot, not a stare.' A Snapshot polaroid pops out of her head with a camera-flash frame: Chalk far away, the free grass, the goal. It tilts and hangs in the air.",
+        "'Click, and back.' Tick. Her head is already back on the ball before the polaroid stops wobbling.",
+        "'Your eyes barely stop.' Close inset of her eyes: they sweep across during the turn with almost no hold, a faint blur streak.",
+        "'One question: where's Chalk?' The polaroid zooms: a chalk circle draws around Chalk's tiny figure in it. Label 'CHALK' with a distance tick. The rest of the polaroid stays soft.",
+        "'Pros do it right up to the touch.' Cut to the map. A grey ghost pro token waits above a 10 s chalk timeline. Three polaroids pop along it, about one every three seconds. The pass leaves at about 8 s and arrives at 10 s, so the last look lands while the ball rolls. Caption: 'Premier League pros: about 3 looks in the 10 s before the ball'."
+      ],
+      "components": [
+        "ChapterCard",
+        "Stage",
+        "Camera",
+        "GroundSide",
+        "Player",
+        "Ball",
+        "SlowMoTag",
+        "Readout",
+        "WordCard",
+        "Snapshot",
+        "TopField",
+        "TopPlayer",
+        "Label",
+        "Arrow",
+        "Sfx"
+      ],
+      "physics_sim": "Map beat: a 10 s timeline; DRILL_PASSES 8 m at 5 m/s, decel 0.8, leaves at 8.1 s and arrives at 10 s (1.9 s roll); polaroids at about 1, 4 and 8.5 s. Head turn: 12 frames out and back at real speed (0.4 s).",
+      "sfx": [
+        "chalk scratching for the card",
+        "soft cloth turn of the head",
+        "slow-motion drone, stopwatch ticks",
+        "word card pop",
+        "camera click and flash",
+        "tick",
+        "tiny eye sweep whoosh",
+        "chalk circle squeak",
+        "three ticks spaced along the timeline"
+      ],
+      "transition_out": "The last polaroid flips over. Its back is the X-ray grid, and the camera pushes into it.",
+      "facts_used": [
+        "Stopwatch 0.40 s (visual, captioned 'pro midfielders, Norway') <- 'Pros (4 Norwegian top-league central midfielders, eye-tracking): an average scan lasts 0.40 s; nine out of ten last 0.66 s or less; only 2.3% of scans contain a fixation.' The caption names Norway so viewers do not merge this group with the Premier League group.",
+        "'Your eyes barely stop' <- the same source (mechanism note: do not say the eyes stop; 97.7% of scans hold no fixation, and the topic 3 note asks for 'almost never stop', so 'barely' replaces 'don't even').",
+        "Caption 'Premier League pros: about 3 looks in the 10 s before the ball' <- 'Premier League pros (27 players, 9,574 possessions) scan about 3 times in the 10 seconds before the ball arrives'. The timeline shows the same rate as the caption (about one look every three seconds), and the last look during the roll follows the semi-elite adult finding that head turns rise in the final second before the ball. No spoken number here."
+      ]
+    },
+    {
+      "id": "b05",
+      "chapter": "Ch1 Look: too late",
+      "palette": "X-ray Physics",
+      "narration": "Why not look after it arrives? <short pause> Noticing something new: about a third of a second. Choosing what to do: about half a second. <short pause> That's two of Chalk's steps. <short pause> Like checking for cars after stepping off the kerb. <short pause> Check first. Then move.",
+      "word_count": 41,
+      "est_seconds": 18.2,
+      "visual_beats": [
+        "'Why not look after it arrives?' X-ray grid. XRayHead: Tavi's head in profile with the eye and a simple brain outline in teal ink. The ball arrives at her foot at the bottom of frame. Only then does the head turn.",
+        "'Noticing something new: about a third of a second.' TwoPartStopwatch, part one 'NOTICE' fills from 0 to about 0.3 s while a pulse travels from the eye into the brain. Caption: 'ages 10 to 18, computer tests'.",
+        "'Choosing what to do: about half a second.' Part two 'CHOOSE' fills to about 0.5 s while two glowing doors (turn, pass) blink in the brain and one lights up. The two dials sit side by side, not summed.",
+        "'That's two of Chalk's steps.' Below the head, a chalk Chalk jogs across the grid along a short SecondsRuler: two chalk footprints appear one metre apart in exactly 0.5 s of dial time. His mitten comes to rest on the ball. One eyebrow up.",
+        "'Like checking for cars after stepping off the kerb.' ChalkSketch kerb: a small chalk kid steps off a kerb, THEN turns their head. A chalk car's headlights swing in with a honk. Pink MISTAKE stamp on the sketch.",
+        "'Check first.' The sketch rewinds: the head turns first, the kid waits on the kerb. The car passes.",
+        "'Then move.' The kid crosses cleanly. Teal FIX stamp. Both dials collapse to zero: nothing left to do when the ball comes."
+      ],
+      "components": [
+        "Stage",
+        "Camera",
+        "XRayGrid",
+        "XRayHead",
+        "TwoPartStopwatch",
+        "SecondsRuler",
+        "ChalkSketch",
+        "Ball",
+        "Keeper",
+        "Stamp",
+        "Label",
+        "Sfx"
+      ],
+      "physics_sim": "Chalk at 4 m/s covers 2.0 m in 0.5 s; footprints 1.0 m apart (one step each at a jog). The dials run in real time against the same clock, then replay at half speed so they read.",
+      "sfx": [
+        "sub-drop into the X-ray",
+        "pulse tone travelling to the brain",
+        "dial tick-up x2",
+        "two soft door blinks, one lights",
+        "two chalk footsteps, mitten lands soft",
+        "step off the kerb, headlights swing, a short honk, mistake stamp",
+        "rewind whirr",
+        "clean footsteps, fix stamp"
+      ],
+      "transition_out": "The X-ray head fades to the map view: the same head from above, with the ring around it.",
+      "facts_used": [
+        "'about a third of a second' to notice <- 'Youth (38,778 people, 10-18 y, computer tasks): simple reaction fell from about 0.36 s at age 10 to about 0.32 s by 14-16.' Simple reaction time includes noticing and pressing, so the dial says NOTICE, not SEE. Youth data, so no adult label; the caption names the ages and the task.",
+        "'about half a second' to choose <- same source: 'Choice reaction fell from about 0.58 s at 10 to about 0.47 s at 16.' The mechanism note asks that the task be named, so the caption says 'computer tests' and the two dials are not added (a choice reaction already includes noticing).",
+        "'two of Chalk's steps' is sim geometry: 4 m/s x 0.5 s = 2 m, one footprint per metre, the same rule spoken in b11 ('every two metres is about half a second'). 'Steps', not 'strides': a stride is two steps.",
+        "The kerb picture replaces the research's driving metaphor ('checking the mirrors before you change lane') with one a 12-year-old lives every day. No number."
+      ]
+    },
+    {
+      "id": "b06",
+      "chapter": "Ch1 Look: two looks, one map",
+      "palette": "Floodlit Pitch",
+      "narration": "So look early. <short pause> Ball leaves Sam's foot: look. Halfway: look again. Then eyes on the ball. <short pause> Where's Chalk? Where's the space? They build a map in your head. <short pause> You know what's behind you.",
+      "word_count": 33,
+      "est_seconds": 14.7,
+      "visual_beats": [
+        "'So look early.' Map view of the cold-open mark. Tavi's token faces Sam. Above her, a ThoughtBubble filled with UnknownFog question marks. Chalk waits 11 m behind her, in the dark half.",
+        "'Ball leaves Sam's foot: look.' PASS_IN starts. On the kick frame her token's look offset swings toward the goal side. Tick. A Snapshot pops: Chalk, small, 10.6 m away. It flies into the ThoughtBubble and lands as a chalk dot. Pop-soft. Stamp CUE: 'ball leaves, head goes'.",
+        "'Halfway: look again.' At about 0.9 s, with the ball about 6 m out, the look swings again. Tick. Second Snapshot: Chalk now 7 m away and drifting to her left. It lands as a second dot with a little Arrow showing his path.",
+        "'Then eyes on the ball.' Her look offset snaps back to the ball at 1.2 s. A small lime eye icon locks onto the ball for the rest of the roll. Caption: 'eyes on the ball for the touch'.",
+        "'Where's Chalk?' The two polaroids sit side by side above the map for a beat, then the Chalk dot in the bubble pulses pink.",
+        "'Where's the space?' A lime patch appears in the bubble on the side away from Chalk.",
+        "'They build a map in your head.' The fog clears. The bubble is now a tiny top-down map: Sam, the ball, Chalk's dot and arrow, the lime space.",
+        "'You know what's behind you.' The ball is still 4 m short of her foot when the map completes. The TimeBubble (1.5 s, amber) rides with her while the ball rolls the last metres."
+      ],
+      "components": [
+        "Stage",
+        "Camera",
+        "TopField",
+        "TopPlayer",
+        "Ball",
+        "Snapshot",
+        "ThoughtBubble",
+        "UnknownFog",
+        "TimeBubble",
+        "Stamp",
+        "Label",
+        "Arrow",
+        "Sfx"
+      ],
+      "physics_sim": "PASS_IN as in b01. Scan 1 at t = 0.1 to 0.5 s (Chalk 10.6 to 9.0 m away, ring 2.65 to 2.25 s). Scan 2 at t = 0.9 to 1.2 s (Chalk 7.4 to 6.2 m, ring 1.85 to 1.55 s; the ball is 6.5 m short at 0.9 s and 4.8 m short at 1.2 s). Eyes on the ball from 1.2 s to the touch: 0.9 s of ball-watching for a still receiver (2.12 s), 0.7 s with the LOOK_STEP touch (1.94 s).",
+      "sfx": [
+        "side-foot pass thump",
+        "tick on scan 1, camera click, pop-soft, stamp",
+        "tick on scan 2, click, pop-soft",
+        "soft lock click on the eye icon",
+        "pink pulse",
+        "lime patch shimmer",
+        "fog clears with a soft breath",
+        "grass roll hiss"
+      ],
+      "transition_out": "The thought-bubble map grows to fill the frame and becomes the real map for b07.",
+      "facts_used": [
+        "No narrated numbers. The two-look cue <- research cues 'Ball leaves the foot, head goes' and 'Refresh before it arrives ... take a second look late in the ball's flight', plus the semi-elite adult finding that head turns rise in the final second before the ball (0.95/s over 10 s to 1.44/s in the last second, 32 Australian players, head sensors). The second look is placed at halfway, not in the last third of a second, so a youth receiver has the ball in view for the touch (US Youth Soccer: watch the ball onto the foot).",
+        "The map in the thought bubble is a picture, not science (mechanism note: the working-memory framing is an analogy). Nothing about memory is spoken."
+      ]
+    },
+    {
+      "id": "b07",
+      "chapter": "Ch1 Look: the free edge",
+      "palette": "Open Sky",
+      "narration": "Elite youth players: one look before the ball? Three times the odds of a good next move. <short pause> Did the look cause it? Nobody's proved that. It went with it. <short pause> Small, but free, dozens of times a game. <short pause> Know early, move early, even one step. <short pause> The ring's there before the ball.",
+      "word_count": 50,
+      "est_seconds": 22.2,
+      "visual_beats": [
+        "'Elite youth players:' Open Sky gradient. A small 4v4 pitch draws in chalk with eight grey tokens and a camera icon on a tripod. Caption: 'elite youth women, about 17, filmed 4v4 games'.",
+        "'one look before the ball?' One token's head flicks before a pass reaches it. A tick.",
+        "'Three times the odds of a good next move.' ChalkSketch jars: two chalk jars, 'no look' with one lime marble, 'one look' with three (odds drawn as marbles, no percent). Small caption: 'about 3.4 times the odds'.",
+        "'Did the look cause it?' A chalk arrow draws from the look to the full jar, with a chalk '?' on it.",
+        "'Nobody's proved that.' The arrow gets a soft strike-through.",
+        "'It went with it.' The arrow becomes a chalk '+' between the look and the jar, and glows once. Caption: 'went with, not because'.",
+        "'Small, but free, dozens of times a game.' The jars shrink to a small chip in the corner beside a big grey block labelled 'skill'. A counter of small polaroids rattles along the bottom of the frame like a film strip, dozens of them, no digits. A tiny chalk price tag reads 'FREE'.",
+        "'Know early, move early, even one step.' Sky fades to the floodlit map at Tavi's mark, real scale. LOOK_STEP: after scan 1 she is already leaning; her eyes go back to the ball at 1.2 s and she takes one step toward it at 1.5 s. She meets the ball about 0.9 m in front of her old mark, a fifth of a second earlier. Chalk is still 4.1 m away.",
+        "'The ring's there before the ball.' The TimeBubble is on screen from the kick frame (2.7 s, lime) and reads 1.0 s (amber) at the touch, not 0.6 s pink. One confident pulse."
+      ],
+      "components": [
+        "Stage",
+        "Camera",
+        "Sky",
+        "TopField",
+        "TopPlayer",
+        "Ball",
+        "Snapshot",
+        "TimeBubble",
+        "ChalkSketch",
+        "Label",
+        "Readout",
+        "Sfx"
+      ],
+      "physics_sim": "LOOK_STEP: PASS_IN as before. Scans at 0.1-0.5 s and 0.9-1.2 s as in b06. Tavi steps toward the ball at 2 m/s from t = 1.5 s and meets it at t = 1.94 s at x = -0.88 (ball speed 4.95 m/s). Chalk has run 7.77 m of his 11.0 m and is 4.1 m from the ball: ring 1.03 s. Compare the cold open: 2.5 m, 0.63 s.",
+      "sfx": [
+        "chalk pitch draws in",
+        "tick",
+        "one marble drop, then three",
+        "arrow draw with a question squeak",
+        "strike-through swipe",
+        "soft plus chime",
+        "chip shrink pop, film-strip rattle",
+        "one soft step on grass, cushion thump",
+        "ring pulse, warm"
+      ],
+      "transition_out": "The ring's lime light spreads across the grass and the PracticeBoard flips up out of it.",
+      "facts_used": [
+        "'Three times the odds' <- 'Elite youth women (25 players, 17.6 y, 4v4): a possession with at least one scan before the ball arrived was 3.4 times more likely to end well' (odds ratio 3.40). Under-claimed as 'three times the odds' (the verification allows 'more than three times the odds'), exact value and population on the caption. 'Elite youth' is spoken so a 12-year-old does not assume it is about them; the study was one filmed session, not a follow-up, so 'filmed' replaces 'followed'.",
+        "'Did the look cause it? Nobody's proved that. It went with it.' <- mechanism note: the study is observational; say 'players who scanned more also completed more passes', never cause.",
+        "'Small, but free' <- 'Elite adult midfielders (35 players, Euro 2016): scanning explains only 3-4% of the variance in pass completion' and the challenge's rule to present scanning as a small, free edge that repeats 40-60 times a match. 'dozens of times' replaces the digits.",
+        "'The ring's there before the ball' <- sim LOOK_STEP: 1.03 s at the touch against 0.63 s in the cold open. 'Know early, move early' <- research mistake 'Standing still and waiting for the pass ... come to the ball'."
+      ]
+    },
+    {
+      "id": "b08",
+      "chapter": "Ch1 Look (practice)",
+      "palette": "Floodlit Pitch",
+      "narration": "Classic mistake: eyes glued to the ball. <short pause> Fix: ball leaves the foot, head goes. <short pause> Two coloured cones behind you. Sam passes and calls one. Look back, find it, shout left or right before the ball's halfway. Late call? Doesn't count. <short pause> Slow passes first.",
+      "word_count": 43,
+      "est_seconds": 19.1,
+      "visual_beats": [
+        "'Classic mistake: eyes glued to the ball.' PracticeBoard flips up with three cues: 'Ball leaves the foot, head goes', 'Look again halfway. Eyes on the ball for the touch', 'Snapshot, not a stare'. Stamp MISTAKE. Left panel: side view of Tavi with two dotted eye-lines locked on the rolling ball the whole way. Chalk creeps in behind her, unseen. Her ring appears only as she looks up: 0.3 s, pink.",
+        "'Fix: ball leaves the foot, head goes.' Stamp FIX. The same pass replays. On the kick frame her head turns. A polaroid pops.",
+        "'Two coloured cones behind you.' Stamp DRILL. Right panel, top-down: Sam in front of Tavi, 10 m away, as in the episode. Two flat cones, one orange and one white, pop 5 m behind her, left and right of her mark.",
+        "'Sam passes and calls one.' Sam passes and a Bubble from him says 'WHITE!' as the ball leaves his foot.",
+        "'Look back, find it, shout left or right before the ball's halfway.' Her head flicks over her shoulder (tick, Snapshot of the white cone), then a Bubble pops 'RIGHT!' at about 0.8 s. A chalk halfway mark on the grass: the ball is still short of it. Board note: 'Swap the cones round every few passes. Ten looks over each shoulder, then swap roles.'",
+        "'Late call? Doesn't count.' A small chalk tally on the board: a tick for the early call, then a ghost rep where the call comes after the halfway mark and the tally draws a cross. Blip.",
+        "[step] Board line pops: 'Call it, then step to meet the ball. Never wait for it.' Her token takes one step toward Sam after the call, before the touch, and the ring stays amber.",
+        "'Slow passes first.' Board line: 'Slow passes first. Add pace only when the call is always early.' Small caption: 'one coaching sentence raised looks by about a quarter (elite youth women, 4v4)'. Second board note: 'No friend? Wall pass. Look back on the kick and call out loud one thing you see behind you before the rebound. Change it every time.' Safety line on the board only: 'Flat grass, away from roads and parked cars. Jog and pass easy for 5 minutes first.' The board's ring icon pops from pink to lime."
+      ],
+      "components": [
+        "PracticeBoard",
+        "Stamp",
+        "Stage",
+        "Camera",
+        "Player",
+        "Keeper",
+        "Ball",
+        "TimeBubble",
+        "Snapshot",
+        "TopField",
+        "TopPlayer",
+        "Bubble",
+        "Label",
+        "Sfx"
+      ],
+      "physics_sim": "Mistake panel: PASS_IN, Tavi never scans; the ring appears at 0.3 s (Chalk 1.2 m away, he arrived during her dead stop). Drill panel: DRILL_PASSES 10 m at 5.5 m/s, decel 0.8 (arrives in about 2.2 s, halfway at about 1.0 s). Her head turn 0.1 to 0.5 s, the call at about 0.8 s with the ball about 4.2 m from Sam, still short of halfway. Cones 5 m behind her, 2 m either side of the line. One step toward Sam at 1.5 s (LOOK_STEP speed, 2 m/s).",
+      "sfx": [
+        "board flip, practice loop",
+        "stamp x3",
+        "creeping chalk steps, short pink alarm",
+        "tick and click on the fix",
+        "two cone pops",
+        "pass thump, speech-bubble pop",
+        "tick, camera click, speech-bubble pop",
+        "tally tick, then a cross with a blip",
+        "one soft step on grass",
+        "board line pops",
+        "ring blip lime"
+      ],
+      "transition_out": "The board slides down into the grass. Chalk writes chapter card 2 where it stood.",
+      "facts_used": [
+        "Caption 'one coaching sentence raised looks by about a quarter (elite youth women, 4v4)' <- 'Elite youth women (25 players, 17.6 y, 4v4): one sentence of coaching cue raised scans per possession by 27%'. Visual only, population named.",
+        "Drill <- research 'Colour-call scan (needs one friend)' and the challenge's drill (a): call the colour before the touch. The cones sit BEHIND the receiver so the look is away from the ball and the passer, a real scan-behind, not an eyes-up on the passer's hand. The halfway rule uses the 0.4 s scan from b04: a look on the kick frame leaves time to call before the ball is halfway (sim: about 1.0 s). The wall variant <- 'Wall snapshot (alone)', with a spoken check so the look is not an empty flick. 'Ten looks over each shoulder' is a drill count, not a fact.",
+        "'Call it, then step to meet the ball' <- b07's 'Know early, move early' and the research mistake 'Standing still and waiting for the pass'. Safety line follows the s07/s12 pattern on the board, not in the narration."
+      ]
+    },
+    {
+      "id": "b09",
+      "chapter": "Ch2 Touch: the speed gap",
+      "palette": "Floodlit Pitch",
+      "narration": "Way two: touch. <short pause> Your first touch decides your next second. <short pause> The ball doesn't bounce off just because your boot's hard. Mostly it's the speed gap: fast ball, still foot. Big gap, big bounce. <short pause> Catch an egg with a stiff hand: splat. Move with it: safe.",
+      "word_count": 45,
+      "est_seconds": 21.0,
+      "visual_beats": [
+        "[1 s card] Chalk writes '2 · TOUCH' on the grass, subtitle 'buy time as it arrives'.",
+        "'Way two: touch.' Side view. PASS_IN rolls toward Tavi. Freeze one metre before her foot.",
+        "'Your first touch decides your next second.' WordCard: first touch, your first contact with a pass, and where it sends the ball. Three faint ghost balls fan out from her foot: one bouncing away, one dead under her, one rolling 2 m into space. Only the last one is lime. A small one-second Readout ticks beside the fan.",
+        "'The ball doesn't bounce off just because your boot's hard.' Close on the boot and ball. A chalk rock and a chalk pillow sit beside them; a ball drops on each. Both bounce, the pillow clearly lower. Caption: 'softer helps a bit'.",
+        "'Mostly it's the speed gap: fast ball, still foot.' SpeedDiffMeter: an orange ball arrow and a teal foot arrow (zero length). A bar between their tips is labelled 'gap' in plain words. The bar is the hero of the shot: it glows, the rock and pillow dim.",
+        "'Big gap, big bounce.' The gap bar and the ball's rebound arrow pulse together, same length, same colour.",
+        "'Catch an egg with a stiff hand: splat.' ChalkSketch egg: a chalk hand held stiff, an egg drops, cracks and splats. Blip.",
+        "'Move with it: safe.' The hand drops with the egg for a moment, the egg settles in the palm. The gap bar shrinks to almost nothing."
+      ],
+      "components": [
+        "ChapterCard",
+        "Stage",
+        "Camera",
+        "GroundSide",
+        "Player",
+        "Ball",
+        "WordCard",
+        "SpeedDiffMeter",
+        "ChalkSketch",
+        "Arrow",
+        "Label",
+        "Readout",
+        "Sfx"
+      ],
+      "physics_sim": "PASS_IN arrival speed 4.8 m/s at Tavi. Ghost fan uses TOUCH_STIFF (1.68 m/s back, rolls 1.8 m), TOUCH_CUSHION (foot giving at 1.25 m/s, ball stops) and TOUCH_AWAY (3.0 m/s into space, 2.1 m by the second touch at 0.8 s). Egg, rock and pillow are drawn, not simulated.",
+      "sfx": [
+        "chalk scratching for the card",
+        "grass roll, then a freeze click",
+        "word card pop, three faint ghost whooshes, one-second tick",
+        "two ball bounces, rock higher than pillow",
+        "two arrow draws, a hum on the gap bar",
+        "double pulse",
+        "egg crack and splat, comic",
+        "soft catch, the bar hum fades"
+      ],
+      "transition_out": "Push into the boot at the frozen contact. The boot turns see-through and the X-ray leg builds inside it.",
+      "facts_used": [
+        "No narrated numbers. 'the speed gap' <- touch.ts: v_out = v_foot - e (v_ball - v_foot); the verification confirms the direction: 'the ball rebounds off the speed difference, a retreating foot lowers the rebound, a foot moving into the ball raises it.' 'Mostly' and 'just because' keep the claim honest: bounciness is a property of the pair and of stiffness, so hardness is part of it (mechanism note), and the pillow bounces visibly lower than the rock.",
+        "'Your first touch decides your next second' <- the Ligue 1 possession length (about 1.1 s) and the challenge's framing that the first touch buys or loses the next moment; 'decides everything' was an overclaim.",
+        "The egg catch is the challenge's hand-catch analogy (tweak 4), drawn with no numbers."
+      ]
+    },
+    {
+      "id": "b10",
+      "chapter": "Ch2 Touch: stiff or soft",
+      "palette": "X-ray Physics",
+      "narration": "Stiff, still foot: it leaves at maybe a third of its speed. <short pause> Now move your foot back with it. The gap shrinks. The bounce dies. That's a cushion. <short pause> Contact: about a hundredth of a second. Far shorter than a blink. So be soft before it lands.",
+      "word_count": 46,
+      "est_seconds": 20.4,
+      "visual_beats": [
+        "'Stiff, still foot:' X-ray grid. XRayLeg in receiveStiff: knee and hip glowing pink (locked leg), the foot planted still. The ball comes in from the left at 1/8 speed (SlowMoTag) with an orange speed arrow. The foot arrow is zero length. Label at the contact point: 'inside of the foot'.",
+        "'it leaves at maybe a third of its speed.' Contact: the ball squashes a little and springs back. Its outgoing arrow is about a third of the incoming one. SpeedDiffMeter shows the two arrows stacked: the short one is 'maybe a third'. No percent. A one-second cut to the side pitch: the ball rolls almost 2 m off her stiff foot toward Sam while Tavi watches it go. Chalk's shadow slides in.",
+        "'Now move your foot back with it.' Back to the X-ray. Second run, same ball, same speed. XRayLeg receiveSoft: hip and knee glow soft teal, the foot moves back with the ball for a few frames. The teal foot arrow grows in the ball's direction.",
+        "'The gap shrinks.' The gap bar between the two arrow tips shortens to a stub.",
+        "'The bounce dies.' The ball leaves the foot at walking pace and stops within a stride. Trail fades.",
+        "'That's a cushion.' WordCard: cushion, the inside of your foot gives way as the ball arrives, so the bounce dies and the ball stays close.",
+        "'Contact: about a hundredth of a second.' Freeze at contact. A Readout stopwatch creeps to 0.01 s, the same mono style as s02.",
+        "'Far shorter than a blink.' A small chalk eye blinks once beside the stopwatch; the contact bar is a sliver of the blink bar.",
+        "'So be soft before it lands.' Rewind 10 frames: the teal glow on hip and knee is already on and the foot is already drifting back BEFORE the ball touches. Stamp CUE: 'soft before contact'."
+      ],
+      "components": [
+        "Stage",
+        "Camera",
+        "XRayGrid",
+        "XRayLeg",
+        "Ball",
+        "SpeedDiffMeter",
+        "Arrow",
+        "Readout",
+        "Label",
+        "WordCard",
+        "SlowMoTag",
+        "GroundSide",
+        "Player",
+        "Stamp",
+        "Sfx"
+      ],
+      "physics_sim": "TOUCH_STIFF: firstTouch with ballVel (4.8, 0, 0), footVel 0, normal (-1, 0, 0), e 0.35, grip 0.8: v_out = -1.68 m/s (35% of 4.8), rolls 1.8 m. TOUCH_CUSHION: footVel (1.25, 0, 0) (giving way at about a quarter of the ball speed): v_out = 0.01 m/s, a dead stop; footVel (1.6, 0, 0): v_out = +0.48 m/s, the ball rolls 0.15 m and stays within a stride. e = 0.35 stands for a real foot's limited mass (verification: a still firm foot returns about 20-40% of the pass speed); the kit default e = 0.6 would return 60%, which the verification calls an upper bound. Slow motion at 1/8 speed, labelled.",
+      "sfx": [
+        "sub-drop into slow motion, pink lock hum",
+        "hard little thump, the ball springs, grass roll away, whoosh of Chalk's shadow",
+        "soft teal hum on the giving leg",
+        "gap bar shrinks with a falling tone",
+        "soft thump, ball settles",
+        "word card pop",
+        "clock tick on the freeze",
+        "tiny eye blink",
+        "rewind whirr, stamp"
+      ],
+      "transition_out": "Pull back out of the boot to the map view. The x-ray ink fades into pitch stripes.",
+      "facts_used": [
+        "'maybe a third of its speed' <- verification correction: 'a still firm foot returns about 20-40 percent of the pass speed. Say a third to a half' and EP2-VISUAL 'The stiff foot returns maybe a third of the pass speed'. Sim TOUCH_STIFF gives 35%. No percentage on screen (no soccer study measured the receiving touch).",
+        "The giving foot killing the bounce is a physics demonstration (challenge risk 3: no invented percentages). Sim TOUCH_CUSHION: a foot giving at about a quarter of the ball speed stops it, inside the verification's 15-30% dead-stop band. The give comes from the knee and hip, so those glow, not the ankle (a floppy ankle gives an unpredictable surface); the surface is the inside of the foot (US Youth Soccer cue).",
+        "'about a hundredth of a second' <- 'In maximal instep kicks by 11 adult players, foot and ball touch for 9 ms' with the mechanism note: 'Contact time for a slow cushioned touch has not been measured and is probably a little longer. Say about a hundredth of a second.' Same wording as s02 and s23. 'So be soft before it lands' is the payoff: nothing can be adjusted inside a hundredth of a second, so the foot must already be giving.",
+        "'Far shorter than a blink' is a comparison: a blink lasts roughly a tenth to a third of a second (general knowledge, no number spoken)."
+      ]
+    },
+    {
+      "id": "b11",
+      "chapter": "Ch2 Touch: into space",
+      "palette": "Floodlit Pitch",
+      "narration": "Step one: kill the bounce. With Chalk coming, it buys nothing alone. <short pause> One touch into space, away from Chalk, buys metres. <short pause> At Chalk's jog, every two metres is about half a second. <short pause> Pros: touch, touch, gone. <short pause> Your first touch is the steering wheel.",
+      "word_count": 43,
+      "est_seconds": 19.1,
+      "visual_beats": [
+        "'Step one: kill the bounce.' Map view, SplitCompare down the middle. Both halves start from the LOOK_STEP receive: Chalk 4.1 m away, ring 1.0 s amber. Both cushion the ball. A chalk '1' ticks on the divider.",
+        "'With Chalk coming, it buys nothing alone.' Left half: TOUCH_DEAD, the ball stops under her token and stays. Chalk jogs in. The ring shrinks 1.0, 0.6, 0.2 and goes pink; his token reaches the ball. A chalk '+0' floats up and fades.",
+        "'One touch into space, away from Chalk, buys metres.' Right half: TOUCH_AWAY. The ball rolls about 2 m to the side away from Chalk and Tavi's token arrives with it for the second touch at 0.8 s. A SecondsRuler unrolls along the touch: 0, 1, 2 m. Under the metre marks, seconds appear: 0.25 s, 0.5 s. The right ring reads 0.7 s amber while the left is pink. A chalk '2' ticks on the divider.",
+        "'At Chalk's jog, every two metres is about half a second.' The ruler's '2 m' and '0.5 s' glow together. Small jogging Chalk icon beside it, no formula. Caption: 'an estimate: Chalk's jog, about 4 metres a second'.",
+        "'Pros: touch, touch, gone.' The split closes. A grey ghost pro token receives, touches, passes: a small metronome ticks twice and the ball is away. The ghost token never stands still. Caption: 'pro players (Ligue 1): about 1 s and 2 touches per possession'.",
+        "'Your first touch is the steering wheel.' A chalk steering wheel draws around the ball at the touch point and turns toward the lime space."
+      ],
+      "components": [
+        "Stage",
+        "Camera",
+        "TopField",
+        "TopPlayer",
+        "Ball",
+        "TimeBubble",
+        "SplitCompare",
+        "SecondsRuler",
+        "Arrow",
+        "Readout",
+        "Label",
+        "Sfx"
+      ],
+      "physics_sim": "Both halves start from the LOOK_STEP receive: Tavi at (-0.88, 0), Chalk at (3.2, -0.5), 4.1 m away. TOUCH_DEAD: ball stops; after 0.8 s Chalk is 0.9 m away (ring 0.23 s), then on the ball. TOUCH_AWAY: firstTouch with ballVel (4.95, 0, 0), footVel (-0.87, 1.16, 0), normal (-0.6, 0.8, 0), e 0.35, grip 1.0 gives (-1.8, 2.4, 0): 3.0 m/s along (-0.6, 0.8), away from Chalk to the open side; the ball rolls 2.14 m in 0.8 s (rollAt(3.0, 0.8)) and Tavi takes her second touch there; Chalk runs 3.2 m toward it and is 2.6 m from the ball at that moment (ring 0.65 s). The touch bought about 0.4 s, close to 2 m at 4 m/s = 0.5 s. Ruler: seconds = metres / 4.",
+      "sfx": [
+        "split divider draws, two cushion thumps, chalk tick",
+        "dead-stop hold, ring ticks down to a pink alarm, whoosh of Chalk",
+        "grass roll, ruler unrolls with clicks, seconds pop, chalk tick",
+        "two glows with a soft bell",
+        "metronome tick-tick, thump, thump, whoosh",
+        "steering-wheel chalk squeak"
+      ],
+      "transition_out": "The steering wheel spins into the PracticeBoard's pop.",
+      "facts_used": [
+        "'every two metres is about half a second' <- the episode rule at CLOSING_SPEED 4 m/s (touch.test.ts: bubbleSeconds(2) = 0.5) and the challenge's tweak 3 ('a closing speed of about 4 m/s is more honest than top speed ... every two metres is about half a second. Say it as an estimate'). 'about' and the caption keep it an estimate.",
+        "'With Chalk coming, it buys nothing alone' <- the dead stop is the right first step (b10) and the wrong end point under pressure; with no pressure a dead stop is fine, so the condition is spoken (research mistake 'Killing the ball dead under the feet as the default touch').",
+        "Caption 'pro players (Ligue 1): about 1 s and 2 touches per possession' <- 'Ligue 1 professionals (30 matches, one club): each possession lasts 1.1 s, uses 2.0 touches, covers 4.2 m'. Population named on screen; the spoken line says 'Pros'.",
+        "'Your first touch is the steering wheel' <- research metaphor 'The first touch is the steering wheel. The second touch is the pass.' Ruler seconds (visual) are the same 4 m/s rule."
+      ]
+    },
+    {
+      "id": "b12",
+      "chapter": "Ch2 Touch (practice)",
+      "palette": "Floodlit Pitch",
+      "narration": "Classic mistake: killing it dead under your feet. <short pause> Fix: soft foot, aimed where you're going. <short pause> Wall drill, alone. Cushion the return. Then one touch out of a box, away from a cone. Swap feet. <short pause> Start soft. The car park has suffered enough.",
+      "word_count": 42,
+      "est_seconds": 18.7,
+      "visual_beats": [
+        "'Classic mistake: killing it dead under your feet.' PracticeBoard with three cues: 'Inside of the foot, soft knee, let it give', 'Touch away from pressure, not straight ahead', 'Two metres, not zero'. Stamp MISTAKE. Left panel: Tavi stops the ball dead, stands on it, Chalk arrives. Ring pink. Small note: 'or letting it bounce away'.",
+        "'Fix: soft foot, aimed where you're going.' Stamp FIX. Replay: the foot gives (receiveSoft) and the ball rolls 2 m to the side. A small Arrow shows the aim before the ball arrives. A tiny Bubble from the ball: 'I already know where I'm going'. Tavi's token is already facing the space.",
+        "'Wall drill, alone.' Stamp DRILL. Right panel: Tavi 5 m from the wall under the stand (the s07 wall). A cone stands 3 m to one side of her, wearing a tiny chalk eyebrow: Label 'Chalk'. She passes.",
+        "'Cushion the return.' The rebound comes back and she cushions it. It stops within a step. Board step '1 cushion it dead'.",
+        "'Then one touch out of a box, away from a cone.' A 2 m chalk box appears around her feet. Next rebound: her first touch rolls the ball out of the box on the side AWAY from the cone, she follows and passes again from there. Board step '2 touch it out, away from the cone'. Board note: 'Move the cone every five passes.'",
+        "'Swap feet.' Board line: 'swap feet every ten'. Tavi's rig mirrors for one rep.",
+        "'Start soft.' Board line: 'Start soft. Add pace when the ball always stops where you meant.' Safety line: 'Solid wall, no windows. Nobody near the wall. Away from roads and parked cars.'",
+        "'The car park has suffered enough.' Far behind the goal, the s01 car park. One hazard light blinks once. Blip. The board's ring icon pops from amber to lime."
+      ],
+      "components": [
+        "PracticeBoard",
+        "Stamp",
+        "Stage",
+        "Camera",
+        "GroundSide",
+        "Player",
+        "Keeper",
+        "Ball",
+        "TimeBubble",
+        "Arrow",
+        "Bubble",
+        "Label",
+        "CarPark",
+        "Sfx",
+        "rollPass",
+        "firstTouch"
+      ],
+      "physics_sim": "DRILL_PASSES wall: Tavi passes at 6 m/s from 5 m; the ball reaches the wall at 5.3 m/s, the wall returns 0.8 of that (4.2 m/s), and the rebound arrives at about 3.2 m/s after about 2.2 s. Cushion: TOUCH_CUSHION with footVel 0.8 m/s giving way, e 0.35: v_out about -0.02 m/s, the ball stops within a step. Box touch: TOUCH_AWAY-style redirect at 2.0 m/s sideways, away from the cone, rolls 2.5 m (rollDistance(2.0)) and clears the 2 m box.",
+      "sfx": [
+        "board flip, practice loop",
+        "stamp x3",
+        "dead-stop thud, pink alarm",
+        "soft cushion thump, grass roll 2 m, speech-bubble pop",
+        "cone pop with a tiny eyebrow blip",
+        "wall thump and return, cushion thump",
+        "chalk box draws, touch thump, roll",
+        "mirror swish",
+        "board line pops",
+        "far car hazard blip, once",
+        "ring blip lime"
+      ],
+      "transition_out": "The hazard blink fades. Chalk writes chapter card 3 on the grass.",
+      "facts_used": [
+        "No narrated numbers. Mistake and fix <- research 'Killing the ball dead under the feet as the default touch' and 'Stiff, locked leg or foot planted still'; the fix 'let the foot give a little less than the dead-stop amount so the ball rolls one to three metres into the space you scanned'. 'I already know where I'm going' <- CONCEPT-2.md, now on the Bubble.",
+        "Board cue 'Inside of the foot, soft knee, let it give' <- US Youth Soccer receiving cues (arch faces the ball, pull the leg back to absorb the pace) and the b10 X-ray: the give comes from knee and hip, not a floppy ankle. The cone as Chalk gives the touch-out a decision (research cue 'touch away from pressure, never straight ahead by habit'), and the two numbered steps show that the dead stop and the touch-out are steps, not a contradiction.",
+        "Drill <- research 'Wall bounce meter (alone)' and 'Back-foot gate (alone)' merged: cushion, then a first touch out of a two-metre box, alternate feet, start soft. Safety line follows s07/s18 wall rules.",
+        "The car park callback is the one allowed episode-1 joke."
+      ]
+    },
+    {
+      "id": "b13",
+      "chapter": "Ch3 Shape: half a circle of sight",
+      "palette": "Floodlit Pitch",
+      "narration": "Way three: shape. How you stand. <short pause> Arms out wide. You see everything between your hands. A bit more than a half circle. <short pause> Sharp only in a thumbnail-sized spot at arm's length. <short pause> The rest: blur. It catches movement, not whose shirt.",
+      "word_count": 40,
+      "est_seconds": 18.8,
+      "visual_beats": [
+        "[1 s card] Chalk writes '3 · SHAPE' on the grass, subtitle 'buy time with your body'.",
+        "'Way three: shape.' Map view, close on Tavi's token facing Sam.",
+        "'How you stand.' Two chalk footprints draw under the token and a small chalk chest arrow shows which way she faces. Caption: 'not team shape: your stance'.",
+        "'Arms out wide.' The token grows two thin chalk arms held straight out to the sides (two rounded rects drawn in the scene). Caption: 'try it'.",
+        "'You see everything between your hands.' VisionFan: the wide dim fan (200 degrees) draws from her head. It reaches just past her hands. darkenOutside dims the rest of the pitch.",
+        "'A bit more than a half circle.' A chalk half circle is drawn over the fan; the fan pokes out past it a little on each side.",
+        "'Sharp only in a thumbnail-sized spot at arm's length.' The narrow bright wedge (5 degrees) lights up in the middle of the fan, pointing at the ball. Inset: a side view of Tavi with an arm out and a thumb up; a small lime circle sits on the thumbnail. Inset caption: 'sharp spot: about 5 degrees; a thumbnail at arm's length fits inside it'.",
+        "'The rest: blur.' Outside the wedge, the fan goes soft and grainy.",
+        "'It catches movement, not whose shirt.' In the dim fan, Chalk's token jogs across at the edge: a blurry grey blob that pings like radar when he moves. Sam's token stands still in the dim fan: also a grey blob. Two chalk shirts float in the dim zone, one teal, one white, both drawn grey. The sharp wedge swings onto one and it turns white: Chalk."
+      ],
+      "components": [
+        "ChapterCard",
+        "Stage",
+        "Camera",
+        "TopField",
+        "TopPlayer",
+        "VisionFan",
+        "Keeper",
+        "Label",
+        "Arrow",
+        "Sfx"
+      ],
+      "physics_sim": "Chalk jogs across the edge of the fan at 4 m/s (about 6 m in 1.5 s) for the movement ping. Vision geometry: wide fan 200 degrees (VisionFan wideDeg 200), sharp wedge 5 degrees (sharpDeg 5).",
+      "sfx": [
+        "chalk scratching for the card",
+        "two footprint chalk strokes",
+        "two chalk arm draws",
+        "fan draws with a soft hum",
+        "half-circle chalk stroke",
+        "sharp wedge click, thumb-up pop",
+        "soft pixel fizz",
+        "radar ping x2, grey shirt shimmer, then a click as one turns white"
+      ],
+      "transition_out": "The fan and the dark half stay on screen as the camera drifts to show Sam behind Tavi and the goal ahead.",
+      "facts_used": [
+        "'A bit more than a half circle' <- 'Humans see about 200-220 degrees horizontally with both eyes, a bit more than a half circle; the sharp centre is only about 5 degrees' and the challenge (tweak 5): 'about a half circle is a safe under-claim'. VisionFan wideDeg 200 is drawn just past the hands and stays under the verified 214 degrees. The arms-out picture <- research metaphor 'hold your arms straight out to the sides'.",
+        "'a thumbnail-sized spot at arm's length' <- 'Human vision: ... sharp detail covers only the central 1.5-2 degrees, about a thumbnail at arm's length.' The wedge is drawn at 5 degrees (the verified fovea), and the inset says the thumbnail fits inside it, so the picture does not overstate sharp side vision.",
+        "'It catches movement, not whose shirt.' <- 'Peripheral vision ... relatively good at detecting motion' and 'weak ... at distinguishing detail, color, and shape'; the challenge's line 'the corner of your eye catches movement ... you still need the look to know who'."
+      ]
+    },
+    {
+      "id": "b14",
+      "chapter": "Ch3 Shape: straight on costs a turn",
+      "palette": "Floodlit Pitch",
+      "narration": "Face Sam straight on. Goal behind you. Chalk lives there. <short pause> To play forward, you turn. A full turn costs over half a second. Timed on youth players running and turning, no ball. <short pause> That's your whole ring from the first pass.",
+      "word_count": 40,
+      "est_seconds": 17.8,
+      "visual_beats": [
+        "'Face Sam straight on.' Map view. Tavi's token faces Sam, chest to the ball. Her wide fan covers Sam and the sides.",
+        "'Goal behind you.' The goal end behind her is drawn dark. A small chalk goal icon sits in the dark.",
+        "'Chalk lives there.' Chalk's two dot eyes blink open in the dark half, then his token gives a small wave. Blip.",
+        "'To play forward, you turn.' The ball arrives on her front foot. Her token rotates a full half circle with the ball at its feet. A stopwatch Readout runs beside her.",
+        "'A full turn costs over half a second.' The stopwatch stops at about 0.6 s. While she turned, Chalk's token took two steps and two chalk footprints appear on a short SecondsRuler, 2 m closer. Her ring shrinks from 1.0 s to 0.4 s and goes pink.",
+        "'Timed on youth players running and turning, no ball.' Caption: 'run-and-turn test, boys 11 to 15, no ball'. A small inset shows the test: 5 m out, turn, 5 m back, against a straight 10 m run. A chalk 'about' tag hangs on the stopwatch.",
+        "'That's your whole ring from the first pass.' The b02 pink ring '0.6 s' pops beside the stopwatch, same size. They match. Blip."
+      ],
+      "components": [
+        "Stage",
+        "Camera",
+        "TopField",
+        "TopPlayer",
+        "VisionFan",
+        "Ball",
+        "TimeBubble",
+        "SecondsRuler",
+        "Readout",
+        "Label",
+        "Arrow",
+        "Sfx"
+      ],
+      "physics_sim": "SHAPE_TURN: from the LOOK_STEP receive (Chalk 4.1 m, ring 1.03 s), a straight-on receiver turns 180 degrees with the ball over 0.6 s; Chalk closes 2.4 m in that time (4 m/s x 0.6 s), leaving 1.7 m: ring 0.43 s. Two footprints 1 m apart.",
+      "sfx": [
+        "fan hum",
+        "dark wash, goal icon chalk stroke",
+        "two blinks in the dark, wave blip",
+        "ball thud on the front foot, body turn cloth swish",
+        "stopwatch ticks, stops with a click, two chalk footsteps, ring alarm",
+        "inset draws, 'about' tag pop",
+        "ring pop, match blip"
+      ],
+      "transition_out": "The token snaps back to the arrival frame. A chalk arrow asks it to turn sideways.",
+      "facts_used": [
+        "'over half a second' <- 'Youth boys (94 players, 11.5-15.4 y): a 5 m out, 180 degree turn, 5 m back test took 2.38-2.63 s, against 1.77-2.06 s for a straight 10 m. The turn cost 0.56-0.66 s.' The spoken line names the test (youth players running and turning, no ball) as the mechanism note asks: the run-and-turn cost is an analogy for what a turn costs, not a measurement of the receiving turn. Sam behind Tavi means a straight-on receiver really needs a 180 degree turn.",
+        "'That's your whole ring from the first pass' <- b02 reading of 0.63 s; 0.56-0.66 s rounds to 0.6 s.",
+        "Chalk's two steps (visual) are sim geometry: 4 m/s x 0.6 s = 2.4 m. The verification calls the 'about 3 m in that time' figure a derived estimate; the sim uses the episode's 4 m/s.",
+        "'Goal behind you' <- mechanism note: with a 214 degree field a straight-on receiver loses detail and the space behind, so the dark half is drawn behind her. 'Straight on' replaces 'square' so the word needs no decoding."
+      ]
+    },
+    {
+      "id": "b15",
+      "chapter": "Ch3 Shape: the half-turn",
+      "palette": "Floodlit Pitch",
+      "narration": "Now stand side-on. The half-turn. Old cue, new reason. <short pause> Sam in the corner of one eye, the goal in the other. <short pause> The corner of your eye catches movement. The look tells you who. <short pause> Every look is now a small turn.",
+      "word_count": 40,
+      "est_seconds": 17.8,
+      "visual_beats": [
+        "'Now stand side-on.' Map view. Tavi's token rotates a quarter turn so her chest points across the pitch. The wide fan swings with her: one edge reaches Sam, the other reaches the goal.",
+        "'The half-turn.' WordCard: half-turn, standing side-on to the passer, so the passer is on one side of you and the goal on the other, and every look is a small turn.",
+        "'Old cue, new reason.' A faded chalk speech bubble from off screen reads 'HALF-TURN!' in coach capitals, then a lime '?' pops beside it.",
+        "'Sam in the corner of one eye, the goal in the other.' Two small chalk eye icons at the fan's edges: one over Sam, one over the goal. Both zones are dim grey, not sharp.",
+        "'The corner of your eye catches movement.' Chalk's token jogs in on the goal side, inside the last ten degrees of the fan. Radar ping. He is a grey blob with a ripple.",
+        "'The look tells you who.' Her look offset flicks to the goal side for a few frames (tick, Snapshot). The sharp wedge lands on the blob and it turns into Chalk, white, eyebrow.",
+        "'Every look is now a small turn.' A chalk arc above her head compares the two head turns: a long arc from the straight-on stance, a short arc from the side-on stance. The short arc glows."
+      ],
+      "components": [
+        "Stage",
+        "Camera",
+        "TopField",
+        "TopPlayer",
+        "VisionFan",
+        "Snapshot",
+        "WordCard",
+        "Bubble",
+        "Label",
+        "Arrow",
+        "Sfx"
+      ],
+      "physics_sim": "Chalk jogs in from 8 m to 5 m (4 m/s, 0.75 s) during the ping and the look. Half-turn geometry: body facing across the pitch, Sam about 90 degrees to one side and Chalk about 96 degrees to the other, both inside the last 10 degrees of a 200-degree fan (VisionFan wideDeg 200, edge at 100 degrees).",
+      "sfx": [
+        "cloth swish of the quarter turn, fan hum",
+        "word card pop",
+        "faded bubble pop, question blip",
+        "two eye icon pops",
+        "radar ping",
+        "tick, camera click, white flash as Chalk resolves",
+        "two arc chalk strokes, the short one with a bright pluck"
+      ],
+      "transition_out": "The camera drops from the map into a side view of Tavi standing side-on, the ball rolling in from Sam.",
+      "facts_used": [
+        "No narrated numbers. 'Sam in the corner of one eye, the goal in the other' <- EP2-VISUAL staging note and the mechanism correction: 'side-on puts passer and goal at about plus or minus 90 degrees, the far edge of a 200-220 degree field, where only motion registers. Say in the corner of your eye, not both in view.' The fan is 200 degrees so Chalk at 96 degrees is inside it, as the real 214-degree field allows.",
+        "'The corner of your eye catches movement. The look tells you who.' <- challenge tweak 5 and risk 5: side vision is good at motion, poor at detail, so the half-turn supports the scan and does not replace it.",
+        "'Every look is now a small turn' <- research mistake 'Square body to the passer: every look needs a big turn' and cue 'Open the door. Stand side-on to the passer so the look is a small turn, not a full spin'. 'Old cue, new reason' admits the viewer has heard the cue and promises the why."
+      ]
+    },
+    {
+      "id": "b16",
+      "chapter": "Ch3 Shape: back foot",
+      "palette": "Floodlit Pitch",
+      "narration": "Take it on your back foot, the one further from Sam. Toes where you're going. <short pause> It rolls across you, train through a station. <short pause> Half-turned, back foot: no turn to pay for. You play forward while the ring's still big.",
+      "word_count": 39,
+      "est_seconds": 17.3,
+      "visual_beats": [
+        "'Take it on your back foot, the one further from Sam.' Side view, Tavi side-on with a small body twist toward the camera. Sam is off screen left. Her far foot glows lime, Label 'back foot' points at it; a faint 'near foot' label on the other. WordCard: back foot, the foot further from the passer, not the foot behind you.",
+        "'Toes where you're going.' A lime Arrow draws from the toes of the far foot toward the goal side: the foot is open, toes pointing where the touch will go, not at Sam.",
+        "'It rolls across you, train through a station.' PASS_IN's last metres. The ball passes the near foot and reaches the far foot, slow motion for the last half metre. ChalkSketch train: a chalk train (the ball with a chimney) rolls into a station shaped like her two feet, past the first platform (near foot) and out the far side (back foot). Whistle. Cushion on the back foot (receiveSoft, footTurn): the ball rolls about 1.3 m ahead of her, on the goal side, along the lime arrow.",
+        "'Half-turned, back foot: no turn to pay for.' A stopwatch Readout beside her stays at 0.00. Cut to the map: the same receive from above. Her token does not rotate; her chest already points forward.",
+        "'You play forward while the ring's still big.' SplitCompare on the map. Each half freezes at its READY frame: the half-turned receiver at the touch, ring 1.0 s amber, Label 'ready'; the straight-on receiver at the end of her turn, ring 0.4 s pink, Label 'ready'. Stamp CUE: 'side-on, back foot'."
+      ],
+      "components": [
+        "Stage",
+        "Camera",
+        "GroundSide",
+        "Player",
+        "Ball",
+        "WordCard",
+        "ChalkSketch",
+        "Label",
+        "SlowMoTag",
+        "Readout",
+        "TopField",
+        "TopPlayer",
+        "TimeBubble",
+        "SplitCompare",
+        "Stamp",
+        "Arrow",
+        "Sfx",
+        "firstTouch"
+      ],
+      "physics_sim": "BACK_FOOT: ball arriving at 4.95 m/s (the LOOK_STEP receive); Tavi side-on facing +y; firstTouch with footVel (0.8, 0.4, 0), normal (-0.5, 0.87, 0) (toes open toward the goal side), e 0.35, grip 0.9 gives (0.67, 1.30, 0): 1.5 m/s forward and across, rolling about 1.3 m; no body rotation. Ring: Chalk 4.1 m at arrival, 1.03 s. Chalk jogs at 4 m/s whatever her stance, so at +0.3 s both receivers read about 0.7 s; the half-turned receiver is READY at the touch (1.03 s), the straight-on receiver only at +0.6 s (0.43 s, SHAPE_TURN).",
+      "sfx": [
+        "lime glow hum on the far foot, word card pop",
+        "arrow whoosh",
+        "grass roll, slow-motion drone, train chug and whistle, soft cushion thump",
+        "stopwatch silent, a small 'no tick' pluck, map drop whoosh",
+        "split divider, two freeze clicks, ring pulse, stamp"
+      ],
+      "transition_out": "The stamp's ink spreads into the PracticeBoard flip.",
+      "facts_used": [
+        "No narrated numbers. Back-foot cue <- 'FA (ages 12-16): receive on the back foot to open the body' and 'FIFA Training Centre: ... receive on the back foot to play forward faster', presented as common coaching practice (challenge: no live FA page verified). Meaning 'the foot further from the passer, not the foot behind you' <- research misconception 'Back foot means the foot at the back. It means the foot farther from the passer.' The short spoken definition stays for U12 viewers because of that misconception.",
+        "'Toes where you're going' <- the BACK_FOOT normal (-0.5, 0.87): the inside of the far foot faces the goal side, so the ball goes forward; toes at Sam would send it back to him.",
+        "'no turn to pay for. You play forward while the ring's still big' <- the ring rule: Chalk closes at 4 m/s whatever Tavi does, so the half-turn does not hold the ring; it removes the 0.6 s turn (SHAPE_TURN), so she is ready at 1.0 s instead of 0.4 s. The SplitCompare freezes each receiver at her ready frame so the picture matches the rule.",
+        "Train metaphor <- research plain metaphor 'Receiving on the back foot is a train passing through a station'."
+      ]
+    },
+    {
+      "id": "b17",
+      "chapter": "Ch3 Shape (practice)",
+      "palette": "Floodlit Pitch",
+      "narration": "Classic mistake: facing the passer with room to turn. <short pause> Fix: side-on, before the pass. <short pause> Two gates behind you. Sam calls a gate, then passes. Open to that gate. Back foot, one touch through it, pass back. <short pause> Easy passes first.",
+      "word_count": 39,
+      "est_seconds": 17.3,
+      "visual_beats": [
+        "'Classic mistake: facing the passer with room to turn.' PracticeBoard with three cues: 'Chest between passer and goal', 'Let it run to the back foot, toes open', 'Look while it travels'. Stamp MISTAKE. Left panel, map: Tavi's token faces Sam, chest to the ball, dark half behind her, lime space open behind her. Chalk's token waves from the dark, far away. Board note: 'Snapshot says room behind? Half-turn. Chalk on your back? Stay straight on, keep your body between him and the ball, pass back.'",
+        "'Fix: side-on, before the pass.' Stamp FIX. Her token steps and turns a quarter before Sam's pass leaves. The fan now reaches both Sam and the goal.",
+        "'Two gates behind you.' Stamp DRILL. Right panel, map: Sam 10 m from Tavi. Two flat-marker gates 2 m wide pop 3 m behind her, left and right, 2 m either side of her line.",
+        "'Sam calls a gate, then passes.' A Bubble from Sam says 'LEFT!' BEFORE his foot moves. Tavi's look flicks to find the left gate (tick).",
+        "'Open to that gate.' Her token turns a quarter toward the left gate while the ball is still at Sam's foot. Then the pass leaves.",
+        "'Back foot, one touch through it, pass back.' Her token receives side-on on the far foot, one touch sends the ball through the left gate, she follows and passes back to Sam. Board note: 'Ten each way, then swap. Level 2: Sam calls as the ball leaves. Look, then open. No friend? Wall: pass side-on, take the rebound on the back foot, turn out in one touch.'",
+        "'Easy passes first.' Board line: 'Easy passes first. Add pace when every touch goes through the gate. Swap roles often.' Safety line on the board: 'Flat markers, not tall cones. Keep the lane behind the gates clear. No tackles.' The board's ring icon pops to lime: 'the turn is already done'."
+      ],
+      "components": [
+        "PracticeBoard",
+        "Stamp",
+        "Stage",
+        "Camera",
+        "TopField",
+        "TopPlayer",
+        "VisionFan",
+        "Ball",
+        "Bubble",
+        "Label",
+        "Sfx"
+      ],
+      "physics_sim": "DRILL_PASSES: 10 m at 5 m/s, decel 0.8 (arrives in 2.5 s at 3 m/s). Gate touch: redirect at 2.5 m/s toward the called gate, 3 m behind and 2 m to the side (gate centre 3.6 m away); rollDistance(2.5) = 3.9 m, so the ball rolls through the gate and stops just past it, where she takes the second touch and passes back.",
+      "sfx": [
+        "board flip, practice loop",
+        "stamp x3",
+        "Chalk's wave blip",
+        "quarter-turn swish",
+        "two gate pops",
+        "speech-bubble pop, tick",
+        "quarter-turn swish, pass thump",
+        "cushion thump, roll through the gate, pass back",
+        "board line pops",
+        "ring blip lime"
+      ],
+      "transition_out": "The board slides away. The floodlights flicker once and the music turns sly.",
+      "facts_used": [
+        "No narrated numbers. Drill <- research 'Three-gate receiving (needs one friend)' and 'Half-turn gate (pair)', trimmed to two gates, and the challenge's drill (c): receive through a gate on the half-turn and play forward in two touches. The gate is called BEFORE the pass so the receiver can open before the ball leaves, as the fix says; level 2 on the board calls it on the kick. Gates at 3.6 m so a 2.5 m/s first touch (3.9 m) really goes through in one touch and stays near the 'two metres, not zero' band. The wall variant <- 'Half-turn wall drill (alone)'.",
+        "'with room to turn' <- the half-turn is not always right: with a marker tight on the back, opening exposes the ball (research: protect the ball with the body, FA ages 7-11). The board note links the choice to the chapter 1 snapshot.",
+        "Safety lines from the same drills (flat markers, clear lane, easy passes first, no tackles) live on the board, not in the narration."
+      ]
+    },
+    {
+      "id": "b18",
+      "chapter": "Steal time (teaser)",
+      "palette": "Floodlit Pitch",
+      "narration": "One more way: steal time. <short pause> Shoulders one way, ball the other. <short pause> One test, adult players: a fake cost the defender about half a second. Two of Chalk's steps, stolen. <short pause> But that's for another night.",
+      "word_count": 34,
+      "est_seconds": 15.1,
+      "visual_beats": [
+        "'One more way: steal time.' A small chalk card on the grass: 'STEAL TIME' with a '?'. Side view, Tavi with the ball at her feet and Chalk jogging at her, flip on.",
+        "'Shoulders one way, ball the other.' Slow motion: Tavi drops her shoulders left, hips quiet, then pushes the ball right. Chalk's whole body leans left. His mitten grabs air. Freeze. Label 'fake' pops over her shoulders in plain words.",
+        "'One test, adult players: a fake cost the defender about half a second.' A single pink 'FAKE' bar Readout over Chalk's head fills to about 0.5 s while he is stuck leaning the wrong way. Caption: 'adult footballers, screen test'. No SEE or CHOOSE dials here.",
+        "'Two of Chalk's steps, stolen.' Two chalk footprints appear in front of Chalk, one metre apart, then a chalk hand snatches them away like coins. Blip.",
+        "[hold] ChalkSketch row: ten small chalk defenders in a row; four of them lean the wrong way and topple into dust. Caption only: 'adult rugby beginners in virtual reality guessed wrong about 4 times in 10'. Chalk recovers, looks down at the empty grass, then up. Both eyebrows this time.",
+        "'But that's for another night.' The chalk card's '?' stays; the rest of the card rubs itself out. The music drops to the ending pad."
+      ],
+      "components": [
+        "ChapterCard",
+        "Stage",
+        "Camera",
+        "GroundSide",
+        "Player",
+        "Keeper",
+        "Ball",
+        "SlowMoTag",
+        "Readout",
+        "ChalkSketch",
+        "Label",
+        "Dust",
+        "Sfx"
+      ],
+      "physics_sim": "FEINT: Tavi pushes the ball 1.9 m to her right at 3 m/s (rollAt(3.0, 0.7)). Chalk, 3 m away at 4 m/s, leans left for the 0.5 s readout, then has to reverse: he reaches the ball's new spot about 1 s after it left, by which time Tavi has taken it on. Two footprints = 4 m/s x 0.5 s = 2 m.",
+      "sfx": [
+        "sly music sting",
+        "slow-motion drone, cloth of the shoulder drop, soft push thump, freeze click",
+        "bar fill to half a second",
+        "two chalk footsteps, snatch and coin clink, blip",
+        "ten chalk pops, four topples into dust, Chalk's double-eyebrow blip",
+        "chalk rubbing out, music drops"
+      ],
+      "transition_out": "The stand clock ticks once. The frame resets to the exact b01 wide side view of the first pass.",
+      "facts_used": [
+        "'about half a second' <- 'Adult Australian footballers (28 players): a feint on a life-size video screen made agility time 34% longer, about 0.51 s.' Population named in the narration and the caption; the mechanism note forbids narrating a synthesised 'quarter to half a second' range, so only this measured value is spoken. The FAKE bar stands alone so no graphic mixes the youth reaction dials with adult feint data.",
+        "'Two of Chalk's steps, stolen' is sim geometry: 4 m/s x 0.5 s = 2 m, the same footprints as b05.",
+        "Caption 'adult rugby beginners in virtual reality guessed wrong about 4 times in 10' <- 'Adult rugby players in virtual reality: novices moved the wrong way 42% of the time against a side-step; experts 14%.' Moved from narration to a caption so the teaser stays short and the spoken numbers stay at one.",
+        "'Shoulders one way, ball the other' <- the same rugby study: head, upper trunk and the outside foot could lie; centre-of-mass shift and lower-trunk turn were honest. The defending lesson (watch the hips) is saved for the next episode."
+      ]
+    },
+    {
+      "id": "b19",
+      "chapter": "Ending: the first pass again",
+      "palette": "Floodlit Pitch",
+      "narration": "The first pass again. <short pause> It leaves Sam's foot: look. Chalk, about ten metres out, jogging in. <short pause> Don't wait. Go to the ball, opening side-on. <short pause> Halfway: look again. Still far.",
+      "word_count": 29,
+      "est_seconds": 12.9,
+      "visual_beats": [
+        "'The first pass again.' The exact b01 framing: Sam left with the ball, Tavi centre on her chalk mark with her back to the goal, Chalk 11 m to the right. Same floodlight hum. The StandClock reads about twenty past nine. Sam looks up and shapes to pass. Chalk shifts his weight. Face focus.",
+        "'It leaves Sam's foot: look.' PASS_IN. On the kick frame Tavi's head turns over her shoulder (headTurn). Tick. A Snapshot pops: Chalk, small, jogging. The TimeBubble appears on the kick frame: 2.7 s, lime.",
+        "'Chalk, about ten metres out, jogging in.' Snapshot inset with a dotted line to Chalk and a metre Readout: about 10.6 m.",
+        "'Don't wait.' Her eyes return to the ball at 0.5 s and she is already leaning. She leaves her mark at 0.2 s into a jog.",
+        "'Go to the ball, opening side-on.' ENDING_RUN: Tavi jogs toward the ball facing it (cyclePose run, 3.5 m/s). In the last two strides the hips open and the body turns sideways (the side view hints it with a twist; a small map inset shows the token turning side-on, chest across the pitch). The ring rides with her, lime, hardly shrinking: 2.5 s.",
+        "'Halfway: look again.' Second head turn at about 0.6 s, with the ball just past halfway to her. Tick. Second Snapshot: Chalk still about 10 m away. The map inset's ThoughtBubble now shows Chalk's dot and the lime space on the open side.",
+        "'Still far.' The ring reads 2.4 s. Lime. Her eyes are back on the ball for the last strides; a small lime eye icon locks on it."
+      ],
+      "components": [
+        "Stage",
+        "Camera",
+        "Sky",
+        "Stars",
+        "Floodlight",
+        "Stands",
+        "StandClock",
+        "GroundSide",
+        "Player",
+        "Keeper",
+        "Ball",
+        "Snapshot",
+        "ThoughtBubble",
+        "TimeBubble",
+        "TopField",
+        "TopPlayer",
+        "Readout",
+        "Label",
+        "Sfx"
+      ],
+      "physics_sim": "PASS_IN and CHALK_CHASE exactly as in b01 (Sam at (-12, 0), 6.5 m/s; Chalk from (10.9, -1.5) at 4 m/s from the kick frame). ENDING_RUN: Tavi leaves (0, 0) at t = 0.20 s and jogs toward Sam at 3.5 m/s along -x, drifting to y = -0.3 so the ball passes in front of her side-on body. Scan 1 at t = 0.1 to 0.5 s, scan 2 at t = 0.6 to 0.9 s: at 0.9 s the ball is 4.0 m from her at a closing speed of about 9.3 m/s, so her eyes are back on it 0.43 s before contact. Ring while she runs: 2.65 s at t = 0.1 (10.6 m), 2.50 s at 0.5 (10.0 m), 2.45 s at 0.9 (9.8 m), 2.41 s at 1.2 (9.65 m).",
+      "sfx": [
+        "floodlight hum, the same as b01, clock tick, cloth as Sam shapes",
+        "pass thump, tick, camera click, bell as the ring appears",
+        "readout tick",
+        "one soft step",
+        "jogging footsteps on grass, cloth as the hips open",
+        "tick, click",
+        "ring hold tone, lime, soft lock click"
+      ],
+      "transition_out": "None: the run continues straight into b20 without a cut.",
+      "facts_used": [
+        "'about ten metres out' is sim geometry: Chalk is 11.0 m from her mark on the kick frame and 10.6 m at the first scan (CHALK_CHASE).",
+        "'Don't wait. Go to the ball' <- research mistake 'Standing still and waiting for the pass ... come to the ball at an angle and receive on the move' and cue 'Look before the ball leaves your teammate's foot, then one more quick look while it travels.' The move is possible because the first look found Chalk early (b07: 'Know early, move early'). She runs facing the ball and opens side-on in the last strides, as players do.",
+        "The second look ends 0.43 s before contact, more than the 'third of a second' to notice from b05, so the ending obeys its own lesson (check first, then eyes on the ball for the touch).",
+        "Ring readings are distance to Chalk / 4 m/s from ENDING_RUN (bubbleSeconds)."
+      ]
+    },
+    {
+      "id": "b20",
+      "chapter": "Ending: into space",
+      "palette": "Floodlit Pitch",
+      "narration": "Back foot. It rolls across you. <short pause> Soft touch, into space. Away from Chalk. <short pause> Read the ring. Almost two and a half seconds. <long pause> Chalk arrives. <short pause> To nothing.",
+      "word_count": 26,
+      "est_seconds": 11.6,
+      "visual_beats": [
+        "'Back foot.' Side view, close. Her far foot glows lime for a moment as the ball reaches her, 4 m in front of her old mark. Toes open toward the space.",
+        "'It rolls across you.' The ball passes the near foot and meets the far foot. Slow motion for the last half metre.",
+        "'Soft touch, into space.' Cushion (receiveSoft, footTurn): the knee gives and the inside of the foot steers. ENDING_TOUCH: the ball leaves at about 2.3 m/s, less than half its arrival speed, almost straight across toward the open side. Squash on contact, soft thump.",
+        "'Away from Chalk.' Cut to the map: the ball rolls into the lime space on the far side from Chalk. Chalk's token is 9.6 m away, still jogging toward the spot where she received.",
+        "'Read the ring.' The TimeBubble fills the centre of the frame, lime.",
+        "'Almost two and a half seconds.' The number reads 2.4 s, then 2.2 s as Chalk closes and the ball rolls. Colour stays lime.",
+        "[long pause] Tavi takes a second touch at about 0.9 s and plays a calm pass back to Sam, who has moved left. The ball leaves the frame. She stands, hands on hips, face happy.",
+        "'Chalk arrives.' Whoosh. Chalk skids to the receiving spot, puffed pose, chalk dust.",
+        "'To nothing.' He looks down at the empty grass, then at Tavi. One eyebrow up. The ring around her fades out, still lime."
+      ],
+      "components": [
+        "Stage",
+        "Camera",
+        "GroundSide",
+        "Player",
+        "Keeper",
+        "Ball",
+        "SlowMoTag",
+        "TopField",
+        "TopPlayer",
+        "TimeBubble",
+        "Dust",
+        "Label",
+        "Sfx",
+        "firstTouch",
+        "rollPass"
+      ],
+      "physics_sim": "Meeting point: ENDING_RUN meets PASS_IN at t = 1.34 s at (-4.0, -0.3); the ball arrives at 5.43 m/s. Chalk has run 5.37 m to about (5.6, -1.1) and is 9.6 m from the ball: ring 2.39 s ('almost two and a half'). ENDING_TOUCH: firstTouch with ballVel (5.43, 0, 0), footVel (1.0, 1.0, 0) (giving along the ball and sweeping across), normal (-0.75, 0.66, 0), e 0.35, grip 0.8: v_out about (0.24, 2.25, 0), 2.26 m/s (42% of arrival) almost straight across toward the open side (+y); it would roll 3.2 m. Ring after the touch, Chalk chasing the ball: 2.2 s at +0.2 s (8.8 m), 1.9 s at +0.5 s (7.6 m), 1.55 s at +0.86 s (6.2 m) when she takes the second touch and passes back to Sam. Chalk reaches the receiving spot (14.95 m from his start) at t = 3.74 s, about 2.4 s after the touch, to an empty patch of grass.",
+      "sfx": [
+        "lime glow hum",
+        "grass roll, slow-motion drone",
+        "soft cushion thump",
+        "map drop whoosh, grass roll into space",
+        "ring swell, bell",
+        "readout tick 2.4, 2.2",
+        "second touch, calm pass thump, ball leaves",
+        "whoosh, skid, chalk dust puff",
+        "eyebrow blip"
+      ],
+      "transition_out": "The camera pulls back to the wide side view: Tavi, Sam with the ball, Chalk puffed on the empty spot.",
+      "facts_used": [
+        "'Almost two and a half seconds' <- sim: 9.6 m / 4 m/s = 2.39 s at the touch (touch.test.ts: bubbleSeconds(9.6) = 2.4). The ring is honest: Chalk's distance divided by the same 4 m/s jog as the cold open.",
+        "'Soft touch, into space. Away from Chalk.' <- research cue 'Touch away from pressure, never straight ahead by habit' and the rebound direction from touch.ts. The touch is soft in the sim too: 2.26 m/s out of 5.43 m/s in, a foot giving along the ball's path, a roll of about 3 m, inside the research's 'one to three metres into space'. Second touch as a pass <- 'Two touches and one second: that is a pro possession. The first touch is the steering wheel. The second touch is the pass.'"
+      ]
+    },
+    {
+      "id": "b21",
+      "chapter": "Ending: four times the time",
+      "palette": "Floodlit Pitch",
+      "narration": "Same legs. Same speed. Four times the time. <short pause> You looked earlier, moved earlier, and met the ball side-on. Then one touch where Chalk wasn't. <short pause> That's why the best players look slow.",
+      "word_count": 31,
+      "est_seconds": 13.8,
+      "visual_beats": [
+        "'Same legs.' SplitCompare: the cold-open Tavi (left) and tonight's Tavi (right), both at the moment the ball reaches them. Same rig, same boots. A chalk tick under each.",
+        "'Same speed.' Two tiny speed bars under them, equal length, no digits. Chalk's jog icon between them: also one bar. Small caption: 'speed still matters; time is what lets you use it'.",
+        "'Four times the time.' The two rings side by side: 0.6 s pink and 2.4 s lime. The pink ring slides over and fits inside the lime one four times across, like a coin in a saucer. Caption: '0.6 s to 2.4 s'.",
+        "'You looked earlier,' Replay strip: the two polaroids pop on the right side's timeline, early.",
+        "'moved earlier,' The map inset: her token leaves the mark and jogs to the ball. A chalk arrow measures the run: 'about 4 m to the ball'. Chalk far. Caption: 'most of the time came from here'.",
+        "'and met the ball side-on.' The token turns side-on in the last strides; the ball crosses to the back foot. Ring 2.4 s.",
+        "'Then one touch where Chalk wasn't.' The lime space lights, the ball rolls into it, Chalk arrives at the empty chalk mark.",
+        "'That's why the best players look slow.' The calm chalk player from b03 strolls across the bottom of the frame at walking pace, ring lime, while a chalk Chalk jogs behind and never gains."
+      ],
+      "components": [
+        "Stage",
+        "Camera",
+        "Player",
+        "Keeper",
+        "Ball",
+        "TimeBubble",
+        "SplitCompare",
+        "Snapshot",
+        "TopField",
+        "TopPlayer",
+        "Readout",
+        "Label",
+        "Sfx"
+      ],
+      "physics_sim": "Left ring: 2.5 m / 4 = 0.63 s (cold open). Right ring: 9.6 m / 4 = 2.39 s (ending). Ratio about 3.8, spoken as four times. Ring radii from secondsToReach at pxPerSecond 70, so the small ring fits about four times across the big one's diameter. The run to the ball (ENDING_RUN, 4.0 m at 3.5 m/s) is what moves Chalk from 2.5 m to 9.6 m at the touch frame; the touch and the half-turn then keep the time usable.",
+      "sfx": [
+        "two chalk ticks",
+        "two equal bar tones",
+        "coin-in-saucer clink x4, merging into one bell",
+        "two ticks",
+        "jogging steps, short, chalk measure squeak",
+        "cloth turn, cushion thump",
+        "grass roll, whoosh, dust",
+        "slow footsteps and a tired jog fading, warm chord"
+      ],
+      "transition_out": "The split closes. Wide side view of the pitch at night.",
+      "facts_used": [
+        "'Four times the time' <- the two sim readings, 0.63 s and 2.39 s (ratio 3.8, 'about four times' as the concept states: 'Cold open: 0.6 s. Ending: the same pass, 2.4 s').",
+        "'You looked earlier, moved earlier' says where the time came from: at the touch frame the ring reads 2.4 s because Tavi met the ball 4 m early (Chalk 9.6 m away, ENDING_RUN), and the early move was possible because the first look found Chalk. The half-turn and the touch into space keep that time usable (no turn to pay, ball away from Chalk); the caption 'most of the time came from here' keeps the claim honest for a viewer who checks.",
+        "'Same speed' is honest for Tavi's legs: her jog in the ending (3.5 m/s) is below youth top speeds and no faster than her chase after the bouncing ball in the cold open. The caption 'speed still matters; time is what lets you use it' keeps the challenge's speed anchor (advice 7) in the last 20 seconds."
+      ]
+    },
+    {
+      "id": "b22",
+      "chapter": "Ending: lights out",
+      "palette": "Floodlit Pitch",
+      "narration": "Where did the time go? <short pause> Nowhere. You bought it before anyone noticed. <short pause> Lights out. <short pause> Next pass that rolls at you: take a snapshot.",
+      "word_count": 23,
+      "est_seconds": 12.7,
+      "visual_beats": [
+        "'Where did the time go?' The chalk '?' from b01 is written on the grass again at her feet.",
+        "'Nowhere.' The '?' rubs itself out. In its place, the ring is drawn on the grass in chalk, lime.",
+        "'You bought it before anyone noticed.' ChalkSketch coins: three small chalk coins of time drop into the grass ring, as in b03. Chalk, still puffed, sinks back into the goal line, which lies flat again, one eyebrow last to go. Sam waves and jogs off with the bag of balls.",
+        "'Lights out.' The StandClock reads half past nine. The floodlights clunk off one by one, the reverse of b01. A last pool of light stays on the chalk ring in the grass.",
+        "'Next pass that rolls at you: take a snapshot.' In the last pool of light Tavi walks off, turns her head once over her shoulder. Camera click. A polaroid drifts up into the dark.",
+        "[2.5 s hold] The ring glows once. The camera pulls back to the dark stadium as one warm dot among the city lights. End card: 'WHY THE BEST PLAYERS LOOK SLOW' in chalk letters, then a fade to the night-sky colour."
+      ],
+      "components": [
+        "Stage",
+        "Camera",
+        "Sky",
+        "Stars",
+        "Floodlight",
+        "Stands",
+        "StandClock",
+        "GroundSide",
+        "Player",
+        "Keeper",
+        "TimeBubble",
+        "ChalkSketch",
+        "Snapshot",
+        "TitleCard",
+        "Label",
+        "Sfx"
+      ],
+      "physics_sim": "",
+      "sfx": [
+        "chalk squeak",
+        "chalk rubbing, ring draws with a soft shimmer",
+        "three coin pops, chalk slide as Chalk sinks, footsteps fading",
+        "clock tick, four floodlight clunks with a falling hum",
+        "footsteps, camera click, polaroid flutter",
+        "final soft chord"
+      ],
+      "transition_out": "Fade to the night-sky colour. End.",
+      "facts_used": [
+        "No narrated numbers. The clock at half past nine is visual only, the same end time as s23."
+      ]
+    }
+  ],
+  "component_kit": [
+    {
+      "name": "Kit pieces used (existing, src/kit and src/physics)",
+      "props": "Stage, Camera, Sky, Stars, Glow, Floodlight, Stands, StandClock, GroundSide, CarPark, Dust, Player (+SAM_COLORS, headTurn, receiveReady/receiveSoft/receiveStiff/lookBack/passInside, footTurn, flip), Keeper (flip, runA/runB, puffed), Ball, TopField, TopPlayer (facing, look, cone, stride), TimeBubble, secondsToReach, bubbleColor, Snapshot, ThoughtBubble, UnknownFog, VisionFan (wideDeg 200, sharpDeg 5 in this episode), XRayGrid, XRayLeg, Label, Text, Arrow, Readout, ChapterCard, WordCard, Stamp (MISTAKE, FIX, DRILL, CUE), PracticeBoard, Bubble, SlowMoTag, TitleCard, Sfx; physics: firstTouch, reboundFraction, rollPass, rollAt, rollDistance, chaseDistance, bubbleSeconds, CHASE_SPEED.",
+      "notes": "Nothing in this episode needs a new palette. The map view uses the Floodlit Pitch palette on TopField; b07 uses Open Sky for the evidence chart. Tokens at least 44 px: zoom in rather than shrink. Never ease a ball: every pass is rollPass with grass decel 0.8. Ring readings come from the sims list, never from top speed. Five WordCards (b04, b09, b10, b15, b16). Population captions are small Label text in a corner. Arms-out token (b13) is two rounded rects drawn in the scene on a TopPlayer, not a new component. VisionFan is drawn at wideDeg 200 and sharpDeg 5 (verified 214 and 5 degrees), not the kit's 190/10 defaults. XRayLeg stiff beats glow knee and hip, not the ankle. A small lime eye icon (Label) marks 'eyes on the ball' in b06 and b19."
+    },
+    {
+      "name": "ext: TwoPartStopwatch (b05)",
+      "props": "{ notice: number; choose: number; progress: number; caption: string }",
+      "notes": "Two dials side by side, 'NOTICE' and 'CHOOSE', in JetBrains Mono, never summed. A pulse travels eye to brain on the first, two doors blink on the second. b18 does not use it: the FAKE bar there is a single pink Readout bar so youth reaction data and adult feint data never share one graphic."
+    },
+    {
+      "name": "ext: XRayHead (b05)",
+      "props": "{ turn: number; pulse: number; doors: ['turn','pass']; lit?: number }",
+      "notes": "Teal-ink head in profile with an eye and a simple brain outline. Reuses the XRayGrid palette rules."
+    },
+    {
+      "name": "ext: SecondsRuler (b05, b11, b14)",
+      "props": "{ from: [x,y]; dir: [dx,dy]; metres: number; speed: 4; progress: number; steps?: boolean }",
+      "notes": "A chalk ruler in metres that unrolls along a touch, with seconds under each metre mark (metres / speed). With steps on, two chalk footprints one metre apart appear over 0.5 s of scene time for 'two of Chalk's steps'."
+    },
+    {
+      "name": "ext: SpeedDiffMeter (b09, b10)",
+      "props": "{ ballSpeed: number; footSpeed: number; scale: number; stacked?: boolean }",
+      "notes": "Orange ball arrow, teal foot arrow, and a glowing bar between the tips labelled 'gap' in plain words. Shrinks as the foot gives. Stacked mode shows the in and out arrows one above the other for 'maybe a third'. No digits."
+    },
+    {
+      "name": "ext: SplitCompare (b11, b16, b21)",
+      "props": "{ left: ReactNode; right: ReactNode; divider: number; labels?: [string, string]; freezeAt?: [number, number] }",
+      "notes": "Two halves of the map or side view running the same clock: dead stop vs touch away, straight-on vs half-turned, cold open vs ending. freezeAt holds each half at its own frame (b16: each receiver's READY frame)."
+    },
+    {
+      "name": "ext: ChalkSketch (b03, b05, b07, b09, b16, b18, b22)",
+      "props": "{ kind: 'coins'|'kerb'|'egg'|'jars'|'train'|'row'; progress: number; mode?: 'stiff'|'giving'|'late'|'early' }",
+      "notes": "One small rounded card with a flat chalk drawing, no outlines, six variants: three time coins dropping into a ring; a kid at a kerb who looks after stepping off (late) or before (early) while a chalk car passes; a hand and egg (stiff: crack and splat, giving: hand drops with the egg); two jars with one and three lime marbles; a train rolling through a station shaped like two feet; a row of ten small defenders where four topple into dust."
+    }
+  ],
+  "music_cues": [
+    "b01-b03 cold open (track 'open'): the quiet night pad from episode 1 under the floodlight hum. Silence on the stiff-foot bounce. A small comic pluck on 'Ball gone'. One soft bell on 'Remember this ring'. The pad swells on 'It's a game of time'. Title sting on the 2.5 s hold, the same three-note motif family as episode 1, one note per chapter icon.",
+    "b04-b07 LOOK (track 'look'): the curious woodblock tick at 88 bpm; a soft tick sound on every snapshot sits on the beat. Filter down for the X-ray stopwatch in b05. A warm lift on 'The ring's there before the ball'.",
+    "Practice loop (b08, b12, b17, track 'practice'): the same bright loop each time, ducked 12 dB under the voice, so viewers learn the 'use this' moment.",
+    "b09-b11 TOUCH (track 'touch'): muted plucks and marimba; a soft sub lands on each cushion thump. Sub-drop into slow motion in b10. Metronome tick-tick on 'Pros: touch, touch, gone'.",
+    "b13-b16 SHAPE (track 'shape'): wide pads opening up as the vision fan draws; the rising three-note motif on 'Sam in the corner of one eye, the goal in the other'. A ticking hi-hat under the turn-cost stopwatch in b14, cut on 'Every look is now a small turn'. A bright pluck on the short arc in b15.",
+    "b18 teaser (track 'steal'): sneaky staccato pluck with stops and starts on the shoulder drop; it cuts to silence on 'But that's for another night' and the ending pad fades in.",
+    "b19-b22 ending (track 'ending'): the title motif slowly on pads and soft piano-like synth. It swells under 'Read the ring', goes silent for 'Chalk arrives. To nothing.', returns for 'Four times the time', and resolves on one closing chord on the end card.",
+    "Mix rules: voice on top, music 10-15 dB under it, rising in the pauses. Lock picture first, then score. All music original, no Kurzgesagt or Epic Mountain sound-alikes."
+  ],
+  "total_words": 859,
+  "total_seconds": 389.8
+}

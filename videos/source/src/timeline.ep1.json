@@ -1,0 +1,6215 @@
+{
+  "fps": 30,
+  "episode": "ep1",
+  "totalFrames": 11176,
+  "scenes": [
+    {
+      "id": "s01",
+      "chapter": "Cold open",
+      "file": "vo/ep1/s01.wav",
+      "durationInSeconds": 23.44,
+      "leadFrames": 6,
+      "frames": 722,
+      "startFrame": 0,
+      "narration": "Nine at night. An empty pitch. <short pause> Just you, one ball, and a keeper in your head. His name is Chalk. <short pause> You draw one line around the ball. Remember that line. <short pause> You shoot. <long pause> Over the bar. <short pause> You shout at it. It doesn't listen. <short pause> Chalk doesn't even move.",
+      "sentences": [
+        {
+          "text": "Nine at night.",
+          "start": 0.196,
+          "end": 1.422
+        },
+        {
+          "text": "An empty pitch.",
+          "start": 1.896,
+          "end": 2.931
+        },
+        {
+          "text": "Just you, one ball, and a keeper in your head.",
+          "start": 3.526,
+          "end": 7.317
+        },
+        {
+          "text": "His name is Chalk.",
+          "start": 8.017,
+          "end": 8.831
+        },
+        {
+          "text": "You draw one line around the ball.",
+          "start": 9.46,
+          "end": 11.57
+        },
+        {
+          "text": "Remember that line.",
+          "start": 12.224,
+          "end": 12.957
+        },
+        {
+          "text": "You shoot.",
+          "start": 13.943,
+          "end": 14.47
+        },
+        {
+          "text": "Over the bar.",
+          "start": 16.63,
+          "end": 17.253
+        },
+        {
+          "text": "You shout at it.",
+          "start": 18.536,
+          "end": 19.186
+        },
+        {
+          "text": "It doesn't listen.",
+          "start": 20.09,
+          "end": 20.724
+        },
+        {
+          "text": "Chalk doesn't even move.",
+          "start": 21.803,
+          "end": 23.132
+        }
+      ],
+      "words": [
+        {
+          "w": "nine",
+          "s": 0,
+          "start": 0.196,
+          "end": 0.302
+        },
+        {
+          "w": "at",
+          "s": 0,
+          "start": 0.355,
+          "end": 0.597
+        },
+        {
+          "w": "night",
+          "s": 0,
+          "start": 0.597,
+          "end": 1.422
+        },
+        {
+          "w": "an",
+          "s": 1,
+          "start": 1.896,
+          "end": 2.03
+        },
+        {
+          "w": "empty",
+          "s": 1,
+          "start": 2.03,
+          "end": 2.347
+        },
+        {
+          "w": "pitch",
+          "s": 1,
+          "start": 2.347,
+          "end": 2.931
+        },
+        {
+          "w": "just",
+          "s": 2,
+          "start": 3.526,
+          "end": 3.721
+        },
+        {
+          "w": "you",
+          "s": 2,
+          "start": 3.721,
+          "end": 4.079
+        },
+        {
+          "w": "one",
+          "s": 2,
+          "start": 4.786,
+          "end": 4.919
+        },
+        {
+          "w": "ball",
+          "s": 2,
+          "start": 4.919,
+          "end": 5.616
+        },
+        {
+          "w": "and",
+          "s": 2,
+          "start": 5.616,
+          "end": 5.964
+        },
+        {
+          "w": "a",
+          "s": 2,
+          "start": 5.964,
+          "end": 6.046
+        },
+        {
+          "w": "keeper",
+          "s": 2,
+          "start": 6.016,
+          "end": 6.528
+        },
+        {
+          "w": "in",
+          "s": 2,
+          "start": 6.528,
+          "end": 6.641
+        },
+        {
+          "w": "your",
+          "s": 2,
+          "start": 6.641,
+          "end": 6.979
+        },
+        {
+          "w": "head",
+          "s": 2,
+          "start": 6.979,
+          "end": 7.317
+        },
+        {
+          "w": "his",
+          "s": 3,
+          "start": 8.017,
+          "end": 8.067
+        },
+        {
+          "w": "name",
+          "s": 3,
+          "start": 8.055,
+          "end": 8.121
+        },
+        {
+          "w": "is",
+          "s": 3,
+          "start": 8.121,
+          "end": 8.215
+        },
+        {
+          "w": "chalk",
+          "s": 3,
+          "start": 8.215,
+          "end": 8.831
+        },
+        {
+          "w": "you",
+          "s": 4,
+          "start": 9.46,
+          "end": 9.691
+        },
+        {
+          "w": "draw",
+          "s": 4,
+          "start": 9.691,
+          "end": 10.006
+        },
+        {
+          "w": "one",
+          "s": 4,
+          "start": 10.006,
+          "end": 10.237
+        },
+        {
+          "w": "line",
+          "s": 4,
+          "start": 10.237,
+          "end": 10.543
+        },
+        {
+          "w": "around",
+          "s": 4,
+          "start": 10.543,
+          "end": 11.209
+        },
+        {
+          "w": "the",
+          "s": 4,
+          "start": 11.209,
+          "end": 11.282
+        },
+        {
+          "w": "ball",
+          "s": 4,
+          "start": 11.255,
+          "end": 11.57
+        },
+        {
+          "w": "remember",
+          "s": 5,
+          "start": 12.224,
+          "end": 12.763
+        },
+        {
+          "w": "that",
+          "s": 5,
+          "start": 12.763,
+          "end": 12.813
+        },
+        {
+          "w": "line",
+          "s": 5,
+          "start": 12.774,
+          "end": 12.957
+        },
+        {
+          "w": "you",
+          "s": 6,
+          "start": 13.943,
+          "end": 13.998
+        },
+        {
+          "w": "shoot",
+          "s": 6,
+          "start": 13.998,
+          "end": 14.47
+        },
+        {
+          "w": "over",
+          "s": 7,
+          "start": 16.63,
+          "end": 17.071
+        },
+        {
+          "w": "the",
+          "s": 7,
+          "start": 17.071,
+          "end": 17.121
+        },
+        {
+          "w": "bar",
+          "s": 7,
+          "start": 17.097,
+          "end": 17.253
+        },
+        {
+          "w": "you",
+          "s": 8,
+          "start": 18.536,
+          "end": 18.613
+        },
+        {
+          "w": "shout",
+          "s": 8,
+          "start": 18.613,
+          "end": 18.761
+        },
+        {
+          "w": "at",
+          "s": 8,
+          "start": 18.761,
+          "end": 18.974
+        },
+        {
+          "w": "it",
+          "s": 8,
+          "start": 18.974,
+          "end": 19.186
+        },
+        {
+          "w": "it",
+          "s": 9,
+          "start": 20.09,
+          "end": 20.177
+        },
+        {
+          "w": "doesn't",
+          "s": 9,
+          "start": 20.177,
+          "end": 20.469
+        },
+        {
+          "w": "listen",
+          "s": 9,
+          "start": 20.469,
+          "end": 20.724
+        },
+        {
+          "w": "chalk",
+          "s": 10,
+          "start": 21.803,
+          "end": 22.324
+        },
+        {
+          "w": "doesn't",
+          "s": 10,
+          "start": 22.324,
+          "end": 22.604
+        },
+        {
+          "w": "even",
+          "s": 10,
+          "start": 22.604,
+          "end": 22.781
+        },
+        {
+          "w": "move",
+          "s": 10,
+          "start": 22.781,
+          "end": 23.132
+        }
+      ]
+    },
+    {
+      "id": "s02",
+      "chapter": "Cold open (question and title)",
+      "file": "vo/ep1/s02.wav",
+      "durationInSeconds": 16.68,
+      "leadFrames": 6,
+      "frames": 564,
+      "startFrame": 722,
+      "narration": "What went wrong? <short pause> Your foot touches the ball for about a hundredth of a second. After that, it's on its own. <short pause> Three kicks tonight, one idea: spin. How much, which way, or none at all. <short pause> By lights out, you'll score this shot.",
+      "sentences": [
+        {
+          "text": "What went wrong?",
+          "start": 0.39,
+          "end": 1.108
+        },
+        {
+          "text": "Your foot touches the ball for about a hundredth of a second.",
+          "start": 1.635,
+          "end": 4.75
+        },
+        {
+          "text": "After that, it's on its own.",
+          "start": 5.208,
+          "end": 6.865
+        },
+        {
+          "text": "Three kicks tonight, one idea: spin.",
+          "start": 7.398,
+          "end": 10.444
+        },
+        {
+          "text": "How much, which way, or none at all.",
+          "start": 11.139,
+          "end": 13.604
+        },
+        {
+          "text": "By lights out, you'll score this shot.",
+          "start": 14.393,
+          "end": 16.395
+        }
+      ],
+      "words": [
+        {
+          "w": "what",
+          "s": 0,
+          "start": 0.39,
+          "end": 0.44
+        },
+        {
+          "w": "went",
+          "s": 0,
+          "start": 0.419,
+          "end": 0.674
+        },
+        {
+          "w": "wrong",
+          "s": 0,
+          "start": 0.674,
+          "end": 1.108
+        },
+        {
+          "w": "your",
+          "s": 1,
+          "start": 1.635,
+          "end": 1.874
+        },
+        {
+          "w": "foot",
+          "s": 1,
+          "start": 1.874,
+          "end": 2.069
+        },
+        {
+          "w": "touches",
+          "s": 1,
+          "start": 2.069,
+          "end": 2.46
+        },
+        {
+          "w": "the",
+          "s": 1,
+          "start": 2.46,
+          "end": 2.612
+        },
+        {
+          "w": "ball",
+          "s": 1,
+          "start": 2.612,
+          "end": 2.948
+        },
+        {
+          "w": "for",
+          "s": 1,
+          "start": 2.948,
+          "end": 3.035
+        },
+        {
+          "w": "about",
+          "s": 1,
+          "start": 3.003,
+          "end": 3.263
+        },
+        {
+          "w": "a",
+          "s": 1,
+          "start": 3.263,
+          "end": 3.35
+        },
+        {
+          "w": "hundredth",
+          "s": 1,
+          "start": 3.339,
+          "end": 4.11
+        },
+        {
+          "w": "of",
+          "s": 1,
+          "start": 4.11,
+          "end": 4.273
+        },
+        {
+          "w": "a",
+          "s": 1,
+          "start": 4.273,
+          "end": 4.381
+        },
+        {
+          "w": "second",
+          "s": 1,
+          "start": 4.381,
+          "end": 4.75
+        },
+        {
+          "w": "after",
+          "s": 2,
+          "start": 5.208,
+          "end": 5.556
+        },
+        {
+          "w": "that",
+          "s": 2,
+          "start": 5.556,
+          "end": 5.829
+        },
+        {
+          "w": "it's",
+          "s": 2,
+          "start": 5.962,
+          "end": 6.244
+        },
+        {
+          "w": "on",
+          "s": 2,
+          "start": 6.244,
+          "end": 6.559
+        },
+        {
+          "w": "its",
+          "s": 2,
+          "start": 6.559,
+          "end": 6.625
+        },
+        {
+          "w": "own",
+          "s": 2,
+          "start": 6.567,
+          "end": 6.865
+        },
+        {
+          "w": "three",
+          "s": 3,
+          "start": 7.398,
+          "end": 7.792
+        },
+        {
+          "w": "kicks",
+          "s": 3,
+          "start": 7.792,
+          "end": 8.071
+        },
+        {
+          "w": "tonight",
+          "s": 3,
+          "start": 8.071,
+          "end": 8.743
+        },
+        {
+          "w": "one",
+          "s": 3,
+          "start": 8.964,
+          "end": 9.089
+        },
+        {
+          "w": "idea",
+          "s": 3,
+          "start": 9.089,
+          "end": 9.55
+        },
+        {
+          "w": "spin",
+          "s": 3,
+          "start": 9.896,
+          "end": 10.444
+        },
+        {
+          "w": "how",
+          "s": 4,
+          "start": 11.139,
+          "end": 11.477
+        },
+        {
+          "w": "much",
+          "s": 4,
+          "start": 11.477,
+          "end": 11.774
+        },
+        {
+          "w": "which",
+          "s": 4,
+          "start": 12.021,
+          "end": 12.483
+        },
+        {
+          "w": "way",
+          "s": 4,
+          "start": 12.483,
+          "end": 12.574
+        },
+        {
+          "w": "or",
+          "s": 4,
+          "start": 12.788,
+          "end": 12.936
+        },
+        {
+          "w": "none",
+          "s": 4,
+          "start": 12.936,
+          "end": 13.233
+        },
+        {
+          "w": "at",
+          "s": 4,
+          "start": 13.233,
+          "end": 13.349
+        },
+        {
+          "w": "all",
+          "s": 4,
+          "start": 13.349,
+          "end": 13.604
+        },
+        {
+          "w": "by",
+          "s": 5,
+          "start": 14.393,
+          "end": 14.696
+        },
+        {
+          "w": "lights",
+          "s": 5,
+          "start": 14.696,
+          "end": 14.882
+        },
+        {
+          "w": "out",
+          "s": 5,
+          "start": 14.882,
+          "end": 15.068
+        },
+        {
+          "w": "you'll",
+          "s": 5,
+          "start": 15.185,
+          "end": 15.658
+        },
+        {
+          "w": "score",
+          "s": 5,
+          "start": 15.658,
+          "end": 15.945
+        },
+        {
+          "w": "this",
+          "s": 5,
+          "start": 15.945,
+          "end": 16.101
+        },
+        {
+          "w": "shot",
+          "s": 5,
+          "start": 16.101,
+          "end": 16.395
+        }
+      ]
+    },
+    {
+      "id": "s03",
+      "chapter": "Ch1 The Drive",
+      "file": "vo/ep1/s03.wav",
+      "durationInSeconds": 11.4,
+      "leadFrames": 6,
+      "frames": 360,
+      "startFrame": 1286,
+      "narration": "Problem one: a shot Chalk can't reach. Low and hard. <short pause> Weird fact: after a clean strike, the ball can fly faster than your foot. How?",
+      "sentences": [
+        {
+          "text": "Problem one: a shot Chalk can't reach.",
+          "start": 0.332,
+          "end": 3.425
+        },
+        {
+          "text": "Low and hard.",
+          "start": 3.851,
+          "end": 6.404
+        },
+        {
+          "text": "Weird fact: after a clean strike, the ball can fly faster than your foot.",
+          "start": 6.744,
+          "end": 10.152
+        },
+        {
+          "text": "How?",
+          "start": 10.798,
+          "end": 11.173
+        }
+      ],
+      "words": [
+        {
+          "w": "problem",
+          "s": 0,
+          "start": 0.332,
+          "end": 0.817
+        },
+        {
+          "w": "one",
+          "s": 0,
+          "start": 0.817,
+          "end": 1.276
+        },
+        {
+          "w": "a",
+          "s": 0,
+          "start": 1.276,
+          "end": 1.348
+        },
+        {
+          "w": "shot",
+          "s": 0,
+          "start": 1.348,
+          "end": 1.654
+        },
+        {
+          "w": "chalk",
+          "s": 0,
+          "start": 1.654,
+          "end": 2.175
+        },
+        {
+          "w": "can't",
+          "s": 0,
+          "start": 2.175,
+          "end": 2.607
+        },
+        {
+          "w": "reach",
+          "s": 0,
+          "start": 2.607,
+          "end": 3.425
+        },
+        {
+          "w": "low",
+          "s": 1,
+          "start": 3.851,
+          "end": 4.822
+        },
+        {
+          "w": "and",
+          "s": 1,
+          "start": 4.822,
+          "end": 5.168
+        },
+        {
+          "w": "hard",
+          "s": 1,
+          "start": 5.168,
+          "end": 6.404
+        },
+        {
+          "w": "weird",
+          "s": 2,
+          "start": 6.744,
+          "end": 6.854
+        },
+        {
+          "w": "fact",
+          "s": 2,
+          "start": 6.854,
+          "end": 7.208
+        },
+        {
+          "w": "after",
+          "s": 2,
+          "start": 7.208,
+          "end": 7.649
+        },
+        {
+          "w": "a",
+          "s": 2,
+          "start": 7.649,
+          "end": 7.791
+        },
+        {
+          "w": "clean",
+          "s": 2,
+          "start": 7.791,
+          "end": 7.98
+        },
+        {
+          "w": "strike",
+          "s": 2,
+          "start": 7.98,
+          "end": 8.326
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 8.326,
+          "end": 8.499
+        },
+        {
+          "w": "ball",
+          "s": 2,
+          "start": 8.499,
+          "end": 8.727
+        },
+        {
+          "w": "can",
+          "s": 2,
+          "start": 8.727,
+          "end": 8.814
+        },
+        {
+          "w": "fly",
+          "s": 2,
+          "start": 8.814,
+          "end": 9.191
+        },
+        {
+          "w": "faster",
+          "s": 2,
+          "start": 9.191,
+          "end": 9.42
+        },
+        {
+          "w": "than",
+          "s": 2,
+          "start": 9.42,
+          "end": 9.672
+        },
+        {
+          "w": "your",
+          "s": 2,
+          "start": 9.672,
+          "end": 10.01
+        },
+        {
+          "w": "foot",
+          "s": 2,
+          "start": 10.01,
+          "end": 10.152
+        },
+        {
+          "w": "how",
+          "s": 3,
+          "start": 10.798,
+          "end": 11.173
+        }
+      ]
+    },
+    {
+      "id": "s04",
+      "chapter": "Ch1 The Drive",
+      "file": "vo/ep1/s04.wav",
+      "durationInSeconds": 19.76,
+      "leadFrames": 6,
+      "frames": 611,
+      "startFrame": 1646,
+      "narration": "First, the whip. Your thigh swings, slows, and flings your shin forward. <short pause> Then, the trampoline. The ball squashes and springs back. Your leg is way heavier, so the ball bounces off faster than your foot. <short pause> Club players your age shoot about sixty-seven kilometres an hour.",
+      "sentences": [
+        {
+          "text": "First, the whip.",
+          "start": 0.213,
+          "end": 1.581
+        },
+        {
+          "text": "Your thigh swings, slows, and flings your shin forward.",
+          "start": 2.017,
+          "end": 5.968
+        },
+        {
+          "text": "Then, the trampoline.",
+          "start": 6.722,
+          "end": 7.995
+        },
+        {
+          "text": "The ball squashes and springs back.",
+          "start": 8.472,
+          "end": 10.977
+        },
+        {
+          "text": "Your leg is way heavier, so the ball bounces off faster than your foot.",
+          "start": 11.648,
+          "end": 15.21
+        },
+        {
+          "text": "Club players your age shoot about sixty-seven kilometres an hour.",
+          "start": 15.999,
+          "end": 19.364
+        }
+      ],
+      "words": [
+        {
+          "w": "first",
+          "s": 0,
+          "start": 0.213,
+          "end": 0.479
+        },
+        {
+          "w": "the",
+          "s": 0,
+          "start": 0.728,
+          "end": 0.929
+        },
+        {
+          "w": "whip",
+          "s": 0,
+          "start": 0.929,
+          "end": 1.581
+        },
+        {
+          "w": "your",
+          "s": 1,
+          "start": 2.017,
+          "end": 2.344
+        },
+        {
+          "w": "thigh",
+          "s": 1,
+          "start": 2.344,
+          "end": 2.959
+        },
+        {
+          "w": "swings",
+          "s": 1,
+          "start": 2.959,
+          "end": 3.257
+        },
+        {
+          "w": "slows",
+          "s": 1,
+          "start": 3.411,
+          "end": 3.978
+        },
+        {
+          "w": "and",
+          "s": 1,
+          "start": 3.997,
+          "end": 4.247
+        },
+        {
+          "w": "flings",
+          "s": 1,
+          "start": 4.247,
+          "end": 4.737
+        },
+        {
+          "w": "your",
+          "s": 1,
+          "start": 4.737,
+          "end": 5.064
+        },
+        {
+          "w": "shin",
+          "s": 1,
+          "start": 5.064,
+          "end": 5.449
+        },
+        {
+          "w": "forward",
+          "s": 1,
+          "start": 5.449,
+          "end": 5.968
+        },
+        {
+          "w": "then",
+          "s": 2,
+          "start": 6.722,
+          "end": 6.959
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 7.071,
+          "end": 7.333
+        },
+        {
+          "w": "trampoline",
+          "s": 2,
+          "start": 7.333,
+          "end": 7.995
+        },
+        {
+          "w": "the",
+          "s": 3,
+          "start": 8.472,
+          "end": 8.784
+        },
+        {
+          "w": "ball",
+          "s": 3,
+          "start": 8.784,
+          "end": 9.078
+        },
+        {
+          "w": "squashes",
+          "s": 3,
+          "start": 9.078,
+          "end": 9.801
+        },
+        {
+          "w": "and",
+          "s": 3,
+          "start": 9.801,
+          "end": 10.291
+        },
+        {
+          "w": "springs",
+          "s": 3,
+          "start": 10.291,
+          "end": 10.63
+        },
+        {
+          "w": "back",
+          "s": 3,
+          "start": 10.63,
+          "end": 10.977
+        },
+        {
+          "w": "your",
+          "s": 4,
+          "start": 11.648,
+          "end": 11.967
+        },
+        {
+          "w": "leg",
+          "s": 4,
+          "start": 11.967,
+          "end": 12.076
+        },
+        {
+          "w": "is",
+          "s": 4,
+          "start": 12.076,
+          "end": 12.186
+        },
+        {
+          "w": "way",
+          "s": 4,
+          "start": 12.186,
+          "end": 12.541
+        },
+        {
+          "w": "heavier",
+          "s": 4,
+          "start": 12.541,
+          "end": 12.814
+        },
+        {
+          "w": "so",
+          "s": 4,
+          "start": 13.005,
+          "end": 13.078
+        },
+        {
+          "w": "the",
+          "s": 4,
+          "start": 13.051,
+          "end": 13.479
+        },
+        {
+          "w": "ball",
+          "s": 4,
+          "start": 13.479,
+          "end": 13.552
+        },
+        {
+          "w": "bounces",
+          "s": 4,
+          "start": 13.506,
+          "end": 13.916
+        },
+        {
+          "w": "off",
+          "s": 4,
+          "start": 13.916,
+          "end": 14.098
+        },
+        {
+          "w": "faster",
+          "s": 4,
+          "start": 14.098,
+          "end": 14.463
+        },
+        {
+          "w": "than",
+          "s": 4,
+          "start": 14.463,
+          "end": 14.864
+        },
+        {
+          "w": "your",
+          "s": 4,
+          "start": 14.864,
+          "end": 15.046
+        },
+        {
+          "w": "foot",
+          "s": 4,
+          "start": 15.046,
+          "end": 15.21
+        },
+        {
+          "w": "club",
+          "s": 5,
+          "start": 15.999,
+          "end": 16.33
+        },
+        {
+          "w": "players",
+          "s": 5,
+          "start": 16.33,
+          "end": 16.952
+        },
+        {
+          "w": "your",
+          "s": 5,
+          "start": 16.952,
+          "end": 17.03
+        },
+        {
+          "w": "age",
+          "s": 5,
+          "start": 16.981,
+          "end": 17.166
+        },
+        {
+          "w": "shoot",
+          "s": 5,
+          "start": 17.166,
+          "end": 17.497
+        },
+        {
+          "w": "about",
+          "s": 5,
+          "start": 17.497,
+          "end": 17.983
+        },
+        {
+          "w": "sixty",
+          "s": 5,
+          "start": 18.024,
+          "end": 18.105
+        },
+        {
+          "w": "seven",
+          "s": 5,
+          "start": 18.105,
+          "end": 18.186
+        },
+        {
+          "w": "kilometres",
+          "s": 5,
+          "start": 18.226,
+          "end": 18.878
+        },
+        {
+          "w": "an",
+          "s": 5,
+          "start": 18.878,
+          "end": 18.995
+        },
+        {
+          "w": "hour",
+          "s": 5,
+          "start": 18.995,
+          "end": 19.364
+        }
+      ]
+    },
+    {
+      "id": "s05",
+      "chapter": "Ch1 The Drive",
+      "file": "vo/ep1/s05.wav",
+      "durationInSeconds": 15.72,
+      "leadFrames": 6,
+      "frames": 490,
+      "startFrame": 2257,
+      "narration": "A floppy ankle is a hammer with a loose head. Some of the hit leaks away. <short pause> So: toes down, ankle locked. Hit with the middle of your laces. That's your instep. Hit near your toes, and it's about fifteen percent slower.",
+      "sentences": [
+        {
+          "text": "A floppy ankle is a hammer with a loose head.",
+          "start": 0.468,
+          "end": 3.876
+        },
+        {
+          "text": "Some of the hit leaks away.",
+          "start": 4.078,
+          "end": 5.474
+        },
+        {
+          "text": "So: toes down, ankle locked.",
+          "start": 5.91,
+          "end": 7.298
+        },
+        {
+          "text": "Hit with the middle of your laces.",
+          "start": 7.499,
+          "end": 8.581
+        },
+        {
+          "text": "That's your instep.",
+          "start": 9.128,
+          "end": 10.541
+        },
+        {
+          "text": "Hit near your toes, and it's about fifteen percent slower.",
+          "start": 10.741,
+          "end": 15.374
+        }
+      ],
+      "words": [
+        {
+          "w": "a",
+          "s": 0,
+          "start": 0.468,
+          "end": 0.557
+        },
+        {
+          "w": "floppy",
+          "s": 0,
+          "start": 0.468,
+          "end": 1.046
+        },
+        {
+          "w": "ankle",
+          "s": 0,
+          "start": 1.046,
+          "end": 1.576
+        },
+        {
+          "w": "is",
+          "s": 0,
+          "start": 1.576,
+          "end": 1.737
+        },
+        {
+          "w": "a",
+          "s": 0,
+          "start": 1.737,
+          "end": 1.825
+        },
+        {
+          "w": "hammer",
+          "s": 0,
+          "start": 1.822,
+          "end": 2.399
+        },
+        {
+          "w": "with",
+          "s": 0,
+          "start": 2.399,
+          "end": 2.797
+        },
+        {
+          "w": "a",
+          "s": 0,
+          "start": 2.797,
+          "end": 2.892
+        },
+        {
+          "w": "loose",
+          "s": 0,
+          "start": 2.892,
+          "end": 3.384
+        },
+        {
+          "w": "head",
+          "s": 0,
+          "start": 3.384,
+          "end": 3.876
+        },
+        {
+          "w": "some",
+          "s": 1,
+          "start": 4.078,
+          "end": 4.15
+        },
+        {
+          "w": "of",
+          "s": 1,
+          "start": 4.109,
+          "end": 4.24
+        },
+        {
+          "w": "the",
+          "s": 1,
+          "start": 4.24,
+          "end": 4.439
+        },
+        {
+          "w": "hit",
+          "s": 1,
+          "start": 4.439,
+          "end": 4.715
+        },
+        {
+          "w": "leaks",
+          "s": 1,
+          "start": 4.715,
+          "end": 5.006
+        },
+        {
+          "w": "away",
+          "s": 1,
+          "start": 5.006,
+          "end": 5.474
+        },
+        {
+          "w": "so",
+          "s": 2,
+          "start": 5.91,
+          "end": 6.012
+        },
+        {
+          "w": "toes",
+          "s": 2,
+          "start": 6.012,
+          "end": 6.45
+        },
+        {
+          "w": "down",
+          "s": 2,
+          "start": 6.45,
+          "end": 6.765
+        },
+        {
+          "w": "ankle",
+          "s": 2,
+          "start": 6.765,
+          "end": 7.052
+        },
+        {
+          "w": "locked",
+          "s": 2,
+          "start": 7.052,
+          "end": 7.298
+        },
+        {
+          "w": "hit",
+          "s": 3,
+          "start": 7.499,
+          "end": 7.627
+        },
+        {
+          "w": "with",
+          "s": 3,
+          "start": 7.627,
+          "end": 7.796
+        },
+        {
+          "w": "the",
+          "s": 3,
+          "start": 7.796,
+          "end": 7.93
+        },
+        {
+          "w": "middle",
+          "s": 3,
+          "start": 7.93,
+          "end": 8.181
+        },
+        {
+          "w": "of",
+          "s": 3,
+          "start": 8.181,
+          "end": 8.263
+        },
+        {
+          "w": "your",
+          "s": 3,
+          "start": 8.263,
+          "end": 8.458
+        },
+        {
+          "w": "laces",
+          "s": 3,
+          "start": 8.458,
+          "end": 8.581
+        },
+        {
+          "w": "that's",
+          "s": 4,
+          "start": 9.128,
+          "end": 9.859
+        },
+        {
+          "w": "your",
+          "s": 4,
+          "start": 9.859,
+          "end": 10.037
+        },
+        {
+          "w": "instep",
+          "s": 4,
+          "start": 10.037,
+          "end": 10.541
+        },
+        {
+          "w": "hit",
+          "s": 5,
+          "start": 10.741,
+          "end": 11.546
+        },
+        {
+          "w": "near",
+          "s": 5,
+          "start": 11.546,
+          "end": 11.621
+        },
+        {
+          "w": "your",
+          "s": 5,
+          "start": 11.546,
+          "end": 11.989
+        },
+        {
+          "w": "toes",
+          "s": 5,
+          "start": 11.989,
+          "end": 12.488
+        },
+        {
+          "w": "and",
+          "s": 5,
+          "start": 12.488,
+          "end": 12.761
+        },
+        {
+          "w": "it's",
+          "s": 5,
+          "start": 12.761,
+          "end": 13.196
+        },
+        {
+          "w": "about",
+          "s": 5,
+          "start": 13.196,
+          "end": 13.752
+        },
+        {
+          "w": "fifteen",
+          "s": 5,
+          "start": 13.942,
+          "end": 14.323
+        },
+        {
+          "w": "percent",
+          "s": 5,
+          "start": 14.323,
+          "end": 14.704
+        },
+        {
+          "w": "slower",
+          "s": 5,
+          "start": 14.895,
+          "end": 15.374
+        }
+      ]
+    },
+    {
+      "id": "s06",
+      "chapter": "Ch1 The Drive",
+      "file": "vo/ep1/s06.wav",
+      "durationInSeconds": 25.68,
+      "leadFrames": 6,
+      "frames": 789,
+      "startFrame": 2747,
+      "narration": "Your foot swings like a playground swing, flat only at the bottom. Meet the ball there. <short pause> So put your standing foot beside the ball, toes at the goal. Put it behind, and your kicking foot is already rising. Hello, car alarm. <short pause> Kicking knee and chest over the ball. Eyes on it. Strike through the middle. <short pause> The line turns slowly backward: a little backspin.",
+      "sentences": [
+        {
+          "text": "Your foot swings like a playground swing, flat only at the bottom.",
+          "start": 0,
+          "end": 4.574
+        },
+        {
+          "text": "Meet the ball there.",
+          "start": 5.107,
+          "end": 5.871
+        },
+        {
+          "text": "So put your standing foot beside the ball, toes at the goal.",
+          "start": 6.52,
+          "end": 10.189
+        },
+        {
+          "text": "Put it behind, and your kicking foot is already rising.",
+          "start": 11.082,
+          "end": 13.956
+        },
+        {
+          "text": "Hello, car alarm.",
+          "start": 14.81,
+          "end": 16.066
+        },
+        {
+          "text": "Kicking knee and chest over the ball.",
+          "start": 16.269,
+          "end": 18.381
+        },
+        {
+          "text": "Eyes on it.",
+          "start": 18.75,
+          "end": 19.475
+        },
+        {
+          "text": "Strike through the middle.",
+          "start": 19.965,
+          "end": 21.169
+        },
+        {
+          "text": "The line turns slowly backward: a little backspin.",
+          "start": 21.855,
+          "end": 25.243
+        }
+      ],
+      "words": [
+        {
+          "w": "your",
+          "s": 0,
+          "start": 0,
+          "end": 0.173
+        },
+        {
+          "w": "foot",
+          "s": 0,
+          "start": 0.173,
+          "end": 0.518
+        },
+        {
+          "w": "swings",
+          "s": 0,
+          "start": 0.518,
+          "end": 0.976
+        },
+        {
+          "w": "like",
+          "s": 0,
+          "start": 0.976,
+          "end": 1.301
+        },
+        {
+          "w": "a",
+          "s": 0,
+          "start": 1.301,
+          "end": 1.392
+        },
+        {
+          "w": "playground",
+          "s": 0,
+          "start": 1.392,
+          "end": 2.195
+        },
+        {
+          "w": "swing",
+          "s": 0,
+          "start": 2.195,
+          "end": 2.612
+        },
+        {
+          "w": "flat",
+          "s": 0,
+          "start": 2.887,
+          "end": 3.375
+        },
+        {
+          "w": "only",
+          "s": 0,
+          "start": 3.375,
+          "end": 3.913
+        },
+        {
+          "w": "at",
+          "s": 0,
+          "start": 3.913,
+          "end": 4.056
+        },
+        {
+          "w": "the",
+          "s": 0,
+          "start": 4.056,
+          "end": 4.198
+        },
+        {
+          "w": "bottom",
+          "s": 0,
+          "start": 4.198,
+          "end": 4.574
+        },
+        {
+          "w": "meet",
+          "s": 1,
+          "start": 5.107,
+          "end": 5.157
+        },
+        {
+          "w": "the",
+          "s": 1,
+          "start": 5.151,
+          "end": 5.251
+        },
+        {
+          "w": "ball",
+          "s": 1,
+          "start": 5.251,
+          "end": 5.34
+        },
+        {
+          "w": "there",
+          "s": 1,
+          "start": 5.34,
+          "end": 5.871
+        },
+        {
+          "w": "so",
+          "s": 2,
+          "start": 6.52,
+          "end": 6.666
+        },
+        {
+          "w": "put",
+          "s": 2,
+          "start": 6.666,
+          "end": 6.89
+        },
+        {
+          "w": "your",
+          "s": 2,
+          "start": 6.89,
+          "end": 7.192
+        },
+        {
+          "w": "standing",
+          "s": 2,
+          "start": 7.192,
+          "end": 7.812
+        },
+        {
+          "w": "foot",
+          "s": 2,
+          "start": 7.812,
+          "end": 8.096
+        },
+        {
+          "w": "beside",
+          "s": 2,
+          "start": 8.096,
+          "end": 8.544
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 8.544,
+          "end": 9.069
+        },
+        {
+          "w": "ball",
+          "s": 2,
+          "start": 9.069,
+          "end": 9.137
+        },
+        {
+          "w": "toes",
+          "s": 2,
+          "start": 9.215,
+          "end": 9.517
+        },
+        {
+          "w": "at",
+          "s": 2,
+          "start": 9.517,
+          "end": 9.663
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 9.663,
+          "end": 9.887
+        },
+        {
+          "w": "goal",
+          "s": 2,
+          "start": 9.887,
+          "end": 10.189
+        },
+        {
+          "w": "put",
+          "s": 3,
+          "start": 11.082,
+          "end": 11.273
+        },
+        {
+          "w": "it",
+          "s": 3,
+          "start": 11.273,
+          "end": 11.397
+        },
+        {
+          "w": "behind",
+          "s": 3,
+          "start": 11.397,
+          "end": 11.836
+        },
+        {
+          "w": "and",
+          "s": 3,
+          "start": 11.836,
+          "end": 11.977
+        },
+        {
+          "w": "your",
+          "s": 3,
+          "start": 11.977,
+          "end": 12.233
+        },
+        {
+          "w": "kicking",
+          "s": 3,
+          "start": 12.233,
+          "end": 12.689
+        },
+        {
+          "w": "foot",
+          "s": 3,
+          "start": 12.689,
+          "end": 12.946
+        },
+        {
+          "w": "is",
+          "s": 3,
+          "start": 12.946,
+          "end": 13.07
+        },
+        {
+          "w": "already",
+          "s": 3,
+          "start": 13.07,
+          "end": 13.558
+        },
+        {
+          "w": "rising",
+          "s": 3,
+          "start": 13.558,
+          "end": 13.956
+        },
+        {
+          "w": "hello",
+          "s": 4,
+          "start": 14.81,
+          "end": 15.296
+        },
+        {
+          "w": "car",
+          "s": 4,
+          "start": 15.296,
+          "end": 15.592
+        },
+        {
+          "w": "alarm",
+          "s": 4,
+          "start": 15.592,
+          "end": 16.066
+        },
+        {
+          "w": "kicking",
+          "s": 5,
+          "start": 16.269,
+          "end": 16.767
+        },
+        {
+          "w": "knee",
+          "s": 5,
+          "start": 16.767,
+          "end": 17.046
+        },
+        {
+          "w": "and",
+          "s": 5,
+          "start": 17.046,
+          "end": 17.255
+        },
+        {
+          "w": "chest",
+          "s": 5,
+          "start": 17.255,
+          "end": 17.814
+        },
+        {
+          "w": "over",
+          "s": 5,
+          "start": 17.814,
+          "end": 17.892
+        },
+        {
+          "w": "the",
+          "s": 5,
+          "start": 17.892,
+          "end": 18.233
+        },
+        {
+          "w": "ball",
+          "s": 5,
+          "start": 18.233,
+          "end": 18.381
+        },
+        {
+          "w": "eyes",
+          "s": 6,
+          "start": 18.75,
+          "end": 19.135
+        },
+        {
+          "w": "on",
+          "s": 6,
+          "start": 19.135,
+          "end": 19.294
+        },
+        {
+          "w": "it",
+          "s": 6,
+          "start": 19.294,
+          "end": 19.475
+        },
+        {
+          "w": "strike",
+          "s": 7,
+          "start": 19.965,
+          "end": 20.016
+        },
+        {
+          "w": "through",
+          "s": 7,
+          "start": 19.997,
+          "end": 20.332
+        },
+        {
+          "w": "the",
+          "s": 7,
+          "start": 20.332,
+          "end": 20.885
+        },
+        {
+          "w": "middle",
+          "s": 7,
+          "start": 20.885,
+          "end": 21.169
+        },
+        {
+          "w": "the",
+          "s": 8,
+          "start": 21.855,
+          "end": 22.082
+        },
+        {
+          "w": "line",
+          "s": 8,
+          "start": 22.082,
+          "end": 22.567
+        },
+        {
+          "w": "turns",
+          "s": 8,
+          "start": 22.567,
+          "end": 22.837
+        },
+        {
+          "w": "slowly",
+          "s": 8,
+          "start": 22.837,
+          "end": 23.246
+        },
+        {
+          "w": "backward",
+          "s": 8,
+          "start": 23.246,
+          "end": 23.872
+        },
+        {
+          "w": "a",
+          "s": 8,
+          "start": 24.023,
+          "end": 24.108
+        },
+        {
+          "w": "little",
+          "s": 8,
+          "start": 24.098,
+          "end": 24.562
+        },
+        {
+          "w": "backspin",
+          "s": 8,
+          "start": 24.562,
+          "end": 25.243
+        }
+      ]
+    },
+    {
+      "id": "s07",
+      "chapter": "Ch1 The Drive (practice)",
+      "file": "vo/ep1/s07.wav",
+      "durationInSeconds": 18.92,
+      "leadFrames": 6,
+      "frames": 586,
+      "startFrame": 3536,
+      "narration": "Classic mistake: toes up, so the ball hits your toes. Point your toes down, lock your ankle, then swing. <short pause> Solo drill: tape a line across a wall at knee height. From ten big steps, shoot ten under it. Start at half power. <short pause> Now, for real. <short pause> Chalk dives. Too late.",
+      "sentences": [
+        {
+          "text": "Classic mistake: toes up, so the ball hits your toes.",
+          "start": 0.345,
+          "end": 3.72
+        },
+        {
+          "text": "Point your toes down, lock your ankle, then swing.",
+          "start": 4.153,
+          "end": 7.445
+        },
+        {
+          "text": "Solo drill: tape a line across a wall at knee height.",
+          "start": 8.094,
+          "end": 10.926
+        },
+        {
+          "text": "From ten big steps, shoot ten under it.",
+          "start": 11.359,
+          "end": 13.689
+        },
+        {
+          "text": "Start at half power.",
+          "start": 13.975,
+          "end": 14.867
+        },
+        {
+          "text": "Now, for real.",
+          "start": 15.285,
+          "end": 16.261
+        },
+        {
+          "text": "Chalk dives.",
+          "start": 16.77,
+          "end": 17.514
+        },
+        {
+          "text": "Too late.",
+          "start": 18.102,
+          "end": 18.405
+        }
+      ],
+      "words": [
+        {
+          "w": "classic",
+          "s": 0,
+          "start": 0.345,
+          "end": 0.662
+        },
+        {
+          "w": "mistake",
+          "s": 0,
+          "start": 0.662,
+          "end": 1.529
+        },
+        {
+          "w": "toes",
+          "s": 0,
+          "start": 1.548,
+          "end": 2.163
+        },
+        {
+          "w": "up",
+          "s": 0,
+          "start": 2.163,
+          "end": 2.433
+        },
+        {
+          "w": "so",
+          "s": 0,
+          "start": 2.433,
+          "end": 2.509
+        },
+        {
+          "w": "the",
+          "s": 0,
+          "start": 2.489,
+          "end": 2.62
+        },
+        {
+          "w": "ball",
+          "s": 0,
+          "start": 2.62,
+          "end": 2.843
+        },
+        {
+          "w": "hits",
+          "s": 0,
+          "start": 2.843,
+          "end": 3.095
+        },
+        {
+          "w": "your",
+          "s": 0,
+          "start": 3.095,
+          "end": 3.291
+        },
+        {
+          "w": "toes",
+          "s": 0,
+          "start": 3.291,
+          "end": 3.72
+        },
+        {
+          "w": "point",
+          "s": 1,
+          "start": 4.153,
+          "end": 4.484
+        },
+        {
+          "w": "your",
+          "s": 1,
+          "start": 4.484,
+          "end": 4.751
+        },
+        {
+          "w": "toes",
+          "s": 1,
+          "start": 4.751,
+          "end": 5.017
+        },
+        {
+          "w": "down",
+          "s": 1,
+          "start": 5.017,
+          "end": 5.33
+        },
+        {
+          "w": "lock",
+          "s": 1,
+          "start": 5.643,
+          "end": 5.771
+        },
+        {
+          "w": "your",
+          "s": 1,
+          "start": 5.771,
+          "end": 6.102
+        },
+        {
+          "w": "ankle",
+          "s": 1,
+          "start": 6.102,
+          "end": 6.571
+        },
+        {
+          "w": "then",
+          "s": 1,
+          "start": 6.682,
+          "end": 7.04
+        },
+        {
+          "w": "swing",
+          "s": 1,
+          "start": 7.04,
+          "end": 7.445
+        },
+        {
+          "w": "solo",
+          "s": 2,
+          "start": 8.094,
+          "end": 8.388
+        },
+        {
+          "w": "drill",
+          "s": 2,
+          "start": 8.388,
+          "end": 8.656
+        },
+        {
+          "w": "tape",
+          "s": 2,
+          "start": 8.776,
+          "end": 9.027
+        },
+        {
+          "w": "a",
+          "s": 2,
+          "start": 9.027,
+          "end": 9.097
+        },
+        {
+          "w": "line",
+          "s": 2,
+          "start": 9.087,
+          "end": 9.493
+        },
+        {
+          "w": "across",
+          "s": 2,
+          "start": 9.493,
+          "end": 9.709
+        },
+        {
+          "w": "a",
+          "s": 2,
+          "start": 9.754,
+          "end": 9.845
+        },
+        {
+          "w": "wall",
+          "s": 2,
+          "start": 9.89,
+          "end": 10.261
+        },
+        {
+          "w": "at",
+          "s": 2,
+          "start": 10.261,
+          "end": 10.365
+        },
+        {
+          "w": "knee",
+          "s": 2,
+          "start": 10.365,
+          "end": 10.512
+        },
+        {
+          "w": "height",
+          "s": 2,
+          "start": 10.512,
+          "end": 10.926
+        },
+        {
+          "w": "from",
+          "s": 3,
+          "start": 11.359,
+          "end": 11.668
+        },
+        {
+          "w": "ten",
+          "s": 3,
+          "start": 11.733,
+          "end": 11.865
+        },
+        {
+          "w": "big",
+          "s": 3,
+          "start": 11.931,
+          "end": 12.112
+        },
+        {
+          "w": "steps",
+          "s": 3,
+          "start": 12.112,
+          "end": 12.384
+        },
+        {
+          "w": "shoot",
+          "s": 3,
+          "start": 12.52,
+          "end": 12.828
+        },
+        {
+          "w": "ten",
+          "s": 3,
+          "start": 12.901,
+          "end": 13.046
+        },
+        {
+          "w": "under",
+          "s": 3,
+          "start": 13.118,
+          "end": 13.436
+        },
+        {
+          "w": "it",
+          "s": 3,
+          "start": 13.436,
+          "end": 13.689
+        },
+        {
+          "w": "start",
+          "s": 4,
+          "start": 13.975,
+          "end": 14.229
+        },
+        {
+          "w": "at",
+          "s": 4,
+          "start": 14.229,
+          "end": 14.329
+        },
+        {
+          "w": "half",
+          "s": 4,
+          "start": 14.329,
+          "end": 14.534
+        },
+        {
+          "w": "power",
+          "s": 4,
+          "start": 14.534,
+          "end": 14.867
+        },
+        {
+          "w": "now",
+          "s": 5,
+          "start": 15.285,
+          "end": 15.513
+        },
+        {
+          "w": "for",
+          "s": 5,
+          "start": 15.513,
+          "end": 15.898
+        },
+        {
+          "w": "real",
+          "s": 5,
+          "start": 15.898,
+          "end": 16.261
+        },
+        {
+          "w": "chalk",
+          "s": 6,
+          "start": 16.77,
+          "end": 17.033
+        },
+        {
+          "w": "dives",
+          "s": 6,
+          "start": 17.164,
+          "end": 17.514
+        },
+        {
+          "w": "too",
+          "s": 7,
+          "start": 18.102,
+          "end": 18.275
+        },
+        {
+          "w": "late",
+          "s": 7,
+          "start": 18.275,
+          "end": 18.405
+        }
+      ]
+    },
+    {
+      "id": "s08",
+      "chapter": "Ch2 The Curler",
+      "file": "vo/ep1/s08.wav",
+      "durationInSeconds": 8.6,
+      "leadFrames": 6,
+      "frames": 276,
+      "startFrame": 4122,
+      "narration": "Problem two. He builds a wall and guards the near post. <short pause> You need a ball that starts wide and bends back. You need sideways spin.",
+      "sentences": [
+        {
+          "text": "Problem two.",
+          "start": 0.249,
+          "end": 0.939
+        },
+        {
+          "text": "He builds a wall and guards the near post.",
+          "start": 1.492,
+          "end": 3.894
+        },
+        {
+          "text": "You need a ball that starts wide and bends back.",
+          "start": 4.075,
+          "end": 6.695
+        },
+        {
+          "text": "You need sideways spin.",
+          "start": 7.113,
+          "end": 8.255
+        }
+      ],
+      "words": [
+        {
+          "w": "problem",
+          "s": 0,
+          "start": 0.249,
+          "end": 0.616
+        },
+        {
+          "w": "two",
+          "s": 0,
+          "start": 0.724,
+          "end": 0.939
+        },
+        {
+          "w": "he",
+          "s": 1,
+          "start": 1.492,
+          "end": 1.585
+        },
+        {
+          "w": "builds",
+          "s": 1,
+          "start": 1.535,
+          "end": 1.975
+        },
+        {
+          "w": "a",
+          "s": 1,
+          "start": 1.975,
+          "end": 2.068
+        },
+        {
+          "w": "wall",
+          "s": 1,
+          "start": 2.039,
+          "end": 2.329
+        },
+        {
+          "w": "and",
+          "s": 1,
+          "start": 2.329,
+          "end": 2.543
+        },
+        {
+          "w": "guards",
+          "s": 1,
+          "start": 2.543,
+          "end": 2.983
+        },
+        {
+          "w": "the",
+          "s": 1,
+          "start": 2.983,
+          "end": 3.197
+        },
+        {
+          "w": "near",
+          "s": 1,
+          "start": 3.197,
+          "end": 3.487
+        },
+        {
+          "w": "post",
+          "s": 1,
+          "start": 3.487,
+          "end": 3.894
+        },
+        {
+          "w": "you",
+          "s": 2,
+          "start": 4.075,
+          "end": 4.353
+        },
+        {
+          "w": "need",
+          "s": 2,
+          "start": 4.353,
+          "end": 4.555
+        },
+        {
+          "w": "a",
+          "s": 2,
+          "start": 4.555,
+          "end": 4.638
+        },
+        {
+          "w": "ball",
+          "s": 2,
+          "start": 4.622,
+          "end": 4.9
+        },
+        {
+          "w": "that",
+          "s": 2,
+          "start": 4.9,
+          "end": 5.543
+        },
+        {
+          "w": "starts",
+          "s": 2,
+          "start": 5.543,
+          "end": 5.626
+        },
+        {
+          "w": "wide",
+          "s": 2,
+          "start": 5.591,
+          "end": 5.879
+        },
+        {
+          "w": "and",
+          "s": 2,
+          "start": 5.879,
+          "end": 6.071
+        },
+        {
+          "w": "bends",
+          "s": 2,
+          "start": 6.071,
+          "end": 6.407
+        },
+        {
+          "w": "back",
+          "s": 2,
+          "start": 6.407,
+          "end": 6.695
+        },
+        {
+          "w": "you",
+          "s": 3,
+          "start": 7.113,
+          "end": 7.291
+        },
+        {
+          "w": "need",
+          "s": 3,
+          "start": 7.291,
+          "end": 7.522
+        },
+        {
+          "w": "sideways",
+          "s": 3,
+          "start": 7.522,
+          "end": 8.017
+        },
+        {
+          "w": "spin",
+          "s": 3,
+          "start": 8.017,
+          "end": 8.255
+        }
+      ]
+    },
+    {
+      "id": "s09",
+      "chapter": "Ch2 The Curler",
+      "file": "vo/ep1/s09.wav",
+      "durationInSeconds": 15.68,
+      "leadFrames": 6,
+      "frames": 509,
+      "startFrame": 4398,
+      "narration": "New kick, new rule. Inside of your foot. This time, toes up, but the ankle stays locked: a firm, flat face. <short pause> Hit just right of centre. Wrap your foot around the ball, out to the right. Left-footed? Flip it.",
+      "sentences": [
+        {
+          "text": "New kick, new rule.",
+          "start": 0.253,
+          "end": 1.68
+        },
+        {
+          "text": "Inside of your foot.",
+          "start": 2.179,
+          "end": 3.409
+        },
+        {
+          "text": "This time, toes up, but the ankle stays locked: a firm, flat face.",
+          "start": 3.715,
+          "end": 9.213
+        },
+        {
+          "text": "Hit just right of centre.",
+          "start": 9.925,
+          "end": 11.226
+        },
+        {
+          "text": "Wrap your foot around the ball, out to the right.",
+          "start": 11.817,
+          "end": 13.507
+        },
+        {
+          "text": "Left-footed?",
+          "start": 14.182,
+          "end": 14.622
+        },
+        {
+          "text": "Flip it.",
+          "start": 14.946,
+          "end": 15.31
+        }
+      ],
+      "words": [
+        {
+          "w": "new",
+          "s": 0,
+          "start": 0.253,
+          "end": 0.336
+        },
+        {
+          "w": "kick",
+          "s": 0,
+          "start": 0.313,
+          "end": 0.715
+        },
+        {
+          "w": "new",
+          "s": 0,
+          "start": 1.117,
+          "end": 1.258
+        },
+        {
+          "w": "rule",
+          "s": 0,
+          "start": 1.258,
+          "end": 1.68
+        },
+        {
+          "w": "inside",
+          "s": 1,
+          "start": 2.179,
+          "end": 2.466
+        },
+        {
+          "w": "of",
+          "s": 1,
+          "start": 2.466,
+          "end": 2.645
+        },
+        {
+          "w": "your",
+          "s": 1,
+          "start": 2.645,
+          "end": 3.032
+        },
+        {
+          "w": "foot",
+          "s": 1,
+          "start": 3.032,
+          "end": 3.409
+        },
+        {
+          "w": "this",
+          "s": 2,
+          "start": 3.715,
+          "end": 3.815
+        },
+        {
+          "w": "time",
+          "s": 2,
+          "start": 3.74,
+          "end": 4.127
+        },
+        {
+          "w": "toes",
+          "s": 2,
+          "start": 4.49,
+          "end": 5.132
+        },
+        {
+          "w": "up",
+          "s": 2,
+          "start": 5.132,
+          "end": 5.604
+        },
+        {
+          "w": "but",
+          "s": 2,
+          "start": 5.653,
+          "end": 5.786
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 5.786,
+          "end": 5.907
+        },
+        {
+          "w": "ankle",
+          "s": 2,
+          "start": 5.907,
+          "end": 6.222
+        },
+        {
+          "w": "stays",
+          "s": 2,
+          "start": 6.222,
+          "end": 6.549
+        },
+        {
+          "w": "locked",
+          "s": 2,
+          "start": 6.549,
+          "end": 7.203
+        },
+        {
+          "w": "a",
+          "s": 2,
+          "start": 7.227,
+          "end": 7.529
+        },
+        {
+          "w": "firm",
+          "s": 2,
+          "start": 7.529,
+          "end": 7.893
+        },
+        {
+          "w": "flat",
+          "s": 2,
+          "start": 8.571,
+          "end": 8.692
+        },
+        {
+          "w": "face",
+          "s": 2,
+          "start": 8.692,
+          "end": 9.213
+        },
+        {
+          "w": "hit",
+          "s": 3,
+          "start": 9.925,
+          "end": 9.982
+        },
+        {
+          "w": "just",
+          "s": 3,
+          "start": 9.939,
+          "end": 10.236
+        },
+        {
+          "w": "right",
+          "s": 3,
+          "start": 10.236,
+          "end": 10.686
+        },
+        {
+          "w": "of",
+          "s": 3,
+          "start": 10.686,
+          "end": 11.169
+        },
+        {
+          "w": "centre",
+          "s": 3,
+          "start": 11.169,
+          "end": 11.226
+        },
+        {
+          "w": "wrap",
+          "s": 4,
+          "start": 11.817,
+          "end": 11.999
+        },
+        {
+          "w": "your",
+          "s": 4,
+          "start": 11.999,
+          "end": 12.181
+        },
+        {
+          "w": "foot",
+          "s": 4,
+          "start": 12.181,
+          "end": 12.37
+        },
+        {
+          "w": "around",
+          "s": 4,
+          "start": 12.37,
+          "end": 12.658
+        },
+        {
+          "w": "the",
+          "s": 4,
+          "start": 12.658,
+          "end": 12.727
+        },
+        {
+          "w": "ball",
+          "s": 4,
+          "start": 12.727,
+          "end": 12.81
+        },
+        {
+          "w": "out",
+          "s": 4,
+          "start": 12.81,
+          "end": 12.954
+        },
+        {
+          "w": "to",
+          "s": 4,
+          "start": 12.954,
+          "end": 13.045
+        },
+        {
+          "w": "the",
+          "s": 4,
+          "start": 13.045,
+          "end": 13.196
+        },
+        {
+          "w": "right",
+          "s": 4,
+          "start": 13.196,
+          "end": 13.507
+        },
+        {
+          "w": "left",
+          "s": 5,
+          "start": 14.182,
+          "end": 14.333
+        },
+        {
+          "w": "footed",
+          "s": 5,
+          "start": 14.333,
+          "end": 14.622
+        },
+        {
+          "w": "flip",
+          "s": 6,
+          "start": 14.946,
+          "end": 15.163
+        },
+        {
+          "w": "it",
+          "s": 6,
+          "start": 15.163,
+          "end": 15.31
+        }
+      ]
+    },
+    {
+      "id": "s10",
+      "chapter": "Ch2 The Curler",
+      "file": "vo/ep1/s10.wav",
+      "durationInSeconds": 12.16,
+      "leadFrames": 6,
+      "frames": 383,
+      "startFrame": 4907,
+      "narration": "Air rushes past the ball like a crowd. <short pause> The spinning ball grabs the air and flings it to one side. Throw air one way, get shoved the other way. <short pause> That's the Magnus effect: the spin push.",
+      "sentences": [
+        {
+          "text": "Air rushes past the ball like a crowd.",
+          "start": 0.414,
+          "end": 2.838
+        },
+        {
+          "text": "The spinning ball grabs the air and flings it to one side.",
+          "start": 3.342,
+          "end": 6.549
+        },
+        {
+          "text": "Throw air one way, get shoved the other way.",
+          "start": 7.15,
+          "end": 9.166
+        },
+        {
+          "text": "That's the Magnus effect: the spin push.",
+          "start": 9.748,
+          "end": 11.866
+        }
+      ],
+      "words": [
+        {
+          "w": "air",
+          "s": 0,
+          "start": 0.414,
+          "end": 0.514
+        },
+        {
+          "w": "rushes",
+          "s": 0,
+          "start": 0.514,
+          "end": 0.948
+        },
+        {
+          "w": "past",
+          "s": 0,
+          "start": 0.948,
+          "end": 1.3
+        },
+        {
+          "w": "the",
+          "s": 0,
+          "start": 1.3,
+          "end": 1.572
+        },
+        {
+          "w": "ball",
+          "s": 0,
+          "start": 1.572,
+          "end": 1.924
+        },
+        {
+          "w": "like",
+          "s": 0,
+          "start": 1.924,
+          "end": 2.295
+        },
+        {
+          "w": "a",
+          "s": 0,
+          "start": 2.295,
+          "end": 2.386
+        },
+        {
+          "w": "crowd",
+          "s": 0,
+          "start": 2.386,
+          "end": 2.838
+        },
+        {
+          "w": "the",
+          "s": 1,
+          "start": 3.342,
+          "end": 3.729
+        },
+        {
+          "w": "spinning",
+          "s": 1,
+          "start": 3.729,
+          "end": 4.106
+        },
+        {
+          "w": "ball",
+          "s": 1,
+          "start": 4.106,
+          "end": 4.304
+        },
+        {
+          "w": "grabs",
+          "s": 1,
+          "start": 4.304,
+          "end": 4.624
+        },
+        {
+          "w": "the",
+          "s": 1,
+          "start": 4.624,
+          "end": 4.804
+        },
+        {
+          "w": "air",
+          "s": 1,
+          "start": 4.804,
+          "end": 5.039
+        },
+        {
+          "w": "and",
+          "s": 1,
+          "start": 5.039,
+          "end": 5.247
+        },
+        {
+          "w": "flings",
+          "s": 1,
+          "start": 5.247,
+          "end": 5.68
+        },
+        {
+          "w": "it",
+          "s": 1,
+          "start": 5.68,
+          "end": 5.822
+        },
+        {
+          "w": "to",
+          "s": 1,
+          "start": 5.822,
+          "end": 5.973
+        },
+        {
+          "w": "one",
+          "s": 1,
+          "start": 5.973,
+          "end": 6.472
+        },
+        {
+          "w": "side",
+          "s": 1,
+          "start": 6.472,
+          "end": 6.549
+        },
+        {
+          "w": "throw",
+          "s": 2,
+          "start": 7.15,
+          "end": 7.48
+        },
+        {
+          "w": "air",
+          "s": 2,
+          "start": 7.48,
+          "end": 7.682
+        },
+        {
+          "w": "one",
+          "s": 2,
+          "start": 7.682,
+          "end": 7.884
+        },
+        {
+          "w": "way",
+          "s": 2,
+          "start": 7.884,
+          "end": 8.085
+        },
+        {
+          "w": "get",
+          "s": 2,
+          "start": 8.231,
+          "end": 8.392
+        },
+        {
+          "w": "shoved",
+          "s": 2,
+          "start": 8.473,
+          "end": 8.634
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 8.715,
+          "end": 8.836
+        },
+        {
+          "w": "other",
+          "s": 2,
+          "start": 8.836,
+          "end": 9.07
+        },
+        {
+          "w": "way",
+          "s": 2,
+          "start": 9.07,
+          "end": 9.166
+        },
+        {
+          "w": "that's",
+          "s": 3,
+          "start": 9.748,
+          "end": 10.106
+        },
+        {
+          "w": "the",
+          "s": 3,
+          "start": 10.106,
+          "end": 10.272
+        },
+        {
+          "w": "magnus",
+          "s": 3,
+          "start": 10.272,
+          "end": 10.63
+        },
+        {
+          "w": "effect",
+          "s": 3,
+          "start": 10.63,
+          "end": 10.988
+        },
+        {
+          "w": "the",
+          "s": 3,
+          "start": 11.145,
+          "end": 11.32
+        },
+        {
+          "w": "spin",
+          "s": 3,
+          "start": 11.32,
+          "end": 11.529
+        },
+        {
+          "w": "push",
+          "s": 3,
+          "start": 11.529,
+          "end": 11.866
+        }
+      ]
+    },
+    {
+      "id": "s11",
+      "chapter": "Ch2 The Curler",
+      "file": "vo/ep1/s11.wav",
+      "durationInSeconds": 14.72,
+      "leadFrames": 6,
+      "frames": 460,
+      "startFrame": 5290,
+      "narration": "Curlers seem to bend late. They don't. They bend about the same the whole way. <short pause> But the gap from a straight line grows faster and faster. From twenty metres, the gap is almost three metres. <short pause> So to the keeper, it looks late.",
+      "sentences": [
+        {
+          "text": "Curlers seem to bend late.",
+          "start": 0.313,
+          "end": 1.949
+        },
+        {
+          "text": "They don't.",
+          "start": 2.411,
+          "end": 2.791
+        },
+        {
+          "text": "They bend about the same the whole way.",
+          "start": 3.113,
+          "end": 4.888
+        },
+        {
+          "text": "But the gap from a straight line grows faster and faster.",
+          "start": 5.221,
+          "end": 8.733
+        },
+        {
+          "text": "From twenty metres, the gap is almost three metres.",
+          "start": 9.072,
+          "end": 12.013
+        },
+        {
+          "text": "So to the keeper, it looks late.",
+          "start": 12.25,
+          "end": 14.348
+        }
+      ],
+      "words": [
+        {
+          "w": "curlers",
+          "s": 0,
+          "start": 0.313,
+          "end": 0.687
+        },
+        {
+          "w": "seem",
+          "s": 0,
+          "start": 0.687,
+          "end": 1.062
+        },
+        {
+          "w": "to",
+          "s": 0,
+          "start": 1.062,
+          "end": 1.249
+        },
+        {
+          "w": "bend",
+          "s": 0,
+          "start": 1.343,
+          "end": 1.53
+        },
+        {
+          "w": "late",
+          "s": 0,
+          "start": 1.624,
+          "end": 1.949
+        },
+        {
+          "w": "they",
+          "s": 1,
+          "start": 2.411,
+          "end": 2.58
+        },
+        {
+          "w": "don't",
+          "s": 1,
+          "start": 2.58,
+          "end": 2.791
+        },
+        {
+          "w": "they",
+          "s": 2,
+          "start": 3.113,
+          "end": 3.479
+        },
+        {
+          "w": "bend",
+          "s": 2,
+          "start": 3.532,
+          "end": 3.637
+        },
+        {
+          "w": "about",
+          "s": 2,
+          "start": 3.69,
+          "end": 4.037
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 4.037,
+          "end": 4.113
+        },
+        {
+          "w": "same",
+          "s": 2,
+          "start": 4.111,
+          "end": 4.321
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 4.321,
+          "end": 4.477
+        },
+        {
+          "w": "whole",
+          "s": 2,
+          "start": 4.477,
+          "end": 4.742
+        },
+        {
+          "w": "way",
+          "s": 2,
+          "start": 4.742,
+          "end": 4.888
+        },
+        {
+          "w": "but",
+          "s": 3,
+          "start": 5.221,
+          "end": 5.52
+        },
+        {
+          "w": "the",
+          "s": 3,
+          "start": 5.52,
+          "end": 5.651
+        },
+        {
+          "w": "gap",
+          "s": 3,
+          "start": 5.651,
+          "end": 5.866
+        },
+        {
+          "w": "from",
+          "s": 3,
+          "start": 5.866,
+          "end": 6.165
+        },
+        {
+          "w": "a",
+          "s": 3,
+          "start": 6.165,
+          "end": 6.242
+        },
+        {
+          "w": "straight",
+          "s": 3,
+          "start": 6.211,
+          "end": 6.781
+        },
+        {
+          "w": "line",
+          "s": 3,
+          "start": 6.781,
+          "end": 7.472
+        },
+        {
+          "w": "grows",
+          "s": 3,
+          "start": 7.472,
+          "end": 7.55
+        },
+        {
+          "w": "faster",
+          "s": 3,
+          "start": 7.51,
+          "end": 8.126
+        },
+        {
+          "w": "and",
+          "s": 3,
+          "start": 8.126,
+          "end": 8.257
+        },
+        {
+          "w": "faster",
+          "s": 3,
+          "start": 8.257,
+          "end": 8.733
+        },
+        {
+          "w": "from",
+          "s": 4,
+          "start": 9.072,
+          "end": 9.386
+        },
+        {
+          "w": "twenty",
+          "s": 4,
+          "start": 9.442,
+          "end": 9.555
+        },
+        {
+          "w": "metres",
+          "s": 4,
+          "start": 9.611,
+          "end": 9.905
+        },
+        {
+          "w": "the",
+          "s": 4,
+          "start": 10.072,
+          "end": 10.307
+        },
+        {
+          "w": "gap",
+          "s": 4,
+          "start": 10.307,
+          "end": 10.562
+        },
+        {
+          "w": "is",
+          "s": 4,
+          "start": 10.562,
+          "end": 10.729
+        },
+        {
+          "w": "almost",
+          "s": 4,
+          "start": 10.729,
+          "end": 11.435
+        },
+        {
+          "w": "three",
+          "s": 4,
+          "start": 11.449,
+          "end": 11.531
+        },
+        {
+          "w": "metres",
+          "s": 4,
+          "start": 11.494,
+          "end": 12.013
+        },
+        {
+          "w": "so",
+          "s": 5,
+          "start": 12.25,
+          "end": 12.444
+        },
+        {
+          "w": "to",
+          "s": 5,
+          "start": 12.444,
+          "end": 12.505
+        },
+        {
+          "w": "the",
+          "s": 5,
+          "start": 12.488,
+          "end": 12.593
+        },
+        {
+          "w": "keeper",
+          "s": 5,
+          "start": 12.593,
+          "end": 12.861
+        },
+        {
+          "w": "it",
+          "s": 5,
+          "start": 13.01,
+          "end": 13.204
+        },
+        {
+          "w": "looks",
+          "s": 5,
+          "start": 13.204,
+          "end": 14.055
+        },
+        {
+          "w": "late",
+          "s": 5,
+          "start": 14.055,
+          "end": 14.348
+        }
+      ]
+    },
+    {
+      "id": "s12",
+      "chapter": "Ch2 The Curler (practice)",
+      "file": "vo/ep1/s12.wav",
+      "durationInSeconds": 22.56,
+      "leadFrames": 6,
+      "frames": 695,
+      "startFrame": 5750,
+      "narration": "From twenty metres, aim about three metres outside the far post. Point your standing foot there. Closer to goal? Aim less wide. <short pause> Classic mistake: aiming straight at the post. The spin pulls it back to Chalk. <short pause> Solo drill: put your bag halfway to the goal. Curl ten balls around it. <short pause> Starts wide. Comes home.",
+      "sentences": [
+        {
+          "text": "From twenty metres, aim about three metres outside the far post.",
+          "start": 0.29,
+          "end": 4.116
+        },
+        {
+          "text": "Point your standing foot there.",
+          "start": 4.496,
+          "end": 5.94
+        },
+        {
+          "text": "Closer to goal?",
+          "start": 6.278,
+          "end": 6.917
+        },
+        {
+          "text": "Aim less wide.",
+          "start": 7.432,
+          "end": 8.033
+        },
+        {
+          "text": "Classic mistake: aiming straight at the post.",
+          "start": 8.822,
+          "end": 9.918
+        },
+        {
+          "text": "The spin pulls it back to Chalk.",
+          "start": 10.304,
+          "end": 13.453
+        },
+        {
+          "text": "Solo drill: put your bag halfway to the goal.",
+          "start": 14.066,
+          "end": 17.309
+        },
+        {
+          "text": "Curl ten balls around it.",
+          "start": 17.894,
+          "end": 19.251
+        },
+        {
+          "text": "Starts wide.",
+          "start": 19.959,
+          "end": 20.679
+        },
+        {
+          "text": "Comes home.",
+          "start": 21.273,
+          "end": 21.836
+        }
+      ],
+      "words": [
+        {
+          "w": "from",
+          "s": 0,
+          "start": 0.29,
+          "end": 0.374
+        },
+        {
+          "w": "twenty",
+          "s": 0,
+          "start": 0.444,
+          "end": 0.689
+        },
+        {
+          "w": "metres",
+          "s": 0,
+          "start": 0.812,
+          "end": 1.333
+        },
+        {
+          "w": "aim",
+          "s": 0,
+          "start": 1.531,
+          "end": 1.76
+        },
+        {
+          "w": "about",
+          "s": 0,
+          "start": 1.76,
+          "end": 2.229
+        },
+        {
+          "w": "three",
+          "s": 0,
+          "start": 2.279,
+          "end": 2.378
+        },
+        {
+          "w": "metres",
+          "s": 0,
+          "start": 2.428,
+          "end": 2.949
+        },
+        {
+          "w": "outside",
+          "s": 0,
+          "start": 2.949,
+          "end": 3.428
+        },
+        {
+          "w": "the",
+          "s": 0,
+          "start": 3.428,
+          "end": 3.637
+        },
+        {
+          "w": "far",
+          "s": 0,
+          "start": 3.637,
+          "end": 3.835
+        },
+        {
+          "w": "post",
+          "s": 0,
+          "start": 3.835,
+          "end": 4.116
+        },
+        {
+          "w": "point",
+          "s": 1,
+          "start": 4.496,
+          "end": 4.792
+        },
+        {
+          "w": "your",
+          "s": 1,
+          "start": 4.792,
+          "end": 5.054
+        },
+        {
+          "w": "standing",
+          "s": 1,
+          "start": 5.054,
+          "end": 5.431
+        },
+        {
+          "w": "foot",
+          "s": 1,
+          "start": 5.431,
+          "end": 5.743
+        },
+        {
+          "w": "there",
+          "s": 1,
+          "start": 5.743,
+          "end": 5.94
+        },
+        {
+          "w": "closer",
+          "s": 2,
+          "start": 6.278,
+          "end": 6.59
+        },
+        {
+          "w": "to",
+          "s": 2,
+          "start": 6.59,
+          "end": 6.694
+        },
+        {
+          "w": "goal",
+          "s": 2,
+          "start": 6.694,
+          "end": 6.917
+        },
+        {
+          "w": "aim",
+          "s": 3,
+          "start": 7.432,
+          "end": 7.572
+        },
+        {
+          "w": "less",
+          "s": 3,
+          "start": 7.572,
+          "end": 7.742
+        },
+        {
+          "w": "wide",
+          "s": 3,
+          "start": 7.742,
+          "end": 8.033
+        },
+        {
+          "w": "classic",
+          "s": 4,
+          "start": 8.822,
+          "end": 9.018
+        },
+        {
+          "w": "mistake",
+          "s": 4,
+          "start": 9.018,
+          "end": 9.214
+        },
+        {
+          "w": "aiming",
+          "s": 4,
+          "start": 9.27,
+          "end": 9.438
+        },
+        {
+          "w": "straight",
+          "s": 4,
+          "start": 9.438,
+          "end": 9.698
+        },
+        {
+          "w": "at",
+          "s": 4,
+          "start": 9.698,
+          "end": 9.748
+        },
+        {
+          "w": "the",
+          "s": 4,
+          "start": 9.722,
+          "end": 9.806
+        },
+        {
+          "w": "post",
+          "s": 4,
+          "start": 9.806,
+          "end": 9.918
+        },
+        {
+          "w": "the",
+          "s": 5,
+          "start": 10.304,
+          "end": 10.793
+        },
+        {
+          "w": "spin",
+          "s": 5,
+          "start": 10.793,
+          "end": 11.227
+        },
+        {
+          "w": "pulls",
+          "s": 5,
+          "start": 11.227,
+          "end": 11.824
+        },
+        {
+          "w": "it",
+          "s": 5,
+          "start": 11.824,
+          "end": 12.082
+        },
+        {
+          "w": "back",
+          "s": 5,
+          "start": 12.082,
+          "end": 12.571
+        },
+        {
+          "w": "to",
+          "s": 5,
+          "start": 12.571,
+          "end": 12.815
+        },
+        {
+          "w": "chalk",
+          "s": 5,
+          "start": 12.815,
+          "end": 13.453
+        },
+        {
+          "w": "solo",
+          "s": 6,
+          "start": 14.066,
+          "end": 14.511
+        },
+        {
+          "w": "drill",
+          "s": 6,
+          "start": 14.733,
+          "end": 15.152
+        },
+        {
+          "w": "put",
+          "s": 6,
+          "start": 15.362,
+          "end": 15.682
+        },
+        {
+          "w": "your",
+          "s": 6,
+          "start": 15.682,
+          "end": 15.871
+        },
+        {
+          "w": "bag",
+          "s": 6,
+          "start": 15.871,
+          "end": 16.091
+        },
+        {
+          "w": "halfway",
+          "s": 6,
+          "start": 16.091,
+          "end": 16.61
+        },
+        {
+          "w": "to",
+          "s": 6,
+          "start": 16.61,
+          "end": 16.75
+        },
+        {
+          "w": "the",
+          "s": 6,
+          "start": 16.75,
+          "end": 16.96
+        },
+        {
+          "w": "goal",
+          "s": 6,
+          "start": 16.96,
+          "end": 17.309
+        },
+        {
+          "w": "curl",
+          "s": 7,
+          "start": 17.894,
+          "end": 18.167
+        },
+        {
+          "w": "ten",
+          "s": 7,
+          "start": 18.244,
+          "end": 18.4
+        },
+        {
+          "w": "balls",
+          "s": 7,
+          "start": 18.478,
+          "end": 18.773
+        },
+        {
+          "w": "around",
+          "s": 7,
+          "start": 18.773,
+          "end": 19.129
+        },
+        {
+          "w": "it",
+          "s": 7,
+          "start": 19.129,
+          "end": 19.251
+        },
+        {
+          "w": "starts",
+          "s": 8,
+          "start": 19.959,
+          "end": 20.391
+        },
+        {
+          "w": "wide",
+          "s": 8,
+          "start": 20.391,
+          "end": 20.679
+        },
+        {
+          "w": "comes",
+          "s": 9,
+          "start": 21.273,
+          "end": 21.574
+        },
+        {
+          "w": "home",
+          "s": 9,
+          "start": 21.574,
+          "end": 21.836
+        }
+      ]
+    },
+    {
+      "id": "s13",
+      "chapter": "Ch3 The Volley",
+      "file": "vo/ep1/s13.wav",
+      "durationInSeconds": 7.48,
+      "leadFrames": 6,
+      "frames": 318,
+      "startFrame": 6445,
+      "narration": "Problem three. Chalk punches it clear. You pop it up off your thigh. <short pause> Now hit it before it lands.",
+      "sentences": [
+        {
+          "text": "Problem three.",
+          "start": 0.204,
+          "end": 0.838
+        },
+        {
+          "text": "Chalk punches it clear.",
+          "start": 1.364,
+          "end": 2.64
+        },
+        {
+          "text": "You pop it up off your thigh.",
+          "start": 3.046,
+          "end": 4.827
+        },
+        {
+          "text": "Now hit it before it lands.",
+          "start": 5.282,
+          "end": 7.086
+        }
+      ],
+      "words": [
+        {
+          "w": "problem",
+          "s": 0,
+          "start": 0.204,
+          "end": 0.481
+        },
+        {
+          "w": "three",
+          "s": 0,
+          "start": 0.481,
+          "end": 0.838
+        },
+        {
+          "w": "chalk",
+          "s": 1,
+          "start": 1.364,
+          "end": 1.631
+        },
+        {
+          "w": "punches",
+          "s": 1,
+          "start": 1.631,
+          "end": 2.085
+        },
+        {
+          "w": "it",
+          "s": 1,
+          "start": 2.141,
+          "end": 2.252
+        },
+        {
+          "w": "clear",
+          "s": 1,
+          "start": 2.307,
+          "end": 2.64
+        },
+        {
+          "w": "you",
+          "s": 2,
+          "start": 3.046,
+          "end": 3.145
+        },
+        {
+          "w": "pop",
+          "s": 2,
+          "start": 3.145,
+          "end": 3.407
+        },
+        {
+          "w": "it",
+          "s": 2,
+          "start": 3.407,
+          "end": 3.693
+        },
+        {
+          "w": "up",
+          "s": 2,
+          "start": 3.693,
+          "end": 3.792
+        },
+        {
+          "w": "off",
+          "s": 2,
+          "start": 3.781,
+          "end": 4.017
+        },
+        {
+          "w": "your",
+          "s": 2,
+          "start": 4.017,
+          "end": 4.366
+        },
+        {
+          "w": "thigh",
+          "s": 2,
+          "start": 4.366,
+          "end": 4.827
+        },
+        {
+          "w": "now",
+          "s": 3,
+          "start": 5.282,
+          "end": 5.362
+        },
+        {
+          "w": "hit",
+          "s": 3,
+          "start": 5.516,
+          "end": 5.873
+        },
+        {
+          "w": "it",
+          "s": 3,
+          "start": 5.873,
+          "end": 6.159
+        },
+        {
+          "w": "before",
+          "s": 3,
+          "start": 6.159,
+          "end": 6.536
+        },
+        {
+          "w": "it",
+          "s": 3,
+          "start": 6.536,
+          "end": 6.638
+        },
+        {
+          "w": "lands",
+          "s": 3,
+          "start": 6.638,
+          "end": 7.086
+        }
+      ]
+    },
+    {
+      "id": "s14",
+      "chapter": "Ch3 The Volley",
+      "file": "vo/ep1/s14.wav",
+      "durationInSeconds": 10.24,
+      "leadFrames": 6,
+      "frames": 326,
+      "startFrame": 6763,
+      "narration": "The ball keeps falling while you swing. <short pause> So set your standing foot early, beside where it will drop. Start your swing early. Hit it at knee height or lower.",
+      "sentences": [
+        {
+          "text": "The ball keeps falling while you swing.",
+          "start": 0.295,
+          "end": 2.134
+        },
+        {
+          "text": "So set your standing foot early, beside where it will drop.",
+          "start": 2.545,
+          "end": 5.804
+        },
+        {
+          "text": "Start your swing early.",
+          "start": 6.455,
+          "end": 7.306
+        },
+        {
+          "text": "Hit it at knee height or lower.",
+          "start": 8.086,
+          "end": 9.985
+        }
+      ],
+      "words": [
+        {
+          "w": "the",
+          "s": 0,
+          "start": 0.295,
+          "end": 0.366
+        },
+        {
+          "w": "ball",
+          "s": 0,
+          "start": 0.365,
+          "end": 0.549
+        },
+        {
+          "w": "keeps",
+          "s": 0,
+          "start": 0.549,
+          "end": 0.864
+        },
+        {
+          "w": "falling",
+          "s": 0,
+          "start": 0.864,
+          "end": 1.302
+        },
+        {
+          "w": "while",
+          "s": 0,
+          "start": 1.302,
+          "end": 1.617
+        },
+        {
+          "w": "you",
+          "s": 0,
+          "start": 1.617,
+          "end": 1.801
+        },
+        {
+          "w": "swing",
+          "s": 0,
+          "start": 1.801,
+          "end": 2.134
+        },
+        {
+          "w": "so",
+          "s": 1,
+          "start": 2.545,
+          "end": 2.688
+        },
+        {
+          "w": "set",
+          "s": 1,
+          "start": 2.688,
+          "end": 2.879
+        },
+        {
+          "w": "your",
+          "s": 1,
+          "start": 2.879,
+          "end": 3.128
+        },
+        {
+          "w": "standing",
+          "s": 1,
+          "start": 3.128,
+          "end": 3.634
+        },
+        {
+          "w": "foot",
+          "s": 1,
+          "start": 3.634,
+          "end": 3.997
+        },
+        {
+          "w": "early",
+          "s": 1,
+          "start": 3.997,
+          "end": 4.647
+        },
+        {
+          "w": "beside",
+          "s": 1,
+          "start": 4.657,
+          "end": 4.963
+        },
+        {
+          "w": "where",
+          "s": 1,
+          "start": 4.963,
+          "end": 5.173
+        },
+        {
+          "w": "it",
+          "s": 1,
+          "start": 5.2,
+          "end": 5.277
+        },
+        {
+          "w": "will",
+          "s": 1,
+          "start": 5.254,
+          "end": 5.331
+        },
+        {
+          "w": "drop",
+          "s": 1,
+          "start": 5.335,
+          "end": 5.804
+        },
+        {
+          "w": "start",
+          "s": 2,
+          "start": 6.455,
+          "end": 6.679
+        },
+        {
+          "w": "your",
+          "s": 2,
+          "start": 6.679,
+          "end": 6.863
+        },
+        {
+          "w": "swing",
+          "s": 2,
+          "start": 6.863,
+          "end": 7.082
+        },
+        {
+          "w": "early",
+          "s": 2,
+          "start": 7.082,
+          "end": 7.306
+        },
+        {
+          "w": "hit",
+          "s": 3,
+          "start": 8.086,
+          "end": 8.361
+        },
+        {
+          "w": "it",
+          "s": 3,
+          "start": 8.361,
+          "end": 8.504
+        },
+        {
+          "w": "at",
+          "s": 3,
+          "start": 8.504,
+          "end": 8.627
+        },
+        {
+          "w": "knee",
+          "s": 3,
+          "start": 8.627,
+          "end": 9.112
+        },
+        {
+          "w": "height",
+          "s": 3,
+          "start": 9.112,
+          "end": 9.406
+        },
+        {
+          "w": "or",
+          "s": 3,
+          "start": 9.406,
+          "end": 9.558
+        },
+        {
+          "w": "lower",
+          "s": 3,
+          "start": 9.558,
+          "end": 9.985
+        }
+      ]
+    },
+    {
+      "id": "s15",
+      "chapter": "Ch3 The Volley",
+      "file": "vo/ep1/s15.wav",
+      "durationInSeconds": 7.56,
+      "leadFrames": 6,
+      "frames": 245,
+      "startFrame": 7089,
+      "narration": "Your instep is a tennis racket. Toes down, and it tilts forward. Lean back, and the ball flies over.",
+      "sentences": [
+        {
+          "text": "Your instep is a tennis racket.",
+          "start": 0.31,
+          "end": 2.232
+        },
+        {
+          "text": "Toes down, and it tilts forward.",
+          "start": 2.687,
+          "end": 4.571
+        },
+        {
+          "text": "Lean back, and the ball flies over.",
+          "start": 5.103,
+          "end": 7.282
+        }
+      ],
+      "words": [
+        {
+          "w": "your",
+          "s": 0,
+          "start": 0.31,
+          "end": 0.377
+        },
+        {
+          "w": "instep",
+          "s": 0,
+          "start": 0.351,
+          "end": 0.797
+        },
+        {
+          "w": "is",
+          "s": 0,
+          "start": 0.797,
+          "end": 1.02
+        },
+        {
+          "w": "a",
+          "s": 0,
+          "start": 1.02,
+          "end": 1.087
+        },
+        {
+          "w": "tennis",
+          "s": 0,
+          "start": 1.036,
+          "end": 1.465
+        },
+        {
+          "w": "racket",
+          "s": 0,
+          "start": 1.465,
+          "end": 2.232
+        },
+        {
+          "w": "toes",
+          "s": 1,
+          "start": 2.687,
+          "end": 3.099
+        },
+        {
+          "w": "down",
+          "s": 1,
+          "start": 3.099,
+          "end": 3.577
+        },
+        {
+          "w": "and",
+          "s": 1,
+          "start": 3.577,
+          "end": 3.653
+        },
+        {
+          "w": "it",
+          "s": 1,
+          "start": 3.624,
+          "end": 3.764
+        },
+        {
+          "w": "tilts",
+          "s": 1,
+          "start": 3.764,
+          "end": 4.102
+        },
+        {
+          "w": "forward",
+          "s": 1,
+          "start": 4.102,
+          "end": 4.571
+        },
+        {
+          "w": "lean",
+          "s": 2,
+          "start": 5.103,
+          "end": 5.276
+        },
+        {
+          "w": "back",
+          "s": 2,
+          "start": 5.276,
+          "end": 5.955
+        },
+        {
+          "w": "and",
+          "s": 2,
+          "start": 5.955,
+          "end": 6.3
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 6.3,
+          "end": 6.378
+        },
+        {
+          "w": "ball",
+          "s": 2,
+          "start": 6.31,
+          "end": 6.616
+        },
+        {
+          "w": "flies",
+          "s": 2,
+          "start": 6.616,
+          "end": 6.913
+        },
+        {
+          "w": "over",
+          "s": 2,
+          "start": 6.913,
+          "end": 7.282
+        }
+      ]
+    },
+    {
+      "id": "s16",
+      "chapter": "Ch3 The Volley",
+      "file": "vo/ep1/s16.wav",
+      "durationInSeconds": 12,
+      "leadFrames": 6,
+      "frames": 378,
+      "startFrame": 7334,
+      "narration": "The falling ball rolls down your laces. That can give it topspin. <short pause> It flicks air up, so the spin push points down. <short pause> It dives, up to about a metre lower than with no spin.",
+      "sentences": [
+        {
+          "text": "The falling ball rolls down your laces.",
+          "start": 0.302,
+          "end": 2.913
+        },
+        {
+          "text": "That can give it topspin.",
+          "start": 2.913,
+          "end": 4.402
+        },
+        {
+          "text": "It flicks air up, so the spin push points down.",
+          "start": 4.86,
+          "end": 7.944
+        },
+        {
+          "text": "It dives, up to about a metre lower than with no spin.",
+          "start": 8.441,
+          "end": 11.506
+        }
+      ],
+      "words": [
+        {
+          "w": "the",
+          "s": 0,
+          "start": 0.302,
+          "end": 0.384
+        },
+        {
+          "w": "falling",
+          "s": 0,
+          "start": 0.352,
+          "end": 0.953
+        },
+        {
+          "w": "ball",
+          "s": 0,
+          "start": 0.953,
+          "end": 1.323
+        },
+        {
+          "w": "rolls",
+          "s": 0,
+          "start": 1.323,
+          "end": 1.863
+        },
+        {
+          "w": "down",
+          "s": 0,
+          "start": 1.863,
+          "end": 2.153
+        },
+        {
+          "w": "your",
+          "s": 0,
+          "start": 2.153,
+          "end": 2.543
+        },
+        {
+          "w": "laces",
+          "s": 0,
+          "start": 2.543,
+          "end": 2.913
+        },
+        {
+          "w": "that",
+          "s": 1,
+          "start": 2.913,
+          "end": 3.247
+        },
+        {
+          "w": "can",
+          "s": 1,
+          "start": 3.247,
+          "end": 3.515
+        },
+        {
+          "w": "give",
+          "s": 1,
+          "start": 3.515,
+          "end": 3.705
+        },
+        {
+          "w": "it",
+          "s": 1,
+          "start": 3.705,
+          "end": 3.85
+        },
+        {
+          "w": "topspin",
+          "s": 1,
+          "start": 4.034,
+          "end": 4.402
+        },
+        {
+          "w": "it",
+          "s": 2,
+          "start": 4.86,
+          "end": 5.14
+        },
+        {
+          "w": "flicks",
+          "s": 2,
+          "start": 5.14,
+          "end": 5.71
+        },
+        {
+          "w": "air",
+          "s": 2,
+          "start": 5.71,
+          "end": 6.037
+        },
+        {
+          "w": "up",
+          "s": 2,
+          "start": 6.037,
+          "end": 6.261
+        },
+        {
+          "w": "so",
+          "s": 2,
+          "start": 6.392,
+          "end": 6.579
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 6.579,
+          "end": 6.719
+        },
+        {
+          "w": "spin",
+          "s": 2,
+          "start": 6.719,
+          "end": 6.981
+        },
+        {
+          "w": "push",
+          "s": 2,
+          "start": 6.981,
+          "end": 7.186
+        },
+        {
+          "w": "points",
+          "s": 2,
+          "start": 7.186,
+          "end": 7.868
+        },
+        {
+          "w": "down",
+          "s": 2,
+          "start": 7.868,
+          "end": 7.944
+        },
+        {
+          "w": "it",
+          "s": 3,
+          "start": 8.441,
+          "end": 8.705
+        },
+        {
+          "w": "dives",
+          "s": 3,
+          "start": 8.705,
+          "end": 8.96
+        },
+        {
+          "w": "up",
+          "s": 3,
+          "start": 8.96,
+          "end": 9.109
+        },
+        {
+          "w": "to",
+          "s": 3,
+          "start": 9.109,
+          "end": 9.257
+        },
+        {
+          "w": "about",
+          "s": 3,
+          "start": 9.257,
+          "end": 9.628
+        },
+        {
+          "w": "a",
+          "s": 3,
+          "start": 9.628,
+          "end": 9.702
+        },
+        {
+          "w": "metre",
+          "s": 3,
+          "start": 9.795,
+          "end": 9.981
+        },
+        {
+          "w": "lower",
+          "s": 3,
+          "start": 10.073,
+          "end": 10.444
+        },
+        {
+          "w": "than",
+          "s": 3,
+          "start": 10.444,
+          "end": 10.733
+        },
+        {
+          "w": "with",
+          "s": 3,
+          "start": 10.733,
+          "end": 11.095
+        },
+        {
+          "w": "no",
+          "s": 3,
+          "start": 11.095,
+          "end": 11.186
+        },
+        {
+          "w": "spin",
+          "s": 3,
+          "start": 11.186,
+          "end": 11.506
+        }
+      ]
+    },
+    {
+      "id": "s17",
+      "chapter": "Ch3 The Volley (mistake)",
+      "file": "vo/ep1/s17.wav",
+      "durationInSeconds": 14.4,
+      "leadFrames": 6,
+      "frames": 450,
+      "startFrame": 7712,
+      "narration": "Classic mistake? Smashing it. <short pause> Same angle, but the harder shot flies over. It arrives sooner, so it has less time to fall. <short pause> Fix: nose over knee, knee over ball. Hit the middle, not the bottom. Clean beats hard.",
+      "sentences": [
+        {
+          "text": "Classic mistake?",
+          "start": 0.234,
+          "end": 1.193
+        },
+        {
+          "text": "Smashing it.",
+          "start": 1.193,
+          "end": 2.29
+        },
+        {
+          "text": "Same angle, but the harder shot flies over.",
+          "start": 2.676,
+          "end": 5.054
+        },
+        {
+          "text": "It arrives sooner, so it has less time to fall.",
+          "start": 5.432,
+          "end": 7.663
+        },
+        {
+          "text": "Fix: nose over knee, knee over ball.",
+          "start": 7.917,
+          "end": 9.71
+        },
+        {
+          "text": "Hit the middle, not the bottom.",
+          "start": 10.025,
+          "end": 12.764
+        },
+        {
+          "text": "Clean beats hard.",
+          "start": 13.021,
+          "end": 14.015
+        }
+      ],
+      "words": [
+        {
+          "w": "classic",
+          "s": 0,
+          "start": 0.234,
+          "end": 0.562
+        },
+        {
+          "w": "mistake",
+          "s": 0,
+          "start": 0.562,
+          "end": 1.193
+        },
+        {
+          "w": "smashing",
+          "s": 1,
+          "start": 1.193,
+          "end": 1.887
+        },
+        {
+          "w": "it",
+          "s": 1,
+          "start": 1.887,
+          "end": 2.29
+        },
+        {
+          "w": "same",
+          "s": 2,
+          "start": 2.676,
+          "end": 2.797
+        },
+        {
+          "w": "angle",
+          "s": 2,
+          "start": 2.797,
+          "end": 3.402
+        },
+        {
+          "w": "but",
+          "s": 2,
+          "start": 3.402,
+          "end": 3.506
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 3.506,
+          "end": 3.584
+        },
+        {
+          "w": "harder",
+          "s": 2,
+          "start": 3.558,
+          "end": 3.886
+        },
+        {
+          "w": "shot",
+          "s": 2,
+          "start": 3.886,
+          "end": 4.102
+        },
+        {
+          "w": "flies",
+          "s": 2,
+          "start": 4.102,
+          "end": 4.388
+        },
+        {
+          "w": "over",
+          "s": 2,
+          "start": 4.388,
+          "end": 5.054
+        },
+        {
+          "w": "it",
+          "s": 3,
+          "start": 5.432,
+          "end": 5.515
+        },
+        {
+          "w": "arrives",
+          "s": 3,
+          "start": 5.497,
+          "end": 5.756
+        },
+        {
+          "w": "sooner",
+          "s": 3,
+          "start": 5.756,
+          "end": 6.173
+        },
+        {
+          "w": "so",
+          "s": 3,
+          "start": 6.173,
+          "end": 6.312
+        },
+        {
+          "w": "it",
+          "s": 3,
+          "start": 6.312,
+          "end": 6.451
+        },
+        {
+          "w": "has",
+          "s": 3,
+          "start": 6.451,
+          "end": 6.654
+        },
+        {
+          "w": "less",
+          "s": 3,
+          "start": 6.654,
+          "end": 6.988
+        },
+        {
+          "w": "time",
+          "s": 3,
+          "start": 6.988,
+          "end": 7.237
+        },
+        {
+          "w": "to",
+          "s": 3,
+          "start": 7.237,
+          "end": 7.349
+        },
+        {
+          "w": "fall",
+          "s": 3,
+          "start": 7.349,
+          "end": 7.663
+        },
+        {
+          "w": "fix",
+          "s": 4,
+          "start": 7.917,
+          "end": 8.26
+        },
+        {
+          "w": "nose",
+          "s": 4,
+          "start": 8.26,
+          "end": 8.418
+        },
+        {
+          "w": "over",
+          "s": 4,
+          "start": 8.418,
+          "end": 8.703
+        },
+        {
+          "w": "knee",
+          "s": 4,
+          "start": 8.703,
+          "end": 9.003
+        },
+        {
+          "w": "knee",
+          "s": 4,
+          "start": 9.003,
+          "end": 9.214
+        },
+        {
+          "w": "over",
+          "s": 4,
+          "start": 9.214,
+          "end": 9.425
+        },
+        {
+          "w": "ball",
+          "s": 4,
+          "start": 9.425,
+          "end": 9.71
+        },
+        {
+          "w": "hit",
+          "s": 5,
+          "start": 10.025,
+          "end": 10.188
+        },
+        {
+          "w": "the",
+          "s": 5,
+          "start": 10.188,
+          "end": 10.314
+        },
+        {
+          "w": "middle",
+          "s": 5,
+          "start": 10.314,
+          "end": 11.047
+        },
+        {
+          "w": "not",
+          "s": 5,
+          "start": 11.047,
+          "end": 11.517
+        },
+        {
+          "w": "the",
+          "s": 5,
+          "start": 11.517,
+          "end": 11.77
+        },
+        {
+          "w": "bottom",
+          "s": 5,
+          "start": 11.77,
+          "end": 12.764
+        },
+        {
+          "w": "clean",
+          "s": 6,
+          "start": 13.021,
+          "end": 13.268
+        },
+        {
+          "w": "beats",
+          "s": 6,
+          "start": 13.268,
+          "end": 13.743
+        },
+        {
+          "w": "hard",
+          "s": 6,
+          "start": 13.743,
+          "end": 14.015
+        }
+      ]
+    },
+    {
+      "id": "s18",
+      "chapter": "Ch3 The Volley (practice)",
+      "file": "vo/ep1/s18.wav",
+      "durationInSeconds": 13.72,
+      "leadFrames": 6,
+      "frames": 430,
+      "startFrame": 8162,
+      "narration": "Solo drill: drop the ball three big steps from a wall. Let it bounce once. Volley it at the top, where it almost stops. Start soft. Stay under the tape. <short pause> Now, for real. <short pause> Under the bar.",
+      "sentences": [
+        {
+          "text": "Solo drill: drop the ball three big steps from a wall.",
+          "start": 0.233,
+          "end": 3.587
+        },
+        {
+          "text": "Let it bounce once.",
+          "start": 3.956,
+          "end": 4.815
+        },
+        {
+          "text": "Volley it at the top, where it almost stops.",
+          "start": 5.254,
+          "end": 6.552
+        },
+        {
+          "text": "Start soft.",
+          "start": 6.778,
+          "end": 8.281
+        },
+        {
+          "text": "Stay under the tape.",
+          "start": 8.892,
+          "end": 9.587
+        },
+        {
+          "text": "Now, for real.",
+          "start": 9.774,
+          "end": 10.486
+        },
+        {
+          "text": "Under the bar.",
+          "start": 11.623,
+          "end": 13.437
+        }
+      ],
+      "words": [
+        {
+          "w": "solo",
+          "s": 0,
+          "start": 0.233,
+          "end": 0.328
+        },
+        {
+          "w": "drill",
+          "s": 0,
+          "start": 0.327,
+          "end": 0.775
+        },
+        {
+          "w": "drop",
+          "s": 0,
+          "start": 1.327,
+          "end": 1.421
+        },
+        {
+          "w": "the",
+          "s": 0,
+          "start": 1.41,
+          "end": 1.629
+        },
+        {
+          "w": "ball",
+          "s": 0,
+          "start": 1.629,
+          "end": 1.89
+        },
+        {
+          "w": "three",
+          "s": 0,
+          "start": 1.89,
+          "end": 2.265
+        },
+        {
+          "w": "big",
+          "s": 0,
+          "start": 2.265,
+          "end": 2.494
+        },
+        {
+          "w": "steps",
+          "s": 0,
+          "start": 2.494,
+          "end": 2.869
+        },
+        {
+          "w": "from",
+          "s": 0,
+          "start": 2.869,
+          "end": 3.233
+        },
+        {
+          "w": "a",
+          "s": 0,
+          "start": 3.233,
+          "end": 3.327
+        },
+        {
+          "w": "wall",
+          "s": 0,
+          "start": 3.244,
+          "end": 3.587
+        },
+        {
+          "w": "let",
+          "s": 1,
+          "start": 3.956,
+          "end": 4.056
+        },
+        {
+          "w": "it",
+          "s": 1,
+          "start": 3.967,
+          "end": 4.201
+        },
+        {
+          "w": "bounce",
+          "s": 1,
+          "start": 4.201,
+          "end": 4.48
+        },
+        {
+          "w": "once",
+          "s": 1,
+          "start": 4.48,
+          "end": 4.815
+        },
+        {
+          "w": "volley",
+          "s": 2,
+          "start": 5.254,
+          "end": 5.482
+        },
+        {
+          "w": "it",
+          "s": 2,
+          "start": 5.482,
+          "end": 5.559
+        },
+        {
+          "w": "at",
+          "s": 2,
+          "start": 5.559,
+          "end": 5.752
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 5.752,
+          "end": 5.802
+        },
+        {
+          "w": "top",
+          "s": 2,
+          "start": 5.787,
+          "end": 5.868
+        },
+        {
+          "w": "where",
+          "s": 2,
+          "start": 5.868,
+          "end": 6.065
+        },
+        {
+          "w": "it",
+          "s": 2,
+          "start": 6.065,
+          "end": 6.135
+        },
+        {
+          "w": "almost",
+          "s": 2,
+          "start": 6.135,
+          "end": 6.363
+        },
+        {
+          "w": "stops",
+          "s": 2,
+          "start": 6.363,
+          "end": 6.552
+        },
+        {
+          "w": "start",
+          "s": 3,
+          "start": 6.778,
+          "end": 7.292
+        },
+        {
+          "w": "soft",
+          "s": 3,
+          "start": 7.292,
+          "end": 8.281
+        },
+        {
+          "w": "stay",
+          "s": 4,
+          "start": 8.892,
+          "end": 8.987
+        },
+        {
+          "w": "under",
+          "s": 4,
+          "start": 8.987,
+          "end": 9.179
+        },
+        {
+          "w": "the",
+          "s": 4,
+          "start": 9.179,
+          "end": 9.347
+        },
+        {
+          "w": "tape",
+          "s": 4,
+          "start": 9.347,
+          "end": 9.587
+        },
+        {
+          "w": "now",
+          "s": 5,
+          "start": 9.774,
+          "end": 9.987
+        },
+        {
+          "w": "for",
+          "s": 5,
+          "start": 9.987,
+          "end": 10.289
+        },
+        {
+          "w": "real",
+          "s": 5,
+          "start": 10.289,
+          "end": 10.486
+        },
+        {
+          "w": "under",
+          "s": 6,
+          "start": 11.623,
+          "end": 12.482
+        },
+        {
+          "w": "the",
+          "s": 6,
+          "start": 12.482,
+          "end": 13.118
+        },
+        {
+          "w": "bar",
+          "s": 6,
+          "start": 13.118,
+          "end": 13.437
+        }
+      ]
+    },
+    {
+      "id": "s19",
+      "chapter": "Ch3 The Volley (chip mirror)",
+      "file": "vo/ep1/s19.wav",
+      "durationInSeconds": 15.44,
+      "leadFrames": 6,
+      "frames": 482,
+      "startFrame": 8592,
+      "narration": "Bonus kick: the chip. Same air, opposite spin. <short pause> Jab your laces under the ball, a thumb's width above the grass. Then stop your foot. <short pause> It pops up steep with backspin, flicks air down, and hangs over a rushing keeper.",
+      "sentences": [
+        {
+          "text": "Bonus kick: the chip.",
+          "start": 0.364,
+          "end": 1.978
+        },
+        {
+          "text": "Same air, opposite spin.",
+          "start": 2.438,
+          "end": 4.102
+        },
+        {
+          "text": "Jab your laces under the ball, a thumb's width above the grass.",
+          "start": 4.476,
+          "end": 8.04
+        },
+        {
+          "text": "Then stop your foot.",
+          "start": 8.324,
+          "end": 9.19
+        },
+        {
+          "text": "It pops up steep with backspin, flicks air down, and hangs over a rushing keeper.",
+          "start": 9.931,
+          "end": 14.993
+        }
+      ],
+      "words": [
+        {
+          "w": "bonus",
+          "s": 0,
+          "start": 0.364,
+          "end": 0.553
+        },
+        {
+          "w": "kick",
+          "s": 0,
+          "start": 0.553,
+          "end": 0.933
+        },
+        {
+          "w": "the",
+          "s": 0,
+          "start": 1.194,
+          "end": 1.4
+        },
+        {
+          "w": "chip",
+          "s": 0,
+          "start": 1.4,
+          "end": 1.978
+        },
+        {
+          "w": "same",
+          "s": 1,
+          "start": 2.438,
+          "end": 2.692
+        },
+        {
+          "w": "air",
+          "s": 1,
+          "start": 2.692,
+          "end": 2.946
+        },
+        {
+          "w": "opposite",
+          "s": 1,
+          "start": 3.108,
+          "end": 3.779
+        },
+        {
+          "w": "spin",
+          "s": 1,
+          "start": 3.779,
+          "end": 4.102
+        },
+        {
+          "w": "jab",
+          "s": 2,
+          "start": 4.476,
+          "end": 4.81
+        },
+        {
+          "w": "your",
+          "s": 2,
+          "start": 4.81,
+          "end": 5.061
+        },
+        {
+          "w": "laces",
+          "s": 2,
+          "start": 5.061,
+          "end": 5.478
+        },
+        {
+          "w": "under",
+          "s": 2,
+          "start": 5.478,
+          "end": 5.896
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 5.896,
+          "end": 6.147
+        },
+        {
+          "w": "ball",
+          "s": 2,
+          "start": 6.147,
+          "end": 6.49
+        },
+        {
+          "w": "a",
+          "s": 2,
+          "start": 6.611,
+          "end": 6.769
+        },
+        {
+          "w": "thumb's",
+          "s": 2,
+          "start": 6.769,
+          "end": 7.019
+        },
+        {
+          "w": "width",
+          "s": 2,
+          "start": 7.019,
+          "end": 7.539
+        },
+        {
+          "w": "above",
+          "s": 2,
+          "start": 7.539,
+          "end": 7.613
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 7.548,
+          "end": 7.706
+        },
+        {
+          "w": "grass",
+          "s": 2,
+          "start": 7.706,
+          "end": 8.04
+        },
+        {
+          "w": "then",
+          "s": 3,
+          "start": 8.324,
+          "end": 8.801
+        },
+        {
+          "w": "stop",
+          "s": 3,
+          "start": 8.801,
+          "end": 8.859
+        },
+        {
+          "w": "your",
+          "s": 3,
+          "start": 8.852,
+          "end": 8.999
+        },
+        {
+          "w": "foot",
+          "s": 3,
+          "start": 8.999,
+          "end": 9.19
+        },
+        {
+          "w": "it",
+          "s": 4,
+          "start": 9.931,
+          "end": 10.272
+        },
+        {
+          "w": "pops",
+          "s": 4,
+          "start": 10.272,
+          "end": 10.385
+        },
+        {
+          "w": "up",
+          "s": 4,
+          "start": 10.385,
+          "end": 10.537
+        },
+        {
+          "w": "steep",
+          "s": 4,
+          "start": 10.537,
+          "end": 10.953
+        },
+        {
+          "w": "with",
+          "s": 4,
+          "start": 10.953,
+          "end": 11.266
+        },
+        {
+          "w": "backspin",
+          "s": 4,
+          "start": 11.266,
+          "end": 11.768
+        },
+        {
+          "w": "flicks",
+          "s": 4,
+          "start": 12.014,
+          "end": 12.478
+        },
+        {
+          "w": "air",
+          "s": 4,
+          "start": 12.478,
+          "end": 12.705
+        },
+        {
+          "w": "down",
+          "s": 4,
+          "start": 12.705,
+          "end": 13.055
+        },
+        {
+          "w": "and",
+          "s": 4,
+          "start": 13.225,
+          "end": 13.386
+        },
+        {
+          "w": "hangs",
+          "s": 4,
+          "start": 13.386,
+          "end": 13.727
+        },
+        {
+          "w": "over",
+          "s": 4,
+          "start": 13.727,
+          "end": 13.973
+        },
+        {
+          "w": "a",
+          "s": 4,
+          "start": 13.973,
+          "end": 14.333
+        },
+        {
+          "w": "rushing",
+          "s": 4,
+          "start": 14.333,
+          "end": 14.513
+        },
+        {
+          "w": "keeper",
+          "s": 4,
+          "start": 14.513,
+          "end": 14.993
+        }
+      ]
+    },
+    {
+      "id": "s20",
+      "chapter": "Ch3 The Volley (chip mirror)",
+      "file": "vo/ep1/s20.wav",
+      "durationInSeconds": 12.08,
+      "leadFrames": 6,
+      "frames": 456,
+      "startFrame": 9074,
+      "narration": "That first shot tonight? <short pause> Your foot came up under it. It took off steep, with backspin, like a chip. By accident. <short pause> Chip on purpose, when the keeper rushes out.",
+      "sentences": [
+        {
+          "text": "That first shot tonight?",
+          "start": 0.242,
+          "end": 1.466
+        },
+        {
+          "text": "Your foot came up under it.",
+          "start": 2.161,
+          "end": 3.572
+        },
+        {
+          "text": "It took off steep, with backspin, like a chip.",
+          "start": 4.29,
+          "end": 7.398
+        },
+        {
+          "text": "By accident.",
+          "start": 8.06,
+          "end": 8.931
+        },
+        {
+          "text": "Chip on purpose, when the keeper rushes out.",
+          "start": 9.637,
+          "end": 11.668
+        }
+      ],
+      "words": [
+        {
+          "w": "that",
+          "s": 0,
+          "start": 0.242,
+          "end": 0.308
+        },
+        {
+          "w": "first",
+          "s": 0,
+          "start": 0.308,
+          "end": 0.637
+        },
+        {
+          "w": "shot",
+          "s": 0,
+          "start": 0.637,
+          "end": 0.9
+        },
+        {
+          "w": "tonight",
+          "s": 0,
+          "start": 0.9,
+          "end": 1.466
+        },
+        {
+          "w": "your",
+          "s": 1,
+          "start": 2.161,
+          "end": 2.424
+        },
+        {
+          "w": "foot",
+          "s": 1,
+          "start": 2.424,
+          "end": 2.686
+        },
+        {
+          "w": "came",
+          "s": 1,
+          "start": 2.686,
+          "end": 2.948
+        },
+        {
+          "w": "up",
+          "s": 1,
+          "start": 2.948,
+          "end": 3.079
+        },
+        {
+          "w": "under",
+          "s": 1,
+          "start": 3.079,
+          "end": 3.387
+        },
+        {
+          "w": "it",
+          "s": 1,
+          "start": 3.387,
+          "end": 3.572
+        },
+        {
+          "w": "it",
+          "s": 2,
+          "start": 4.29,
+          "end": 4.541
+        },
+        {
+          "w": "took",
+          "s": 2,
+          "start": 4.541,
+          "end": 4.777
+        },
+        {
+          "w": "off",
+          "s": 2,
+          "start": 4.777,
+          "end": 4.996
+        },
+        {
+          "w": "steep",
+          "s": 2,
+          "start": 4.996,
+          "end": 5.393
+        },
+        {
+          "w": "with",
+          "s": 2,
+          "start": 5.393,
+          "end": 6.026
+        },
+        {
+          "w": "backspin",
+          "s": 2,
+          "start": 6.026,
+          "end": 6.481
+        },
+        {
+          "w": "like",
+          "s": 2,
+          "start": 6.554,
+          "end": 6.927
+        },
+        {
+          "w": "a",
+          "s": 2,
+          "start": 6.927,
+          "end": 7.017
+        },
+        {
+          "w": "chip",
+          "s": 2,
+          "start": 7.017,
+          "end": 7.398
+        },
+        {
+          "w": "by",
+          "s": 3,
+          "start": 8.06,
+          "end": 8.151
+        },
+        {
+          "w": "accident",
+          "s": 3,
+          "start": 8.138,
+          "end": 8.931
+        },
+        {
+          "w": "chip",
+          "s": 4,
+          "start": 9.637,
+          "end": 9.883
+        },
+        {
+          "w": "on",
+          "s": 4,
+          "start": 9.883,
+          "end": 9.957
+        },
+        {
+          "w": "purpose",
+          "s": 4,
+          "start": 9.957,
+          "end": 10.333
+        },
+        {
+          "w": "when",
+          "s": 4,
+          "start": 10.333,
+          "end": 10.555
+        },
+        {
+          "w": "the",
+          "s": 4,
+          "start": 10.555,
+          "end": 10.702
+        },
+        {
+          "w": "keeper",
+          "s": 4,
+          "start": 10.702,
+          "end": 11.341
+        },
+        {
+          "w": "rushes",
+          "s": 4,
+          "start": 11.341,
+          "end": 11.407
+        },
+        {
+          "w": "out",
+          "s": 4,
+          "start": 11.406,
+          "end": 11.668
+        }
+      ]
+    },
+    {
+      "id": "s21",
+      "chapter": "Ending",
+      "file": "vo/ep1/s21.wav",
+      "durationInSeconds": 26.24,
+      "leadFrames": 6,
+      "frames": 806,
+      "startFrame": 9530,
+      "narration": "The first shot again. Standing foot beside the ball. Toes down, ankle locked. <short pause> Low. Hard. In. No shouting needed. <long pause> And that line? It told you everything. A little backspin, hard and low: speed. Sideways: bend. Topspin: dive. Backspin, soft and high: float.",
+      "sentences": [
+        {
+          "text": "The first shot again.",
+          "start": 0.194,
+          "end": 1.342
+        },
+        {
+          "text": "Standing foot beside the ball.",
+          "start": 1.679,
+          "end": 3.496
+        },
+        {
+          "text": "Toes down, ankle locked.",
+          "start": 3.962,
+          "end": 5.654
+        },
+        {
+          "text": "Low.",
+          "start": 6.029,
+          "end": 6.442
+        },
+        {
+          "text": "Hard.",
+          "start": 6.692,
+          "end": 7.072
+        },
+        {
+          "text": "In.",
+          "start": 7.444,
+          "end": 7.725
+        },
+        {
+          "text": "No shouting needed.",
+          "start": 8.413,
+          "end": 9.33
+        },
+        {
+          "text": "And that line?",
+          "start": 10.677,
+          "end": 14.135
+        },
+        {
+          "text": "It told you everything.",
+          "start": 14.561,
+          "end": 15.654
+        },
+        {
+          "text": "A little backspin, hard and low: speed.",
+          "start": 16.179,
+          "end": 18.87
+        },
+        {
+          "text": "Sideways: bend.",
+          "start": 19.393,
+          "end": 20.818
+        },
+        {
+          "text": "Topspin: dive.",
+          "start": 21.398,
+          "end": 22.983
+        },
+        {
+          "text": "Backspin, soft and high: float.",
+          "start": 23.6,
+          "end": 25.864
+        }
+      ],
+      "words": [
+        {
+          "w": "the",
+          "s": 0,
+          "start": 0.194,
+          "end": 0.262
+        },
+        {
+          "w": "first",
+          "s": 0,
+          "start": 0.253,
+          "end": 0.667
+        },
+        {
+          "w": "shot",
+          "s": 0,
+          "start": 0.667,
+          "end": 0.937
+        },
+        {
+          "w": "again",
+          "s": 0,
+          "start": 0.937,
+          "end": 1.342
+        },
+        {
+          "w": "standing",
+          "s": 1,
+          "start": 1.679,
+          "end": 2.133
+        },
+        {
+          "w": "foot",
+          "s": 1,
+          "start": 2.133,
+          "end": 2.422
+        },
+        {
+          "w": "beside",
+          "s": 1,
+          "start": 2.422,
+          "end": 2.86
+        },
+        {
+          "w": "the",
+          "s": 1,
+          "start": 2.86,
+          "end": 3.067
+        },
+        {
+          "w": "ball",
+          "s": 1,
+          "start": 3.067,
+          "end": 3.496
+        },
+        {
+          "w": "toes",
+          "s": 2,
+          "start": 3.962,
+          "end": 4.139
+        },
+        {
+          "w": "down",
+          "s": 2,
+          "start": 4.139,
+          "end": 4.698
+        },
+        {
+          "w": "ankle",
+          "s": 2,
+          "start": 4.765,
+          "end": 5.146
+        },
+        {
+          "w": "locked",
+          "s": 2,
+          "start": 5.146,
+          "end": 5.654
+        },
+        {
+          "w": "low",
+          "s": 3,
+          "start": 6.029,
+          "end": 6.442
+        },
+        {
+          "w": "hard",
+          "s": 4,
+          "start": 6.692,
+          "end": 7.072
+        },
+        {
+          "w": "in",
+          "s": 5,
+          "start": 7.444,
+          "end": 7.725
+        },
+        {
+          "w": "no",
+          "s": 6,
+          "start": 8.413,
+          "end": 8.549
+        },
+        {
+          "w": "shouting",
+          "s": 6,
+          "start": 8.498,
+          "end": 8.667
+        },
+        {
+          "w": "needed",
+          "s": 6,
+          "start": 8.752,
+          "end": 9.33
+        },
+        {
+          "w": "and",
+          "s": 7,
+          "start": 10.677,
+          "end": 12.776
+        },
+        {
+          "w": "that",
+          "s": 7,
+          "start": 13.825,
+          "end": 14.019
+        },
+        {
+          "w": "line",
+          "s": 7,
+          "start": 14.019,
+          "end": 14.135
+        },
+        {
+          "w": "it",
+          "s": 8,
+          "start": 14.561,
+          "end": 14.663
+        },
+        {
+          "w": "told",
+          "s": 8,
+          "start": 14.663,
+          "end": 14.97
+        },
+        {
+          "w": "you",
+          "s": 8,
+          "start": 14.97,
+          "end": 15.072
+        },
+        {
+          "w": "everything",
+          "s": 8,
+          "start": 15.072,
+          "end": 15.654
+        },
+        {
+          "w": "a",
+          "s": 9,
+          "start": 16.179,
+          "end": 16.262
+        },
+        {
+          "w": "little",
+          "s": 9,
+          "start": 16.251,
+          "end": 16.683
+        },
+        {
+          "w": "backspin",
+          "s": 9,
+          "start": 16.683,
+          "end": 17.412
+        },
+        {
+          "w": "hard",
+          "s": 9,
+          "start": 17.525,
+          "end": 17.792
+        },
+        {
+          "w": "and",
+          "s": 9,
+          "start": 17.792,
+          "end": 18.079
+        },
+        {
+          "w": "low",
+          "s": 9,
+          "start": 18.079,
+          "end": 18.429
+        },
+        {
+          "w": "speed",
+          "s": 9,
+          "start": 18.562,
+          "end": 18.87
+        },
+        {
+          "w": "sideways",
+          "s": 10,
+          "start": 19.393,
+          "end": 20.027
+        },
+        {
+          "w": "bend",
+          "s": 10,
+          "start": 20.232,
+          "end": 20.818
+        },
+        {
+          "w": "topspin",
+          "s": 11,
+          "start": 21.398,
+          "end": 22.251
+        },
+        {
+          "w": "dive",
+          "s": 11,
+          "start": 22.495,
+          "end": 22.983
+        },
+        {
+          "w": "backspin",
+          "s": 12,
+          "start": 23.6,
+          "end": 24.071
+        },
+        {
+          "w": "soft",
+          "s": 12,
+          "start": 24.413,
+          "end": 24.635
+        },
+        {
+          "w": "and",
+          "s": 12,
+          "start": 24.635,
+          "end": 24.901
+        },
+        {
+          "w": "high",
+          "s": 12,
+          "start": 24.901,
+          "end": 25.372
+        },
+        {
+          "w": "float",
+          "s": 12,
+          "start": 25.483,
+          "end": 25.864
+        }
+      ]
+    },
+    {
+      "id": "s22",
+      "chapter": "Ending: knuckleball teaser",
+      "file": "vo/ep1/s22.wav",
+      "durationInSeconds": 16.88,
+      "leadFrames": 6,
+      "frames": 525,
+      "startFrame": 10336,
+      "narration": "What if the line hardly turns? <short pause> A knuckleball turns less than once a second. <short pause> The air behind it flaps like a flag, and the ball zigzags. Chalk has no idea. Neither do you. <short pause> Nail the drive first. Then come back for the knuckleball.",
+      "sentences": [
+        {
+          "text": "What if the line hardly turns?",
+          "start": 0,
+          "end": 2.474
+        },
+        {
+          "text": "A knuckleball turns less than once a second.",
+          "start": 3.14,
+          "end": 5.478
+        },
+        {
+          "text": "The air behind it flaps like a flag, and the ball zigzags.",
+          "start": 5.848,
+          "end": 9.317
+        },
+        {
+          "text": "Chalk has no idea.",
+          "start": 9.783,
+          "end": 11.083
+        },
+        {
+          "text": "Neither do you.",
+          "start": 11.934,
+          "end": 12.652
+        },
+        {
+          "text": "Nail the drive first.",
+          "start": 13.556,
+          "end": 14.461
+        },
+        {
+          "text": "Then come back for the knuckleball.",
+          "start": 15.015,
+          "end": 16.531
+        }
+      ],
+      "words": [
+        {
+          "w": "what",
+          "s": 0,
+          "start": 0,
+          "end": 0.178
+        },
+        {
+          "w": "if",
+          "s": 0,
+          "start": 0.178,
+          "end": 0.4
+        },
+        {
+          "w": "the",
+          "s": 0,
+          "start": 0.4,
+          "end": 0.73
+        },
+        {
+          "w": "line",
+          "s": 0,
+          "start": 0.73,
+          "end": 1.175
+        },
+        {
+          "w": "hardly",
+          "s": 0,
+          "start": 1.175,
+          "end": 1.824
+        },
+        {
+          "w": "turns",
+          "s": 0,
+          "start": 1.824,
+          "end": 2.474
+        },
+        {
+          "w": "a",
+          "s": 1,
+          "start": 3.14,
+          "end": 3.334
+        },
+        {
+          "w": "knuckleball",
+          "s": 1,
+          "start": 3.334,
+          "end": 3.914
+        },
+        {
+          "w": "turns",
+          "s": 1,
+          "start": 3.914,
+          "end": 4.237
+        },
+        {
+          "w": "less",
+          "s": 1,
+          "start": 4.237,
+          "end": 4.551
+        },
+        {
+          "w": "than",
+          "s": 1,
+          "start": 4.551,
+          "end": 4.753
+        },
+        {
+          "w": "once",
+          "s": 1,
+          "start": 4.753,
+          "end": 5.011
+        },
+        {
+          "w": "a",
+          "s": 1,
+          "start": 5.011,
+          "end": 5.076
+        },
+        {
+          "w": "second",
+          "s": 1,
+          "start": 5.075,
+          "end": 5.478
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 5.848,
+          "end": 6.126
+        },
+        {
+          "w": "air",
+          "s": 2,
+          "start": 6.126,
+          "end": 6.255
+        },
+        {
+          "w": "behind",
+          "s": 2,
+          "start": 6.255,
+          "end": 6.671
+        },
+        {
+          "w": "it",
+          "s": 2,
+          "start": 6.671,
+          "end": 6.81
+        },
+        {
+          "w": "flaps",
+          "s": 2,
+          "start": 6.81,
+          "end": 7.152
+        },
+        {
+          "w": "like",
+          "s": 2,
+          "start": 7.152,
+          "end": 7.467
+        },
+        {
+          "w": "a",
+          "s": 2,
+          "start": 7.467,
+          "end": 7.541
+        },
+        {
+          "w": "flag",
+          "s": 2,
+          "start": 7.495,
+          "end": 7.809
+        },
+        {
+          "w": "and",
+          "s": 2,
+          "start": 7.809,
+          "end": 8.078
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 8.078,
+          "end": 8.707
+        },
+        {
+          "w": "ball",
+          "s": 2,
+          "start": 8.707,
+          "end": 8.781
+        },
+        {
+          "w": "zigzags",
+          "s": 2,
+          "start": 8.753,
+          "end": 9.317
+        },
+        {
+          "w": "chalk",
+          "s": 3,
+          "start": 9.783,
+          "end": 10.244
+        },
+        {
+          "w": "has",
+          "s": 3,
+          "start": 10.244,
+          "end": 10.521
+        },
+        {
+          "w": "no",
+          "s": 3,
+          "start": 10.521,
+          "end": 10.706
+        },
+        {
+          "w": "idea",
+          "s": 3,
+          "start": 10.706,
+          "end": 11.083
+        },
+        {
+          "w": "neither",
+          "s": 4,
+          "start": 11.934,
+          "end": 12.354
+        },
+        {
+          "w": "do",
+          "s": 4,
+          "start": 12.354,
+          "end": 12.451
+        },
+        {
+          "w": "you",
+          "s": 4,
+          "start": 12.451,
+          "end": 12.652
+        },
+        {
+          "w": "nail",
+          "s": 5,
+          "start": 13.556,
+          "end": 13.796
+        },
+        {
+          "w": "the",
+          "s": 5,
+          "start": 13.796,
+          "end": 14.006
+        },
+        {
+          "w": "drive",
+          "s": 5,
+          "start": 14.046,
+          "end": 14.126
+        },
+        {
+          "w": "first",
+          "s": 5,
+          "start": 14.166,
+          "end": 14.461
+        },
+        {
+          "w": "then",
+          "s": 6,
+          "start": 15.015,
+          "end": 15.305
+        },
+        {
+          "w": "come",
+          "s": 6,
+          "start": 15.305,
+          "end": 15.382
+        },
+        {
+          "w": "back",
+          "s": 6,
+          "start": 15.305,
+          "end": 15.45
+        },
+        {
+          "w": "for",
+          "s": 6,
+          "start": 15.45,
+          "end": 15.556
+        },
+        {
+          "w": "the",
+          "s": 6,
+          "start": 15.556,
+          "end": 15.72
+        },
+        {
+          "w": "knuckleball",
+          "s": 6,
+          "start": 15.72,
+          "end": 16.531
+        }
+      ]
+    },
+    {
+      "id": "s23",
+      "chapter": "Ending",
+      "file": "vo/ep1/s23.wav",
+      "durationInSeconds": 8.68,
+      "leadFrames": 6,
+      "frames": 315,
+      "startFrame": 10861,
+      "narration": "Half past nine. Lights out. <short pause> Your foot gets about a hundredth of a second with the ball. <long pause> Now you know how to spend it.",
+      "sentences": [
+        {
+          "text": "Half past nine.",
+          "start": 0.202,
+          "end": 1.026
+        },
+        {
+          "text": "Lights out.",
+          "start": 1.502,
+          "end": 2.007
+        },
+        {
+          "text": "Your foot gets about a hundredth of a second with the ball.",
+          "start": 2.78,
+          "end": 5.347
+        },
+        {
+          "text": "Now you know how to spend it.",
+          "start": 6.893,
+          "end": 8.319
+        }
+      ],
+      "words": [
+        {
+          "w": "half",
+          "s": 0,
+          "start": 0.202,
+          "end": 0.391
+        },
+        {
+          "w": "past",
+          "s": 0,
+          "start": 0.391,
+          "end": 0.696
+        },
+        {
+          "w": "nine",
+          "s": 0,
+          "start": 0.696,
+          "end": 1.026
+        },
+        {
+          "w": "lights",
+          "s": 1,
+          "start": 1.502,
+          "end": 1.959
+        },
+        {
+          "w": "out",
+          "s": 1,
+          "start": 1.959,
+          "end": 2.009
+        },
+        {
+          "w": "your",
+          "s": 2,
+          "start": 2.78,
+          "end": 2.866
+        },
+        {
+          "w": "foot",
+          "s": 2,
+          "start": 2.866,
+          "end": 3.266
+        },
+        {
+          "w": "gets",
+          "s": 2,
+          "start": 3.266,
+          "end": 3.417
+        },
+        {
+          "w": "about",
+          "s": 2,
+          "start": 3.417,
+          "end": 3.924
+        },
+        {
+          "w": "a",
+          "s": 2,
+          "start": 3.924,
+          "end": 4.008
+        },
+        {
+          "w": "hundredth",
+          "s": 2,
+          "start": 3.935,
+          "end": 4.475
+        },
+        {
+          "w": "of",
+          "s": 2,
+          "start": 4.475,
+          "end": 4.559
+        },
+        {
+          "w": "a",
+          "s": 2,
+          "start": 4.551,
+          "end": 4.635
+        },
+        {
+          "w": "second",
+          "s": 2,
+          "start": 4.615,
+          "end": 5.047
+        },
+        {
+          "w": "with",
+          "s": 2,
+          "start": 5.047,
+          "end": 5.22
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 5.22,
+          "end": 5.304
+        },
+        {
+          "w": "ball",
+          "s": 2,
+          "start": 5.263,
+          "end": 5.347
+        },
+        {
+          "w": "now",
+          "s": 3,
+          "start": 6.893,
+          "end": 6.973
+        },
+        {
+          "w": "you",
+          "s": 3,
+          "start": 6.893,
+          "end": 6.973
+        },
+        {
+          "w": "know",
+          "s": 3,
+          "start": 6.893,
+          "end": 7.108
+        },
+        {
+          "w": "how",
+          "s": 3,
+          "start": 7.108,
+          "end": 7.188
+        },
+        {
+          "w": "to",
+          "s": 3,
+          "start": 7.118,
+          "end": 7.374
+        },
+        {
+          "w": "spend",
+          "s": 3,
+          "start": 7.374,
+          "end": 8.07
+        },
+        {
+          "w": "it",
+          "s": 3,
+          "start": 8.07,
+          "end": 8.319
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "name": "kick-science-video",
+  "version": "1.0.0",
+  "description": "Three Spins and a Line: an animated explainer on the science of three soccer kicks",
+  "repository": {},
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@remotion/cli": "4.0.529",
+    "@remotion/google-fonts": "4.0.529",
+    "@remotion/media": "4.0.529",
+    "@remotion/noise": "4.0.529",
+    "@remotion/paths": "4.0.529",
+    "@remotion/renderer": "4.0.529",
+    "@remotion/shapes": "4.0.529",
+    "@remotion/transitions": "4.0.529",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.529"
+  },
+  "devDependencies": {
+    "@remotion/eslint-config-flat": "4.0.529",
+    "@types/node": "26.6.3",
+    "@types/react": "19.2.7",
+    "@types/web": "0.0.166",
+    "eslint": "9.19.0",
+    "prettier": "3.8.1",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "vitest": "5.0.2"
+  },
+  "scripts": {
+    "dev": "remotion studio",
+    "build": "remotion bundle",
+    "upgrade": "remotion upgrade",
+    "lint": "eslint src && tsc",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "render": "remotion render src/index.ts Kicks out/kicks.mp4"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "allowScripts": {
+    "esbuild@0.28.1": true
+  }
+}

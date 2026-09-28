@@ -1,0 +1,6321 @@
+{
+  "fps": 30,
+  "episode": "ep2",
+  "totalFrames": 11416,
+  "scenes": [
+    {
+      "id": "b01",
+      "chapter": "Cold open",
+      "file": "vo/ep2/b01.wav",
+      "durationInSeconds": 22.84,
+      "leadFrames": 6,
+      "frames": 704,
+      "startFrame": 0,
+      "narration": "The next night. <short pause> Your friend Sam's on passing duty. <short pause> Chalk's out of goal, chasing. <short pause> Your back's to the goal. You face Sam. The pass comes. <short pause> Stiff foot. It bounces away. You look up. <long pause> Chalk's already there. Ball gone. <short pause> You had the ball for two seconds. It felt like nothing. Where did the time go?",
+      "sentences": [
+        {
+          "text": "The next night.",
+          "start": 0,
+          "end": 1.065
+        },
+        {
+          "text": "Your friend Sam's on passing duty.",
+          "start": 1.415,
+          "end": 3.241
+        },
+        {
+          "text": "Chalk's out of goal, chasing.",
+          "start": 3.74,
+          "end": 5.094
+        },
+        {
+          "text": "Your back's to the goal.",
+          "start": 5.562,
+          "end": 6.554
+        },
+        {
+          "text": "You face Sam.",
+          "start": 6.934,
+          "end": 7.625
+        },
+        {
+          "text": "The pass comes.",
+          "start": 8.2,
+          "end": 8.995
+        },
+        {
+          "text": "Stiff foot.",
+          "start": 9.387,
+          "end": 9.966
+        },
+        {
+          "text": "It bounces away.",
+          "start": 10.683,
+          "end": 11.276
+        },
+        {
+          "text": "You look up.",
+          "start": 11.943,
+          "end": 12.442
+        },
+        {
+          "text": "Chalk's already there.",
+          "start": 14.941,
+          "end": 16.122
+        },
+        {
+          "text": "Ball gone.",
+          "start": 16.746,
+          "end": 17.256
+        },
+        {
+          "text": "You had the ball for two seconds.",
+          "start": 17.894,
+          "end": 19.324
+        },
+        {
+          "text": "It felt like nothing.",
+          "start": 19.794,
+          "end": 20.586
+        },
+        {
+          "text": "Where did the time go?",
+          "start": 21.357,
+          "end": 22.313
+        }
+      ],
+      "words": [
+        {
+          "w": "the",
+          "s": 0,
+          "start": 0,
+          "end": 0.166
+        },
+        {
+          "w": "next",
+          "s": 0,
+          "start": 0.166,
+          "end": 0.974
+        },
+        {
+          "w": "night",
+          "s": 0,
+          "start": 0.974,
+          "end": 1.065
+        },
+        {
+          "w": "your",
+          "s": 1,
+          "start": 1.415,
+          "end": 1.589
+        },
+        {
+          "w": "friend",
+          "s": 1,
+          "start": 1.589,
+          "end": 1.98
+        },
+        {
+          "w": "sam's",
+          "s": 1,
+          "start": 1.98,
+          "end": 2.311
+        },
+        {
+          "w": "on",
+          "s": 1,
+          "start": 2.311,
+          "end": 2.432
+        },
+        {
+          "w": "passing",
+          "s": 1,
+          "start": 2.432,
+          "end": 2.876
+        },
+        {
+          "w": "duty",
+          "s": 1,
+          "start": 2.876,
+          "end": 3.241
+        },
+        {
+          "w": "chalk's",
+          "s": 2,
+          "start": 3.74,
+          "end": 4.091
+        },
+        {
+          "w": "out",
+          "s": 2,
+          "start": 4.091,
+          "end": 4.258
+        },
+        {
+          "w": "of",
+          "s": 2,
+          "start": 4.258,
+          "end": 4.567
+        },
+        {
+          "w": "goal",
+          "s": 2,
+          "start": 4.567,
+          "end": 4.634
+        },
+        {
+          "w": "chasing",
+          "s": 2,
+          "start": 4.91,
+          "end": 5.094
+        },
+        {
+          "w": "your",
+          "s": 3,
+          "start": 5.562,
+          "end": 5.772
+        },
+        {
+          "w": "back's",
+          "s": 3,
+          "start": 5.772,
+          "end": 6.083
+        },
+        {
+          "w": "to",
+          "s": 3,
+          "start": 6.083,
+          "end": 6.344
+        },
+        {
+          "w": "the",
+          "s": 3,
+          "start": 6.344,
+          "end": 6.411
+        },
+        {
+          "w": "goal",
+          "s": 3,
+          "start": 6.344,
+          "end": 6.554
+        },
+        {
+          "w": "you",
+          "s": 4,
+          "start": 6.934,
+          "end": 7.142
+        },
+        {
+          "w": "face",
+          "s": 4,
+          "start": 7.142,
+          "end": 7.424
+        },
+        {
+          "w": "sam",
+          "s": 4,
+          "start": 7.424,
+          "end": 7.625
+        },
+        {
+          "w": "the",
+          "s": 5,
+          "start": 8.2,
+          "end": 8.401
+        },
+        {
+          "w": "pass",
+          "s": 5,
+          "start": 8.401,
+          "end": 8.669
+        },
+        {
+          "w": "comes",
+          "s": 5,
+          "start": 8.669,
+          "end": 8.995
+        },
+        {
+          "w": "stiff",
+          "s": 6,
+          "start": 9.387,
+          "end": 9.584
+        },
+        {
+          "w": "foot",
+          "s": 6,
+          "start": 9.584,
+          "end": 9.966
+        },
+        {
+          "w": "it",
+          "s": 7,
+          "start": 10.683,
+          "end": 10.765
+        },
+        {
+          "w": "bounces",
+          "s": 7,
+          "start": 10.683,
+          "end": 10.867
+        },
+        {
+          "w": "away",
+          "s": 7,
+          "start": 10.867,
+          "end": 11.276
+        },
+        {
+          "w": "you",
+          "s": 8,
+          "start": 11.943,
+          "end": 12.113
+        },
+        {
+          "w": "look",
+          "s": 8,
+          "start": 12.113,
+          "end": 12.362
+        },
+        {
+          "w": "up",
+          "s": 8,
+          "start": 12.362,
+          "end": 12.442
+        },
+        {
+          "w": "chalk's",
+          "s": 9,
+          "start": 14.941,
+          "end": 15.03
+        },
+        {
+          "w": "already",
+          "s": 9,
+          "start": 14.997,
+          "end": 15.086
+        },
+        {
+          "w": "there",
+          "s": 9,
+          "start": 15.064,
+          "end": 16.122
+        },
+        {
+          "w": "ball",
+          "s": 10,
+          "start": 16.746,
+          "end": 16.989
+        },
+        {
+          "w": "gone",
+          "s": 10,
+          "start": 16.989,
+          "end": 17.256
+        },
+        {
+          "w": "you",
+          "s": 11,
+          "start": 17.894,
+          "end": 18.056
+        },
+        {
+          "w": "had",
+          "s": 11,
+          "start": 18.056,
+          "end": 18.235
+        },
+        {
+          "w": "the",
+          "s": 11,
+          "start": 18.235,
+          "end": 18.379
+        },
+        {
+          "w": "ball",
+          "s": 11,
+          "start": 18.379,
+          "end": 18.626
+        },
+        {
+          "w": "for",
+          "s": 11,
+          "start": 18.626,
+          "end": 18.754
+        },
+        {
+          "w": "two",
+          "s": 11,
+          "start": 18.754,
+          "end": 19.256
+        },
+        {
+          "w": "seconds",
+          "s": 11,
+          "start": 19.256,
+          "end": 19.324
+        },
+        {
+          "w": "it",
+          "s": 12,
+          "start": 19.794,
+          "end": 19.878
+        },
+        {
+          "w": "felt",
+          "s": 12,
+          "start": 19.878,
+          "end": 20.056
+        },
+        {
+          "w": "like",
+          "s": 12,
+          "start": 20.056,
+          "end": 20.525
+        },
+        {
+          "w": "nothing",
+          "s": 12,
+          "start": 20.525,
+          "end": 20.586
+        },
+        {
+          "w": "where",
+          "s": 13,
+          "start": 21.357,
+          "end": 21.618
+        },
+        {
+          "w": "did",
+          "s": 13,
+          "start": 21.618,
+          "end": 21.765
+        },
+        {
+          "w": "the",
+          "s": 13,
+          "start": 21.765,
+          "end": 21.93
+        },
+        {
+          "w": "time",
+          "s": 13,
+          "start": 21.93,
+          "end": 22.096
+        },
+        {
+          "w": "go",
+          "s": 13,
+          "start": 22.096,
+          "end": 22.313
+        }
+      ]
+    },
+    {
+      "id": "b02",
+      "chapter": "Cold open: the ring",
+      "file": "vo/ep2/b02.wav",
+      "durationInSeconds": 17.12,
+      "leadFrames": 6,
+      "frames": 532,
+      "startFrame": 704,
+      "narration": "This ring is your time. <short pause> It counts the seconds until Chalk reaches the ball, if he keeps coming at a jog. <short pause> Sprinting shrinks the numbers, not the fixes. <short pause> When the pass arrived: just over half a second. One heartbeat. <short pause> Remember this ring.",
+      "sentences": [
+        {
+          "text": "This ring is your time.",
+          "start": 0.325,
+          "end": 2.066
+        },
+        {
+          "text": "It counts the seconds until Chalk reaches the ball, if he keeps coming at a jog.",
+          "start": 2.429,
+          "end": 6.876
+        },
+        {
+          "text": "Sprinting shrinks the numbers, not the fixes.",
+          "start": 7.147,
+          "end": 9.481
+        },
+        {
+          "text": "When the pass arrived: just over half a second.",
+          "start": 10.168,
+          "end": 13.313
+        },
+        {
+          "text": "One heartbeat.",
+          "start": 13.929,
+          "end": 15.06
+        },
+        {
+          "text": "Remember this ring.",
+          "start": 16.018,
+          "end": 16.79
+        }
+      ],
+      "words": [
+        {
+          "w": "this",
+          "s": 0,
+          "start": 0.325,
+          "end": 0.45
+        },
+        {
+          "w": "ring",
+          "s": 0,
+          "start": 0.45,
+          "end": 0.906
+        },
+        {
+          "w": "is",
+          "s": 0,
+          "start": 0.906,
+          "end": 1.133
+        },
+        {
+          "w": "your",
+          "s": 0,
+          "start": 1.133,
+          "end": 1.62
+        },
+        {
+          "w": "time",
+          "s": 0,
+          "start": 1.62,
+          "end": 2.066
+        },
+        {
+          "w": "it",
+          "s": 1,
+          "start": 2.429,
+          "end": 2.713
+        },
+        {
+          "w": "counts",
+          "s": 1,
+          "start": 2.713,
+          "end": 2.954
+        },
+        {
+          "w": "the",
+          "s": 1,
+          "start": 2.954,
+          "end": 3.114
+        },
+        {
+          "w": "seconds",
+          "s": 1,
+          "start": 3.114,
+          "end": 3.55
+        },
+        {
+          "w": "until",
+          "s": 1,
+          "start": 3.55,
+          "end": 3.852
+        },
+        {
+          "w": "chalk",
+          "s": 1,
+          "start": 3.852,
+          "end": 4.172
+        },
+        {
+          "w": "reaches",
+          "s": 1,
+          "start": 4.172,
+          "end": 4.617
+        },
+        {
+          "w": "the",
+          "s": 1,
+          "start": 4.617,
+          "end": 4.795
+        },
+        {
+          "w": "ball",
+          "s": 1,
+          "start": 4.795,
+          "end": 5.097
+        },
+        {
+          "w": "if",
+          "s": 1,
+          "start": 5.097,
+          "end": 5.382
+        },
+        {
+          "w": "he",
+          "s": 1,
+          "start": 5.382,
+          "end": 5.454
+        },
+        {
+          "w": "keeps",
+          "s": 1,
+          "start": 5.435,
+          "end": 5.853
+        },
+        {
+          "w": "coming",
+          "s": 1,
+          "start": 5.853,
+          "end": 6.361
+        },
+        {
+          "w": "at",
+          "s": 1,
+          "start": 6.361,
+          "end": 6.521
+        },
+        {
+          "w": "a",
+          "s": 1,
+          "start": 6.521,
+          "end": 6.61
+        },
+        {
+          "w": "jog",
+          "s": 1,
+          "start": 6.61,
+          "end": 6.876
+        },
+        {
+          "w": "sprinting",
+          "s": 2,
+          "start": 7.147,
+          "end": 7.659
+        },
+        {
+          "w": "shrinks",
+          "s": 2,
+          "start": 7.659,
+          "end": 8.057
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 8.057,
+          "end": 8.228
+        },
+        {
+          "w": "numbers",
+          "s": 2,
+          "start": 8.228,
+          "end": 8.635
+        },
+        {
+          "w": "not",
+          "s": 2,
+          "start": 8.765,
+          "end": 9.098
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 9.098,
+          "end": 9.164
+        },
+        {
+          "w": "fixes",
+          "s": 2,
+          "start": 9.147,
+          "end": 9.481
+        },
+        {
+          "w": "when",
+          "s": 3,
+          "start": 10.168,
+          "end": 10.419
+        },
+        {
+          "w": "the",
+          "s": 3,
+          "start": 10.419,
+          "end": 10.483
+        },
+        {
+          "w": "pass",
+          "s": 3,
+          "start": 10.443,
+          "end": 10.6
+        },
+        {
+          "w": "arrived",
+          "s": 3,
+          "start": 10.6,
+          "end": 10.868
+        },
+        {
+          "w": "just",
+          "s": 3,
+          "start": 11.001,
+          "end": 11.426
+        },
+        {
+          "w": "over",
+          "s": 3,
+          "start": 11.426,
+          "end": 12.102
+        },
+        {
+          "w": "half",
+          "s": 3,
+          "start": 12.102,
+          "end": 12.44
+        },
+        {
+          "w": "a",
+          "s": 3,
+          "start": 12.44,
+          "end": 12.558
+        },
+        {
+          "w": "second",
+          "s": 3,
+          "start": 12.558,
+          "end": 13.313
+        },
+        {
+          "w": "one",
+          "s": 4,
+          "start": 13.929,
+          "end": 14.214
+        },
+        {
+          "w": "heartbeat",
+          "s": 4,
+          "start": 14.214,
+          "end": 15.06
+        },
+        {
+          "w": "remember",
+          "s": 5,
+          "start": 16.018,
+          "end": 16.337
+        },
+        {
+          "w": "this",
+          "s": 5,
+          "start": 16.337,
+          "end": 16.497
+        },
+        {
+          "w": "ring",
+          "s": 5,
+          "start": 16.497,
+          "end": 16.79
+        }
+      ]
+    },
+    {
+      "id": "b03",
+      "chapter": "Cold open (question and title)",
+      "file": "vo/ep2/b03.wav",
+      "durationInSeconds": 16.88,
+      "leadFrames": 6,
+      "frames": 570,
+      "startFrame": 1236,
+      "narration": "Football isn't only a game of speed. It's a game of time. <short pause> The best players look slow. They bought time before anyone noticed. <short pause> Three ways to buy it. Look. Touch. Shape. <short pause> By lights out: four times the time.",
+      "sentences": [
+        {
+          "text": "Football isn't only a game of speed.",
+          "start": 0.402,
+          "end": 2.424
+        },
+        {
+          "text": "It's a game of time.",
+          "start": 2.769,
+          "end": 3.9
+        },
+        {
+          "text": "The best players look slow.",
+          "start": 4.554,
+          "end": 5.866
+        },
+        {
+          "text": "They bought time before anyone noticed.",
+          "start": 6.673,
+          "end": 8.987
+        },
+        {
+          "text": "Three ways to buy it.",
+          "start": 9.661,
+          "end": 10.462
+        },
+        {
+          "text": "Look.",
+          "start": 11.181,
+          "end": 11.495
+        },
+        {
+          "text": "Touch.",
+          "start": 12.149,
+          "end": 12.586
+        },
+        {
+          "text": "Shape.",
+          "start": 13.038,
+          "end": 13.392
+        },
+        {
+          "text": "By lights out: four times the time.",
+          "start": 14.201,
+          "end": 16.402
+        }
+      ],
+      "words": [
+        {
+          "w": "football",
+          "s": 0,
+          "start": 0.402,
+          "end": 0.613
+        },
+        {
+          "w": "isn't",
+          "s": 0,
+          "start": 0.613,
+          "end": 1.068
+        },
+        {
+          "w": "only",
+          "s": 0,
+          "start": 1.068,
+          "end": 1.435
+        },
+        {
+          "w": "a",
+          "s": 0,
+          "start": 1.435,
+          "end": 1.524
+        },
+        {
+          "w": "game",
+          "s": 0,
+          "start": 1.513,
+          "end": 1.89
+        },
+        {
+          "w": "of",
+          "s": 0,
+          "start": 1.89,
+          "end": 2.068
+        },
+        {
+          "w": "speed",
+          "s": 0,
+          "start": 2.068,
+          "end": 2.424
+        },
+        {
+          "w": "it's",
+          "s": 1,
+          "start": 2.769,
+          "end": 2.887
+        },
+        {
+          "w": "a",
+          "s": 1,
+          "start": 2.887,
+          "end": 2.962
+        },
+        {
+          "w": "game",
+          "s": 1,
+          "start": 2.962,
+          "end": 3.181
+        },
+        {
+          "w": "of",
+          "s": 1,
+          "start": 3.181,
+          "end": 3.3
+        },
+        {
+          "w": "time",
+          "s": 1,
+          "start": 3.3,
+          "end": 3.9
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 4.554,
+          "end": 4.899
+        },
+        {
+          "w": "best",
+          "s": 2,
+          "start": 4.899,
+          "end": 5.013
+        },
+        {
+          "w": "players",
+          "s": 2,
+          "start": 5.013,
+          "end": 5.436
+        },
+        {
+          "w": "look",
+          "s": 2,
+          "start": 5.436,
+          "end": 5.63
+        },
+        {
+          "w": "slow",
+          "s": 2,
+          "start": 5.63,
+          "end": 5.866
+        },
+        {
+          "w": "they",
+          "s": 3,
+          "start": 6.673,
+          "end": 7.074
+        },
+        {
+          "w": "bought",
+          "s": 3,
+          "start": 7.074,
+          "end": 7.367
+        },
+        {
+          "w": "time",
+          "s": 3,
+          "start": 7.367,
+          "end": 7.701
+        },
+        {
+          "w": "before",
+          "s": 3,
+          "start": 7.701,
+          "end": 8.06
+        },
+        {
+          "w": "anyone",
+          "s": 3,
+          "start": 8.06,
+          "end": 8.477
+        },
+        {
+          "w": "noticed",
+          "s": 3,
+          "start": 8.477,
+          "end": 8.987
+        },
+        {
+          "w": "three",
+          "s": 4,
+          "start": 9.661,
+          "end": 9.944
+        },
+        {
+          "w": "ways",
+          "s": 4,
+          "start": 9.944,
+          "end": 10.115
+        },
+        {
+          "w": "to",
+          "s": 4,
+          "start": 10.115,
+          "end": 10.215
+        },
+        {
+          "w": "buy",
+          "s": 4,
+          "start": 10.215,
+          "end": 10.386
+        },
+        {
+          "w": "it",
+          "s": 4,
+          "start": 10.386,
+          "end": 10.462
+        },
+        {
+          "w": "look",
+          "s": 5,
+          "start": 11.181,
+          "end": 11.495
+        },
+        {
+          "w": "touch",
+          "s": 6,
+          "start": 12.149,
+          "end": 12.586
+        },
+        {
+          "w": "shape",
+          "s": 7,
+          "start": 13.038,
+          "end": 13.392
+        },
+        {
+          "w": "by",
+          "s": 8,
+          "start": 14.201,
+          "end": 14.699
+        },
+        {
+          "w": "lights",
+          "s": 8,
+          "start": 14.699,
+          "end": 14.865
+        },
+        {
+          "w": "out",
+          "s": 8,
+          "start": 14.865,
+          "end": 15
+        },
+        {
+          "w": "four",
+          "s": 8,
+          "start": 15.239,
+          "end": 15.737
+        },
+        {
+          "w": "times",
+          "s": 8,
+          "start": 15.737,
+          "end": 15.903
+        },
+        {
+          "w": "the",
+          "s": 8,
+          "start": 15.903,
+          "end": 16.007
+        },
+        {
+          "w": "time",
+          "s": 8,
+          "start": 16.007,
+          "end": 16.402
+        }
+      ]
+    },
+    {
+      "id": "b04",
+      "chapter": "Ch1 Look: what a scan is",
+      "file": "vo/ep2/b04.wav",
+      "durationInSeconds": 16.88,
+      "leadFrames": 6,
+      "frames": 525,
+      "startFrame": 1806,
+      "narration": "Way one: look. <short pause> Before the ball comes, look over your shoulder. You know this one: a scan. <short pause> A snapshot, not a stare. Click, and back. Your eyes barely stop. <short pause> One question: where's Chalk? <short pause> Pros do it right up to the touch.",
+      "sentences": [
+        {
+          "text": "Way one: look.",
+          "start": 0.375,
+          "end": 1.714
+        },
+        {
+          "text": "Before the ball comes, look over your shoulder.",
+          "start": 2.28,
+          "end": 4.827
+        },
+        {
+          "text": "You know this one: a scan.",
+          "start": 5.147,
+          "end": 6.561
+        },
+        {
+          "text": "A snapshot, not a stare.",
+          "start": 7.184,
+          "end": 8.709
+        },
+        {
+          "text": "Click, and back.",
+          "start": 9.222,
+          "end": 10.156
+        },
+        {
+          "text": "Your eyes barely stop.",
+          "start": 10.767,
+          "end": 11.768
+        },
+        {
+          "text": "One question: where's Chalk?",
+          "start": 12.425,
+          "end": 14.235
+        },
+        {
+          "text": "Pros do it right up to the touch.",
+          "start": 15.041,
+          "end": 16.66
+        }
+      ],
+      "words": [
+        {
+          "w": "way",
+          "s": 0,
+          "start": 0.375,
+          "end": 0.463
+        },
+        {
+          "w": "one",
+          "s": 0,
+          "start": 0.461,
+          "end": 0.731
+        },
+        {
+          "w": "look",
+          "s": 0,
+          "start": 1.509,
+          "end": 1.714
+        },
+        {
+          "w": "before",
+          "s": 1,
+          "start": 2.28,
+          "end": 2.549
+        },
+        {
+          "w": "the",
+          "s": 1,
+          "start": 2.549,
+          "end": 2.829
+        },
+        {
+          "w": "ball",
+          "s": 1,
+          "start": 2.829,
+          "end": 3.199
+        },
+        {
+          "w": "comes",
+          "s": 1,
+          "start": 3.199,
+          "end": 3.718
+        },
+        {
+          "w": "look",
+          "s": 1,
+          "start": 3.778,
+          "end": 4.008
+        },
+        {
+          "w": "over",
+          "s": 1,
+          "start": 4.008,
+          "end": 4.197
+        },
+        {
+          "w": "your",
+          "s": 1,
+          "start": 4.197,
+          "end": 4.397
+        },
+        {
+          "w": "shoulder",
+          "s": 1,
+          "start": 4.397,
+          "end": 4.827
+        },
+        {
+          "w": "you",
+          "s": 2,
+          "start": 5.147,
+          "end": 5.233
+        },
+        {
+          "w": "know",
+          "s": 2,
+          "start": 5.158,
+          "end": 5.369
+        },
+        {
+          "w": "this",
+          "s": 2,
+          "start": 5.369,
+          "end": 5.559
+        },
+        {
+          "w": "one",
+          "s": 2,
+          "start": 5.559,
+          "end": 6.055
+        },
+        {
+          "w": "a",
+          "s": 2,
+          "start": 6.129,
+          "end": 6.214
+        },
+        {
+          "w": "scan",
+          "s": 2,
+          "start": 6.139,
+          "end": 6.561
+        },
+        {
+          "w": "a",
+          "s": 3,
+          "start": 7.184,
+          "end": 7.529
+        },
+        {
+          "w": "snapshot",
+          "s": 3,
+          "start": 7.529,
+          "end": 7.883
+        },
+        {
+          "w": "not",
+          "s": 3,
+          "start": 8.274,
+          "end": 8.347
+        },
+        {
+          "w": "a",
+          "s": 3,
+          "start": 8.337,
+          "end": 8.437
+        },
+        {
+          "w": "stare",
+          "s": 3,
+          "start": 8.437,
+          "end": 8.709
+        },
+        {
+          "w": "click",
+          "s": 4,
+          "start": 9.222,
+          "end": 9.456
+        },
+        {
+          "w": "and",
+          "s": 4,
+          "start": 9.456,
+          "end": 9.757
+        },
+        {
+          "w": "back",
+          "s": 4,
+          "start": 9.757,
+          "end": 10.156
+        },
+        {
+          "w": "your",
+          "s": 5,
+          "start": 10.767,
+          "end": 10.879
+        },
+        {
+          "w": "eyes",
+          "s": 5,
+          "start": 10.879,
+          "end": 11.103
+        },
+        {
+          "w": "barely",
+          "s": 5,
+          "start": 11.103,
+          "end": 11.432
+        },
+        {
+          "w": "stop",
+          "s": 5,
+          "start": 11.432,
+          "end": 11.768
+        },
+        {
+          "w": "one",
+          "s": 6,
+          "start": 12.425,
+          "end": 12.587
+        },
+        {
+          "w": "question",
+          "s": 6,
+          "start": 12.587,
+          "end": 13.023
+        },
+        {
+          "w": "where's",
+          "s": 6,
+          "start": 13.191,
+          "end": 13.741
+        },
+        {
+          "w": "chalk",
+          "s": 6,
+          "start": 13.906,
+          "end": 14.235
+        },
+        {
+          "w": "pros",
+          "s": 7,
+          "start": 15.041,
+          "end": 15.365
+        },
+        {
+          "w": "do",
+          "s": 7,
+          "start": 15.365,
+          "end": 15.44
+        },
+        {
+          "w": "it",
+          "s": 7,
+          "start": 15.42,
+          "end": 15.495
+        },
+        {
+          "w": "right",
+          "s": 7,
+          "start": 15.466,
+          "end": 15.67
+        },
+        {
+          "w": "up",
+          "s": 7,
+          "start": 15.67,
+          "end": 15.818
+        },
+        {
+          "w": "to",
+          "s": 7,
+          "start": 15.818,
+          "end": 15.91
+        },
+        {
+          "w": "the",
+          "s": 7,
+          "start": 15.91,
+          "end": 16.243
+        },
+        {
+          "w": "touch",
+          "s": 7,
+          "start": 16.243,
+          "end": 16.66
+        }
+      ]
+    },
+    {
+      "id": "b05",
+      "chapter": "Ch1 Look: too late",
+      "file": "vo/ep2/b05.wav",
+      "durationInSeconds": 16.36,
+      "leadFrames": 6,
+      "frames": 509,
+      "startFrame": 2331,
+      "narration": "Why not look after it arrives? <short pause> Noticing something new: about a third of a second. Choosing what to do: about half a second. <short pause> That's two of Chalk's steps. <short pause> Like checking for cars after stepping off the kerb. <short pause> Check first. Then move.",
+      "sentences": [
+        {
+          "text": "Why not look after it arrives?",
+          "start": 0.32,
+          "end": 1.927
+        },
+        {
+          "text": "Noticing something new: about a third of a second.",
+          "start": 2.529,
+          "end": 5.422
+        },
+        {
+          "text": "Choosing what to do: about half a second.",
+          "start": 5.95,
+          "end": 8.706
+        },
+        {
+          "text": "That's two of Chalk's steps.",
+          "start": 9.224,
+          "end": 10.833
+        },
+        {
+          "text": "Like checking for cars after stepping off the kerb.",
+          "start": 11.264,
+          "end": 13.912
+        },
+        {
+          "text": "Check first.",
+          "start": 14.305,
+          "end": 14.885
+        },
+        {
+          "text": "Then move.",
+          "start": 15.308,
+          "end": 15.993
+        }
+      ],
+      "words": [
+        {
+          "w": "why",
+          "s": 0,
+          "start": 0.32,
+          "end": 0.393
+        },
+        {
+          "w": "not",
+          "s": 0,
+          "start": 0.384,
+          "end": 0.549
+        },
+        {
+          "w": "look",
+          "s": 0,
+          "start": 0.549,
+          "end": 0.853
+        },
+        {
+          "w": "after",
+          "s": 0,
+          "start": 0.853,
+          "end": 1.266
+        },
+        {
+          "w": "it",
+          "s": 0,
+          "start": 1.266,
+          "end": 1.376
+        },
+        {
+          "w": "arrives",
+          "s": 0,
+          "start": 1.376,
+          "end": 1.927
+        },
+        {
+          "w": "noticing",
+          "s": 1,
+          "start": 2.529,
+          "end": 2.95
+        },
+        {
+          "w": "something",
+          "s": 1,
+          "start": 2.95,
+          "end": 4.027
+        },
+        {
+          "w": "new",
+          "s": 1,
+          "start": 4.027,
+          "end": 4.109
+        },
+        {
+          "w": "about",
+          "s": 1,
+          "start": 4.15,
+          "end": 4.447
+        },
+        {
+          "w": "a",
+          "s": 1,
+          "start": 4.447,
+          "end": 4.663
+        },
+        {
+          "w": "third",
+          "s": 1,
+          "start": 4.663,
+          "end": 4.806
+        },
+        {
+          "w": "of",
+          "s": 1,
+          "start": 4.806,
+          "end": 4.97
+        },
+        {
+          "w": "a",
+          "s": 1,
+          "start": 4.97,
+          "end": 5.052
+        },
+        {
+          "w": "second",
+          "s": 1,
+          "start": 5.022,
+          "end": 5.422
+        },
+        {
+          "w": "choosing",
+          "s": 2,
+          "start": 5.95,
+          "end": 6.276
+        },
+        {
+          "w": "what",
+          "s": 2,
+          "start": 6.276,
+          "end": 6.508
+        },
+        {
+          "w": "to",
+          "s": 2,
+          "start": 6.508,
+          "end": 6.88
+        },
+        {
+          "w": "do",
+          "s": 2,
+          "start": 6.88,
+          "end": 6.973
+        },
+        {
+          "w": "about",
+          "s": 2,
+          "start": 7.101,
+          "end": 7.613
+        },
+        {
+          "w": "half",
+          "s": 2,
+          "start": 7.613,
+          "end": 8.02
+        },
+        {
+          "w": "a",
+          "s": 2,
+          "start": 8.02,
+          "end": 8.113
+        },
+        {
+          "w": "second",
+          "s": 2,
+          "start": 8.113,
+          "end": 8.706
+        },
+        {
+          "w": "that's",
+          "s": 3,
+          "start": 9.224,
+          "end": 9.393
+        },
+        {
+          "w": "two",
+          "s": 3,
+          "start": 9.393,
+          "end": 9.651
+        },
+        {
+          "w": "of",
+          "s": 3,
+          "start": 9.651,
+          "end": 9.83
+        },
+        {
+          "w": "chalk's",
+          "s": 3,
+          "start": 9.83,
+          "end": 10.247
+        },
+        {
+          "w": "steps",
+          "s": 3,
+          "start": 10.247,
+          "end": 10.833
+        },
+        {
+          "w": "like",
+          "s": 4,
+          "start": 11.264,
+          "end": 11.638
+        },
+        {
+          "w": "checking",
+          "s": 4,
+          "start": 11.638,
+          "end": 12.013
+        },
+        {
+          "w": "for",
+          "s": 4,
+          "start": 12.013,
+          "end": 12.197
+        },
+        {
+          "w": "cars",
+          "s": 4,
+          "start": 12.197,
+          "end": 12.621
+        },
+        {
+          "w": "after",
+          "s": 4,
+          "start": 12.621,
+          "end": 12.848
+        },
+        {
+          "w": "stepping",
+          "s": 4,
+          "start": 12.848,
+          "end": 13.13
+        },
+        {
+          "w": "off",
+          "s": 4,
+          "start": 13.13,
+          "end": 13.357
+        },
+        {
+          "w": "the",
+          "s": 4,
+          "start": 13.357,
+          "end": 13.54
+        },
+        {
+          "w": "kerb",
+          "s": 4,
+          "start": 13.664,
+          "end": 13.912
+        },
+        {
+          "w": "check",
+          "s": 5,
+          "start": 14.305,
+          "end": 14.595
+        },
+        {
+          "w": "first",
+          "s": 5,
+          "start": 14.595,
+          "end": 14.885
+        },
+        {
+          "w": "then",
+          "s": 6,
+          "start": 15.308,
+          "end": 15.586
+        },
+        {
+          "w": "move",
+          "s": 6,
+          "start": 15.586,
+          "end": 15.993
+        }
+      ]
+    },
+    {
+      "id": "b06",
+      "chapter": "Ch1 Look: two looks, one map",
+      "file": "vo/ep2/b06.wav",
+      "durationInSeconds": 13.36,
+      "leadFrames": 6,
+      "frames": 419,
+      "startFrame": 2840,
+      "narration": "So look early. <short pause> Ball leaves Sam's foot: look. Halfway: look again. Then eyes on the ball. <short pause> Where's Chalk? Where's the space? They build a map in your head. <short pause> You know what's behind you.",
+      "sentences": [
+        {
+          "text": "So look early.",
+          "start": 0.237,
+          "end": 1.016
+        },
+        {
+          "text": "Ball leaves Sam's foot: look.",
+          "start": 1.645,
+          "end": 3.476
+        },
+        {
+          "text": "Halfway: look again.",
+          "start": 4.168,
+          "end": 5.573
+        },
+        {
+          "text": "Then eyes on the ball.",
+          "start": 6.276,
+          "end": 7.317
+        },
+        {
+          "text": "Where's Chalk?",
+          "start": 8,
+          "end": 8.54
+        },
+        {
+          "text": "Where's the space?",
+          "start": 9.17,
+          "end": 9.913
+        },
+        {
+          "text": "They build a map in your head.",
+          "start": 10.65,
+          "end": 11.844
+        },
+        {
+          "text": "You know what's behind you.",
+          "start": 12.164,
+          "end": 13.018
+        }
+      ],
+      "words": [
+        {
+          "w": "so",
+          "s": 0,
+          "start": 0.237,
+          "end": 0.297
+        },
+        {
+          "w": "look",
+          "s": 0,
+          "start": 0.377,
+          "end": 0.656
+        },
+        {
+          "w": "early",
+          "s": 0,
+          "start": 0.656,
+          "end": 1.016
+        },
+        {
+          "w": "ball",
+          "s": 1,
+          "start": 1.645,
+          "end": 1.727
+        },
+        {
+          "w": "leaves",
+          "s": 1,
+          "start": 1.727,
+          "end": 2.105
+        },
+        {
+          "w": "sam's",
+          "s": 1,
+          "start": 2.105,
+          "end": 2.463
+        },
+        {
+          "w": "foot",
+          "s": 1,
+          "start": 2.463,
+          "end": 2.795
+        },
+        {
+          "w": "look",
+          "s": 1,
+          "start": 3.043,
+          "end": 3.476
+        },
+        {
+          "w": "halfway",
+          "s": 2,
+          "start": 4.168,
+          "end": 4.431
+        },
+        {
+          "w": "look",
+          "s": 2,
+          "start": 4.729,
+          "end": 4.998
+        },
+        {
+          "w": "again",
+          "s": 2,
+          "start": 4.998,
+          "end": 5.573
+        },
+        {
+          "w": "then",
+          "s": 3,
+          "start": 6.276,
+          "end": 6.467
+        },
+        {
+          "w": "eyes",
+          "s": 3,
+          "start": 6.467,
+          "end": 6.701
+        },
+        {
+          "w": "on",
+          "s": 3,
+          "start": 6.701,
+          "end": 6.842
+        },
+        {
+          "w": "the",
+          "s": 3,
+          "start": 6.842,
+          "end": 7.042
+        },
+        {
+          "w": "ball",
+          "s": 3,
+          "start": 7.042,
+          "end": 7.317
+        },
+        {
+          "w": "where's",
+          "s": 4,
+          "start": 8,
+          "end": 8.316
+        },
+        {
+          "w": "chalk",
+          "s": 4,
+          "start": 8.316,
+          "end": 8.54
+        },
+        {
+          "w": "where's",
+          "s": 5,
+          "start": 9.17,
+          "end": 9.518
+        },
+        {
+          "w": "the",
+          "s": 5,
+          "start": 9.518,
+          "end": 9.665
+        },
+        {
+          "w": "space",
+          "s": 5,
+          "start": 9.665,
+          "end": 9.913
+        },
+        {
+          "w": "they",
+          "s": 6,
+          "start": 10.65,
+          "end": 10.857
+        },
+        {
+          "w": "build",
+          "s": 6,
+          "start": 10.857,
+          "end": 11.119
+        },
+        {
+          "w": "a",
+          "s": 6,
+          "start": 11.119,
+          "end": 11.175
+        },
+        {
+          "w": "map",
+          "s": 6,
+          "start": 11.16,
+          "end": 11.312
+        },
+        {
+          "w": "in",
+          "s": 6,
+          "start": 11.312,
+          "end": 11.415
+        },
+        {
+          "w": "your",
+          "s": 6,
+          "start": 11.415,
+          "end": 11.788
+        },
+        {
+          "w": "head",
+          "s": 6,
+          "start": 11.788,
+          "end": 11.844
+        },
+        {
+          "w": "you",
+          "s": 7,
+          "start": 12.164,
+          "end": 12.371
+        },
+        {
+          "w": "know",
+          "s": 7,
+          "start": 12.371,
+          "end": 12.444
+        },
+        {
+          "w": "what's",
+          "s": 7,
+          "start": 12.416,
+          "end": 12.541
+        },
+        {
+          "w": "behind",
+          "s": 7,
+          "start": 12.541,
+          "end": 12.73
+        },
+        {
+          "w": "you",
+          "s": 7,
+          "start": 12.73,
+          "end": 13.018
+        }
+      ]
+    },
+    {
+      "id": "b07",
+      "chapter": "Ch1 Look: the free edge",
+      "file": "vo/ep2/b07.wav",
+      "durationInSeconds": 19.2,
+      "leadFrames": 6,
+      "frames": 594,
+      "startFrame": 3259,
+      "narration": "Elite youth players: one look before the ball? Three times the odds of a good next move. <short pause> Did the look cause it? Nobody's proved that. It went with it. <short pause> Small, but free, dozens of times a game. <short pause> Know early, move early, even one step. <short pause> The ring's there before the ball.",
+      "sentences": [
+        {
+          "text": "Elite youth players: one look before the ball?",
+          "start": 0.183,
+          "end": 2.681
+        },
+        {
+          "text": "Three times the odds of a good next move.",
+          "start": 3.063,
+          "end": 5.359
+        },
+        {
+          "text": "Did the look cause it?",
+          "start": 6.093,
+          "end": 6.946
+        },
+        {
+          "text": "Nobody's proved that.",
+          "start": 7.568,
+          "end": 8.498
+        },
+        {
+          "text": "It went with it.",
+          "start": 9.071,
+          "end": 9.966
+        },
+        {
+          "text": "Small, but free, dozens of times a game.",
+          "start": 10.54,
+          "end": 13.523
+        },
+        {
+          "text": "Know early, move early, even one step.",
+          "start": 14.256,
+          "end": 17.251
+        },
+        {
+          "text": "The ring's there before the ball.",
+          "start": 17.992,
+          "end": 18.902
+        }
+      ],
+      "words": [
+        {
+          "w": "elite",
+          "s": 0,
+          "start": 0.183,
+          "end": 0.255
+        },
+        {
+          "w": "youth",
+          "s": 0,
+          "start": 0.228,
+          "end": 0.524
+        },
+        {
+          "w": "players",
+          "s": 0,
+          "start": 0.524,
+          "end": 0.944
+        },
+        {
+          "w": "one",
+          "s": 0,
+          "start": 1.276,
+          "end": 1.348
+        },
+        {
+          "w": "look",
+          "s": 0,
+          "start": 1.311,
+          "end": 1.607
+        },
+        {
+          "w": "before",
+          "s": 0,
+          "start": 1.607,
+          "end": 2.09
+        },
+        {
+          "w": "the",
+          "s": 0,
+          "start": 2.09,
+          "end": 2.278
+        },
+        {
+          "w": "ball",
+          "s": 0,
+          "start": 2.278,
+          "end": 2.681
+        },
+        {
+          "w": "three",
+          "s": 1,
+          "start": 3.063,
+          "end": 3.234
+        },
+        {
+          "w": "times",
+          "s": 1,
+          "start": 3.234,
+          "end": 3.59
+        },
+        {
+          "w": "the",
+          "s": 1,
+          "start": 3.59,
+          "end": 3.699
+        },
+        {
+          "w": "odds",
+          "s": 1,
+          "start": 3.699,
+          "end": 3.893
+        },
+        {
+          "w": "of",
+          "s": 1,
+          "start": 3.893,
+          "end": 3.994
+        },
+        {
+          "w": "a",
+          "s": 1,
+          "start": 3.994,
+          "end": 4.11
+        },
+        {
+          "w": "good",
+          "s": 1,
+          "start": 4.11,
+          "end": 4.195
+        },
+        {
+          "w": "next",
+          "s": 1,
+          "start": 4.195,
+          "end": 4.552
+        },
+        {
+          "w": "move",
+          "s": 1,
+          "start": 4.552,
+          "end": 5.359
+        },
+        {
+          "w": "did",
+          "s": 2,
+          "start": 6.093,
+          "end": 6.264
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 6.264,
+          "end": 6.341
+        },
+        {
+          "w": "look",
+          "s": 2,
+          "start": 6.341,
+          "end": 6.507
+        },
+        {
+          "w": "cause",
+          "s": 2,
+          "start": 6.507,
+          "end": 6.715
+        },
+        {
+          "w": "it",
+          "s": 2,
+          "start": 6.715,
+          "end": 6.946
+        },
+        {
+          "w": "nobody's",
+          "s": 3,
+          "start": 7.568,
+          "end": 7.949
+        },
+        {
+          "w": "proved",
+          "s": 3,
+          "start": 7.949,
+          "end": 8.181
+        },
+        {
+          "w": "that",
+          "s": 3,
+          "start": 8.181,
+          "end": 8.498
+        },
+        {
+          "w": "it",
+          "s": 4,
+          "start": 9.071,
+          "end": 9.243
+        },
+        {
+          "w": "went",
+          "s": 4,
+          "start": 9.243,
+          "end": 9.45
+        },
+        {
+          "w": "with",
+          "s": 4,
+          "start": 9.45,
+          "end": 9.705
+        },
+        {
+          "w": "it",
+          "s": 4,
+          "start": 9.705,
+          "end": 9.966
+        },
+        {
+          "w": "small",
+          "s": 5,
+          "start": 10.54,
+          "end": 11.007
+        },
+        {
+          "w": "but",
+          "s": 5,
+          "start": 11.007,
+          "end": 11.327
+        },
+        {
+          "w": "free",
+          "s": 5,
+          "start": 11.327,
+          "end": 11.666
+        },
+        {
+          "w": "dozens",
+          "s": 5,
+          "start": 11.94,
+          "end": 12.407
+        },
+        {
+          "w": "of",
+          "s": 5,
+          "start": 12.407,
+          "end": 12.581
+        },
+        {
+          "w": "times",
+          "s": 5,
+          "start": 12.581,
+          "end": 13.139
+        },
+        {
+          "w": "a",
+          "s": 5,
+          "start": 13.139,
+          "end": 13.45
+        },
+        {
+          "w": "game",
+          "s": 5,
+          "start": 13.45,
+          "end": 13.523
+        },
+        {
+          "w": "know",
+          "s": 6,
+          "start": 14.256,
+          "end": 14.533
+        },
+        {
+          "w": "early",
+          "s": 6,
+          "start": 14.671,
+          "end": 15.165
+        },
+        {
+          "w": "move",
+          "s": 6,
+          "start": 15.243,
+          "end": 15.745
+        },
+        {
+          "w": "early",
+          "s": 6,
+          "start": 15.745,
+          "end": 16.065
+        },
+        {
+          "w": "even",
+          "s": 6,
+          "start": 16.316,
+          "end": 16.61
+        },
+        {
+          "w": "one",
+          "s": 6,
+          "start": 16.61,
+          "end": 17.182
+        },
+        {
+          "w": "step",
+          "s": 6,
+          "start": 17.182,
+          "end": 17.251
+        },
+        {
+          "w": "the",
+          "s": 7,
+          "start": 17.992,
+          "end": 18.179
+        },
+        {
+          "w": "ring's",
+          "s": 7,
+          "start": 18.179,
+          "end": 18.247
+        },
+        {
+          "w": "there",
+          "s": 7,
+          "start": 18.247,
+          "end": 18.366
+        },
+        {
+          "w": "before",
+          "s": 7,
+          "start": 18.366,
+          "end": 18.51
+        },
+        {
+          "w": "the",
+          "s": 7,
+          "start": 18.51,
+          "end": 18.579
+        },
+        {
+          "w": "ball",
+          "s": 7,
+          "start": 18.578,
+          "end": 18.902
+        }
+      ]
+    },
+    {
+      "id": "b08",
+      "chapter": "Ch1 Look (practice)",
+      "file": "vo/ep2/b08.wav",
+      "durationInSeconds": 17.48,
+      "leadFrames": 6,
+      "frames": 543,
+      "startFrame": 3853,
+      "narration": "Classic mistake: eyes glued to the ball. <short pause> Fix: ball leaves the foot, head goes. <short pause> Two coloured cones behind you. Sam passes and calls one. Look back, find it, shout left or right before the ball's halfway. Late call? Doesn't count. <short pause> Slow passes first.",
+      "sentences": [
+        {
+          "text": "Classic mistake: eyes glued to the ball.",
+          "start": 0.168,
+          "end": 3.062
+        },
+        {
+          "text": "Fix: ball leaves the foot, head goes.",
+          "start": 3.47,
+          "end": 6.271
+        },
+        {
+          "text": "Two coloured cones behind you.",
+          "start": 6.792,
+          "end": 7.876
+        },
+        {
+          "text": "Sam passes and calls one.",
+          "start": 8.339,
+          "end": 9.78
+        },
+        {
+          "text": "Look back, find it, shout left or right before the ball's halfway.",
+          "start": 10.141,
+          "end": 13.522
+        },
+        {
+          "text": "Late call?",
+          "start": 14.284,
+          "end": 14.723
+        },
+        {
+          "text": "Doesn't count.",
+          "start": 15.277,
+          "end": 15.745
+        },
+        {
+          "text": "Slow passes first.",
+          "start": 16.252,
+          "end": 17.197
+        }
+      ],
+      "words": [
+        {
+          "w": "classic",
+          "s": 0,
+          "start": 0.168,
+          "end": 0.59
+        },
+        {
+          "w": "mistake",
+          "s": 0,
+          "start": 0.59,
+          "end": 1.203
+        },
+        {
+          "w": "eyes",
+          "s": 0,
+          "start": 1.567,
+          "end": 1.749
+        },
+        {
+          "w": "glued",
+          "s": 0,
+          "start": 1.749,
+          "end": 2.199
+        },
+        {
+          "w": "to",
+          "s": 0,
+          "start": 2.199,
+          "end": 2.429
+        },
+        {
+          "w": "the",
+          "s": 0,
+          "start": 2.429,
+          "end": 2.64
+        },
+        {
+          "w": "ball",
+          "s": 0,
+          "start": 2.64,
+          "end": 3.062
+        },
+        {
+          "w": "fix",
+          "s": 1,
+          "start": 3.47,
+          "end": 3.798
+        },
+        {
+          "w": "ball",
+          "s": 1,
+          "start": 3.898,
+          "end": 4.245
+        },
+        {
+          "w": "leaves",
+          "s": 1,
+          "start": 4.245,
+          "end": 4.772
+        },
+        {
+          "w": "the",
+          "s": 1,
+          "start": 4.772,
+          "end": 5.139
+        },
+        {
+          "w": "foot",
+          "s": 1,
+          "start": 5.139,
+          "end": 5.338
+        },
+        {
+          "w": "head",
+          "s": 1,
+          "start": 5.626,
+          "end": 5.904
+        },
+        {
+          "w": "goes",
+          "s": 1,
+          "start": 5.904,
+          "end": 6.271
+        },
+        {
+          "w": "two",
+          "s": 2,
+          "start": 6.792,
+          "end": 6.975
+        },
+        {
+          "w": "coloured",
+          "s": 2,
+          "start": 6.975,
+          "end": 7.242
+        },
+        {
+          "w": "cones",
+          "s": 2,
+          "start": 7.242,
+          "end": 7.467
+        },
+        {
+          "w": "behind",
+          "s": 2,
+          "start": 7.467,
+          "end": 7.742
+        },
+        {
+          "w": "you",
+          "s": 2,
+          "start": 7.742,
+          "end": 7.876
+        },
+        {
+          "w": "sam",
+          "s": 3,
+          "start": 8.339,
+          "end": 8.609
+        },
+        {
+          "w": "passes",
+          "s": 3,
+          "start": 8.609,
+          "end": 8.977
+        },
+        {
+          "w": "and",
+          "s": 3,
+          "start": 8.977,
+          "end": 9.19
+        },
+        {
+          "w": "calls",
+          "s": 3,
+          "start": 9.19,
+          "end": 9.714
+        },
+        {
+          "w": "one",
+          "s": 3,
+          "start": 9.714,
+          "end": 9.78
+        },
+        {
+          "w": "look",
+          "s": 4,
+          "start": 10.141,
+          "end": 10.439
+        },
+        {
+          "w": "back",
+          "s": 4,
+          "start": 10.439,
+          "end": 10.647
+        },
+        {
+          "w": "find",
+          "s": 4,
+          "start": 10.846,
+          "end": 11.063
+        },
+        {
+          "w": "it",
+          "s": 4,
+          "start": 11.063,
+          "end": 11.153
+        },
+        {
+          "w": "shout",
+          "s": 4,
+          "start": 11.325,
+          "end": 11.659
+        },
+        {
+          "w": "left",
+          "s": 4,
+          "start": 11.659,
+          "end": 11.822
+        },
+        {
+          "w": "or",
+          "s": 4,
+          "start": 11.842,
+          "end": 11.915
+        },
+        {
+          "w": "right",
+          "s": 4,
+          "start": 11.903,
+          "end": 12.129
+        },
+        {
+          "w": "before",
+          "s": 4,
+          "start": 12.129,
+          "end": 12.401
+        },
+        {
+          "w": "the",
+          "s": 4,
+          "start": 12.401,
+          "end": 12.6
+        },
+        {
+          "w": "ball's",
+          "s": 4,
+          "start": 12.6,
+          "end": 13.296
+        },
+        {
+          "w": "halfway",
+          "s": 4,
+          "start": 13.296,
+          "end": 13.522
+        },
+        {
+          "w": "late",
+          "s": 5,
+          "start": 14.284,
+          "end": 14.487
+        },
+        {
+          "w": "call",
+          "s": 5,
+          "start": 14.487,
+          "end": 14.723
+        },
+        {
+          "w": "doesn't",
+          "s": 6,
+          "start": 15.277,
+          "end": 15.55
+        },
+        {
+          "w": "count",
+          "s": 6,
+          "start": 15.55,
+          "end": 15.745
+        },
+        {
+          "w": "slow",
+          "s": 7,
+          "start": 16.252,
+          "end": 16.496
+        },
+        {
+          "w": "passes",
+          "s": 7,
+          "start": 16.496,
+          "end": 16.867
+        },
+        {
+          "w": "first",
+          "s": 7,
+          "start": 16.867,
+          "end": 17.197
+        }
+      ]
+    },
+    {
+      "id": "b09",
+      "chapter": "Ch2 Touch: the speed gap",
+      "file": "vo/ep2/b09.wav",
+      "durationInSeconds": 19.52,
+      "leadFrames": 6,
+      "frames": 604,
+      "startFrame": 4396,
+      "narration": "Way two: touch. <short pause> Your first touch decides your next second. <short pause> The ball doesn't bounce off just because your boot's hard. Mostly it's the speed gap: fast ball, still foot. Big gap, big bounce. <short pause> Catch an egg with a stiff hand: splat. Move with it: safe.",
+      "sentences": [
+        {
+          "text": "Way two: touch.",
+          "start": 0.169,
+          "end": 1.996
+        },
+        {
+          "text": "Your first touch decides your next second.",
+          "start": 2.353,
+          "end": 5.254
+        },
+        {
+          "text": "The ball doesn't bounce off just because your boot's hard.",
+          "start": 5.518,
+          "end": 8.517
+        },
+        {
+          "text": "Mostly it's the speed gap: fast ball, still foot.",
+          "start": 8.958,
+          "end": 12.574
+        },
+        {
+          "text": "Big gap, big bounce.",
+          "start": 13.381,
+          "end": 14.756
+        },
+        {
+          "text": "Catch an egg with a stiff hand: splat.",
+          "start": 15.128,
+          "end": 17.373
+        },
+        {
+          "text": "Move with it: safe.",
+          "start": 17.905,
+          "end": 19.321
+        }
+      ],
+      "words": [
+        {
+          "w": "way",
+          "s": 0,
+          "start": 0.169,
+          "end": 0.442
+        },
+        {
+          "w": "two",
+          "s": 0,
+          "start": 0.442,
+          "end": 0.951
+        },
+        {
+          "w": "touch",
+          "s": 0,
+          "start": 1.327,
+          "end": 1.996
+        },
+        {
+          "w": "your",
+          "s": 1,
+          "start": 2.353,
+          "end": 2.435
+        },
+        {
+          "w": "first",
+          "s": 1,
+          "start": 2.353,
+          "end": 2.802
+        },
+        {
+          "w": "touch",
+          "s": 1,
+          "start": 2.802,
+          "end": 3.428
+        },
+        {
+          "w": "decides",
+          "s": 1,
+          "start": 3.428,
+          "end": 3.845
+        },
+        {
+          "w": "your",
+          "s": 1,
+          "start": 3.845,
+          "end": 4.169
+        },
+        {
+          "w": "next",
+          "s": 1,
+          "start": 4.169,
+          "end": 4.482
+        },
+        {
+          "w": "second",
+          "s": 1,
+          "start": 4.482,
+          "end": 5.254
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 5.518,
+          "end": 5.827
+        },
+        {
+          "w": "ball",
+          "s": 2,
+          "start": 5.827,
+          "end": 5.945
+        },
+        {
+          "w": "doesn't",
+          "s": 2,
+          "start": 5.945,
+          "end": 6.363
+        },
+        {
+          "w": "bounce",
+          "s": 2,
+          "start": 6.363,
+          "end": 6.926
+        },
+        {
+          "w": "off",
+          "s": 2,
+          "start": 6.926,
+          "end": 6.998
+        },
+        {
+          "w": "just",
+          "s": 2,
+          "start": 6.945,
+          "end": 7.199
+        },
+        {
+          "w": "because",
+          "s": 2,
+          "start": 7.199,
+          "end": 7.717
+        },
+        {
+          "w": "your",
+          "s": 2,
+          "start": 7.717,
+          "end": 7.899
+        },
+        {
+          "w": "boot's",
+          "s": 2,
+          "start": 7.899,
+          "end": 8.217
+        },
+        {
+          "w": "hard",
+          "s": 2,
+          "start": 8.217,
+          "end": 8.517
+        },
+        {
+          "w": "mostly",
+          "s": 3,
+          "start": 8.958,
+          "end": 9.42
+        },
+        {
+          "w": "it's",
+          "s": 3,
+          "start": 9.568,
+          "end": 9.864
+        },
+        {
+          "w": "the",
+          "s": 3,
+          "start": 9.864,
+          "end": 10.41
+        },
+        {
+          "w": "speed",
+          "s": 3,
+          "start": 10.41,
+          "end": 10.484
+        },
+        {
+          "w": "gap",
+          "s": 3,
+          "start": 10.484,
+          "end": 10.715
+        },
+        {
+          "w": "fast",
+          "s": 3,
+          "start": 10.993,
+          "end": 11.325
+        },
+        {
+          "w": "ball",
+          "s": 3,
+          "start": 11.325,
+          "end": 11.658
+        },
+        {
+          "w": "still",
+          "s": 3,
+          "start": 12.102,
+          "end": 12.445
+        },
+        {
+          "w": "foot",
+          "s": 3,
+          "start": 12.445,
+          "end": 12.574
+        },
+        {
+          "w": "big",
+          "s": 4,
+          "start": 13.381,
+          "end": 13.634
+        },
+        {
+          "w": "gap",
+          "s": 4,
+          "start": 13.634,
+          "end": 13.872
+        },
+        {
+          "w": "big",
+          "s": 4,
+          "start": 14.013,
+          "end": 14.548
+        },
+        {
+          "w": "bounce",
+          "s": 4,
+          "start": 14.548,
+          "end": 14.756
+        },
+        {
+          "w": "catch",
+          "s": 5,
+          "start": 15.128,
+          "end": 15.457
+        },
+        {
+          "w": "an",
+          "s": 5,
+          "start": 15.457,
+          "end": 15.563
+        },
+        {
+          "w": "egg",
+          "s": 5,
+          "start": 15.563,
+          "end": 15.747
+        },
+        {
+          "w": "with",
+          "s": 5,
+          "start": 15.747,
+          "end": 16.057
+        },
+        {
+          "w": "a",
+          "s": 5,
+          "start": 16.057,
+          "end": 16.133
+        },
+        {
+          "w": "stiff",
+          "s": 5,
+          "start": 16.057,
+          "end": 16.618
+        },
+        {
+          "w": "hand",
+          "s": 5,
+          "start": 16.618,
+          "end": 16.694
+        },
+        {
+          "w": "splat",
+          "s": 5,
+          "start": 16.773,
+          "end": 17.373
+        },
+        {
+          "w": "move",
+          "s": 6,
+          "start": 17.905,
+          "end": 18.24
+        },
+        {
+          "w": "with",
+          "s": 6,
+          "start": 18.24,
+          "end": 18.575
+        },
+        {
+          "w": "it",
+          "s": 6,
+          "start": 18.575,
+          "end": 18.774
+        },
+        {
+          "w": "safe",
+          "s": 6,
+          "start": 18.982,
+          "end": 19.321
+        }
+      ]
+    },
+    {
+      "id": "b10",
+      "chapter": "Ch2 Touch: stiff or soft",
+      "file": "vo/ep2/b10.wav",
+      "durationInSeconds": 18.72,
+      "leadFrames": 6,
+      "frames": 580,
+      "startFrame": 5000,
+      "narration": "Stiff, still foot: it leaves at maybe a third of its speed. <short pause> Now move your foot back with it. The gap shrinks. The bounce dies. That's a cushion. <short pause> Contact: about a hundredth of a second. Far shorter than a blink. So be soft before it lands.",
+      "sentences": [
+        {
+          "text": "Stiff, still foot: it leaves at maybe a third of its speed.",
+          "start": 0.17,
+          "end": 3.985
+        },
+        {
+          "text": "Now move your foot back with it.",
+          "start": 4.547,
+          "end": 6.757
+        },
+        {
+          "text": "The gap shrinks.",
+          "start": 7.236,
+          "end": 8.238
+        },
+        {
+          "text": "The bounce dies.",
+          "start": 8.47,
+          "end": 9.767
+        },
+        {
+          "text": "That's a cushion.",
+          "start": 10.287,
+          "end": 10.899
+        },
+        {
+          "text": "Contact: about a hundredth of a second.",
+          "start": 11.588,
+          "end": 14.25
+        },
+        {
+          "text": "Far shorter than a blink.",
+          "start": 14.549,
+          "end": 15.797
+        },
+        {
+          "text": "So be soft before it lands.",
+          "start": 16.237,
+          "end": 18.421
+        }
+      ],
+      "words": [
+        {
+          "w": "stiff",
+          "s": 0,
+          "start": 0.17,
+          "end": 0.592
+        },
+        {
+          "w": "still",
+          "s": 0,
+          "start": 0.592,
+          "end": 1.031
+        },
+        {
+          "w": "foot",
+          "s": 0,
+          "start": 1.031,
+          "end": 1.571
+        },
+        {
+          "w": "it",
+          "s": 0,
+          "start": 1.571,
+          "end": 1.799
+        },
+        {
+          "w": "leaves",
+          "s": 0,
+          "start": 1.799,
+          "end": 2.061
+        },
+        {
+          "w": "at",
+          "s": 0,
+          "start": 2.061,
+          "end": 2.179
+        },
+        {
+          "w": "maybe",
+          "s": 0,
+          "start": 2.179,
+          "end": 2.491
+        },
+        {
+          "w": "a",
+          "s": 0,
+          "start": 2.491,
+          "end": 2.728
+        },
+        {
+          "w": "third",
+          "s": 0,
+          "start": 2.728,
+          "end": 2.863
+        },
+        {
+          "w": "of",
+          "s": 0,
+          "start": 2.863,
+          "end": 2.998
+        },
+        {
+          "w": "its",
+          "s": 0,
+          "start": 2.998,
+          "end": 3.166
+        },
+        {
+          "w": "speed",
+          "s": 0,
+          "start": 3.166,
+          "end": 3.985
+        },
+        {
+          "w": "now",
+          "s": 1,
+          "start": 4.547,
+          "end": 4.845
+        },
+        {
+          "w": "move",
+          "s": 1,
+          "start": 4.845,
+          "end": 5.358
+        },
+        {
+          "w": "your",
+          "s": 1,
+          "start": 5.358,
+          "end": 5.517
+        },
+        {
+          "w": "foot",
+          "s": 1,
+          "start": 5.517,
+          "end": 5.871
+        },
+        {
+          "w": "back",
+          "s": 1,
+          "start": 5.871,
+          "end": 6.366
+        },
+        {
+          "w": "with",
+          "s": 1,
+          "start": 6.366,
+          "end": 6.58
+        },
+        {
+          "w": "it",
+          "s": 1,
+          "start": 6.58,
+          "end": 6.757
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 7.236,
+          "end": 7.551
+        },
+        {
+          "w": "gap",
+          "s": 2,
+          "start": 7.551,
+          "end": 7.713
+        },
+        {
+          "w": "shrinks",
+          "s": 2,
+          "start": 7.713,
+          "end": 8.238
+        },
+        {
+          "w": "the",
+          "s": 3,
+          "start": 8.47,
+          "end": 9.061
+        },
+        {
+          "w": "bounce",
+          "s": 3,
+          "start": 9.061,
+          "end": 9.317
+        },
+        {
+          "w": "dies",
+          "s": 3,
+          "start": 9.317,
+          "end": 9.767
+        },
+        {
+          "w": "that's",
+          "s": 4,
+          "start": 10.287,
+          "end": 10.578
+        },
+        {
+          "w": "a",
+          "s": 4,
+          "start": 10.578,
+          "end": 10.628
+        },
+        {
+          "w": "cushion",
+          "s": 4,
+          "start": 10.59,
+          "end": 10.899
+        },
+        {
+          "w": "contact",
+          "s": 5,
+          "start": 11.588,
+          "end": 12.378
+        },
+        {
+          "w": "about",
+          "s": 5,
+          "start": 12.378,
+          "end": 12.605
+        },
+        {
+          "w": "a",
+          "s": 5,
+          "start": 12.605,
+          "end": 12.751
+        },
+        {
+          "w": "hundredth",
+          "s": 5,
+          "start": 12.751,
+          "end": 13.441
+        },
+        {
+          "w": "of",
+          "s": 5,
+          "start": 13.441,
+          "end": 13.605
+        },
+        {
+          "w": "a",
+          "s": 5,
+          "start": 13.605,
+          "end": 13.679
+        },
+        {
+          "w": "second",
+          "s": 5,
+          "start": 13.677,
+          "end": 14.25
+        },
+        {
+          "w": "far",
+          "s": 6,
+          "start": 14.549,
+          "end": 14.776
+        },
+        {
+          "w": "shorter",
+          "s": 6,
+          "start": 14.776,
+          "end": 15.18
+        },
+        {
+          "w": "than",
+          "s": 6,
+          "start": 15.18,
+          "end": 15.297
+        },
+        {
+          "w": "a",
+          "s": 6,
+          "start": 15.297,
+          "end": 15.357
+        },
+        {
+          "w": "blink",
+          "s": 6,
+          "start": 15.349,
+          "end": 15.797
+        },
+        {
+          "w": "so",
+          "s": 7,
+          "start": 16.237,
+          "end": 16.428
+        },
+        {
+          "w": "be",
+          "s": 7,
+          "start": 16.428,
+          "end": 16.601
+        },
+        {
+          "w": "soft",
+          "s": 7,
+          "start": 16.601,
+          "end": 17.028
+        },
+        {
+          "w": "before",
+          "s": 7,
+          "start": 17.028,
+          "end": 17.5
+        },
+        {
+          "w": "it",
+          "s": 7,
+          "start": 17.5,
+          "end": 18.009
+        },
+        {
+          "w": "lands",
+          "s": 7,
+          "start": 18.009,
+          "end": 18.421
+        }
+      ]
+    },
+    {
+      "id": "b11",
+      "chapter": "Ch2 Touch: into space",
+      "file": "vo/ep2/b11.wav",
+      "durationInSeconds": 17.44,
+      "leadFrames": 6,
+      "frames": 542,
+      "startFrame": 5580,
+      "narration": "Step one: kill the bounce. With Chalk coming, it buys nothing alone. <short pause> One touch into space, away from Chalk, buys metres. <short pause> At Chalk's jog, every two metres is about half a second. <short pause> Pros: touch, touch, gone. <short pause> Your first touch is the steering wheel.",
+      "sentences": [
+        {
+          "text": "Step one: kill the bounce.",
+          "start": 0.247,
+          "end": 2.203
+        },
+        {
+          "text": "With Chalk coming, it buys nothing alone.",
+          "start": 2.681,
+          "end": 5.082
+        },
+        {
+          "text": "One touch into space, away from Chalk, buys metres.",
+          "start": 5.681,
+          "end": 8.687
+        },
+        {
+          "text": "At Chalk's jog, every two metres is about half a second.",
+          "start": 9.155,
+          "end": 12.286
+        },
+        {
+          "text": "Pros: touch, touch, gone.",
+          "start": 12.932,
+          "end": 14.881
+        },
+        {
+          "text": "Your first touch is the steering wheel.",
+          "start": 15.478,
+          "end": 17.116
+        }
+      ],
+      "words": [
+        {
+          "w": "step",
+          "s": 0,
+          "start": 0.247,
+          "end": 0.396
+        },
+        {
+          "w": "one",
+          "s": 0,
+          "start": 0.396,
+          "end": 0.676
+        },
+        {
+          "w": "kill",
+          "s": 0,
+          "start": 1.197,
+          "end": 1.29
+        },
+        {
+          "w": "the",
+          "s": 0,
+          "start": 1.29,
+          "end": 1.533
+        },
+        {
+          "w": "bounce",
+          "s": 0,
+          "start": 1.533,
+          "end": 2.203
+        },
+        {
+          "w": "with",
+          "s": 1,
+          "start": 2.681,
+          "end": 2.757
+        },
+        {
+          "w": "chalk",
+          "s": 1,
+          "start": 2.738,
+          "end": 2.993
+        },
+        {
+          "w": "coming",
+          "s": 1,
+          "start": 2.993,
+          "end": 3.371
+        },
+        {
+          "w": "it",
+          "s": 1,
+          "start": 3.589,
+          "end": 3.693
+        },
+        {
+          "w": "buys",
+          "s": 1,
+          "start": 3.693,
+          "end": 4.071
+        },
+        {
+          "w": "nothing",
+          "s": 1,
+          "start": 4.071,
+          "end": 4.704
+        },
+        {
+          "w": "alone",
+          "s": 1,
+          "start": 4.704,
+          "end": 5.082
+        },
+        {
+          "w": "one",
+          "s": 2,
+          "start": 5.681,
+          "end": 5.931
+        },
+        {
+          "w": "touch",
+          "s": 2,
+          "start": 5.931,
+          "end": 6.228
+        },
+        {
+          "w": "into",
+          "s": 2,
+          "start": 6.228,
+          "end": 6.46
+        },
+        {
+          "w": "space",
+          "s": 2,
+          "start": 6.46,
+          "end": 6.878
+        },
+        {
+          "w": "away",
+          "s": 2,
+          "start": 6.961,
+          "end": 7.175
+        },
+        {
+          "w": "from",
+          "s": 2,
+          "start": 7.175,
+          "end": 7.434
+        },
+        {
+          "w": "chalk",
+          "s": 2,
+          "start": 7.434,
+          "end": 7.926
+        },
+        {
+          "w": "buys",
+          "s": 2,
+          "start": 8.167,
+          "end": 8.242
+        },
+        {
+          "w": "metres",
+          "s": 2,
+          "start": 8.232,
+          "end": 8.687
+        },
+        {
+          "w": "at",
+          "s": 3,
+          "start": 9.155,
+          "end": 9.401
+        },
+        {
+          "w": "chalk's",
+          "s": 3,
+          "start": 9.401,
+          "end": 9.847
+        },
+        {
+          "w": "jog",
+          "s": 3,
+          "start": 9.847,
+          "end": 10.239
+        },
+        {
+          "w": "every",
+          "s": 3,
+          "start": 10.33,
+          "end": 10.566
+        },
+        {
+          "w": "two",
+          "s": 3,
+          "start": 10.566,
+          "end": 10.757
+        },
+        {
+          "w": "metres",
+          "s": 3,
+          "start": 10.757,
+          "end": 11.131
+        },
+        {
+          "w": "is",
+          "s": 3,
+          "start": 11.131,
+          "end": 11.586
+        },
+        {
+          "w": "about",
+          "s": 3,
+          "start": 11.586,
+          "end": 11.659
+        },
+        {
+          "w": "half",
+          "s": 3,
+          "start": 11.595,
+          "end": 11.84
+        },
+        {
+          "w": "a",
+          "s": 3,
+          "start": 11.84,
+          "end": 11.913
+        },
+        {
+          "w": "second",
+          "s": 3,
+          "start": 11.904,
+          "end": 12.286
+        },
+        {
+          "w": "pros",
+          "s": 4,
+          "start": 12.932,
+          "end": 13.247
+        },
+        {
+          "w": "touch",
+          "s": 4,
+          "start": 13.375,
+          "end": 13.824
+        },
+        {
+          "w": "touch",
+          "s": 4,
+          "start": 13.899,
+          "end": 14.244
+        },
+        {
+          "w": "gone",
+          "s": 4,
+          "start": 14.364,
+          "end": 14.881
+        },
+        {
+          "w": "your",
+          "s": 5,
+          "start": 15.478,
+          "end": 15.685
+        },
+        {
+          "w": "first",
+          "s": 5,
+          "start": 15.685,
+          "end": 15.948
+        },
+        {
+          "w": "touch",
+          "s": 5,
+          "start": 15.948,
+          "end": 16.148
+        },
+        {
+          "w": "is",
+          "s": 5,
+          "start": 16.148,
+          "end": 16.387
+        },
+        {
+          "w": "the",
+          "s": 5,
+          "start": 16.387,
+          "end": 16.506
+        },
+        {
+          "w": "steering",
+          "s": 5,
+          "start": 16.506,
+          "end": 16.761
+        },
+        {
+          "w": "wheel",
+          "s": 5,
+          "start": 16.761,
+          "end": 17.116
+        }
+      ]
+    },
+    {
+      "id": "b12",
+      "chapter": "Ch2 Touch (practice)",
+      "file": "vo/ep2/b12.wav",
+      "durationInSeconds": 18.64,
+      "leadFrames": 6,
+      "frames": 578,
+      "startFrame": 6122,
+      "narration": "Classic mistake: killing it dead under your feet. <short pause> Fix: soft foot, aimed where you're going. <short pause> Wall drill, alone. Cushion the return. Then one touch out of a box, away from a cone. Swap feet. <short pause> Start soft. The car park has suffered enough.",
+      "sentences": [
+        {
+          "text": "Classic mistake: killing it dead under your feet.",
+          "start": 0.204,
+          "end": 3.401
+        },
+        {
+          "text": "Fix: soft foot, aimed where you're going.",
+          "start": 3.93,
+          "end": 6.907
+        },
+        {
+          "text": "Wall drill, alone.",
+          "start": 7.415,
+          "end": 8.465
+        },
+        {
+          "text": "Cushion the return.",
+          "start": 9.081,
+          "end": 9.798
+        },
+        {
+          "text": "Then one touch out of a box, away from a cone.",
+          "start": 10.669,
+          "end": 13.097
+        },
+        {
+          "text": "Swap feet.",
+          "start": 13.177,
+          "end": 14.135
+        },
+        {
+          "text": "Start soft.",
+          "start": 14.255,
+          "end": 15.316
+        },
+        {
+          "text": "The car park has suffered enough.",
+          "start": 15.396,
+          "end": 18.342
+        }
+      ],
+      "words": [
+        {
+          "w": "classic",
+          "s": 0,
+          "start": 0.204,
+          "end": 0.739
+        },
+        {
+          "w": "mistake",
+          "s": 0,
+          "start": 0.739,
+          "end": 1.797
+        },
+        {
+          "w": "killing",
+          "s": 0,
+          "start": 1.852,
+          "end": 2.245
+        },
+        {
+          "w": "it",
+          "s": 0,
+          "start": 2.245,
+          "end": 2.463
+        },
+        {
+          "w": "dead",
+          "s": 0,
+          "start": 2.463,
+          "end": 2.616
+        },
+        {
+          "w": "under",
+          "s": 0,
+          "start": 2.616,
+          "end": 2.965
+        },
+        {
+          "w": "your",
+          "s": 0,
+          "start": 2.965,
+          "end": 3.205
+        },
+        {
+          "w": "feet",
+          "s": 0,
+          "start": 3.205,
+          "end": 3.401
+        },
+        {
+          "w": "fix",
+          "s": 1,
+          "start": 3.93,
+          "end": 4.781
+        },
+        {
+          "w": "soft",
+          "s": 1,
+          "start": 4.781,
+          "end": 4.909
+        },
+        {
+          "w": "foot",
+          "s": 1,
+          "start": 4.909,
+          "end": 5.444
+        },
+        {
+          "w": "aimed",
+          "s": 1,
+          "start": 5.444,
+          "end": 6.096
+        },
+        {
+          "w": "where",
+          "s": 1,
+          "start": 6.096,
+          "end": 6.354
+        },
+        {
+          "w": "you're",
+          "s": 1,
+          "start": 6.354,
+          "end": 6.492
+        },
+        {
+          "w": "going",
+          "s": 1,
+          "start": 6.492,
+          "end": 6.907
+        },
+        {
+          "w": "wall",
+          "s": 2,
+          "start": 7.415,
+          "end": 7.677
+        },
+        {
+          "w": "drill",
+          "s": 2,
+          "start": 7.677,
+          "end": 8.008
+        },
+        {
+          "w": "alone",
+          "s": 2,
+          "start": 8.008,
+          "end": 8.465
+        },
+        {
+          "w": "cushion",
+          "s": 3,
+          "start": 9.081,
+          "end": 9.405
+        },
+        {
+          "w": "the",
+          "s": 3,
+          "start": 9.405,
+          "end": 9.509
+        },
+        {
+          "w": "return",
+          "s": 3,
+          "start": 9.509,
+          "end": 9.798
+        },
+        {
+          "w": "then",
+          "s": 4,
+          "start": 10.669,
+          "end": 11.148
+        },
+        {
+          "w": "one",
+          "s": 4,
+          "start": 11.148,
+          "end": 11.681
+        },
+        {
+          "w": "touch",
+          "s": 4,
+          "start": 11.681,
+          "end": 11.788
+        },
+        {
+          "w": "out",
+          "s": 4,
+          "start": 11.788,
+          "end": 11.849
+        },
+        {
+          "w": "of",
+          "s": 4,
+          "start": 11.81,
+          "end": 11.902
+        },
+        {
+          "w": "a",
+          "s": 4,
+          "start": 11.902,
+          "end": 11.963
+        },
+        {
+          "w": "box",
+          "s": 4,
+          "start": 11.947,
+          "end": 12.1
+        },
+        {
+          "w": "away",
+          "s": 4,
+          "start": 12.1,
+          "end": 12.587
+        },
+        {
+          "w": "from",
+          "s": 4,
+          "start": 12.587,
+          "end": 12.823
+        },
+        {
+          "w": "a",
+          "s": 4,
+          "start": 12.823,
+          "end": 12.906
+        },
+        {
+          "w": "cone",
+          "s": 4,
+          "start": 12.906,
+          "end": 13.097
+        },
+        {
+          "w": "swap",
+          "s": 5,
+          "start": 13.177,
+          "end": 13.646
+        },
+        {
+          "w": "feet",
+          "s": 5,
+          "start": 13.646,
+          "end": 14.135
+        },
+        {
+          "w": "start",
+          "s": 6,
+          "start": 14.255,
+          "end": 14.841
+        },
+        {
+          "w": "soft",
+          "s": 6,
+          "start": 14.841,
+          "end": 15.316
+        },
+        {
+          "w": "the",
+          "s": 7,
+          "start": 15.396,
+          "end": 16.104
+        },
+        {
+          "w": "car",
+          "s": 7,
+          "start": 16.104,
+          "end": 16.193
+        },
+        {
+          "w": "park",
+          "s": 7,
+          "start": 16.148,
+          "end": 17.033
+        },
+        {
+          "w": "has",
+          "s": 7,
+          "start": 17.033,
+          "end": 17.122
+        },
+        {
+          "w": "suffered",
+          "s": 7,
+          "start": 17.088,
+          "end": 17.774
+        },
+        {
+          "w": "enough",
+          "s": 7,
+          "start": 17.774,
+          "end": 18.342
+        }
+      ]
+    },
+    {
+      "id": "b13",
+      "chapter": "Ch3 Shape: half a circle of sight",
+      "file": "vo/ep2/b13.wav",
+      "durationInSeconds": 16.28,
+      "leadFrames": 6,
+      "frames": 507,
+      "startFrame": 6700,
+      "narration": "Way three: shape. How you stand. <short pause> Arms out wide. You see everything between your hands. A bit more than a half circle. <short pause> Sharp only in a thumbnail-sized spot at arm's length. <short pause> The rest: blur. It catches movement, not whose shirt.",
+      "sentences": [
+        {
+          "text": "Way three: shape.",
+          "start": 0.201,
+          "end": 1.621
+        },
+        {
+          "text": "How you stand.",
+          "start": 2.167,
+          "end": 3.001
+        },
+        {
+          "text": "Arms out wide.",
+          "start": 3.267,
+          "end": 4.749
+        },
+        {
+          "text": "You see everything between your hands.",
+          "start": 4.974,
+          "end": 6.963
+        },
+        {
+          "text": "A bit more than a half circle.",
+          "start": 7.314,
+          "end": 8.524
+        },
+        {
+          "text": "Sharp only in a thumbnail-sized spot at arm's length.",
+          "start": 8.752,
+          "end": 12.179
+        },
+        {
+          "text": "The rest: blur.",
+          "start": 12.437,
+          "end": 13.031
+        },
+        {
+          "text": "It catches movement, not whose shirt.",
+          "start": 13.454,
+          "end": 15.954
+        }
+      ],
+      "words": [
+        {
+          "w": "way",
+          "s": 0,
+          "start": 0.201,
+          "end": 0.412
+        },
+        {
+          "w": "three",
+          "s": 0,
+          "start": 0.567,
+          "end": 0.876
+        },
+        {
+          "w": "shape",
+          "s": 0,
+          "start": 1.031,
+          "end": 1.621
+        },
+        {
+          "w": "how",
+          "s": 1,
+          "start": 2.167,
+          "end": 2.387
+        },
+        {
+          "w": "you",
+          "s": 1,
+          "start": 2.387,
+          "end": 2.617
+        },
+        {
+          "w": "stand",
+          "s": 1,
+          "start": 2.617,
+          "end": 3.001
+        },
+        {
+          "w": "arms",
+          "s": 2,
+          "start": 3.267,
+          "end": 3.433
+        },
+        {
+          "w": "out",
+          "s": 2,
+          "start": 3.433,
+          "end": 4
+        },
+        {
+          "w": "wide",
+          "s": 2,
+          "start": 4,
+          "end": 4.749
+        },
+        {
+          "w": "you",
+          "s": 3,
+          "start": 4.974,
+          "end": 5.124
+        },
+        {
+          "w": "see",
+          "s": 3,
+          "start": 5.124,
+          "end": 5.516
+        },
+        {
+          "w": "everything",
+          "s": 3,
+          "start": 5.516,
+          "end": 6.029
+        },
+        {
+          "w": "between",
+          "s": 3,
+          "start": 6.029,
+          "end": 6.37
+        },
+        {
+          "w": "your",
+          "s": 3,
+          "start": 6.37,
+          "end": 6.491
+        },
+        {
+          "w": "hands",
+          "s": 3,
+          "start": 6.491,
+          "end": 6.963
+        },
+        {
+          "w": "a",
+          "s": 4,
+          "start": 7.314,
+          "end": 7.516
+        },
+        {
+          "w": "bit",
+          "s": 4,
+          "start": 7.516,
+          "end": 7.588
+        },
+        {
+          "w": "more",
+          "s": 4,
+          "start": 7.533,
+          "end": 7.788
+        },
+        {
+          "w": "than",
+          "s": 4,
+          "start": 7.788,
+          "end": 7.946
+        },
+        {
+          "w": "a",
+          "s": 4,
+          "start": 7.946,
+          "end": 8.209
+        },
+        {
+          "w": "half",
+          "s": 4,
+          "start": 8.209,
+          "end": 8.428
+        },
+        {
+          "w": "circle",
+          "s": 4,
+          "start": 8.428,
+          "end": 8.524
+        },
+        {
+          "w": "sharp",
+          "s": 5,
+          "start": 8.752,
+          "end": 9.375
+        },
+        {
+          "w": "only",
+          "s": 5,
+          "start": 9.375,
+          "end": 9.526
+        },
+        {
+          "w": "in",
+          "s": 5,
+          "start": 9.526,
+          "end": 9.696
+        },
+        {
+          "w": "a",
+          "s": 5,
+          "start": 9.696,
+          "end": 9.779
+        },
+        {
+          "w": "thumbnail",
+          "s": 5,
+          "start": 9.767,
+          "end": 11.003
+        },
+        {
+          "w": "sized",
+          "s": 5,
+          "start": 11.003,
+          "end": 11.085
+        },
+        {
+          "w": "spot",
+          "s": 5,
+          "start": 11.003,
+          "end": 11.365
+        },
+        {
+          "w": "at",
+          "s": 5,
+          "start": 11.365,
+          "end": 11.516
+        },
+        {
+          "w": "arm's",
+          "s": 5,
+          "start": 11.516,
+          "end": 11.757
+        },
+        {
+          "w": "length",
+          "s": 5,
+          "start": 11.757,
+          "end": 12.179
+        },
+        {
+          "w": "the",
+          "s": 6,
+          "start": 12.437,
+          "end": 12.564
+        },
+        {
+          "w": "rest",
+          "s": 6,
+          "start": 12.564,
+          "end": 12.736
+        },
+        {
+          "w": "blur",
+          "s": 6,
+          "start": 12.864,
+          "end": 13.031
+        },
+        {
+          "w": "it",
+          "s": 7,
+          "start": 13.454,
+          "end": 13.991
+        },
+        {
+          "w": "catches",
+          "s": 7,
+          "start": 13.991,
+          "end": 14.077
+        },
+        {
+          "w": "movement",
+          "s": 7,
+          "start": 14.033,
+          "end": 14.517
+        },
+        {
+          "w": "not",
+          "s": 7,
+          "start": 14.696,
+          "end": 14.833
+        },
+        {
+          "w": "whose",
+          "s": 7,
+          "start": 14.833,
+          "end": 15.475
+        },
+        {
+          "w": "shirt",
+          "s": 7,
+          "start": 15.475,
+          "end": 15.954
+        }
+      ]
+    },
+    {
+      "id": "b14",
+      "chapter": "Ch3 Shape: straight on costs a turn",
+      "file": "vo/ep2/b14.wav",
+      "durationInSeconds": 15.32,
+      "leadFrames": 6,
+      "frames": 478,
+      "startFrame": 7207,
+      "narration": "Face Sam straight on. Goal behind you. Chalk lives there. <short pause> To play forward, you turn. A full turn costs over half a second. Timed on youth players running and turning, no ball. <short pause> That's your whole ring from the first pass.",
+      "sentences": [
+        {
+          "text": "Face Sam straight on.",
+          "start": 0.272,
+          "end": 1.546
+        },
+        {
+          "text": "Goal behind you.",
+          "start": 1.834,
+          "end": 2.586
+        },
+        {
+          "text": "Chalk lives there.",
+          "start": 2.843,
+          "end": 3.841
+        },
+        {
+          "text": "To play forward, you turn.",
+          "start": 4.206,
+          "end": 5.671
+        },
+        {
+          "text": "A full turn costs over half a second.",
+          "start": 6.309,
+          "end": 9.196
+        },
+        {
+          "text": "Timed on youth players running and turning, no ball.",
+          "start": 9.878,
+          "end": 11.994
+        },
+        {
+          "text": "That's your whole ring from the first pass.",
+          "start": 12.745,
+          "end": 14.952
+        }
+      ],
+      "words": [
+        {
+          "w": "face",
+          "s": 0,
+          "start": 0.272,
+          "end": 0.395
+        },
+        {
+          "w": "sam",
+          "s": 0,
+          "start": 0.395,
+          "end": 0.624
+        },
+        {
+          "w": "straight",
+          "s": 0,
+          "start": 0.624,
+          "end": 1.265
+        },
+        {
+          "w": "on",
+          "s": 0,
+          "start": 1.265,
+          "end": 1.546
+        },
+        {
+          "w": "goal",
+          "s": 1,
+          "start": 1.834,
+          "end": 1.938
+        },
+        {
+          "w": "behind",
+          "s": 1,
+          "start": 1.99,
+          "end": 2.3
+        },
+        {
+          "w": "you",
+          "s": 1,
+          "start": 2.3,
+          "end": 2.586
+        },
+        {
+          "w": "chalk",
+          "s": 2,
+          "start": 2.843,
+          "end": 3.18
+        },
+        {
+          "w": "lives",
+          "s": 2,
+          "start": 3.18,
+          "end": 3.478
+        },
+        {
+          "w": "there",
+          "s": 2,
+          "start": 3.478,
+          "end": 3.841
+        },
+        {
+          "w": "to",
+          "s": 3,
+          "start": 4.206,
+          "end": 4.405
+        },
+        {
+          "w": "play",
+          "s": 3,
+          "start": 4.405,
+          "end": 4.648
+        },
+        {
+          "w": "forward",
+          "s": 3,
+          "start": 4.648,
+          "end": 5.075
+        },
+        {
+          "w": "you",
+          "s": 3,
+          "start": 5.208,
+          "end": 5.554
+        },
+        {
+          "w": "turn",
+          "s": 3,
+          "start": 5.554,
+          "end": 5.671
+        },
+        {
+          "w": "a",
+          "s": 4,
+          "start": 6.309,
+          "end": 6.553
+        },
+        {
+          "w": "full",
+          "s": 4,
+          "start": 6.553,
+          "end": 6.815
+        },
+        {
+          "w": "turn",
+          "s": 4,
+          "start": 6.815,
+          "end": 7.223
+        },
+        {
+          "w": "costs",
+          "s": 4,
+          "start": 7.223,
+          "end": 7.965
+        },
+        {
+          "w": "over",
+          "s": 4,
+          "start": 7.965,
+          "end": 8.101
+        },
+        {
+          "w": "half",
+          "s": 4,
+          "start": 8.101,
+          "end": 8.499
+        },
+        {
+          "w": "a",
+          "s": 4,
+          "start": 8.499,
+          "end": 8.598
+        },
+        {
+          "w": "second",
+          "s": 4,
+          "start": 8.598,
+          "end": 9.196
+        },
+        {
+          "w": "timed",
+          "s": 5,
+          "start": 9.878,
+          "end": 10.11
+        },
+        {
+          "w": "on",
+          "s": 5,
+          "start": 10.16,
+          "end": 10.26
+        },
+        {
+          "w": "youth",
+          "s": 5,
+          "start": 10.26,
+          "end": 10.361
+        },
+        {
+          "w": "players",
+          "s": 5,
+          "start": 10.411,
+          "end": 10.746
+        },
+        {
+          "w": "running",
+          "s": 5,
+          "start": 10.746,
+          "end": 10.961
+        },
+        {
+          "w": "and",
+          "s": 5,
+          "start": 10.961,
+          "end": 11.073
+        },
+        {
+          "w": "turning",
+          "s": 5,
+          "start": 11.073,
+          "end": 11.452
+        },
+        {
+          "w": "no",
+          "s": 5,
+          "start": 11.478,
+          "end": 11.65
+        },
+        {
+          "w": "ball",
+          "s": 5,
+          "start": 11.65,
+          "end": 11.994
+        },
+        {
+          "w": "that's",
+          "s": 6,
+          "start": 12.745,
+          "end": 13.108
+        },
+        {
+          "w": "your",
+          "s": 6,
+          "start": 13.108,
+          "end": 13.353
+        },
+        {
+          "w": "whole",
+          "s": 6,
+          "start": 13.353,
+          "end": 13.658
+        },
+        {
+          "w": "ring",
+          "s": 6,
+          "start": 13.658,
+          "end": 13.894
+        },
+        {
+          "w": "from",
+          "s": 6,
+          "start": 13.894,
+          "end": 14.291
+        },
+        {
+          "w": "the",
+          "s": 6,
+          "start": 14.291,
+          "end": 14.359
+        },
+        {
+          "w": "first",
+          "s": 6,
+          "start": 14.325,
+          "end": 14.629
+        },
+        {
+          "w": "pass",
+          "s": 6,
+          "start": 14.629,
+          "end": 14.952
+        }
+      ]
+    },
+    {
+      "id": "b15",
+      "chapter": "Ch3 Shape: the half-turn",
+      "file": "vo/ep2/b15.wav",
+      "durationInSeconds": 16.2,
+      "leadFrames": 6,
+      "frames": 504,
+      "startFrame": 7685,
+      "narration": "Now stand side-on. The half-turn. Old cue, new reason. <short pause> Sam in the corner of one eye, the goal in the other. <short pause> The corner of your eye catches movement. The look tells you who. <short pause> Every look is now a small turn.",
+      "sentences": [
+        {
+          "text": "Now stand side-on.",
+          "start": 0.196,
+          "end": 1.819
+        },
+        {
+          "text": "The half-turn.",
+          "start": 2.152,
+          "end": 2.881
+        },
+        {
+          "text": "Old cue, new reason.",
+          "start": 3.563,
+          "end": 5.338
+        },
+        {
+          "text": "Sam in the corner of one eye, the goal in the other.",
+          "start": 5.72,
+          "end": 8.756
+        },
+        {
+          "text": "The corner of your eye catches movement.",
+          "start": 9.521,
+          "end": 11.124
+        },
+        {
+          "text": "The look tells you who.",
+          "start": 11.695,
+          "end": 12.727
+        },
+        {
+          "text": "Every look is now a small turn.",
+          "start": 13.413,
+          "end": 15.723
+        }
+      ],
+      "words": [
+        {
+          "w": "now",
+          "s": 0,
+          "start": 0.196,
+          "end": 0.364
+        },
+        {
+          "w": "stand",
+          "s": 0,
+          "start": 0.364,
+          "end": 0.961
+        },
+        {
+          "w": "side",
+          "s": 0,
+          "start": 0.961,
+          "end": 1.373
+        },
+        {
+          "w": "on",
+          "s": 0,
+          "start": 1.373,
+          "end": 1.819
+        },
+        {
+          "w": "the",
+          "s": 1,
+          "start": 2.152,
+          "end": 2.285
+        },
+        {
+          "w": "half",
+          "s": 1,
+          "start": 2.285,
+          "end": 2.579
+        },
+        {
+          "w": "turn",
+          "s": 1,
+          "start": 2.579,
+          "end": 2.881
+        },
+        {
+          "w": "old",
+          "s": 2,
+          "start": 3.563,
+          "end": 3.757
+        },
+        {
+          "w": "cue",
+          "s": 2,
+          "start": 3.757,
+          "end": 4.371
+        },
+        {
+          "w": "new",
+          "s": 2,
+          "start": 4.455,
+          "end": 4.614
+        },
+        {
+          "w": "reason",
+          "s": 2,
+          "start": 4.614,
+          "end": 5.338
+        },
+        {
+          "w": "sam",
+          "s": 3,
+          "start": 5.72,
+          "end": 5.911
+        },
+        {
+          "w": "in",
+          "s": 3,
+          "start": 5.911,
+          "end": 6.041
+        },
+        {
+          "w": "the",
+          "s": 3,
+          "start": 6.041,
+          "end": 6.223
+        },
+        {
+          "w": "corner",
+          "s": 3,
+          "start": 6.223,
+          "end": 6.613
+        },
+        {
+          "w": "of",
+          "s": 3,
+          "start": 6.613,
+          "end": 6.743
+        },
+        {
+          "w": "one",
+          "s": 3,
+          "start": 6.743,
+          "end": 6.926
+        },
+        {
+          "w": "eye",
+          "s": 3,
+          "start": 6.926,
+          "end": 7.125
+        },
+        {
+          "w": "the",
+          "s": 3,
+          "start": 7.29,
+          "end": 7.671
+        },
+        {
+          "w": "goal",
+          "s": 3,
+          "start": 7.671,
+          "end": 7.793
+        },
+        {
+          "w": "in",
+          "s": 3,
+          "start": 7.793,
+          "end": 7.958
+        },
+        {
+          "w": "the",
+          "s": 3,
+          "start": 7.958,
+          "end": 8.149
+        },
+        {
+          "w": "other",
+          "s": 3,
+          "start": 8.149,
+          "end": 8.756
+        },
+        {
+          "w": "the",
+          "s": 4,
+          "start": 9.521,
+          "end": 9.678
+        },
+        {
+          "w": "corner",
+          "s": 4,
+          "start": 9.678,
+          "end": 9.942
+        },
+        {
+          "w": "of",
+          "s": 4,
+          "start": 9.942,
+          "end": 10.013
+        },
+        {
+          "w": "your",
+          "s": 4,
+          "start": 10.013,
+          "end": 10.191
+        },
+        {
+          "w": "eye",
+          "s": 4,
+          "start": 10.191,
+          "end": 10.326
+        },
+        {
+          "w": "catches",
+          "s": 4,
+          "start": 10.326,
+          "end": 10.633
+        },
+        {
+          "w": "movement",
+          "s": 4,
+          "start": 10.633,
+          "end": 11.124
+        },
+        {
+          "w": "the",
+          "s": 5,
+          "start": 11.695,
+          "end": 11.875
+        },
+        {
+          "w": "look",
+          "s": 5,
+          "start": 11.875,
+          "end": 12.096
+        },
+        {
+          "w": "tells",
+          "s": 5,
+          "start": 12.096,
+          "end": 12.383
+        },
+        {
+          "w": "you",
+          "s": 5,
+          "start": 12.383,
+          "end": 12.555
+        },
+        {
+          "w": "who",
+          "s": 5,
+          "start": 12.555,
+          "end": 12.727
+        },
+        {
+          "w": "every",
+          "s": 6,
+          "start": 13.413,
+          "end": 13.897
+        },
+        {
+          "w": "look",
+          "s": 6,
+          "start": 13.897,
+          "end": 14.31
+        },
+        {
+          "w": "is",
+          "s": 6,
+          "start": 14.31,
+          "end": 14.477
+        },
+        {
+          "w": "now",
+          "s": 6,
+          "start": 14.477,
+          "end": 14.759
+        },
+        {
+          "w": "a",
+          "s": 6,
+          "start": 14.759,
+          "end": 14.855
+        },
+        {
+          "w": "small",
+          "s": 6,
+          "start": 14.855,
+          "end": 15.392
+        },
+        {
+          "w": "turn",
+          "s": 6,
+          "start": 15.392,
+          "end": 15.723
+        }
+      ]
+    },
+    {
+      "id": "b16",
+      "chapter": "Ch3 Shape: back foot",
+      "file": "vo/ep2/b16.wav",
+      "durationInSeconds": 13.6,
+      "leadFrames": 6,
+      "frames": 426,
+      "startFrame": 8189,
+      "narration": "Take it on your back foot, the one further from Sam. Toes where you're going. <short pause> It rolls across you, train through a station. <short pause> Half-turned, back foot: no turn to pay for. You play forward while the ring's still big.",
+      "sentences": [
+        {
+          "text": "Take it on your back foot, the one further from Sam.",
+          "start": 0.231,
+          "end": 2.542
+        },
+        {
+          "text": "Toes where you're going.",
+          "start": 3.076,
+          "end": 4.123
+        },
+        {
+          "text": "It rolls across you, train through a station.",
+          "start": 4.829,
+          "end": 7.212
+        },
+        {
+          "text": "Half-turned, back foot: no turn to pay for.",
+          "start": 7.706,
+          "end": 10.709
+        },
+        {
+          "text": "You play forward while the ring's still big.",
+          "start": 10.947,
+          "end": 13.221
+        }
+      ],
+      "words": [
+        {
+          "w": "take",
+          "s": 0,
+          "start": 0.231,
+          "end": 0.301
+        },
+        {
+          "w": "it",
+          "s": 0,
+          "start": 0.257,
+          "end": 0.327
+        },
+        {
+          "w": "on",
+          "s": 0,
+          "start": 0.317,
+          "end": 0.404
+        },
+        {
+          "w": "your",
+          "s": 0,
+          "start": 0.404,
+          "end": 0.586
+        },
+        {
+          "w": "back",
+          "s": 0,
+          "start": 0.586,
+          "end": 0.768
+        },
+        {
+          "w": "foot",
+          "s": 0,
+          "start": 0.768,
+          "end": 0.941
+        },
+        {
+          "w": "the",
+          "s": 0,
+          "start": 1.304,
+          "end": 1.375
+        },
+        {
+          "w": "one",
+          "s": 0,
+          "start": 1.304,
+          "end": 1.521
+        },
+        {
+          "w": "further",
+          "s": 0,
+          "start": 1.521,
+          "end": 1.971
+        },
+        {
+          "w": "from",
+          "s": 0,
+          "start": 1.971,
+          "end": 2.308
+        },
+        {
+          "w": "sam",
+          "s": 0,
+          "start": 2.308,
+          "end": 2.542
+        },
+        {
+          "w": "toes",
+          "s": 1,
+          "start": 3.076,
+          "end": 3.278
+        },
+        {
+          "w": "where",
+          "s": 1,
+          "start": 3.278,
+          "end": 3.531
+        },
+        {
+          "w": "you're",
+          "s": 1,
+          "start": 3.531,
+          "end": 3.834
+        },
+        {
+          "w": "going",
+          "s": 1,
+          "start": 3.834,
+          "end": 4.123
+        },
+        {
+          "w": "it",
+          "s": 2,
+          "start": 4.829,
+          "end": 5.044
+        },
+        {
+          "w": "rolls",
+          "s": 2,
+          "start": 5.044,
+          "end": 5.381
+        },
+        {
+          "w": "across",
+          "s": 2,
+          "start": 5.381,
+          "end": 6.081
+        },
+        {
+          "w": "you",
+          "s": 2,
+          "start": 6.081,
+          "end": 6.151
+        },
+        {
+          "w": "train",
+          "s": 2,
+          "start": 6.262,
+          "end": 6.565
+        },
+        {
+          "w": "through",
+          "s": 2,
+          "start": 6.565,
+          "end": 6.867
+        },
+        {
+          "w": "a",
+          "s": 2,
+          "start": 6.867,
+          "end": 6.937
+        },
+        {
+          "w": "station",
+          "s": 2,
+          "start": 6.901,
+          "end": 7.212
+        },
+        {
+          "w": "half",
+          "s": 3,
+          "start": 7.706,
+          "end": 8.067
+        },
+        {
+          "w": "turned",
+          "s": 3,
+          "start": 8.067,
+          "end": 8.358
+        },
+        {
+          "w": "back",
+          "s": 3,
+          "start": 8.613,
+          "end": 8.983
+        },
+        {
+          "w": "foot",
+          "s": 3,
+          "start": 8.983,
+          "end": 9.168
+        },
+        {
+          "w": "no",
+          "s": 3,
+          "start": 9.432,
+          "end": 9.652
+        },
+        {
+          "w": "turn",
+          "s": 3,
+          "start": 9.652,
+          "end": 9.943
+        },
+        {
+          "w": "to",
+          "s": 3,
+          "start": 9.943,
+          "end": 10.11
+        },
+        {
+          "w": "pay",
+          "s": 3,
+          "start": 10.11,
+          "end": 10.365
+        },
+        {
+          "w": "for",
+          "s": 3,
+          "start": 10.365,
+          "end": 10.709
+        },
+        {
+          "w": "you",
+          "s": 4,
+          "start": 10.947,
+          "end": 11.184
+        },
+        {
+          "w": "play",
+          "s": 4,
+          "start": 11.184,
+          "end": 11.361
+        },
+        {
+          "w": "forward",
+          "s": 4,
+          "start": 11.361,
+          "end": 11.784
+        },
+        {
+          "w": "while",
+          "s": 4,
+          "start": 11.784,
+          "end": 12.08
+        },
+        {
+          "w": "the",
+          "s": 4,
+          "start": 12.08,
+          "end": 12.375
+        },
+        {
+          "w": "ring's",
+          "s": 4,
+          "start": 12.375,
+          "end": 12.611
+        },
+        {
+          "w": "still",
+          "s": 4,
+          "start": 12.611,
+          "end": 12.907
+        },
+        {
+          "w": "big",
+          "s": 4,
+          "start": 12.907,
+          "end": 13.221
+        }
+      ]
+    },
+    {
+      "id": "b17",
+      "chapter": "Ch3 Shape (practice)",
+      "file": "vo/ep2/b17.wav",
+      "durationInSeconds": 16.4,
+      "leadFrames": 6,
+      "frames": 570,
+      "startFrame": 8615,
+      "narration": "Classic mistake: facing the passer with room to turn. <short pause> Fix: side-on, before the pass. <short pause> Two gates behind you. Sam calls a gate, then passes. Open to that gate. Back foot, one touch through it, pass back. <short pause> Easy passes first.",
+      "sentences": [
+        {
+          "text": "Classic mistake: facing the passer with room to turn.",
+          "start": 0.196,
+          "end": 3.683
+        },
+        {
+          "text": "Fix: side-on, before the pass.",
+          "start": 4.215,
+          "end": 6.617
+        },
+        {
+          "text": "Two gates behind you.",
+          "start": 7.25,
+          "end": 8.037
+        },
+        {
+          "text": "Sam calls a gate, then passes.",
+          "start": 8.47,
+          "end": 10.285
+        },
+        {
+          "text": "Open to that gate.",
+          "start": 10.597,
+          "end": 11.752
+        },
+        {
+          "text": "Back foot, one touch through it, pass back.",
+          "start": 12.264,
+          "end": 14.559
+        },
+        {
+          "text": "Easy passes first.",
+          "start": 15.158,
+          "end": 16.163
+        }
+      ],
+      "words": [
+        {
+          "w": "classic",
+          "s": 0,
+          "start": 0.196,
+          "end": 0.707
+        },
+        {
+          "w": "mistake",
+          "s": 0,
+          "start": 0.707,
+          "end": 1.563
+        },
+        {
+          "w": "facing",
+          "s": 0,
+          "start": 1.656,
+          "end": 1.907
+        },
+        {
+          "w": "the",
+          "s": 0,
+          "start": 1.907,
+          "end": 2.074
+        },
+        {
+          "w": "passer",
+          "s": 0,
+          "start": 2.074,
+          "end": 2.437
+        },
+        {
+          "w": "with",
+          "s": 0,
+          "start": 2.437,
+          "end": 2.79
+        },
+        {
+          "w": "room",
+          "s": 0,
+          "start": 2.79,
+          "end": 3.125
+        },
+        {
+          "w": "to",
+          "s": 0,
+          "start": 3.125,
+          "end": 3.311
+        },
+        {
+          "w": "turn",
+          "s": 0,
+          "start": 3.311,
+          "end": 3.683
+        },
+        {
+          "w": "fix",
+          "s": 1,
+          "start": 4.215,
+          "end": 4.504
+        },
+        {
+          "w": "side",
+          "s": 1,
+          "start": 4.688,
+          "end": 5.376
+        },
+        {
+          "w": "on",
+          "s": 1,
+          "start": 5.376,
+          "end": 5.439
+        },
+        {
+          "w": "before",
+          "s": 1,
+          "start": 5.376,
+          "end": 5.913
+        },
+        {
+          "w": "the",
+          "s": 1,
+          "start": 5.913,
+          "end": 6.201
+        },
+        {
+          "w": "pass",
+          "s": 1,
+          "start": 6.201,
+          "end": 6.617
+        },
+        {
+          "w": "two",
+          "s": 2,
+          "start": 7.25,
+          "end": 7.484
+        },
+        {
+          "w": "gates",
+          "s": 2,
+          "start": 7.484,
+          "end": 7.625
+        },
+        {
+          "w": "behind",
+          "s": 2,
+          "start": 7.625,
+          "end": 7.906
+        },
+        {
+          "w": "you",
+          "s": 2,
+          "start": 7.906,
+          "end": 8.037
+        },
+        {
+          "w": "sam",
+          "s": 3,
+          "start": 8.47,
+          "end": 8.686
+        },
+        {
+          "w": "calls",
+          "s": 3,
+          "start": 8.686,
+          "end": 8.934
+        },
+        {
+          "w": "a",
+          "s": 3,
+          "start": 8.934,
+          "end": 9.305
+        },
+        {
+          "w": "gate",
+          "s": 3,
+          "start": 9.305,
+          "end": 9.386
+        },
+        {
+          "w": "then",
+          "s": 3,
+          "start": 9.511,
+          "end": 9.81
+        },
+        {
+          "w": "passes",
+          "s": 3,
+          "start": 9.81,
+          "end": 10.285
+        },
+        {
+          "w": "open",
+          "s": 4,
+          "start": 10.597,
+          "end": 10.93
+        },
+        {
+          "w": "to",
+          "s": 4,
+          "start": 10.93,
+          "end": 11.086
+        },
+        {
+          "w": "that",
+          "s": 4,
+          "start": 11.086,
+          "end": 11.512
+        },
+        {
+          "w": "gate",
+          "s": 4,
+          "start": 11.512,
+          "end": 11.752
+        },
+        {
+          "w": "back",
+          "s": 5,
+          "start": 12.264,
+          "end": 12.565
+        },
+        {
+          "w": "foot",
+          "s": 5,
+          "start": 12.565,
+          "end": 12.766
+        },
+        {
+          "w": "one",
+          "s": 5,
+          "start": 12.875,
+          "end": 13.076
+        },
+        {
+          "w": "touch",
+          "s": 5,
+          "start": 13.076,
+          "end": 13.378
+        },
+        {
+          "w": "through",
+          "s": 5,
+          "start": 13.378,
+          "end": 13.814
+        },
+        {
+          "w": "it",
+          "s": 5,
+          "start": 13.814,
+          "end": 13.948
+        },
+        {
+          "w": "pass",
+          "s": 5,
+          "start": 14.057,
+          "end": 14.316
+        },
+        {
+          "w": "back",
+          "s": 5,
+          "start": 14.316,
+          "end": 14.559
+        },
+        {
+          "w": "easy",
+          "s": 6,
+          "start": 15.158,
+          "end": 15.384
+        },
+        {
+          "w": "passes",
+          "s": 6,
+          "start": 15.384,
+          "end": 15.713
+        },
+        {
+          "w": "first",
+          "s": 6,
+          "start": 15.713,
+          "end": 16.163
+        }
+      ]
+    },
+    {
+      "id": "b18",
+      "chapter": "Steal time (teaser)",
+      "file": "vo/ep2/b18.wav",
+      "durationInSeconds": 15.28,
+      "leadFrames": 6,
+      "frames": 477,
+      "startFrame": 9185,
+      "narration": "One more way: steal time. <short pause> Shoulders one way, ball the other. <short pause> One test, adult players: a fake cost the defender about half a second. Two of Chalk's steps, stolen. <short pause> But that's for another night.",
+      "sentences": [
+        {
+          "text": "One more way: steal time.",
+          "start": 0.302,
+          "end": 1.901
+        },
+        {
+          "text": "Shoulders one way, ball the other.",
+          "start": 2.105,
+          "end": 4.853
+        },
+        {
+          "text": "One test, adult players: a fake cost the defender about half a second.",
+          "start": 5.077,
+          "end": 10.069
+        },
+        {
+          "text": "Two of Chalk's steps, stolen.",
+          "start": 10.689,
+          "end": 12.721
+        },
+        {
+          "text": "But that's for another night.",
+          "start": 13.715,
+          "end": 14.803
+        }
+      ],
+      "words": [
+        {
+          "w": "one",
+          "s": 0,
+          "start": 0.302,
+          "end": 0.367
+        },
+        {
+          "w": "more",
+          "s": 0,
+          "start": 0.341,
+          "end": 0.723
+        },
+        {
+          "w": "way",
+          "s": 0,
+          "start": 0.723,
+          "end": 1.169
+        },
+        {
+          "w": "steal",
+          "s": 0,
+          "start": 1.169,
+          "end": 1.496
+        },
+        {
+          "w": "time",
+          "s": 0,
+          "start": 1.496,
+          "end": 1.901
+        },
+        {
+          "w": "shoulders",
+          "s": 1,
+          "start": 2.105,
+          "end": 3.177
+        },
+        {
+          "w": "one",
+          "s": 1,
+          "start": 3.177,
+          "end": 3.535
+        },
+        {
+          "w": "way",
+          "s": 1,
+          "start": 3.535,
+          "end": 4.094
+        },
+        {
+          "w": "ball",
+          "s": 1,
+          "start": 4.094,
+          "end": 4.384
+        },
+        {
+          "w": "the",
+          "s": 1,
+          "start": 4.384,
+          "end": 4.552
+        },
+        {
+          "w": "other",
+          "s": 1,
+          "start": 4.552,
+          "end": 4.853
+        },
+        {
+          "w": "one",
+          "s": 2,
+          "start": 5.077,
+          "end": 5.306
+        },
+        {
+          "w": "test",
+          "s": 2,
+          "start": 5.306,
+          "end": 5.399
+        },
+        {
+          "w": "adult",
+          "s": 2,
+          "start": 5.399,
+          "end": 5.793
+        },
+        {
+          "w": "players",
+          "s": 2,
+          "start": 5.793,
+          "end": 6.509
+        },
+        {
+          "w": "a",
+          "s": 2,
+          "start": 6.509,
+          "end": 6.595
+        },
+        {
+          "w": "fake",
+          "s": 2,
+          "start": 6.572,
+          "end": 6.966
+        },
+        {
+          "w": "cost",
+          "s": 2,
+          "start": 6.966,
+          "end": 7.36
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 7.36,
+          "end": 7.651
+        },
+        {
+          "w": "defender",
+          "s": 2,
+          "start": 7.651,
+          "end": 8.439
+        },
+        {
+          "w": "about",
+          "s": 2,
+          "start": 8.439,
+          "end": 8.927
+        },
+        {
+          "w": "half",
+          "s": 2,
+          "start": 8.927,
+          "end": 9.332
+        },
+        {
+          "w": "a",
+          "s": 2,
+          "start": 9.332,
+          "end": 9.467
+        },
+        {
+          "w": "second",
+          "s": 2,
+          "start": 9.467,
+          "end": 10.069
+        },
+        {
+          "w": "two",
+          "s": 3,
+          "start": 10.689,
+          "end": 10.858
+        },
+        {
+          "w": "of",
+          "s": 3,
+          "start": 10.858,
+          "end": 11.249
+        },
+        {
+          "w": "chalk's",
+          "s": 3,
+          "start": 11.249,
+          "end": 11.509
+        },
+        {
+          "w": "steps",
+          "s": 3,
+          "start": 11.509,
+          "end": 12
+        },
+        {
+          "w": "stolen",
+          "s": 3,
+          "start": 12,
+          "end": 12.721
+        },
+        {
+          "w": "but",
+          "s": 4,
+          "start": 13.715,
+          "end": 13.765
+        },
+        {
+          "w": "that's",
+          "s": 4,
+          "start": 13.721,
+          "end": 13.896
+        },
+        {
+          "w": "for",
+          "s": 4,
+          "start": 13.896,
+          "end": 14.084
+        },
+        {
+          "w": "another",
+          "s": 4,
+          "start": 14.084,
+          "end": 14.535
+        },
+        {
+          "w": "night",
+          "s": 4,
+          "start": 14.535,
+          "end": 14.803
+        }
+      ]
+    },
+    {
+      "id": "b19",
+      "chapter": "Ending: the first pass again",
+      "file": "vo/ep2/b19.wav",
+      "durationInSeconds": 15.96,
+      "leadFrames": 6,
+      "frames": 497,
+      "startFrame": 9662,
+      "narration": "The first pass again. <short pause> It leaves Sam's foot: look. Chalk, about ten metres out, jogging in. <short pause> Don't wait. Go to the ball, opening side-on. <short pause> Halfway: look again. Still far.",
+      "sentences": [
+        {
+          "text": "The first pass again.",
+          "start": 0.198,
+          "end": 1.579
+        },
+        {
+          "text": "It leaves Sam's foot: look.",
+          "start": 2.345,
+          "end": 4.388
+        },
+        {
+          "text": "Chalk, about ten metres out, jogging in.",
+          "start": 4.76,
+          "end": 7.458
+        },
+        {
+          "text": "Don't wait.",
+          "start": 8.36,
+          "end": 8.78
+        },
+        {
+          "text": "Go to the ball, opening side-on.",
+          "start": 9.122,
+          "end": 11.391
+        },
+        {
+          "text": "Halfway: look again.",
+          "start": 12.294,
+          "end": 14.25
+        },
+        {
+          "text": "Still far.",
+          "start": 15.075,
+          "end": 15.616
+        }
+      ],
+      "words": [
+        {
+          "w": "the",
+          "s": 0,
+          "start": 0.198,
+          "end": 0.334
+        },
+        {
+          "w": "first",
+          "s": 0,
+          "start": 0.334,
+          "end": 0.752
+        },
+        {
+          "w": "pass",
+          "s": 0,
+          "start": 0.752,
+          "end": 1.129
+        },
+        {
+          "w": "again",
+          "s": 0,
+          "start": 1.129,
+          "end": 1.579
+        },
+        {
+          "w": "it",
+          "s": 1,
+          "start": 2.345,
+          "end": 2.583
+        },
+        {
+          "w": "leaves",
+          "s": 1,
+          "start": 2.583,
+          "end": 3.058
+        },
+        {
+          "w": "sam's",
+          "s": 1,
+          "start": 3.058,
+          "end": 3.495
+        },
+        {
+          "w": "foot",
+          "s": 1,
+          "start": 3.495,
+          "end": 3.865
+        },
+        {
+          "w": "look",
+          "s": 1,
+          "start": 3.998,
+          "end": 4.388
+        },
+        {
+          "w": "chalk",
+          "s": 2,
+          "start": 4.76,
+          "end": 5.07
+        },
+        {
+          "w": "about",
+          "s": 2,
+          "start": 5.07,
+          "end": 5.373
+        },
+        {
+          "w": "ten",
+          "s": 2,
+          "start": 5.56,
+          "end": 5.933
+        },
+        {
+          "w": "metres",
+          "s": 2,
+          "start": 6.12,
+          "end": 6.179
+        },
+        {
+          "w": "out",
+          "s": 2,
+          "start": 6.157,
+          "end": 6.305
+        },
+        {
+          "w": "jogging",
+          "s": 2,
+          "start": 6.453,
+          "end": 7.037
+        },
+        {
+          "w": "in",
+          "s": 2,
+          "start": 7.037,
+          "end": 7.458
+        },
+        {
+          "w": "don't",
+          "s": 3,
+          "start": 8.36,
+          "end": 8.593
+        },
+        {
+          "w": "wait",
+          "s": 3,
+          "start": 8.593,
+          "end": 8.78
+        },
+        {
+          "w": "go",
+          "s": 4,
+          "start": 9.122,
+          "end": 9.289
+        },
+        {
+          "w": "to",
+          "s": 4,
+          "start": 9.289,
+          "end": 9.423
+        },
+        {
+          "w": "the",
+          "s": 4,
+          "start": 9.423,
+          "end": 9.641
+        },
+        {
+          "w": "ball",
+          "s": 4,
+          "start": 9.641,
+          "end": 9.976
+        },
+        {
+          "w": "opening",
+          "s": 4,
+          "start": 10.269,
+          "end": 10.822
+        },
+        {
+          "w": "side",
+          "s": 4,
+          "start": 10.822,
+          "end": 11.19
+        },
+        {
+          "w": "on",
+          "s": 4,
+          "start": 11.19,
+          "end": 11.391
+        },
+        {
+          "w": "halfway",
+          "s": 5,
+          "start": 12.294,
+          "end": 13.104
+        },
+        {
+          "w": "look",
+          "s": 5,
+          "start": 13.457,
+          "end": 13.818
+        },
+        {
+          "w": "again",
+          "s": 5,
+          "start": 13.818,
+          "end": 14.25
+        },
+        {
+          "w": "still",
+          "s": 6,
+          "start": 15.075,
+          "end": 15.375
+        },
+        {
+          "w": "far",
+          "s": 6,
+          "start": 15.375,
+          "end": 15.616
+        }
+      ]
+    },
+    {
+      "id": "b20",
+      "chapter": "Ending: into space",
+      "file": "vo/ep2/b20.wav",
+      "durationInSeconds": 15.36,
+      "leadFrames": 6,
+      "frames": 479,
+      "startFrame": 10159,
+      "narration": "Back foot. It rolls across you. <short pause> Soft touch, into space. Away from Chalk. <short pause> Read the ring. Almost two and a half seconds. <long pause> Chalk arrives. <short pause> To nothing.",
+      "sentences": [
+        {
+          "text": "Back foot.",
+          "start": 0.203,
+          "end": 0.62
+        },
+        {
+          "text": "It rolls across you.",
+          "start": 1.268,
+          "end": 2.773
+        },
+        {
+          "text": "Soft touch, into space.",
+          "start": 3.433,
+          "end": 5.635
+        },
+        {
+          "text": "Away from Chalk.",
+          "start": 6.298,
+          "end": 7.174
+        },
+        {
+          "text": "Read the ring.",
+          "start": 7.859,
+          "end": 8.354
+        },
+        {
+          "text": "Almost two and a half seconds.",
+          "start": 9.026,
+          "end": 10.655
+        },
+        {
+          "text": "Chalk arrives.",
+          "start": 12.811,
+          "end": 13.446
+        },
+        {
+          "text": "To nothing.",
+          "start": 14.812,
+          "end": 15.36
+        }
+      ],
+      "words": [
+        {
+          "w": "back",
+          "s": 0,
+          "start": 0.203,
+          "end": 0.322
+        },
+        {
+          "w": "foot",
+          "s": 0,
+          "start": 0.322,
+          "end": 0.62
+        },
+        {
+          "w": "it",
+          "s": 1,
+          "start": 1.268,
+          "end": 1.417
+        },
+        {
+          "w": "rolls",
+          "s": 1,
+          "start": 1.417,
+          "end": 1.871
+        },
+        {
+          "w": "across",
+          "s": 1,
+          "start": 1.871,
+          "end": 2.713
+        },
+        {
+          "w": "you",
+          "s": 1,
+          "start": 2.713,
+          "end": 2.773
+        },
+        {
+          "w": "soft",
+          "s": 2,
+          "start": 3.433,
+          "end": 3.817
+        },
+        {
+          "w": "touch",
+          "s": 2,
+          "start": 3.817,
+          "end": 4.53
+        },
+        {
+          "w": "into",
+          "s": 2,
+          "start": 4.617,
+          "end": 5.032
+        },
+        {
+          "w": "space",
+          "s": 2,
+          "start": 5.032,
+          "end": 5.635
+        },
+        {
+          "w": "away",
+          "s": 3,
+          "start": 6.298,
+          "end": 6.558
+        },
+        {
+          "w": "from",
+          "s": 3,
+          "start": 6.558,
+          "end": 6.825
+        },
+        {
+          "w": "chalk",
+          "s": 3,
+          "start": 6.825,
+          "end": 7.174
+        },
+        {
+          "w": "read",
+          "s": 4,
+          "start": 7.859,
+          "end": 8.04
+        },
+        {
+          "w": "the",
+          "s": 4,
+          "start": 8.04,
+          "end": 8.281
+        },
+        {
+          "w": "ring",
+          "s": 4,
+          "start": 8.281,
+          "end": 8.354
+        },
+        {
+          "w": "almost",
+          "s": 5,
+          "start": 9.026,
+          "end": 9.427
+        },
+        {
+          "w": "two",
+          "s": 5,
+          "start": 9.427,
+          "end": 9.579
+        },
+        {
+          "w": "and",
+          "s": 5,
+          "start": 9.579,
+          "end": 9.904
+        },
+        {
+          "w": "a",
+          "s": 5,
+          "start": 9.904,
+          "end": 9.954
+        },
+        {
+          "w": "half",
+          "s": 5,
+          "start": 9.914,
+          "end": 10.178
+        },
+        {
+          "w": "seconds",
+          "s": 5,
+          "start": 10.178,
+          "end": 10.655
+        },
+        {
+          "w": "chalk",
+          "s": 6,
+          "start": 12.811,
+          "end": 13.25
+        },
+        {
+          "w": "arrives",
+          "s": 6,
+          "start": 13.25,
+          "end": 13.446
+        },
+        {
+          "w": "to",
+          "s": 7,
+          "start": 14.812,
+          "end": 14.886
+        },
+        {
+          "w": "nothing",
+          "s": 7,
+          "start": 14.886,
+          "end": 15.36
+        }
+      ]
+    },
+    {
+      "id": "b21",
+      "chapter": "Ending: four times the time",
+      "file": "vo/ep2/b21.wav",
+      "durationInSeconds": 13.32,
+      "leadFrames": 6,
+      "frames": 438,
+      "startFrame": 10638,
+      "narration": "Same legs. Same speed. Four times the time. <short pause> You looked earlier, moved earlier, and met the ball side-on. Then one touch where Chalk wasn't. <short pause> That's why the best players look slow.",
+      "sentences": [
+        {
+          "text": "Same legs.",
+          "start": 0.281,
+          "end": 1.076
+        },
+        {
+          "text": "Same speed.",
+          "start": 1.329,
+          "end": 2.051
+        },
+        {
+          "text": "Four times the time.",
+          "start": 2.356,
+          "end": 3.883
+        },
+        {
+          "text": "You looked earlier, moved earlier, and met the ball side-on.",
+          "start": 4.409,
+          "end": 8.084
+        },
+        {
+          "text": "Then one touch where Chalk wasn't.",
+          "start": 8.427,
+          "end": 10.91
+        },
+        {
+          "text": "That's why the best players look slow.",
+          "start": 11.693,
+          "end": 13.32
+        }
+      ],
+      "words": [
+        {
+          "w": "same",
+          "s": 0,
+          "start": 0.281,
+          "end": 0.413
+        },
+        {
+          "w": "legs",
+          "s": 0,
+          "start": 0.413,
+          "end": 1.076
+        },
+        {
+          "w": "same",
+          "s": 1,
+          "start": 1.329,
+          "end": 1.659
+        },
+        {
+          "w": "speed",
+          "s": 1,
+          "start": 1.659,
+          "end": 2.051
+        },
+        {
+          "w": "four",
+          "s": 2,
+          "start": 2.356,
+          "end": 2.442
+        },
+        {
+          "w": "times",
+          "s": 2,
+          "start": 2.41,
+          "end": 2.984
+        },
+        {
+          "w": "the",
+          "s": 2,
+          "start": 2.984,
+          "end": 3.363
+        },
+        {
+          "w": "time",
+          "s": 2,
+          "start": 3.363,
+          "end": 3.883
+        },
+        {
+          "w": "you",
+          "s": 3,
+          "start": 4.409,
+          "end": 4.715
+        },
+        {
+          "w": "looked",
+          "s": 3,
+          "start": 4.715,
+          "end": 4.994
+        },
+        {
+          "w": "earlier",
+          "s": 3,
+          "start": 4.994,
+          "end": 5.597
+        },
+        {
+          "w": "moved",
+          "s": 3,
+          "start": 5.69,
+          "end": 6.061
+        },
+        {
+          "w": "earlier",
+          "s": 3,
+          "start": 6.061,
+          "end": 6.692
+        },
+        {
+          "w": "and",
+          "s": 3,
+          "start": 6.822,
+          "end": 6.895
+        },
+        {
+          "w": "met",
+          "s": 3,
+          "start": 6.859,
+          "end": 7.054
+        },
+        {
+          "w": "the",
+          "s": 3,
+          "start": 7.054,
+          "end": 7.286
+        },
+        {
+          "w": "ball",
+          "s": 3,
+          "start": 7.286,
+          "end": 7.592
+        },
+        {
+          "w": "side",
+          "s": 3,
+          "start": 7.592,
+          "end": 7.898
+        },
+        {
+          "w": "on",
+          "s": 3,
+          "start": 7.898,
+          "end": 8.084
+        },
+        {
+          "w": "then",
+          "s": 4,
+          "start": 8.427,
+          "end": 8.76
+        },
+        {
+          "w": "one",
+          "s": 4,
+          "start": 8.76,
+          "end": 9.006
+        },
+        {
+          "w": "touch",
+          "s": 4,
+          "start": 9.006,
+          "end": 9.585
+        },
+        {
+          "w": "where",
+          "s": 4,
+          "start": 9.638,
+          "end": 9.998
+        },
+        {
+          "w": "chalk",
+          "s": 4,
+          "start": 9.998,
+          "end": 10.735
+        },
+        {
+          "w": "wasn't",
+          "s": 4,
+          "start": 10.735,
+          "end": 10.91
+        },
+        {
+          "w": "that's",
+          "s": 5,
+          "start": 11.693,
+          "end": 11.982
+        },
+        {
+          "w": "why",
+          "s": 5,
+          "start": 11.982,
+          "end": 12.123
+        },
+        {
+          "w": "the",
+          "s": 5,
+          "start": 12.123,
+          "end": 12.263
+        },
+        {
+          "w": "best",
+          "s": 5,
+          "start": 12.263,
+          "end": 12.456
+        },
+        {
+          "w": "players",
+          "s": 5,
+          "start": 12.456,
+          "end": 12.885
+        },
+        {
+          "w": "look",
+          "s": 5,
+          "start": 12.885,
+          "end": 12.991
+        },
+        {
+          "w": "slow",
+          "s": 5,
+          "start": 12.991,
+          "end": 13.32
+        }
+      ]
+    },
+    {
+      "id": "b22",
+      "chapter": "Ending: lights out",
+      "file": "vo/ep2/b22.wav",
+      "durationInSeconds": 9.52,
+      "leadFrames": 6,
+      "frames": 340,
+      "startFrame": 11076,
+      "narration": "Where did the time go? <short pause> Nowhere. You bought it before anyone noticed. <short pause> Lights out. <short pause> Next pass that rolls at you: take a snapshot.",
+      "sentences": [
+        {
+          "text": "Where did the time go?",
+          "start": 0.231,
+          "end": 1.548
+        },
+        {
+          "text": "Nowhere.",
+          "start": 2.026,
+          "end": 2.635
+        },
+        {
+          "text": "You bought it before anyone noticed.",
+          "start": 3.021,
+          "end": 5.035
+        },
+        {
+          "text": "Lights out.",
+          "start": 5.443,
+          "end": 6.263
+        },
+        {
+          "text": "Next pass that rolls at you: take a snapshot.",
+          "start": 6.864,
+          "end": 9.148
+        }
+      ],
+      "words": [
+        {
+          "w": "where",
+          "s": 0,
+          "start": 0.231,
+          "end": 0.447
+        },
+        {
+          "w": "did",
+          "s": 0,
+          "start": 0.447,
+          "end": 0.728
+        },
+        {
+          "w": "the",
+          "s": 0,
+          "start": 0.728,
+          "end": 1.008
+        },
+        {
+          "w": "time",
+          "s": 0,
+          "start": 1.008,
+          "end": 1.376
+        },
+        {
+          "w": "go",
+          "s": 0,
+          "start": 1.376,
+          "end": 1.548
+        },
+        {
+          "w": "nowhere",
+          "s": 1,
+          "start": 2.026,
+          "end": 2.635
+        },
+        {
+          "w": "you",
+          "s": 2,
+          "start": 3.021,
+          "end": 3.231
+        },
+        {
+          "w": "bought",
+          "s": 2,
+          "start": 3.231,
+          "end": 3.625
+        },
+        {
+          "w": "it",
+          "s": 2,
+          "start": 3.625,
+          "end": 3.772
+        },
+        {
+          "w": "before",
+          "s": 2,
+          "start": 3.772,
+          "end": 4.147
+        },
+        {
+          "w": "anyone",
+          "s": 2,
+          "start": 4.147,
+          "end": 4.88
+        },
+        {
+          "w": "noticed",
+          "s": 2,
+          "start": 4.88,
+          "end": 5.035
+        },
+        {
+          "w": "lights",
+          "s": 3,
+          "start": 5.443,
+          "end": 5.993
+        },
+        {
+          "w": "out",
+          "s": 3,
+          "start": 5.993,
+          "end": 6.263
+        },
+        {
+          "w": "next",
+          "s": 4,
+          "start": 6.864,
+          "end": 7.089
+        },
+        {
+          "w": "pass",
+          "s": 4,
+          "start": 7.089,
+          "end": 7.314
+        },
+        {
+          "w": "that",
+          "s": 4,
+          "start": 7.314,
+          "end": 7.547
+        },
+        {
+          "w": "rolls",
+          "s": 4,
+          "start": 7.547,
+          "end": 7.821
+        },
+        {
+          "w": "at",
+          "s": 4,
+          "start": 7.821,
+          "end": 7.929
+        },
+        {
+          "w": "you",
+          "s": 4,
+          "start": 7.929,
+          "end": 8.071
+        },
+        {
+          "w": "take",
+          "s": 4,
+          "start": 8.312,
+          "end": 8.554
+        },
+        {
+          "w": "a",
+          "s": 4,
+          "start": 8.554,
+          "end": 8.621
+        },
+        {
+          "w": "snapshot",
+          "s": 4,
+          "start": 8.612,
+          "end": 9.148
+        }
+      ]
+    }
+  ]
+}
