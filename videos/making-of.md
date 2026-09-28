@@ -64,7 +64,57 @@ Each step is a separate stage. The output of one step is the input of the next.
 | `script/` | The final storyboards. |
 | `research/` | The fact-checked research results. |
 
-To run it, install the packages with `npm i` and add `GEMINI_API_KEY` to the environment. `public/` holds the audio and backdrops. It is not in this repo because of its size (about 300 MB), so run `tools/tts.mjs`, `tools/music.mjs` and `tools/sfx.sh` to make it again.
+## How to rebuild the videos
+
+Only source is kept. Code rebuilds every render, thumbnail and avatar.
+
+**What is kept and what is rebuilt**
+
+| Item | How you get it |
+| --- | --- |
+| `node_modules/` | `npm i` |
+| `public/sfx/` | `tools/sfx.sh` (ffmpeg, the same result each run) |
+| `public/vo/`, `public/music/`, `public/plates/` | Kept as files. They are not in this repo because of their size (about 260 MB). |
+| `out/`: videos, captions, contact sheets | `tools/render.sh <ep>` |
+| Thumbnails and avatars | `npx remotion still <id>` |
+
+The narration, music and backdrops come from AI models (Gemini TTS, Lyria and Nano Banana). A new run gives a different result. New narration also changes the timing of every scene. Thus keep these files. Make them again only if you want a new version:
+
+```sh
+export GEMINI_API_KEY=...
+node tools/tts.mjs --ep ep1     # narration, one clip per scene
+node tools/music.mjs            # music for both episodes, one track per chapter
+node tools/plates.mjs           # the two episode 1 backdrops
+```
+
+**Steps**
+
+1. Install the packages and make the sound effects:
+   ```sh
+   npm i
+   tools/sfx.sh
+   ```
+2. Render an episode. The script runs the lint, the timeline, the type-check, the tests, the 1080p render, the loudness pass, the captions and the contact sheet:
+   ```sh
+   tools/render.sh ep1    # out/ep1/kicks_final.mp4, .srt, contact sheet
+   tools/render.sh ep2    # out/ep2/...
+   ```
+3. Render a thumbnail or an avatar as a still:
+   ```sh
+   npx remotion still ThumbA out/thumb/thumb-a.png          # ThumbA, ThumbB, ThumbC: the first thumbnail ideas
+   npx remotion still Set1A out/thumb/publish/set1-a.png    # Set1A to Set4C
+   npx remotion still AvatarC out/avatar/avatar-c.png       # AvatarA, AvatarB, AvatarC, AvatarQuick
+   ```
+   The thumbnail captions are in `src/preview/thumb/sets/sets.json`.
+4. Publish:
+   ```sh
+   # web encode, page, PR, merge
+   tools/publish.sh ep2 why-slow "Why the Best Players Look Slow" 44.5 "Why the Best Players Look Slow (video)"
+   # one thumbnail set on the Three Spins page
+   tools/publish-thumb-set.sh 1 "The bend"
+   ```
+
+Check the code at any time with `npx tsc --noEmit` and `npx vitest run`.
 
 ## What we learned
 

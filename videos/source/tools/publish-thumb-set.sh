@@ -6,8 +6,8 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 N="$1"; TITLE="$2"
 SITE=~/workspace/iampat/iampat.github.io
-# The slots of set N that are ready (from out/thumb/publish/sets.json).
-SLOTS=$(python3 -c "import json,sys; d=json.load(open('out/thumb/publish/sets.json')); s=[x for x in d if x['set']==$N][0]; print(' '.join(x['key'] for x in s['slots']))")
+# The slots of set N that are ready (from src/preview/thumb/sets/sets.json).
+SLOTS=$(python3 -c "import json,sys; d=json.load(open('src/preview/thumb/sets/sets.json')); s=[x for x in d if x['set']==$N][0]; print(' '.join(x['key'] for x in s['slots']))")
 COUNT=$(echo $SLOTS | wc -w | tr -d ' ')
 FILES=$(for k in $SLOTS; do printf -- "- \\\`thumbs/set$N-%s.jpg\\\`\n" "$(echo $k | tr A-Z a-z)"; done)
 cd "$SITE"
