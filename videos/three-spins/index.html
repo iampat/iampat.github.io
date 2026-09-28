@@ -3,18 +3,119 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Three Spins and a Line</title>
+<title>Three Spins and a Line: Blast It, Bend It, Dip It!</title>
+<meta name="description" content="Ever kicked the ball way over the bar? Me too! In this video you'll learn 3 kicks: the laces drive, the curler and the volley. A line on the ball shows how it spins, so you can see why it blasts, bends or dips. Every part ends with a drill you can try at practice!">
+<meta property="og:type" content="video.other">
+<meta property="og:title" content="Three Spins and a Line: Blast It, Bend It, Dip It!">
+<meta property="og:description" content="Ever kicked the ball way over the bar? Me too! In this video you'll learn 3 kicks: the laces drive, the curler and the volley. A line on the ball shows how it spins, so you can see why it blasts, bends or dips. Every part ends with a drill you can try at practice!">
+<meta property="og:image" content="https://iampat.github.io/videos/three-spins/thumbnail.jpg">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="720">
+<meta property="og:url" content="https://iampat.github.io/videos/three-spins/">
+<meta property="og:video" content="https://iampat.github.io/videos/three-spins/three-spins.mp4">
+<meta property="og:video:type" content="video/mp4">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Three Spins and a Line: Blast It, Bend It, Dip It!">
+<meta name="twitter:description" content="Ever kicked the ball way over the bar? Me too! In this video you'll learn 3 kicks: the laces drive, the curler and the volley. A line on the ball shows how it spins, so you can see why it blasts, bends or dips. Every part ends with a drill you can try at practice!">
+<meta name="twitter:image" content="https://iampat.github.io/videos/three-spins/thumbnail.jpg">
 <style>
-  body { margin: 0; padding: 16px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
-  video { width: 100%; max-width: 960px; height: auto; }
+  body { margin: 0; padding: 16px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; line-height: 1.45; }
+  main { max-width: 960px; }
+  video { width: 100%; height: auto; }
+  .save { margin: 16px 0 8px; }
+  button { font: inherit; font-size: 1.05rem; font-weight: 600; padding: 12px 20px; border-radius: 10px; border: 0; background: #1a73e8; color: #fff; }
+  button:disabled { background: #9ab7e6; }
+  #status { display: block; margin-top: 8px; min-height: 1.4em; }
+  .small { font-size: 0.95rem; color: #444; }
 </style>
 </head>
 <body>
-<h1>Three Spins and a Line</h1>
-<video controls playsinline preload="metadata" poster="poster.jpg">
+<main>
+<h1>Three Spins and a Line: Blast It, Bend It, Dip It!</h1>
+<p>Ever kicked the ball way over the bar? Me too! In this video you'll learn 3 kicks: the laces drive, the curler and the volley. A line on the ball shows how it spins, so you can see why it blasts, bends or dips. Every part ends with a drill you can try at practice!</p>
+<video controls playsinline preload="metadata" poster="thumbnail.jpg">
   <source src="three-spins.mp4" type="video/mp4">
   <track kind="captions" src="captions.vtt" srclang="en" label="English">
 </video>
-<p><a href="three-spins.mp4">Open the video file</a> (6:13, 1080p)</p>
+
+<div class="save" id="save-box" hidden>
+  <button id="save" type="button">Save to Photos</button>
+  <span id="status" class="small">Tap once to get the video (48 MB), then tap again and choose "Save Video".</span>
+</div>
+
+<p class="small">
+  <a href="three-spins.mp4" download="three-spins-and-a-line.mp4">Download the video file</a> (6:13, 1080p, 48 MB)
+</p>
+<details class="small">
+  <summary>Other ways to save it on an iPhone</summary>
+  <ol>
+    <li>Tap "Download the video file" above, then tap "Download".</li>
+    <li>Open the Files app and go to Downloads.</li>
+    <li>Tap the video, tap the Share button, then tap "Save Video". It goes to Photos.</li>
+  </ol>
+</details>
+</main>
+
+<script>
+(() => {
+  const URL_ = "three-spins.mp4";
+  const NAME = "three-spins-and-a-line.mp4";
+  const box = document.getElementById("save-box");
+  const btn = document.getElementById("save");
+  const status = document.getElementById("status");
+  // The share sheet with files is what offers "Save Video" (straight to Photos) on iPhone.
+  if (!(navigator.share && navigator.canShare)) return; // keep the download link only
+  box.hidden = false;
+  let file = null;
+  let busy = false;
+
+  const share = async () => {
+    try {
+      await navigator.share({ files: [file], title: document.title });
+      status.textContent = 'Done? Look in Photos. You can tap again to save it once more.';
+    } catch (e) {
+      if (e && e.name === "AbortError") { status.textContent = 'No problem. Tap again when you are ready.'; return; }
+      status.textContent = 'Could not open the share menu. Use "Download the video file" below.';
+    }
+  };
+
+  btn.addEventListener("click", async () => {
+    if (busy) return;
+    if (file) { share(); return; } // second tap: a fresh tap is needed to open the share menu
+    busy = true;
+    btn.disabled = true;
+    status.textContent = "Getting the video... 0%";
+    try {
+      const res = await fetch(URL_);
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const total = Number(res.headers.get("content-length")) || 0;
+      const reader = res.body.getReader();
+      const chunks = [];
+      let got = 0;
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        chunks.push(value);
+        got += value.length;
+        if (total) status.textContent = "Getting the video... " + Math.round((100 * got) / total) + "%";
+      }
+      const f = new File(chunks, NAME, { type: "video/mp4" });
+      if (!navigator.canShare({ files: [f] })) {
+        status.textContent = 'This browser cannot save videos this way. Use "Download the video file" below.';
+        btn.hidden = true;
+        return;
+      }
+      file = f;
+      btn.textContent = "Tap again: Save Video";
+      status.textContent = 'Ready! Tap the button, then choose "Save Video".';
+    } catch (e) {
+      status.textContent = 'Could not get the video. Check your connection and tap again.';
+    } finally {
+      busy = false;
+      btn.disabled = false;
+    }
+  });
+})();
+</script>
 </body>
 </html>
