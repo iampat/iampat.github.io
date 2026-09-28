@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Put the thumbnail sets on the Three Spins page.
 
-Reads out/thumb/publish/sets.json:
+Reads src/preview/thumb/sets/sets.json:
   [{"set": 1, "title": "The bend", "slots": [{"key": "A", "caption": "...", "words": "..."}, ...]}, ...]
 For every set listed, copies out/thumb/publish/set{n}-{k}.png to the site as
 videos/three-spins/thumbs/set{n}-{k}.jpg and rebuilds the <section id="thumbnail-sets">
@@ -22,7 +22,7 @@ SITE = sys.argv[1]
 PAGE = os.path.join(SITE, "videos/three-spins/index.html")
 THUMBS = os.path.join(SITE, "videos/three-spins/thumbs")
 
-sets = json.load(open(os.path.join(ROOT, "out/thumb/publish/sets.json")))
+sets = json.load(open(os.path.join(ROOT, "src/preview/thumb/sets/sets.json")))
 os.makedirs(THUMBS, exist_ok=True)
 
 blocks = []

@@ -1,0 +1,86 @@
+[
+  {
+    "set": 1,
+    "title": "The bend",
+    "slots": [
+      {
+        "key": "A",
+        "caption": "A big spinning ball curls around the wall and past Chalk.",
+        "words": "WHY IT BENDS"
+      },
+      {
+        "key": "B",
+        "caption": "Seen from above, the curler starts wide and bends into the goal.",
+        "words": "IT STARTS WIDE..."
+      },
+      {
+        "key": "C",
+        "caption": "Chalk's view: the ball swings wide, then curls into the corner.",
+        "words": "WHERE IS IT GOING?!"
+      }
+    ]
+  },
+  {
+    "set": 2,
+    "title": "The spin line",
+    "slots": [
+      {
+        "key": "A",
+        "caption": "One huge spinning ball with its white line and spin arrows.",
+        "words": "WATCH THE LINE!"
+      },
+      {
+        "key": "B",
+        "caption": "Three balls show three kicks and their three different spins.",
+        "words": "3 KICKS. 3 SPINS."
+      },
+      {
+        "key": "C",
+        "caption": "Tavi kneels at night and draws the white line on the ball.",
+        "words": "I DREW ONE LINE..."
+      }
+    ]
+  },
+  {
+    "set": 3,
+    "title": "Tavi and Chalk",
+    "slots": [
+      {
+        "key": "A",
+        "caption": "The shot flies over the bar and Tavi shouts at it.",
+        "words": "WHY?! DOWN! DOWN!"
+      },
+      {
+        "key": "B",
+        "caption": "A low, hard shot beats Chalk's late dive into the corner.",
+        "words": "TOO LATE, CHALK!"
+      },
+      {
+        "key": "C",
+        "caption": "Tavi jumps for joy after the same shot hits the net.",
+        "words": "I FINALLY SCORED!"
+      }
+    ]
+  },
+  {
+    "set": 4,
+    "title": "The numbers",
+    "slots": [
+      {
+        "key": "A",
+        "caption": "The foot touches the ball for only a hundredth of a second.",
+        "words": "ONLY 0.01 SECONDS!"
+      },
+      {
+        "key": "B",
+        "caption": "A race where the kicked ball flies faster than the foot.",
+        "words": "FASTER THAN MY FOOT?!"
+      },
+      {
+        "key": "C",
+        "caption": "Tavi's volley: about one in five big-tournament goals are volleys.",
+        "words": "1 IN 5 GOALS!"
+      }
+    ]
+  }
+]
