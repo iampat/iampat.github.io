@@ -22,3 +22,12 @@ a { color: #8a4b1c; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { text-align: left; padding: 6px 10px 6px 0; border-bottom: 1px solid #d6d8cc; vertical-align: top; }
 td:first-child { white-space: nowrap; font-variant-numeric: tabular-nums; color: #5d6555; }
+ol { padding-left: 20px; margin: 0; }
+ol li { margin: 0 0 6px; }
+.list { display: grid; gap: 28px; margin: 28px 0 0; }
+.item h3 { font-size: 1.15rem; margin: 0 0 4px; }
+.item p { margin: 0 0 10px; }
+.item video { aspect-ratio: 16 / 9; }
+button.btn { border: 0; font: inherit; font-weight: 600; cursor: pointer; }
+button.btn:disabled { opacity: .6; }
+.status { font-size: .9rem; color: #5d6555; min-height: 1.2em; margin: 6px 0 0; }
