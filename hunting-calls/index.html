@@ -8,9 +8,9 @@
 </head>
 <body>
 <div class="wrap">
-  <p class="eyebrow">10-minute calling videos · moose · elk · whitetail</p>
+  <p class="eyebrow">Single-call videos · moose · elk · whitetail</p>
   <h1>Hunting Calls</h1>
-  <p>Each video is one photo with a 10-minute calling track as its sound, at the recordings' original volume. Save it to your iPhone photo album and play it from Photos.</p>
+  <p>Each video is one photo with a single call as its sound, played once at the recording's original volume. Save it to your iPhone photo album and play it from Photos.</p>
 
   <h2>Save to your photo album (iPhone)</h2>
   <ol>
@@ -25,7 +25,7 @@
   <ul>
     <li>Female calls (cow, doe) bring males in looking for a mate. Male calls (bull grunts, bugles, buck fights) bring in males that want to fight.</li>
     <li>Turn the volume all the way up and turn off Settings › Sounds &amp; Haptics › Headphone Safety › Reduce Loud Audio. A Bluetooth speaker carries much farther.</li>
-    <li>After a track ends, stay still for 20–30 minutes. Animals often come in slow and quiet, and circle downwind.</li>
+    <li>Call a few times, then stay still for 20–30 minutes. Animals often come in slow and quiet, and circle downwind.</li>
     <li>Rut timing: moose mid-September to early October, elk September, whitetail late October to late November.</li>
   </ul>
   <p class="note">Check your local regulations first. Many states and provinces ban electronic calls for big game.</p>
@@ -35,20 +35,45 @@
 </div>
 <script>
 const TRACKS = [
-  ["moose-cow", "Moose: Cow in Heat", "Female call. Brings bulls in."],
-  ["moose-bull", "Moose: Bull Challenge", "Male grunts, challenge calls, brush raking and a fight. Pulls in bulls that want to fight."],
-  ["elk-cow", "Elk: Cow and Calf Calls", "Female mews. Brings bulls in."],
-  ["elk-bull", "Elk: Bull Bugle", "Male bugles. Challenges other bulls to fight."],
-  ["deer-doe", "Whitetail: Doe Estrus Bleats", "Female bleats, grunts and breeding bellow. Brings bucks in."],
-  ["deer-buck", "Whitetail: Buck Fight", "Grunts, snort-wheeze and antler rattling. Pulls in bucks that want to fight."],
-  ["deer-mix", "Whitetail: Full Rut Mix", "Doe calls, tending grunts and two buck fights."],
+  ["moose-cow-usfws", "Moose: Cow Call", "Female. cow in heat (USFWS)."],
+  ["moose-cow-ready", "Moose: Cow in Heat, Ready", "Female. brings bulls in."],
+  ["moose-cow-long", "Moose: Cow in Heat, Long", "Female. brings bulls in."],
+  ["moose-cow-come-get-me", "Moose: Old Cow, Come Get Me", "Female. brings bulls in."],
+  ["moose-bull-grunt", "Moose: Bull Grunt", "Male. single grunt."],
+  ["moose-bull-challenge", "Moose: Old Bull Challenge", "Male. calls bulls to fight."],
+  ["moose-bull-fight-old", "Moose: Old Bull Wants to Fight", "Male. calls bulls to fight."],
+  ["moose-bull-fight-young", "Moose: Young Bull Wants to Fight", "Male. calls bulls to fight."],
+  ["moose-bull-raking", "Moose: Bull Raking Brush", "Male. antlers on brush."],
+  ["moose-bulls-fighting", "Moose: Bulls Fighting", "Two bulls fighting."],
+  ["elk-cow", "Elk: Cow Call", "Female. brings bulls in."],
+  ["elk-calf", "Elk: Calf Mews", "Calf. brings cows and bulls in."],
+  ["elk-bugle-1", "Elk: Bull Bugle 1", "Male. challenge (Yellowstone)."],
+  ["elk-bugle-2", "Elk: Bull Bugle 2", "Male. challenge (Yellowstone)."],
+  ["elk-bugle-3", "Elk: Bull Bugle 3", "Male. challenge."],
+  ["deer-estrus-bleat", "Whitetail: Doe Estrus Bleat", "Female. brings bucks in."],
+  ["deer-breeding-bellow", "Whitetail: Doe Breeding Bellow", "Female. ready to breed."],
+  ["deer-contact", "Whitetail: Doe Contact Call", "Female. locating call."],
+  ["deer-doe-grunt", "Whitetail: Doe Grunt", "Female. come here."],
+  ["deer-buck-grunt", "Whitetail: Buck Grunt", "Male. short grunt."],
+  ["deer-tending-grunt", "Whitetail: Buck Tending Grunt", "Male. trailing a doe."],
+  ["deer-snort", "Whitetail: Buck Snort", "Male. intimidation."],
+  ["deer-snort-wheeze", "Whitetail: Snort-Wheeze", "Male. calls bucks to fight."],
+  ["deer-rattling", "Whitetail: Antler Rattling", "Two bucks fighting."]
 ];
 const list = document.getElementById("list");
+let group = "";
 for (const [id, title, desc] of TRACKS) {
+  const g = title.split(":")[0];
+  if (g !== group) {
+    group = g;
+    const h = document.createElement("h2");
+    h.textContent = g;
+    list.appendChild(h);
+  }
   const el = document.createElement("section");
   el.className = "item";
   el.innerHTML = `<h3>${title}</h3><p>${desc}</p>
-    <video controls playsinline preload="metadata" src="media/${id}.mp4#t=0.5"></video>
+    <video controls playsinline preload="metadata" src="media/${id}.mp4"></video>
     <div class="dl">
       <button class="btn" type="button">Save video to Photos</button>
       <a class="btn alt" href="media/${id}.mp3" download>MP3</a>
