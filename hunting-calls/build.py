@@ -1,15 +1,13 @@
 """Build the 10-minute hunting call tracks (MP3) and videos (MP4).
 
-Usage: python3 build.py [--hme] [track ...]  (needs ffmpeg and numpy; default builds every track)
+Usage: python3 build.py [track ...]  (needs ffmpeg and numpy; default builds every track)
 
-Each source clip is compressed and limited so the calls play loud on a phone
-speaker (about -10 to -14 dBFS RMS while calling, peaks at -1 dBFS), then placed
-on a 10-minute timeline with silent listening gaps. The video is one still photo
+Each source clip is used at its original level (no gain, compression or
+limiting), placed on a 10-minute timeline with silent listening gaps. The video is one still photo
 with the track as its audio, so it can be saved to the iPhone photo album.
 
 HME Products clips (hmeproducts.com/sounds-download) sit behind bot protection:
-download them in a browser into .cache/ under the names in HME below. They are
-used only with --hme (output goes to .cache/hme-media, not the published media/).
+download them in a browser into .cache/ under the names in HME below.
 """
 import os, random, subprocess, sys, urllib.request
 import numpy as np
@@ -18,8 +16,8 @@ SR = 44100
 LENGTH = 600  # seconds
 HERE = os.path.dirname(os.path.abspath(__file__))
 CACHE = os.path.join(HERE, ".cache")
-USE_HME = "--hme" in sys.argv
-OUT = os.path.join(CACHE, "hme-media") if USE_HME else os.path.join(HERE, "media")
+USE_HME = True
+OUT = os.path.join(HERE, "media")
 FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 
 WWH = "https://wideworldofhunting.com/soundsofwhitetail/"
@@ -82,7 +80,7 @@ _clips = {}
 
 
 def clip(name):
-    """Load a source clip as loud, limited mono float32."""
+    """Load a source clip as mono float32 at its original level."""
     if name in _clips:
         return _clips[name]
     if name in HME:
@@ -90,18 +88,7 @@ def clip(name):
     else:
         url = SOURCES[name]
         src = fetch(name, url, ".mp3" if url.endswith(".mp3") else ".wav")
-    af = "highpass=f=90,acompressor=threshold=-24dB:ratio=6:attack=3:release=80:makeup=6dB"
-    x = ff(["-i", src], af)
-    # Gain the voiced part to -10 dBFS RMS and limit peaks to -1 dBFS (repeat: the limiter eats some gain)
-    blk = int(0.02 * SR)
-    for _ in range(3):
-        frames = x[: len(x) // blk * blk].reshape(-1, blk)
-        rms = np.sqrt((frames ** 2).mean(axis=1))
-        voiced = frames[rms > rms.max() * 0.1]
-        gain = min(4.0, 10 ** (-10 / 20) / np.sqrt((voiced ** 2).mean()))
-        x = ff(["-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-"],
-               f"volume={gain:.3f},alimiter=limit=0.89:attack=1:release=50:level=false", x.tobytes())
-    x = np.clip(x, -0.89, 0.89)
+    x = ff(["-i", src], "anull")  # original level, no gain or compression
     f = int(0.01 * SR)
     x[:f] *= np.linspace(0, 1, f)
     x[-f:] *= np.linspace(1, 0, f)
@@ -228,11 +215,11 @@ TRACKS = {
 
 def build(tid):
     photo_key, title, sub, fn = TRACKS[tid]
-    buf = np.clip(fn(random.Random(7)), -0.89, 0.89) * 0.9  # headroom for MP3 overshoot
+    buf = np.clip(fn(random.Random(7)), -1.0, 1.0)
     os.makedirs(OUT, exist_ok=True)
     mp3 = os.path.join(OUT, tid + ".mp3")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-",
-                    "-c:a", "libmp3lame", "-b:a", "128k", "-metadata", "title=" + title, mp3],
+                    "-c:a", "libmp3lame", "-b:a", "192k", "-metadata", "title=" + title, mp3],
                    input=buf.tobytes(), check=True)
     photo = fetch(photo_key + "_photo", PHOTOS[photo_key], ".jpg")
     vf = ("scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,setsar=1,"
@@ -245,7 +232,7 @@ def build(tid):
     mp4 = os.path.join(OUT, tid + ".mp4")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-loop", "1", "-framerate", "1", "-i", still, "-i", mp3,
                     "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-tune", "stillimage", "-preset", "veryfast",
-                    "-pix_fmt", "yuv420p", "-r", "1", "-c:a", "aac", "-b:a", "128k", "-shortest",
+                    "-pix_fmt", "yuv420p", "-r", "1", "-c:a", "aac", "-b:a", "192k", "-shortest",
                     "-movflags", "+faststart", mp4], check=True)
     print("wrote", tid)
 

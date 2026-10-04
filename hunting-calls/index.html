@@ -10,33 +10,34 @@
 <div class="wrap">
   <p class="eyebrow">10-minute calling videos · moose · elk · whitetail</p>
   <h1>Hunting Calls</h1>
-  <p>Each video is one photo with a 10-minute calling track as its sound. Save it to your iPhone photo album and play it from Photos.</p>
+  <p>Each video is one photo with a 10-minute calling track as its sound, at the recordings' original volume. Save it to your iPhone photo album and play it from Photos.</p>
 
   <h2>Save to your photo album (iPhone)</h2>
   <ol>
-    <li>Open this page in Safari and tap <b>Save to Photos</b> under a video.</li>
-    <li>In the share sheet, tap <b>Save Video</b>. It appears in Photos.</li>
-    <li>If no share sheet opens, the video downloads instead. Open it from the Files app › Downloads, tap Share › <b>Save Video</b>.</li>
+    <li>Tap <b>Save video to Photos</b> under a video and wait a few seconds while it loads.</li>
+    <li>The share sheet opens. Tap <b>Save Video</b>. It goes straight to your camera roll.</li>
+    <li>If the share sheet doesn't open, open the page in Safari and try again.</li>
   </ol>
 
   <div id="list" class="list"></div>
 
   <h2>Tips</h2>
   <ul>
-    <li>Female calls (cow, doe) bring males in looking for a mate. Male calls (bugles, buck fights) bring in males that want to fight.</li>
+    <li>Female calls (cow, doe) bring males in looking for a mate. Male calls (bull grunts, bugles, buck fights) bring in males that want to fight.</li>
     <li>Turn the volume all the way up and turn off Settings › Sounds &amp; Haptics › Headphone Safety › Reduce Loud Audio. A Bluetooth speaker carries much farther.</li>
     <li>After a track ends, stay still for 20–30 minutes. Animals often come in slow and quiet, and circle downwind.</li>
     <li>Rut timing: moose mid-September to early October, elk September, whitetail late October to late November.</li>
   </ul>
   <p class="note">Check your local regulations first. Many states and provinces ban electronic calls for big game.</p>
 
-  <p class="credits">Sounds: USFWS cow moose call and Yellowstone National Park elk recordings (public domain); Wide World of Hunting (DeerDope) whitetail recordings. Photos: USFWS (public domain). Built with <a href="build.py">build.py</a>.</p>
+  <p class="credits">Sounds: USFWS cow moose call and Yellowstone National Park elk recordings (public domain); <a href="https://www.hmeproducts.com/sounds-download/">HME Products</a> sound library (Dave Kelso moose recordings, elk cow and bugle); Wide World of Hunting (DeerDope) whitetail recordings. Photos: USFWS (public domain). Built with <a href="build.py">build.py</a>.</p>
   <p class="credits"><a href="../">← iampat</a></p>
 </div>
 <script>
 const TRACKS = [
   ["moose-cow", "Moose: Cow in Heat", "Female call. Brings bulls in."],
-  ["elk-cow", "Elk: Calf Mews", "Calf and cow-type mews. Brings bulls in."],
+  ["moose-bull", "Moose: Bull Challenge", "Male grunts, challenge calls, brush raking and a fight. Pulls in bulls that want to fight."],
+  ["elk-cow", "Elk: Cow and Calf Calls", "Female mews. Brings bulls in."],
   ["elk-bull", "Elk: Bull Bugle", "Male bugles. Challenges other bulls to fight."],
   ["deer-doe", "Whitetail: Doe Estrus Bleats", "Female bleats, grunts and breeding bellow. Brings bucks in."],
   ["deer-buck", "Whitetail: Buck Fight", "Grunts, snort-wheeze and antler rattling. Pulls in bucks that want to fight."],
@@ -49,8 +50,7 @@ for (const [id, title, desc] of TRACKS) {
   el.innerHTML = `<h3>${title}</h3><p>${desc}</p>
     <video controls playsinline preload="metadata" src="media/${id}.mp4#t=0.5"></video>
     <div class="dl">
-      <button class="btn" type="button">Save to Photos</button>
-      <a class="btn alt" href="media/${id}.mp4" download>Download video</a>
+      <button class="btn" type="button">Save video to Photos</button>
       <a class="btn alt" href="media/${id}.mp3" download>MP3</a>
     </div><p class="status"></p>`;
   const status = el.querySelector(".status");
@@ -66,11 +66,7 @@ for (const [id, title, desc] of TRACKS) {
         await navigator.share({ files: [file] });
         status.textContent = "";
       } else {
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = `${id}.mp4`;
-        a.click();
-        status.textContent = "Downloaded. Open it from Files › Downloads, then Share › Save Video.";
+        status.textContent = "This browser can't save to Photos. Open the page in Safari on your iPhone.";
       }
     } catch (err) {
       status.textContent = err.name === "AbortError" ? "" : "Couldn't save. Use Download video instead.";
