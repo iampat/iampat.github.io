@@ -23,8 +23,6 @@ FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 WWH = "https://wideworldofhunting.com/soundsofwhitetail/"
 NPS = "https://www.nps.gov/nps-audiovideo/legacy/mp3/imr/avElement/"
 SOURCES = {
-    # Public domain, U.S. Fish & Wildlife Service (via SoundBible)
-    "moose_cow": "https://soundbible.com/grab.php?id=1225&type=wav",
     # Public domain, Yellowstone National Park sound library
     "elk_calf_nps": NPS + "yell-YELLMJ23ElkCalf20051116.mp3",
     "elk_bugle1_nps": NPS + "yell-ElkBugle1.mp3",
@@ -35,15 +33,6 @@ SOURCES = {
     "rattle": WWH + "agressive/rattle324kb.wav",
 }
 HME = {  # .cache name -> HME Products sound library file (Dave Kelso recordings)
-    "moose_cow_heat_ready": "Moose/CowInHeatReady1 by Dave Kelso.mp3",
-    "moose_cow_heat_long": "Moose/CowinHeatLong1 By Dave Kelso.mp3",
-    "moose_cow_come_get_me": "Moose/03-Old Cow Come Get Me Big Boy by Dave Kelso.mp3",
-    "moose_bull_grunt": "Moose/BullGruntSingle by Dave Kelso.mp3",
-    "moose_bull_challenge": "Moose/07-Old Bull Challenge Call by Dave Kelso.mp3",
-    "moose_bull_fight_old": "Moose/08-Old Bull Wants To Fight by Dave Kelso.mp3",
-    "moose_bull_fight_young": "Moose/10-Young Bull Wants To Fight by Dave Kelso.mp3",
-    "moose_bull_raking": "Moose/05-Bull Raking Bush by Dave Kelso.mp3",
-    "moose_bulls_fighting": "Moose/05-Bulls Fighting by Dave Kelso.mp3",
     "elk_cow": "Elk/146-Elk - Cow Adult.mp3",
     "elk_bugle_hme": "Elk/153-Elk Bugle Adult.mp3",
     "elk_grunt": "Elk/159-Elk Grunt.mp3",
@@ -61,7 +50,6 @@ HME = {  # .cache name -> HME Products sound library file (Dave Kelso recordings
     "deer_buck_challenge": "Deer/BuckChallenge by Dave Kelso.mp3",
 }
 PHOTOS = {  # Public domain, USFWS
-    "moose": "https://www.fws.gov/sites/default/files/images/2007-09/13581.jpg",
     "deer": "https://www.fws.gov/sites/default/files/images/2014-09/31183.jpg",
     "elk": "https://www.fws.gov/sites/default/files/images/2024-03-1/2011.jpg",
 }
@@ -79,16 +67,6 @@ def fetch(name, url, ext):
 
 # id: (source, photo, title, subtitle)
 CALLS = {
-    "moose-cow-usfws": ("moose_cow", "moose", "Moose: Cow Call", "Female - cow in heat (USFWS)"),
-    "moose-cow-ready": ("moose_cow_heat_ready", "moose", "Moose: Cow in Heat, Ready", "Female - brings bulls in"),
-    "moose-cow-long": ("moose_cow_heat_long", "moose", "Moose: Cow in Heat, Long", "Female - brings bulls in"),
-    "moose-cow-come-get-me": ("moose_cow_come_get_me", "moose", "Moose: Old Cow, Come Get Me", "Female - brings bulls in"),
-    "moose-bull-grunt": ("moose_bull_grunt", "moose", "Moose: Bull Grunt", "Male - single grunt"),
-    "moose-bull-challenge": ("moose_bull_challenge", "moose", "Moose: Old Bull Challenge", "Male - calls bulls to fight"),
-    "moose-bull-fight-old": ("moose_bull_fight_old", "moose", "Moose: Old Bull Wants to Fight", "Male - calls bulls to fight"),
-    "moose-bull-fight-young": ("moose_bull_fight_young", "moose", "Moose: Young Bull Wants to Fight", "Male - calls bulls to fight"),
-    "moose-bull-raking": ("moose_bull_raking", "moose", "Moose: Bull Raking Brush", "Male - antlers on brush"),
-    "moose-bulls-fighting": ("moose_bulls_fighting", "moose", "Moose: Bulls Fighting", "Two bulls fighting"),
     "elk-cow": ("elk_cow", "elk", "Elk: Cow Call", "Female - brings bulls in"),
     "elk-calf": ("elk_calf_nps", "elk", "Elk: Calf Mews", "Calf - brings cows and bulls in"),
     "elk-bugle-1": ("elk_bugle1_nps", "elk", "Elk: Bull Bugle 1", "Male - challenge (Yellowstone)"),
