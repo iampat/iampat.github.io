@@ -24,6 +24,10 @@ const TRACKS = {
   touch: `${COMMON}About 2 minutes. 88 BPM. Soft and tactile: muted plucks, a gentle marimba, warm sub bass that lands softly on the beat, calm and controlled, like a ball settling at your feet. Very light percussion. Loops smoothly.`,
   shape: `${COMMON}About 2 minutes. 88 BPM. Open and confident: wide warm pads that slowly open up, a clear simple three-note motif rising on a soft synth, a sense of space and seeing the whole field. Light brushed percussion. Loops smoothly.`,
   steal: `${COMMON}About 45 seconds. 96 BPM. Mischievous and playful: a sneaky staccato pluck, light shaker, a sly bass slide, short stops and starts like a feint, building to a small cheeky flourish. Loops smoothly.`,
+  // Episode 3: "Dots and Boxes" (a quiet night on the bench, a pen-and-paper game)
+  third: `${COMMON}About 2 minutes. 84 BPM. Quiet and careful, like two people thinking: a soft felt piano motif of short repeated notes, a warm low pad, a very light brushed tick on the beat. Calm, patient, slightly mischievous. Loops smoothly.`,
+  twos: `${COMMON}About 2 minutes. 84 BPM. Sly and generous: a bouncy muted pluck that keeps pausing as if offering something, a soft marimba answer, warm bass, a small wink of a bell now and then. Playful, not silly. Loops smoothly.`,
+  count: `${COMMON}About 2 minutes. 84 BPM. A countdown feeling without tension: a steady soft woodblock pulse like counting on fingers, airy pads, a rising three-note motif that lands on a clear resolution, patient and confident. Loops smoothly.`,
   practice: `${COMMON}About 30 seconds. 92 BPM. A short, bright, friendly loop: clean plucked synth, light claps, cheerful and simple, like a sports training montage. Loops seamlessly.`,
 };
 

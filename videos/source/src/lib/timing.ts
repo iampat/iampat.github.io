@@ -7,6 +7,7 @@
 
 import ep1 from "../timeline.ep1.json";
 import ep2 from "../timeline.ep2.json";
+import ep3 from "../timeline.ep3.json";
 
 export type TimedSentence = { text: string; start: number; end: number };
 /** One narration word with its time (from local whisper alignment); s = sentence index. */
@@ -25,16 +26,17 @@ export type SceneTiming = {
 };
 
 export type Timeline = { fps: number; episode?: string; totalFrames: number; scenes: SceneTiming[] };
-export type EpisodeId = "ep1" | "ep2";
+export type EpisodeId = "ep1" | "ep2" | "ep3";
 export const EPISODES: Record<EpisodeId, Timeline> = {
   ep1: ep1 as unknown as Timeline,
   ep2: ep2 as unknown as Timeline,
+  ep3: ep3 as unknown as Timeline,
 };
 /** All scenes of all episodes (scene ids are unique across episodes). */
 export const TIMELINE: Timeline = {
   fps: 30,
-  totalFrames: EPISODES.ep1.totalFrames + EPISODES.ep2.totalFrames,
-  scenes: [...EPISODES.ep1.scenes, ...EPISODES.ep2.scenes],
+  totalFrames: EPISODES.ep1.totalFrames + EPISODES.ep2.totalFrames + EPISODES.ep3.totalFrames,
+  scenes: [...EPISODES.ep1.scenes, ...EPISODES.ep2.scenes, ...EPISODES.ep3.scenes],
 };
 
 const norm = (s: string) =>

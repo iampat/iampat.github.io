@@ -19,6 +19,10 @@ const MAX_TOTAL_S = 420;
 const EXTRA_TAIL = { s02: 45, s09: 20, s13: 75, s20: 75, s23: 36, b03: 45, b17: 60, b21: 20, b22: 36 };
 
 const PARTIAL = process.argv.includes("--partial"); // skip missing clips and the total-length check
+// --estimate: scenes with no narration clip yet get a timing estimated from the text
+// (est_seconds, else words / 2.3), so scenes can be built before the audio exists.
+// Re-run without the flag once the clips are in place. Estimated scenes are marked.
+const ESTIMATE = process.argv.includes("--estimate");
 const epArg = process.argv.indexOf("--ep");
 const EP = epArg >= 0 ? process.argv[epArg + 1] : "ep1";
 const sbPath = process.argv.find((a) => a.endsWith(".json")) ?? `script/${EP}/storyboard.json`;
@@ -153,25 +157,27 @@ let totalFrames = 0;
 for (const s of sb.scenes) {
   const file = `vo/${EP}/${s.id}.wav`;
   const abs = `public/${file}`;
-  if (!existsSync(abs)) {
+  const estimated = !existsSync(abs);
+  if (estimated && !ESTIMATE) {
     if (!PARTIAL) errors.push(`${s.id}: missing ${abs}`);
     continue;
   }
-  const dur = probe(abs);
+  const nWords = s.narration.replace(/<[^>]+>/g, " ").split(/\s+/).filter((w) => /[a-z0-9]/i.test(w)).length;
+  const dur = estimated ? Number((s.est_seconds ?? nWords / 2.3).toFixed(2)) : probe(abs);
   if (dur > MAX_SCENE_S) errors.push(`${s.id}: ${dur.toFixed(1)} s is longer than ${MAX_SCENE_S} s`);
 
   const sentences = splitSentences(s.narration);
-  const all = findSilences(abs);
+  const all = estimated ? [] : findSilences(abs);
   const gaps = all.filter((g) => g.start > 0.05 && g.end < dur - 0.05);
-  const speechStart = all.find((g) => g.start <= 0.05)?.end ?? 0;
-  const speechEnd = all.find((g) => g.end >= dur - 0.05)?.start ?? dur;
+  const speechStart = estimated ? 0.15 : all.find((g) => g.start <= 0.05)?.end ?? 0;
+  const speechEnd = estimated ? dur - 0.25 : all.find((g) => g.end >= dur - 0.05)?.start ?? dur;
 
   const span = speechEnd - speechStart;
 
   // 1) Whisper words aligned to the script words (approximate times; whisper drifts).
   let aligned = null;
   const sentenceOf = [];
-  if (hasWhisper) {
+  if (hasWhisper && !estimated) {
     const scriptWords = [];
     sentences.forEach((sen, si) =>
       sen.split(/\s+/).forEach((w) => {
@@ -328,6 +334,7 @@ for (const s of sb.scenes) {
     frames,
     startFrame: totalFrames,
     narration: s.narration,
+    ...(estimated ? { estimated: true } : {}),
     sentences: timed.map((t) => ({ ...t, start: Number(t.start.toFixed(3)), end: Number(t.end.toFixed(3)) })),
     ...(words ? { words } : {}),
   });

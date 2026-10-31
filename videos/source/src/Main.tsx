@@ -31,6 +31,17 @@ const MUSIC: Record<EpisodeId, (s: SceneTiming) => string> = {
     if (c.includes("steal") || c.includes("feint") || c.includes("bonus")) return "steal";
     return "ending";
   },
+  // Episode 3: "Dots and Boxes" with Chalk. New tracks: third, twos, count. The rest are shared.
+  ep3: (s) => {
+    const c = s.chapter.toLowerCase();
+    if (c.includes("practice") || c.includes("drill")) return "practice";
+    if (c.includes("cold open") || c.includes("title")) return "open";
+    if (c.includes("third")) return "third";
+    if (c.includes("two")) return "twos";
+    if (c.includes("count")) return "count";
+    if (c.includes("bonus") || c.includes("rule")) return "steal";
+    return "ending";
+  },
 };
 
 type Segment = { track: string; from: number; frames: number };

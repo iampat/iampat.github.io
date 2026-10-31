@@ -31,6 +31,7 @@ import { Set5A } from "./preview/thumb/sets/Set5A";
 import { Set5B } from "./preview/thumb/sets/Set5B";
 import { Set5C } from "./preview/thumb/sets/Set5C";
 import { Ep2SharedPreview } from "./preview/Ep2SharedPreview";
+import { Ep3KitPreview } from "./preview/Ep3KitPreview";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -87,6 +88,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="AvatarC" component={AvatarC} durationInFrames={1} fps={30} width={800} height={800} />
       <Composition id="ThumbC" component={ThumbC} durationInFrames={1} fps={30} width={1280} height={720} />
       <Composition id="Ep2KitPreview" component={Ep2KitPreview} durationInFrames={120} fps={30} width={1920} height={1080} />
+      <Composition id="Ep3KitPreview" component={Ep3KitPreview} durationInFrames={320} fps={30} width={1920} height={1080} />
       <Composition id="Ep2SharedPreview" component={Ep2SharedPreview} durationInFrames={90} fps={30} width={1920} height={1080} />
     </>
   );
