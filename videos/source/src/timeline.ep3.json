@@ -1,83 +1,88 @@
 {
   "fps": 30,
   "episode": "ep3",
-  "totalFrames": 12345,
+  "totalFrames": 12357,
   "scenes": [
     {
       "id": "c01",
       "chapter": "Cold open",
       "file": "vo/ep3/c01.wav",
-      "durationInSeconds": 20.4,
+      "durationInSeconds": 22.2,
       "leadFrames": 6,
-      "frames": 630,
+      "frames": 684,
       "startFrame": 0,
-      "narration": "Night three. <short pause> Same pitch. Nine o'clock. <short pause> Tonight you're on the bench. Boot off. Ice on the ankle. <short pause> No football. <short pause> Chalk's bored too. He wanders over, sits down on the concrete, and draws a dot. <short pause> Then fifteen more. <long pause> Oh. You know this game. Everyone knows this game.",
+      "narration": "Night three. <short pause> Same pitch. Nine o'clock. <short pause> Tonight you're on the bench. Boot off. Ice on the ankle. <short pause> No football. <short pause> Chalk's bored too. He wanders over, sits down on the concrete, and draws a dot. <short pause> Then fifteen more. <long pause> Oh. You know this game. Everyone knows this game. <short pause> Nobody knows this game.",
       "estimated": true,
       "sentences": [
         {
           "text": "Night three.",
           "start": 0.15,
-          "end": 1.13
+          "end": 1.126
         },
         {
           "text": "Same pitch.",
-          "start": 1.13,
-          "end": 2.028
+          "start": 1.126,
+          "end": 2.021
         },
         {
           "text": "Nine o'clock.",
-          "start": 2.028,
-          "end": 3.089
+          "start": 2.021,
+          "end": 3.078
         },
         {
           "text": "Tonight you're on the bench.",
-          "start": 3.089,
-          "end": 5.374
+          "start": 3.078,
+          "end": 5.356
         },
         {
           "text": "Boot off.",
-          "start": 5.374,
-          "end": 6.109
+          "start": 5.356,
+          "end": 6.088
         },
         {
           "text": "Ice on the ankle.",
-          "start": 6.109,
-          "end": 7.497
+          "start": 6.088,
+          "end": 7.471
         },
         {
           "text": "No football.",
-          "start": 7.497,
-          "end": 8.477
+          "start": 7.471,
+          "end": 8.447
         },
         {
           "text": "Chalk's bored too.",
-          "start": 8.477,
-          "end": 9.946
+          "start": 8.447,
+          "end": 9.911
         },
         {
           "text": "He wanders over, sits down on the concrete, and draws a dot.",
-          "start": 9.946,
-          "end": 14.844
+          "start": 9.911,
+          "end": 14.792
         },
         {
           "text": "Then fifteen more.",
-          "start": 14.844,
-          "end": 16.313
+          "start": 14.792,
+          "end": 16.256
         },
         {
           "text": "Oh.",
-          "start": 16.393,
-          "end": 16.556
+          "start": 16.336,
+          "end": 16.498
         },
         {
           "text": "You know this game.",
-          "start": 16.676,
-          "end": 18.029
+          "start": 16.618,
+          "end": 17.966
         },
         {
           "text": "Everyone knows this game.",
-          "start": 18.109,
-          "end": 20.15
+          "start": 18.046,
+          "end": 20.079
+        },
+        {
+          "text": "Nobody knows this game.",
+          "start": 20.079,
+          "end": 21.95
         }
       ]
     },
@@ -88,7 +93,7 @@
       "durationInSeconds": 17.8,
       "leadFrames": 6,
       "frames": 552,
-      "startFrame": 630,
+      "startFrame": 684,
       "narration": "You go first. Of course you do. <short pause> You play it like everyone does. Three sides? Take it. <short pause> Three–nil. Chalk hasn't got a single box. <short pause> Then he draws one line. <long pause> And takes six in a row. <short pause> Three–six. <short pause> One eyebrow goes up.",
       "estimated": true,
       "sentences": [
@@ -153,47 +158,47 @@
       "id": "c03",
       "chapter": "Cold open: the question and title",
       "file": "vo/ep3/c03.wav",
-      "durationInSeconds": 14.2,
+      "durationInSeconds": 15.1,
       "leadFrames": 6,
-      "frames": 444,
-      "startFrame": 1182,
-      "narration": "Hang on. You were winning three–nil. <short pause> How does three–nil turn into three–six? <long pause> This game looks like a grabbing game. <short pause> It isn't. <short pause> It's a giving game. And whoever has to give first, loses.",
+      "frames": 471,
+      "startFrame": 1236,
+      "narration": "Hang on. You were winning three–nil. <short pause> How does three–nil turn into three–six? <long pause> This game looks like a grabbing game. <short pause> It isn't. <short pause> It's a giving game. And whoever has to give the big one, loses.",
       "estimated": true,
       "sentences": [
         {
           "text": "Hang on.",
           "start": 0.15,
-          "end": 0.777
+          "end": 0.796
         },
         {
           "text": "You were winning three–nil.",
-          "start": 0.777,
-          "end": 2.894
+          "start": 0.796,
+          "end": 2.977
         },
         {
           "text": "How does three–nil turn into three–six?",
-          "start": 2.894,
-          "end": 5.952
+          "start": 2.977,
+          "end": 6.127
         },
         {
           "text": "This game looks like a grabbing game.",
-          "start": 5.952,
-          "end": 8.853
+          "start": 6.127,
+          "end": 9.115
         },
         {
           "text": "It isn't.",
-          "start": 8.853,
-          "end": 9.559
+          "start": 9.115,
+          "end": 9.842
         },
         {
           "text": "It's a giving game.",
-          "start": 9.559,
-          "end": 11.049
+          "start": 9.842,
+          "end": 11.377
         },
         {
-          "text": "And whoever has to give first, loses.",
-          "start": 11.049,
-          "end": 13.95
+          "text": "And whoever has to give the big one, loses.",
+          "start": 11.377,
+          "end": 14.85
         }
       ]
     },
@@ -201,62 +206,62 @@
       "id": "c04",
       "chapter": "Ch1 Third side: the rule everyone knows",
       "file": "vo/ep3/c04.wav",
-      "durationInSeconds": 23.6,
+      "durationInSeconds": 22.7,
       "leadFrames": 6,
-      "frames": 726,
-      "startFrame": 1626,
-      "narration": "Let's run it back. Slowly. <short pause> One rule. A box with three sides is a gift. <short pause> Draw the third side, and the other player draws the fourth. <short pause> A line that gives no box its third side? Call it a safe line. <short pause> Sixteen dots. Twenty-four lines. At the start, every one of them is safe.",
+      "frames": 699,
+      "startFrame": 1707,
+      "narration": "Let's run it back. Slowly. <short pause> One rule. A box with three sides is a gift. <short pause> Draw the third side, and the other player draws the fourth. <short pause> A line that gives no box its third side? Call it a safe line. <short pause> Sixteen dots. Twenty-four lines. Right now, all of them are safe.",
       "estimated": true,
       "sentences": [
         {
           "text": "Let's run it back.",
           "start": 0.15,
-          "end": 1.775
+          "end": 1.762
         },
         {
           "text": "Slowly.",
-          "start": 1.775,
-          "end": 2.407
+          "start": 1.762,
+          "end": 2.389
         },
         {
           "text": "One rule.",
-          "start": 2.407,
-          "end": 3.219
+          "start": 2.389,
+          "end": 3.195
         },
         {
           "text": "A box with three sides is a gift.",
-          "start": 3.219,
-          "end": 6.198
+          "start": 3.195,
+          "end": 6.15
         },
         {
           "text": "Draw the third side, and the other player draws the fourth.",
-          "start": 6.198,
-          "end": 11.524
+          "start": 6.15,
+          "end": 11.434
         },
         {
           "text": "A line that gives no box its third side?",
-          "start": 11.524,
-          "end": 15.135
+          "start": 11.434,
+          "end": 15.017
         },
         {
           "text": "Call it a safe line.",
-          "start": 15.135,
-          "end": 16.941
+          "start": 15.017,
+          "end": 16.808
         },
         {
           "text": "Sixteen dots.",
-          "start": 16.941,
-          "end": 18.114
+          "start": 16.808,
+          "end": 17.972
         },
         {
           "text": "Twenty-four lines.",
-          "start": 18.114,
-          "end": 19.739
+          "start": 17.972,
+          "end": 19.584
         },
         {
-          "text": "At the start, every one of them is safe.",
-          "start": 19.739,
-          "end": 23.35
+          "text": "Right now, all of them are safe.",
+          "start": 19.584,
+          "end": 22.45
         }
       ]
     },
@@ -264,72 +269,77 @@
       "id": "c05",
       "chapter": "Ch1 Third side: the quiet half",
       "file": "vo/ep3/c05.wav",
-      "durationInSeconds": 18.7,
+      "durationInSeconds": 18.2,
       "leadFrames": 6,
-      "frames": 579,
-      "startFrame": 2352,
-      "narration": "Watch the safe lines disappear. <short pause> Twenty-four. Twenty. Fifteen. Ten. <short pause> Each line uses one up. <short pause> Five. Two. <long pause> None. <short pause> Every empty box is joined to the next through a gap. <short pause> Boxes linked like that are a chain. Open one, and the whole chain goes.",
+      "frames": 564,
+      "startFrame": 2406,
+      "narration": "Watch the safe lines disappear. <short pause> Twenty-four. Twenty. Fifteen. Ten. <short pause> Every line uses some up. <short pause> Five. Two. <long pause> None. <short pause> Look. The empty boxes are joined up through the gaps. <short pause> Boxes linked like that are a chain. Open one, and the whole chain goes.",
       "estimated": true,
       "sentences": [
         {
           "text": "Watch the safe lines disappear.",
           "start": 0.15,
-          "end": 2.729
+          "end": 2.636
         },
         {
           "text": "Twenty-four.",
-          "start": 2.729,
-          "end": 3.727
+          "start": 2.636,
+          "end": 3.598
         },
         {
           "text": "Twenty.",
-          "start": 3.727,
-          "end": 4.309
+          "start": 3.598,
+          "end": 4.159
         },
         {
           "text": "Fifteen.",
-          "start": 4.309,
-          "end": 4.975
+          "start": 4.159,
+          "end": 4.8
         },
         {
           "text": "Ten.",
-          "start": 4.975,
-          "end": 5.307
+          "start": 4.8,
+          "end": 5.121
         },
         {
-          "text": "Each line uses one up.",
-          "start": 5.307,
-          "end": 7.137
+          "text": "Every line uses some up.",
+          "start": 5.121,
+          "end": 7.045
         },
         {
           "text": "Five.",
-          "start": 7.137,
-          "end": 7.553
+          "start": 7.045,
+          "end": 7.446
         },
         {
           "text": "Two.",
-          "start": 7.553,
-          "end": 7.886
+          "start": 7.446,
+          "end": 7.767
         },
         {
           "text": "None.",
-          "start": 7.886,
-          "end": 8.302
+          "start": 7.767,
+          "end": 8.168
         },
         {
-          "text": "Every empty box is joined to the next through a gap.",
-          "start": 8.302,
-          "end": 12.627
+          "text": "Look.",
+          "start": 8.168,
+          "end": 8.569
+        },
+        {
+          "text": "The empty boxes are joined up through the gaps.",
+          "start": 8.569,
+          "end": 12.337
         },
         {
           "text": "Boxes linked like that are a chain.",
-          "start": 12.627,
-          "end": 15.539
+          "start": 12.337,
+          "end": 15.144
         },
         {
           "text": "Open one, and the whole chain goes.",
-          "start": 15.539,
-          "end": 18.45
+          "start": 15.144,
+          "end": 17.95
         }
       ]
     },
@@ -337,52 +347,57 @@
       "id": "c06",
       "chapter": "Ch1 Third side: the giving half",
       "file": "vo/ep3/c06.wav",
-      "durationInSeconds": 22.7,
+      "durationInSeconds": 22.2,
       "leadFrames": 6,
-      "frames": 699,
-      "startFrame": 2931,
-      "narration": "The game has two halves. <short pause> The quiet half: nobody gives anything. <short pause> The giving half: every line is a gift. <short pause> Two players, both refusing to give, until one of them can't. <short pause> The mistake? A third side while safe lines are still on the board. <short pause> The fix is one question. <short pause> Is this safe?",
+      "frames": 684,
+      "startFrame": 2970,
+      "narration": "The game has two halves. <short pause> The quiet half: nobody gives anything. <short pause> The giving half: every line is a gift. <short pause> Two players, both refusing to give, until one of them can't. <short pause> The mistake? A third side while safe lines are still on the board. <short pause> The fix? One question. <short pause> Is this safe?",
       "estimated": true,
       "sentences": [
         {
           "text": "The game has two halves.",
           "start": 0.15,
-          "end": 2.193
+          "end": 2.17
         },
         {
           "text": "The quiet half: nobody gives anything.",
-          "start": 2.193,
-          "end": 5.427
+          "start": 2.17,
+          "end": 5.369
         },
         {
           "text": "The giving half: every line is a gift.",
-          "start": 5.427,
-          "end": 8.661
+          "start": 5.369,
+          "end": 8.567
         },
         {
           "text": "Two players, both refusing to give, until one of them can't.",
-          "start": 8.661,
-          "end": 13.768
+          "start": 8.567,
+          "end": 13.617
         },
         {
           "text": "The mistake?",
-          "start": 13.768,
-          "end": 14.79
+          "start": 13.617,
+          "end": 14.627
         },
         {
           "text": "A third side while safe lines are still on the board.",
-          "start": 14.79,
-          "end": 19.301
+          "start": 14.627,
+          "end": 19.088
         },
         {
-          "text": "The fix is one question.",
-          "start": 19.301,
-          "end": 21.344
+          "text": "The fix?",
+          "start": 19.088,
+          "end": 19.762
+        },
+        {
+          "text": "One question.",
+          "start": 19.762,
+          "end": 20.856
         },
         {
           "text": "Is this safe?",
-          "start": 21.344,
-          "end": 22.45
+          "start": 20.856,
+          "end": 21.95
         }
       ]
     },
@@ -393,7 +408,7 @@
       "durationInSeconds": 12,
       "leadFrames": 6,
       "frames": 378,
-      "startFrame": 3630,
+      "startFrame": 3654,
       "narration": "Try this with someone tonight. Paper. Sixteen dots. <short pause> Before every line, say it out loud. Safe. Or gift. <short pause> You'll both feel the moment the quiet half ends.",
       "estimated": true,
       "sentences": [
@@ -441,7 +456,7 @@
       "durationInSeconds": 23.6,
       "leadFrames": 6,
       "frames": 726,
-      "startFrame": 4008,
+      "startFrame": 4032,
       "narration": "Back to the night. Safe lines gone. Chalk's turn. He has to give. <short pause> So he gives you the smallest thing. Two boxes. <short pause> You take them. Three–nil. <short pause> Now look at what's left. <short pause> One chain. Six boxes long. And it's your turn. <long pause> That wasn't a gift. That was a trap with a bow on it.",
       "estimated": true,
       "sentences": [
@@ -521,72 +536,77 @@
       "id": "c09",
       "chapter": "Ch2 All but two: the decline",
       "file": "vo/ep3/c09.wav",
-      "durationInSeconds": 28.4,
+      "durationInSeconds": 28.9,
       "leadFrames": 6,
-      "frames": 870,
-      "startFrame": 4734,
-      "narration": "Here's what the good players do. It feels wrong the first time. <short pause> Say Chalk opens a chain of three. <short pause> Take one box. <short pause> Then stop. <short pause> Don't take the last two. Draw the line that leaves them as a pair. <short pause> That shape is a double-cross. <short pause> Chalk takes the pair. <short pause> Now it's his turn, and nothing is safe. <short pause> He has to open the next chain. For you.",
+      "frames": 885,
+      "startFrame": 4758,
+      "narration": "Here's what the good players do. It feels wrong the first time. <short pause> Chalk opens a chain of three. <short pause> Take one box. <short pause> Then stop. <short pause> Don't take the last two. Close off the far end instead. They sit there, a pair. <short pause> That shape is a double-cross. <short pause> Chalk takes the pair. <short pause> Now it's his turn, and nothing is safe. <short pause> He has to open the next chain. For you.",
       "estimated": true,
       "sentences": [
         {
           "text": "Here's what the good players do.",
           "start": 0.15,
-          "end": 3.04
+          "end": 3.018
         },
         {
           "text": "It feels wrong the first time.",
-          "start": 3.04,
-          "end": 5.75
+          "start": 3.018,
+          "end": 5.707
         },
         {
-          "text": "Say Chalk opens a chain of three.",
-          "start": 5.75,
-          "end": 8.731
+          "text": "Chalk opens a chain of three.",
+          "start": 5.707,
+          "end": 8.306
         },
         {
           "text": "Take one box.",
-          "start": 8.731,
-          "end": 9.905
+          "start": 8.306,
+          "end": 9.471
         },
         {
           "text": "Then stop.",
-          "start": 9.905,
-          "end": 10.808
+          "start": 9.471,
+          "end": 10.367
         },
         {
           "text": "Don't take the last two.",
-          "start": 10.808,
-          "end": 12.976
+          "start": 10.367,
+          "end": 12.518
         },
         {
-          "text": "Draw the line that leaves them as a pair.",
-          "start": 12.976,
-          "end": 16.679
+          "text": "Close off the far end instead.",
+          "start": 12.518,
+          "end": 15.207
+        },
+        {
+          "text": "They sit there, a pair.",
+          "start": 15.207,
+          "end": 17.268
         },
         {
           "text": "That shape is a double-cross.",
-          "start": 16.679,
-          "end": 19.298
+          "start": 17.268,
+          "end": 19.867
         },
         {
           "text": "Chalk takes the pair.",
-          "start": 19.298,
-          "end": 21.195
+          "start": 19.867,
+          "end": 21.749
         },
         {
           "text": "Now it's his turn, and nothing is safe.",
-          "start": 21.195,
-          "end": 24.718
+          "start": 21.749,
+          "end": 25.244
         },
         {
           "text": "He has to open the next chain.",
-          "start": 24.718,
-          "end": 27.427
+          "start": 25.244,
+          "end": 27.933
         },
         {
           "text": "For you.",
-          "start": 27.427,
-          "end": 28.15
+          "start": 27.933,
+          "end": 28.65
         }
       ]
     },
@@ -597,73 +617,73 @@
       "durationInSeconds": 22.2,
       "leadFrames": 6,
       "frames": 684,
-      "startFrame": 5604,
-      "narration": "Same board. Two endings. <short pause> Left: you eat all three. <short pause> Then you open the big chain. Four–five. You lose. <short pause> Right: take one, give two, and the big chain comes to you. Six–three. <short pause> Giving two boxes won the game. That's control. <short pause> The last chain? Eat the lot. Nobody's left to open anything.",
+      "startFrame": 5643,
+      "narration": "Same board. Two endings. <short pause> Left: you eat all three. <short pause> Then you open the big one. Four–five. You lose. <short pause> Right: take one, give two, and the big one comes to you. Six–three. <short pause> Giving two boxes won the game. That's control. <short pause> The last chain? Eat the lot. Nobody's left to open anything.",
       "estimated": true,
       "sentences": [
         {
           "text": "Same board.",
           "start": 0.15,
-          "end": 1.055
+          "end": 1.069
         },
         {
           "text": "Two endings.",
-          "start": 1.055,
-          "end": 2.042
+          "start": 1.069,
+          "end": 2.071
         },
         {
           "text": "Left: you eat all three.",
-          "start": 2.042,
-          "end": 4.016
+          "start": 2.071,
+          "end": 4.076
         },
         {
-          "text": "Then you open the big chain.",
-          "start": 4.016,
-          "end": 6.32
+          "text": "Then you open the big one.",
+          "start": 4.076,
+          "end": 6.247
         },
         {
           "text": "Four–five.",
-          "start": 6.32,
-          "end": 7.142
+          "start": 6.247,
+          "end": 7.083
         },
         {
           "text": "You lose.",
-          "start": 7.142,
-          "end": 7.883
+          "start": 7.083,
+          "end": 7.834
         },
         {
-          "text": "Right: take one, give two, and the big chain comes to you.",
-          "start": 7.883,
-          "end": 12.654
+          "text": "Right: take one, give two, and the big one comes to you.",
+          "start": 7.834,
+          "end": 12.512
         },
         {
           "text": "Six–three.",
-          "start": 12.654,
-          "end": 13.477
+          "start": 12.512,
+          "end": 13.347
         },
         {
           "text": "Giving two boxes won the game.",
-          "start": 13.477,
-          "end": 15.945
+          "start": 13.347,
+          "end": 15.853
         },
         {
           "text": "That's control.",
-          "start": 15.945,
-          "end": 17.179
+          "start": 15.853,
+          "end": 17.106
         },
         {
           "text": "The last chain?",
-          "start": 17.179,
-          "end": 18.413
+          "start": 17.106,
+          "end": 18.358
         },
         {
           "text": "Eat the lot.",
-          "start": 18.413,
-          "end": 19.4
+          "start": 18.358,
+          "end": 19.361
         },
         {
           "text": "Nobody's left to open anything.",
-          "start": 19.4,
+          "start": 19.361,
           "end": 21.95
         }
       ]
@@ -672,42 +692,42 @@
       "id": "c11",
       "chapter": "Ch2 All but two (practice)",
       "file": "vo/ep3/c11.wav",
-      "durationInSeconds": 16.9,
+      "durationInSeconds": 16.4,
       "leadFrames": 6,
-      "frames": 525,
-      "startFrame": 6288,
-      "narration": "Draw a board with a chain of three and a chain of four. <short pause> Take turns opening. <short pause> Try eating it all. Then try all but two. <short pause> Count the boxes at the end. <short pause> You'll never eat a whole chain again.",
+      "frames": 510,
+      "startFrame": 6327,
+      "narration": "Draw a board with a chain of three and a chain of four. <short pause> Take turns opening. <short pause> Try eating it all. Then try all but two. <short pause> Count the boxes at the end. <short pause> You'll start leaving two without thinking.",
       "estimated": true,
       "sentences": [
         {
           "text": "Draw a board with a chain of three and a chain of four.",
           "start": 0.15,
-          "end": 5.277
+          "end": 4.985
         },
         {
           "text": "Take turns opening.",
-          "start": 5.277,
-          "end": 7.048
+          "start": 4.985,
+          "end": 6.655
         },
         {
           "text": "Try eating it all.",
-          "start": 7.048,
-          "end": 8.726
+          "start": 6.655,
+          "end": 8.238
         },
         {
           "text": "Then try all but two.",
-          "start": 8.726,
-          "end": 10.684
+          "start": 8.238,
+          "end": 10.084
         },
         {
           "text": "Count the boxes at the end.",
-          "start": 10.684,
-          "end": 13.201
+          "start": 10.084,
+          "end": 12.458
         },
         {
-          "text": "You'll never eat a whole chain again.",
-          "start": 13.201,
-          "end": 16.65
+          "text": "You'll start leaving two without thinking.",
+          "start": 12.458,
+          "end": 16.15
         }
       ]
     },
@@ -718,7 +738,7 @@
       "durationInSeconds": 24.4,
       "leadFrames": 6,
       "frames": 750,
-      "startFrame": 6813,
+      "startFrame": 6837,
       "narration": "So who ends up in control? <short pause> Whoever doesn't have to open the first long chain. <short pause> Three boxes or more, that's a long chain. <short pause> Now go back to the start. Line six. Fifteen safe lines left. <short pause> And Chalk hands you a box. <long pause> Nobody does that. <short pause> You take it. Free box. <short pause> It was not a free box.",
       "estimated": true,
       "sentences": [
@@ -783,62 +803,67 @@
       "id": "c13",
       "chapter": "Ch3 Count: why it worked",
       "file": "vo/ep3/c13.wav",
-      "durationInSeconds": 30.7,
+      "durationInSeconds": 29.8,
       "leadFrames": 6,
-      "frames": 939,
-      "startFrame": 7563,
-      "narration": "Here's why. <short pause> Giving a box early is really a pass. You take the box, then you have to draw. <short pause> So the safe lines run out on your turn, not his. <short pause> When they do, he gives a short chain. <short pause> And you're the one who opens the long one. <short pause> Play safe there, and it ends five–four. <short pause> Give the box, and it's six–three. <short pause> One box, given early. Worth three at the end.",
+      "frames": 912,
+      "startFrame": 7587,
+      "narration": "Here's why. <short pause> Giving a box early is really a pass. You take the box, then you have to draw. <short pause> So you draw the last safe line. He's stuck. <short pause> He hands you the short chain, on purpose. <short pause> And you're the one who opens the long one. <short pause> Play safe there, and he only wins five–four. <short pause> Give the box, and it's six–three. <short pause> One box, given early. He finishes three ahead.",
       "estimated": true,
       "sentences": [
         {
           "text": "Here's why.",
           "start": 0.15,
-          "end": 1.16
+          "end": 1.118
         },
         {
           "text": "Giving a box early is really a pass.",
-          "start": 1.16,
-          "end": 4.465
+          "start": 1.118,
+          "end": 4.287
         },
         {
           "text": "You take the box, then you have to draw.",
-          "start": 4.465,
-          "end": 8.138
+          "start": 4.287,
+          "end": 7.808
         },
         {
-          "text": "So the safe lines run out on your turn, not his.",
-          "start": 8.138,
-          "end": 12.545
+          "text": "So you draw the last safe line.",
+          "start": 7.808,
+          "end": 10.537
         },
         {
-          "text": "When they do, he gives a short chain.",
-          "start": 12.545,
-          "end": 15.943
+          "text": "He's stuck.",
+          "start": 10.537,
+          "end": 11.505
+        },
+        {
+          "text": "He hands you the short chain, on purpose.",
+          "start": 11.505,
+          "end": 15.114
         },
         {
           "text": "And you're the one who opens the long one.",
-          "start": 15.943,
-          "end": 19.799
+          "start": 15.114,
+          "end": 18.811
         },
         {
-          "text": "Play safe there, and it ends five–four.",
-          "start": 19.799,
-          "end": 23.38
+          "text": "Play safe there, and he only wins five–four.",
+          "start": 18.811,
+          "end": 22.684
         },
         {
           "text": "Give the box, and it's six–three.",
-          "start": 23.38,
-          "end": 26.41
+          "start": 22.684,
+          "end": 25.589
         },
         {
           "text": "One box, given early.",
-          "start": 26.41,
-          "end": 28.338
+          "start": 25.589,
+          "end": 27.437
         },
         {
-          "text": "Worth three at the end.",
-          "start": 28.338,
-          "end": 30.45
+          "text": "He finishes three ahead.",
+          "start": 27.437,
+          "end": 29.55
         }
       ]
     },
@@ -846,62 +871,62 @@
       "id": "c14",
       "chapter": "Ch3 Count: the simple version",
       "file": "vo/ep3/c14.wav",
-      "durationInSeconds": 25.3,
+      "durationInSeconds": 24.9,
       "leadFrames": 6,
-      "frames": 777,
-      "startFrame": 8502,
-      "narration": "The simple version. <short pause> When the safe lines are nearly gone, look at the chains forming. <short pause> Ask one thing. Who opens the first long chain? <short pause> If it's you, change it. Give a box early. <short pause> The mistake is counting boxes. The fix is counting chains. <short pause> Chalk's been doing it for years. <short pause> That's why he never looks at the board.",
+      "frames": 765,
+      "startFrame": 8499,
+      "narration": "Short version. <short pause> When the safe lines are nearly gone, look at the chains forming. <short pause> Ask one thing. Who opens the first long chain? <short pause> If it's you, change it. Give a box early. <short pause> The mistake is counting boxes. The fix is counting chains. <short pause> Chalk's been doing it for years. <short pause> That's why he never looks at the board.",
       "estimated": true,
       "sentences": [
         {
-          "text": "The simple version.",
+          "text": "Short version.",
           "start": 0.15,
-          "end": 1.748
+          "end": 1.329
         },
         {
           "text": "When the safe lines are nearly gone, look at the chains forming.",
-          "start": 1.748,
-          "end": 7.132
+          "start": 1.329,
+          "end": 6.717
         },
         {
           "text": "Ask one thing.",
-          "start": 7.132,
-          "end": 8.31
+          "start": 6.717,
+          "end": 7.896
         },
         {
           "text": "Who opens the first long chain?",
-          "start": 8.31,
-          "end": 10.918
+          "start": 7.896,
+          "end": 10.506
         },
         {
           "text": "If it's you, change it.",
-          "start": 10.918,
-          "end": 12.852
+          "start": 10.506,
+          "end": 12.442
         },
         {
           "text": "Give a box early.",
-          "start": 12.852,
-          "end": 14.282
+          "start": 12.442,
+          "end": 13.873
         },
         {
           "text": "The mistake is counting boxes.",
-          "start": 14.282,
-          "end": 16.806
+          "start": 13.873,
+          "end": 16.399
         },
         {
           "text": "The fix is counting chains.",
-          "start": 16.806,
-          "end": 19.077
+          "start": 16.399,
+          "end": 18.672
         },
         {
           "text": "Chalk's been doing it for years.",
-          "start": 19.077,
-          "end": 21.769
+          "start": 18.672,
+          "end": 21.366
         },
         {
           "text": "That's why he never looks at the board.",
-          "start": 21.769,
-          "end": 25.05
+          "start": 21.366,
+          "end": 24.65
         }
       ]
     },
@@ -912,7 +937,7 @@
       "durationInSeconds": 12.4,
       "leadFrames": 6,
       "frames": 390,
-      "startFrame": 9279,
+      "startFrame": 9264,
       "narration": "Next game, pause when about six safe lines are left. <short pause> Both of you point at the chains. Say who's opening the first long one. <short pause> Then play it out.",
       "estimated": true,
       "sentences": [
@@ -945,7 +970,7 @@
       "durationInSeconds": 21.3,
       "leadFrames": 6,
       "frames": 657,
-      "startFrame": 9669,
+      "startFrame": 9654,
       "narration": "There's a one-sentence rule the champions use. Before the first line is even drawn. <short pause> Count the dots. Add the long chains you expect. <short pause> Went first? You want that number even. <short pause> Went second? Odd. <short pause> Using it takes years. <short pause> Chalk reads it that way before you've picked up the chalk.",
       "estimated": true,
       "sentences": [
@@ -1005,52 +1030,52 @@
       "id": "c17",
       "chapter": "Ending: the last game",
       "file": "vo/ep3/c17.wav",
-      "durationInSeconds": 14.7,
+      "durationInSeconds": 15.6,
       "leadFrames": 6,
-      "frames": 459,
-      "startFrame": 10326,
-      "narration": "Last game of the night. This time Chalk goes first. <short pause> Same line as yours. <short pause> You play safe. He plays safe. <short pause> Safe lines gone. And it's his turn. <short pause> He opens a chain of three.",
+      "frames": 486,
+      "startFrame": 10311,
+      "narration": "Last game of the night. This time Chalk goes first. <short pause> Same line as yours. <short pause> You give one early. He gives one back. <short pause> Safe lines gone. And it's his turn. <short pause> He opens a chain of three.",
       "estimated": true,
       "sentences": [
         {
           "text": "Last game of the night.",
           "start": 0.15,
-          "end": 2.245
+          "end": 2.256
         },
         {
           "text": "This time Chalk goes first.",
-          "start": 2.245,
-          "end": 4.704
+          "start": 2.256,
+          "end": 4.728
         },
         {
           "text": "Same line as yours.",
-          "start": 4.704,
-          "end": 6.435
+          "start": 4.728,
+          "end": 6.468
         },
         {
-          "text": "You play safe.",
-          "start": 6.435,
-          "end": 7.71
+          "text": "You give one early.",
+          "start": 6.468,
+          "end": 8.208
         },
         {
-          "text": "He plays safe.",
-          "start": 7.71,
-          "end": 8.985
+          "text": "He gives one back.",
+          "start": 8.208,
+          "end": 9.856
         },
         {
           "text": "Safe lines gone.",
-          "start": 8.985,
-          "end": 10.442
+          "start": 9.856,
+          "end": 11.321
         },
         {
           "text": "And it's his turn.",
-          "start": 10.442,
-          "end": 12.082
+          "start": 11.321,
+          "end": 12.969
         },
         {
           "text": "He opens a chain of three.",
-          "start": 12.082,
-          "end": 14.45
+          "start": 12.969,
+          "end": 15.35
         }
       ]
     },
@@ -1061,7 +1086,7 @@
       "durationInSeconds": 13.8,
       "leadFrames": 6,
       "frames": 432,
-      "startFrame": 10785,
+      "startFrame": 10797,
       "narration": "You take one. <short pause> And you stop. <short pause> Double-cross. <short pause> He takes the pair. <short pause> Then he has to open the big one. Four boxes. All yours. <long pause> Six–three. <short pause> The eyebrow goes up. <short pause> It stays up.",
       "estimated": true,
       "sentences": [
@@ -1124,7 +1149,7 @@
       "durationInSeconds": 22.2,
       "leadFrames": 6,
       "frames": 684,
-      "startFrame": 11217,
+      "startFrame": 11229,
       "narration": "One more thing. <short pause> A computer has played every possible game on this little board. <short pause> If nobody slips, the player who goes second wins. Six–three. <short pause> Whatever the first line is. <long pause> The next board up, five dots by five? Perfect play is a tie. <short pause> The one after that? Nobody has finished counting.",
       "estimated": true,
       "sentences": [
@@ -1182,7 +1207,7 @@
       "durationInSeconds": 14.2,
       "leadFrames": 6,
       "frames": 444,
-      "startFrame": 11901,
+      "startFrame": 11913,
       "narration": "Half past nine. <short pause> Ankle's fine, by the way. <short pause> Chalk rubs the dots out and walks back to his line. <short pause> Lights out. <long pause> Next time someone says 'you go first'? <short pause> Smile. <short pause> Say thank you.",
       "estimated": true,
       "sentences": [
