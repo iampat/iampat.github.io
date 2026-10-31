@@ -1,0 +1,874 @@
+{
+ "title": "The Player Who Gives Boxes Away",
+ "logline": "Night three on the floodlit pitch, but Tavi is on the bench with ice on her ankle, so Chalk sits down on the concrete and draws sixteen dots. She plays the game the way everyone plays it, grabs every box, leads three–nil and loses three–six. Dots and Boxes looks like a grabbing game. It is a giving game: whoever has to give first loses. Three chapters: the safe lines and the chains they leave behind, the all-but-two trick that keeps control, and the early gift that decides who opens the first long chain. The last game she plays second, gives two boxes on purpose, and wins six–three. A computer has played every game on this board: the second player always wins it. Next time someone says 'you go first': smile, say thank you.",
+ "characters": [
+  {
+   "name": "Tavi (the player, spoken to only as 'you')",
+   "design": "As episodes 1 and 2. New: sitBench (one boot off, ice pack on the left ankle), a chalk stub in her hand, face surprised (eyes grow) at the early gift, wince at the decline, happy at the end. Her lines and rings are teal.",
+   "role": "The viewer's stand-in. Grabs every box in the cold open and loses 3-6. Learns the two halves, the double-cross and the early gift. Plays second in the last game and wins 6-3."
+  },
+  {
+   "name": "Chalk (the keeper made of pitch paint)",
+   "design": "As before: chalk-white, mittens, one eyebrow. New: sitFloor (cross-legged on the concrete), a finger that leaves chalk dots, a sleeve wipe. He hands Tavi a piece of himself to draw with. His lines and crosses are chalk white. Face flat all night; smug for the first eyebrow; thinking when she declines; surprised at the end.",
+   "role": "The problem-setter and the giver. Never speaks. Gives one box early in the first game and takes six in a row. In the last game he goes first and loses with the eyebrow up."
+  },
+  {
+   "name": "The board (motif)",
+   "design": "DotsBoard: sixteen chalk dots on dark concrete, lines handwritten with a trim path, a ring for Tavi and a cross for Chalk, chains highlighted in soft orange with a chalk bow when they are a gift, safe lines shown as dashed lime ghosts, a Readout of safe lines left.",
+   "role": "Every line on screen is a real move from research/ep3/games.json (g1 greedy loss, g5 perfect win, g3 the eat-all branch)."
+  },
+  {
+   "name": "The two-halves bar (motif)",
+   "design": "A chalk bar under the board: the quiet half in lime, the giving half in orange, a gap mark where the safe lines run out.",
+   "role": "Shows that the game has two halves and where the early gift moves the turn."
+  }
+ ],
+ "learn_words": [
+  {
+   "term": "safe line",
+   "meaning": "a line that gives no box its third side",
+   "scene": "c04"
+  },
+  {
+   "term": "chain",
+   "meaning": "boxes joined through a gap: open one, and the other player can take them all",
+   "scene": "c05"
+  },
+  {
+   "term": "double-cross",
+   "meaning": "two boxes left as a pair on purpose: the other player takes both, then has to open the next chain for you",
+   "scene": "c09"
+  },
+  {
+   "term": "control",
+   "meaning": "you are the player who keeps getting chains opened for you",
+   "scene": "c10"
+  },
+  {
+   "term": "long chain",
+   "meaning": "three boxes or more: the prize of the game",
+   "scene": "c12"
+  }
+ ],
+ "games": {
+  "source": "research/ep3/games.json, made by research/ep3/games.c (brute force, 3x3 boxes, extra-turn rule)",
+  "g1": "Tavi first, greedy; Chalk perfect. Chalk gives one box at move 6 (15 safe lines left), gives the two-box pair at move 15, Tavi leads 3-0 after move 17, must open the six-chain at move 18, final 3-6.",
+  "g5": "Chalk first with the same first line (h10); both perfect. Safe lines gone after move 16; Chalk opens a three-chain (move 17); Tavi takes one, declines two (move 19); Chalk takes the pair, opens the four-chain; final 6-3.",
+  "g3": "From g5 move 19: Tavi eats all three, opens the four-chain, final 4-5.",
+  "counterfactual": "g1 before move 6: Chalk's best safe line gives 5-4; the gift gives 6-3 (research/ep3/analyze.c)."
+ },
+ "scenes": [
+  {
+   "id": "c01",
+   "chapter": "Cold open",
+   "palette": "Floodlit Pitch",
+   "narration": "Night three. <short pause> Same pitch. Nine o'clock. <short pause> Tonight you're on the bench. Boot off. Ice on the ankle. <short pause> No football. <short pause> Chalk's bored too. He wanders over, sits down on the concrete, and draws a dot. <short pause> Then fifteen more. <long pause> Oh. You know this game. Everyone knows this game.",
+   "word_count": 46,
+   "est_seconds": 20.4,
+   "visual_beats": [
+    "[1 s silent pre-roll] The night sky and star field from s01. The floodlights clunk on one after another with their glow rings. StandClock reads nine (hours 21). Chalk caption on the grass: 'NIGHT 3'.",
+    "'Same pitch. Nine o'clock.' Slow push (8% over 5 s) along the touchline towards the bench at the side of the pitch (a low dugout bench, concrete apron in front of it).",
+    "'Tonight you're on the bench.' Tavi sits on the bench, side view, one boot beside her on the ground, teal sock. A chalk-white ice pack rests on the left ankle (new pose: sitBench).",
+    "'Boot off. Ice on the ankle.' Two small label pops: 'BOOT' by the boot, 'ICE' by the pack. Blip sfx.",
+    "'No football.' The orange ball sits alone in the centre circle, far away, under one floodlight. A tiny sad idle wobble.",
+    "'Chalk's bored too.' The goal-line paint peels up and builds Chalk as in s01, but he looks left and right, taps one mitten on his hip (tapHead then shrug), and steps off the line.",
+    "'He wanders over,' Chalk walks along the pitch to the bench (runA/runB at walking tempo, flip on), a small dust puff per step.",
+    "'sits down on the concrete,' Chalk sits cross-legged on the concrete in front of the bench, facing the camera (new pose: sitFloor). The camera eases down to a three-quarter view of the concrete between them.",
+    "'and draws a dot.' Close on the concrete: his mitten finger touches down and leaves one chalk dot (Dust puff, chalk sfx).",
+    "'Then fifteen more.' Fifteen more dots appear one by one in a 4 by 4 square, tick-tick-tick, faster and faster (DotsBoard with only dots, each dot pops).",
+    "[long pause] The finished square of sixteen dots glows once. Tavi leans in.",
+    "'Oh. You know this game. Everyone knows this game.' Tavi's face: happy. A chalk stub appears in her hand (he hands her a piece of himself: a small white stick breaks off his mitten, blip sfx)."
+   ],
+   "components": [
+    "Stage",
+    "Camera",
+    "Sky",
+    "Stars",
+    "Floodlight",
+    "Stands",
+    "StandClock",
+    "GroundSide",
+    "Dust",
+    "Player",
+    "Keeper",
+    "Ball",
+    "Label",
+    "DotsBoard",
+    "Sfx"
+   ],
+   "sfx": [
+    "light-on x4 on the floodlights",
+    "blip on the labels",
+    "chalk on each dot",
+    "tick on the fast dots",
+    "bell on the glow"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "StandClock hours 21 as in s01 and b01; half past nine at the end as in s23 (no research fact needed: the story clock).",
+    "research/ep3/RESULTS.md: a 3x3-box board has 16 dots and 24 lines; 2^24 = 16,777,216 positions."
+   ]
+  },
+  {
+   "id": "c02",
+   "chapter": "Cold open: the game",
+   "palette": "Floodlit Pitch",
+   "narration": "You go first. Of course you do. <short pause> You play it like everyone does. Three sides? Take it. <short pause> Three–nil. Chalk hasn't got a single box. <short pause> Then he draws one line. <long pause> And takes six in a row. <short pause> Three–six. <short pause> One eyebrow goes up.",
+   "word_count": 40,
+   "est_seconds": 17.8,
+   "visual_beats": [
+    "'You go first.' Top-down view of the concrete: the 16-dot board (DotsBoard, size about 620 px, centred). Tavi's chalk stub draws g1 move 1 (h10) in teal. ScoreTags YOU 0 / CHALK 0 top left.",
+    "'Of course you do.' A tiny shrug from Chalk's mitten at the edge of frame.",
+    "'You play it like everyone does.' Moves 2-14 of g1 play out quickly (one line every 10-12 frames), teal for Tavi, white for Chalk. Chalk sfx on each line.",
+    "'Three sides? Take it.' Freeze on move 7: the top-left box has three sides, glowing amber. Tavi draws the fourth (v01), a teal ring pops inside it, thump sfx. YOU 1.",
+    "'Three–nil.' Moves 15-17: Chalk draws h22, Tavi takes two boxes (h32, v12). Rings pop. YOU 3 / CHALK 0 with a small bounce on the 3.",
+    "'Chalk hasn't got a single box.' Chalk, face flat. No cross anywhere on the board.",
+    "'Then he draws one line.' Back on the board. Tavi draws h11 (move 18, she has to). Then Chalk's finger draws h21: one white line. Hold.",
+    "[long pause] Nothing moves for a beat. Then the crosses start.",
+    "'And takes six in a row.' (Chalk looks up at the floodlights while his mitten draws, face flat.) Moves 19-24: six white crosses pop one after another, each with a thump, getting faster. CHALK 1, 2, 3, 4, 5, 6.",
+    "'Three–six.' ScoreTags centre the frame: YOU 3 / CHALK 6. The 6 bounces.",
+    "'One eyebrow goes up.' Chalk's eyebrow lifts (face: smug). Blip sfx."
+   ],
+   "components": [
+    "Stage",
+    "Camera",
+    "DotsBoard",
+    "ScoreTags",
+    "Player",
+    "Keeper",
+    "Label",
+    "Sfx"
+   ],
+   "sfx": [
+    "chalk on each line",
+    "thump on each box",
+    "blip on the eyebrow"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "research/ep3/games.json g1: Tavi first, greedy; 3-0 after move 17, final 3-6; Chalk takes the last six boxes in moves 19-24."
+   ]
+  },
+  {
+   "id": "c03",
+   "chapter": "Cold open: the question and title",
+   "palette": "Title",
+   "narration": "Hang on. You were winning three–nil. <short pause> How does three–nil turn into three–six? <long pause> This game looks like a grabbing game. <short pause> It isn't. <short pause> It's a giving game. And whoever has to give first, loses.",
+   "word_count": 32,
+   "est_seconds": 14.2,
+   "visual_beats": [
+    "'Hang on.' The board freezes. The world dims by 30%; the board stays lit.",
+    "'You were winning three–nil.' The score rewinds visually: the six crosses fade out, YOU 3 / CHALK 0 again, rings glowing.",
+    "'How does three–nil turn into three–six?' The six crosses return one by one. A chalk question mark is drawn on the concrete beside the board (ChalkQuestion as in b01). Hold.",
+    "[long pause] Floodlight hum. The question mark idles.",
+    "'This game looks like a grabbing game.' A chalk hand sketch grabs at a box (ChalkSketch-style, 2 strokes). Blip.",
+    "'It isn't.' The hand sketch rubs out.",
+    "'It's a giving game.' A chalk hand holds out a box like a present. A small bow is drawn on it. Bell.",
+    "'And whoever has to give first, loses.' The present slides from Tavi's side to Chalk's side of the board.",
+    "Title sting (2.5 s hold): TitleCard 'THE PLAYER WHO GIVES BOXES AWAY' over the board, with three small chapter icons under it: a third side, a double-cross pair, a counting hand."
+   ],
+   "components": [
+    "Stage",
+    "Camera",
+    "DotsBoard",
+    "ScoreTags",
+    "ChalkQuestion",
+    "ChalkSketch",
+    "TitleCard",
+    "Sfx"
+   ],
+   "sfx": [
+    "tick x3 on the rings",
+    "blip on the grab",
+    "bell on the present",
+    "subdrop on the title"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "research/ep3/games.json g1: Tavi first, greedy; 3-0 after move 17, final 3-6; Chalk takes the last six boxes in moves 19-24."
+   ]
+  },
+  {
+   "id": "c04",
+   "chapter": "Ch1 Third side: the rule everyone knows",
+   "palette": "Floodlit Pitch",
+   "narration": "Let's run it back. Slowly. <short pause> One rule. A box with three sides is a gift. <short pause> Draw the third side, and the other player draws the fourth. <short pause> A line that gives no box its third side? Call it a safe line. <short pause> Sixteen dots. Twenty-four lines. At the start, every one of them is safe.",
+   "word_count": 53,
+   "est_seconds": 23.6,
+   "visual_beats": [
+    "ChapterCard 1: 'THE THIRD SIDE', subtitle 'the quiet half'. Chalk sfx under it.",
+    "'Let's run it back. Slowly.' The board clears to 16 dots (lines rub out in reverse, fast).",
+    "'One rule.' A single box in close-up (camera zoom 1.6 on the top-left box).",
+    "'A box with three sides is a gift.' Three sides draw on in white, one by one. The box fills soft pink. A chalk bow is drawn on it. Blip.",
+    "'Draw the third side, and the other player draws the fourth.' A teal hand draws the third side; a white finger draws the fourth; a white cross pops. Thump.",
+    "'A line that gives no box its third side?' Tavi draws one line (h10). The two boxes it touches show their side count: '1' and '1' in small chalk digits, lime.",
+    "'Call it a safe line.' WordCard: safe line, 'a line that gives no box its third side'. The line glows lime once.",
+    "'Sixteen dots. Twenty-four lines.' All 24 lines appear as faint dashed lime ghosts. A Readout counts '24' at the top right.",
+    "'At the start, every one of them is safe.' The ghosts pulse together once. Bell."
+   ],
+   "components": [
+    "Stage",
+    "Camera",
+    "ChapterCard",
+    "DotsBoard",
+    "WordCard",
+    "Readout",
+    "Label",
+    "Sfx"
+   ],
+   "sfx": [
+    "chalk on lines",
+    "blip on the bow",
+    "thump on the capture",
+    "bell on the pulse"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "research/ep3/RESULTS.md: a 3x3-box board has 16 dots and 24 lines; 2^24 = 16,777,216 positions."
+   ]
+  },
+  {
+   "id": "c05",
+   "chapter": "Ch1 Third side: the quiet half",
+   "palette": "Floodlit Pitch",
+   "narration": "Watch the safe lines disappear. <short pause> Twenty-four. Twenty. Fifteen. Ten. <short pause> Each line uses one up. <short pause> Five. Two. <long pause> None. <short pause> Every empty box is joined to the next through a gap. <short pause> Boxes linked like that are a chain. Open one, and the whole chain goes.",
+   "word_count": 42,
+   "est_seconds": 18.7,
+   "visual_beats": [
+    "'Watch the safe lines disappear.' The real opening of g1 replays, moves 1-14, with the dashed lime ghosts showing the safe lines left before each move. The Readout counts down with them.",
+    "'Twenty-four. Twenty. Fifteen. Ten.' The Readout lands on 24, 20, 15, 10 exactly as the words are spoken (moves 1, 3, 6, 11 of g1). A tick on each spoken number.",
+    "'Each line uses one up.' Highlight move 2 (h00): three dashed ghosts vanish at once (23 to 20). They blink pink before going.",
+    "'Five. Two.' Readout 5 (after move 11), then 2 (after move 13).",
+    "[long pause] Move 14 (v23). The last two ghosts vanish.",
+    "'None.' Readout 0, in pink. The board holds. Subdrop.",
+    "'Every empty box is joined to the next through a gap.' Arrows thread through the gaps: top-right 3 boxes link into one run, two pairs link below, one loose box.",
+    "'Boxes linked like that are a chain.' WordCard: chain, 'boxes joined through a gap: open one, and the other player can take them all'. The 3-box run fills soft orange.",
+    "'Open one, and the whole chain goes.' A ghost replay in the corner: a white line opens the run, three teal rings pop in a row. Thump x3."
+   ],
+   "components": [
+    "Stage",
+    "Camera",
+    "DotsBoard",
+    "Readout",
+    "WordCard",
+    "Arrow",
+    "Label",
+    "Sfx"
+   ],
+   "sfx": [
+    "tick on each number",
+    "subdrop on none",
+    "thump x3 on the ghost"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "research/ep3/games.json g1 safeBefore per move: 24, 23, 20, 19, 18, 15, 15, 15, 15, 12, 10, 7, 5, 4, 2, 0 (safe lines left before moves 1-16).",
+    "research/ep3/games.json g1: Tavi first, greedy; 3-0 after move 17, final 3-6; Chalk takes the last six boxes in moves 19-24."
+   ]
+  },
+  {
+   "id": "c06",
+   "chapter": "Ch1 Third side: the giving half",
+   "palette": "Floodlit Pitch",
+   "narration": "The game has two halves. <short pause> The quiet half: nobody gives anything. <short pause> The giving half: every line is a gift. <short pause> Two players, both refusing to give, until one of them can't. <short pause> The mistake? A third side while safe lines are still on the board. <short pause> The fix is one question. <short pause> Is this safe?",
+   "word_count": 51,
+   "est_seconds": 22.7,
+   "visual_beats": [
+    "'The game has two halves.' A chalk bar is drawn under the board: the two-halves bar. Left half lime, right half orange, a small gap mark between them at move 14.",
+    "'The quiet half: nobody gives anything.' The left half of the bar lights. Above it the board replays moves 1-14 at double speed, all lines, no marks.",
+    "'The giving half: every line is a gift.' The right half lights orange. Moves 15-24 replay: every line now pops a mark. A small chalk bow appears on each opened chain.",
+    "'Two players, both refusing to give, until one of them can't.' Side view: Tavi and Chalk face each other over the board, both with chalk raised, both still (idle only). Then Chalk's mitten lowers to draw.",
+    "'The mistake? A third side while safe lines are still on the board.' Stamp MISTAKE. A ghost board: a teal line gives a box its third side at move 5 while dashed safe lines are still everywhere. The box blinks pink; a white cross takes it.",
+    "'The fix is one question.' Stamp FIX. Tavi's chalk hovers over a line.",
+    "'Is this safe?' Stamp CUE: 'safe?'. The two boxes beside her line show '1' and '2' in lime. The line draws in teal."
+   ],
+   "components": [
+    "Stage",
+    "Camera",
+    "DotsBoard",
+    "TwoHalvesBar",
+    "Stamp",
+    "Player",
+    "Keeper",
+    "Label",
+    "Sfx"
+   ],
+   "sfx": [
+    "bell on the bar",
+    "stamp x3"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "research/ep3/games.json g1 safeBefore per move: 24, 23, 20, 19, 18, 15, 15, 15, 15, 12, 10, 7, 5, 4, 2, 0 (safe lines left before moves 1-16)."
+   ]
+  },
+  {
+   "id": "c07",
+   "chapter": "Ch1 Third side (practice)",
+   "palette": "Floodlit Pitch",
+   "narration": "Try this with someone tonight. Paper. Sixteen dots. <short pause> Before every line, say it out loud. Safe. Or gift. <short pause> You'll both feel the moment the quiet half ends.",
+   "word_count": 27,
+   "est_seconds": 12.0,
+   "visual_beats": [
+    "PracticeBoard 'TONIGHT': a notebook page sketch with 16 dots.",
+    "'Paper. Sixteen dots.' The dots pop in a 4 by 4 square. Tick x4 speeding up.",
+    "'Before every line, say it out loud. Safe. Or gift.' Two chalk speech bubbles over the page: 'SAFE' (lime) and 'GIFT' (pink) alternate as lines draw.",
+    "'You'll both feel the moment the quiet half ends.' The two-halves bar under the page fills to the gap mark and stops. A small chalk '!' pops at the gap. Blip."
+   ],
+   "components": [
+    "Stage",
+    "PracticeBoard",
+    "DotsBoard",
+    "Bubble",
+    "TwoHalvesBar",
+    "Sfx"
+   ],
+   "sfx": [
+    "tick on the dots",
+    "pop-soft on bubbles",
+    "blip on the !"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "research/ep3/RESULTS.md: a 3x3-box board has 16 dots and 24 lines; 2^24 = 16,777,216 positions."
+   ]
+  },
+  {
+   "id": "c08",
+   "chapter": "Ch2 All but two: the trap",
+   "palette": "Floodlit Pitch",
+   "narration": "Back to the night. Safe lines gone. Chalk's turn. He has to give. <short pause> So he gives you the smallest thing. Two boxes. <short pause> You take them. Three–nil. <short pause> Now look at what's left. <short pause> One chain. Six boxes long. And it's your turn. <long pause> That wasn't a gift. That was a trap with a bow on it.",
+   "word_count": 53,
+   "est_seconds": 23.6,
+   "visual_beats": [
+    "ChapterCard 2: 'ALL BUT TWO', subtitle 'the giving half'.",
+    "'Back to the night. Safe lines gone. Chalk's turn.' The board at g1 after move 14. Readout '0 safe'. Chalk's finger hovers.",
+    "'He has to give.' Every undrawn line blinks pink in turn: each one is a gift. There is no safe line.",
+    "'So he gives you the smallest thing. Two boxes.' He draws h22. The two-box pair at the bottom fills soft orange with a chalk bow.",
+    "'You take them. Three–nil.' Tavi draws h32 and v12, two teal rings pop. ScoreTags YOU 3 / CHALK 0.",
+    "'Now look at what's left.' Camera push 10%. The six remaining boxes glow and the arrows thread them into one snake.",
+    "'One chain. Six boxes long.' A chalk '6' is written beside the snake. Each of the six boxes shows its number 1 to 6 along the chain.",
+    "'And it's your turn.' A chalk arrow points at Tavi's chalk stub. The stub trembles (idle amp up).",
+    "[long pause] Tavi draws h11. Six white crosses pop fast. YOU 3 / CHALK 6.",
+    "'That wasn't a gift. That was a trap with a bow on it.' The bow from the two-box pair floats up and lands on the word TRAP written in chalk. Blip."
+   ],
+   "components": [
+    "Stage",
+    "Camera",
+    "ChapterCard",
+    "DotsBoard",
+    "ScoreTags",
+    "Readout",
+    "Arrow",
+    "Label",
+    "Sfx"
+   ],
+   "sfx": [
+    "chalk on lines",
+    "thump on rings",
+    "thump x6 fast on crosses",
+    "blip on TRAP"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "research/ep3/games.json g1: Tavi first, greedy; 3-0 after move 17, final 3-6; Chalk takes the last six boxes in moves 19-24.",
+    "research/ep3/games.json g1 safeBefore per move: 24, 23, 20, 19, 18, 15, 15, 15, 15, 12, 10, 7, 5, 4, 2, 0 (safe lines left before moves 1-16)."
+   ]
+  },
+  {
+   "id": "c09",
+   "chapter": "Ch2 All but two: the decline",
+   "palette": "Floodlit Pitch",
+   "narration": "Here's what the good players do. It feels wrong the first time. <short pause> Say Chalk opens a chain of three. <short pause> Take one box. <short pause> Then stop. <short pause> Don't take the last two. Draw the line that leaves them as a pair. <short pause> That shape is a double-cross. <short pause> Chalk takes the pair. <short pause> Now it's his turn, and nothing is safe. <short pause> He has to open the next chain. For you.",
+   "word_count": 64,
+   "est_seconds": 28.4,
+   "visual_beats": [
+    "'Here's what the good players do.' New board: g5 after move 16 (safe lines gone, chains of three and three plus one loose box). ScoreTags YOU 1 / CHALK 1.",
+    "'It feels wrong the first time.' Tavi's face: wince.",
+    "'Say Chalk opens a chain of three.' Chalk draws v21 (move 17). The three-box run on the right fills soft orange and shows 1, 2, 3.",
+    "'Take one box.' Tavi draws h21: one teal ring pops. YOU 2. Thump.",
+    "'Then stop.' Her chalk lifts off the concrete. Hold. The two remaining boxes of the run blink: both have three sides.",
+    "'Don't take the last two.' The two capture lines show as pink ghosts, then fade.",
+    "'Draw the line that leaves them as a pair.' She draws v11 (move 19), teal, at the far end of the run. The pair sits there with one gap between them.",
+    "(same beat, no new words) Chalk digits '3' and '3' on the pair. A chalk bow on the pair. Chalk digits '3' and '3' on the pair. A chalk bow on the pair.",
+    "'That shape is a double-cross.' WordCard: double-cross, 'two boxes left as a pair on purpose: the other player takes both, then has to open the next chain for you'. The pair glows.",
+    "'Chalk takes the pair.' Chalk draws h20: two white crosses pop at once. CHALK 3. Thump x2.",
+    "'Now it's his turn, and nothing is safe.' Every undrawn line blinks pink in turn. Chalk's face: annoyed.",
+    "'He has to open the next chain. For you.' He draws v12 (move 21): the four-box chain fills soft orange with a bow and slides towards Tavi's side. Bell."
+   ],
+   "components": [
+    "Stage",
+    "Camera",
+    "DotsBoard",
+    "ScoreTags",
+    "WordCard",
+    "Label",
+    "Player",
+    "Keeper",
+    "Sfx"
+   ],
+   "sfx": [
+    "thump on each box",
+    "bell on the chain"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "research/ep3/games.json g5: Chalk first with h10 (g1's first line), both perfect; Chalk opens a 3-chain at move 17; Tavi takes 1, declines 2 (move 19), takes the 4-chain; final 6-3."
+   ]
+  },
+  {
+   "id": "c10",
+   "chapter": "Ch2 All but two: side by side",
+   "palette": "Floodlit Pitch",
+   "narration": "Same board. Two endings. <short pause> Left: you eat all three. <short pause> Then you open the big chain. Four–five. You lose. <short pause> Right: take one, give two, and the big chain comes to you. Six–three. <short pause> Giving two boxes won the game. That's control. <short pause> The last chain? Eat the lot. Nobody's left to open anything.",
+   "word_count": 50,
+   "est_seconds": 22.2,
+   "visual_beats": [
+    "'Same board. Two endings.' SplitCompare: two boards side by side, both at g5 after move 18 (one box of the three taken). A chalk divider between them. Left header 'EAT IT ALL', right header 'ALL BUT TWO'.",
+    "'Left: you eat all three.' Left board: Tavi draws h20 and v11, two more teal rings. YOU 4 / CHALK 1 under it.",
+    "'Then you open the big chain. Four–five. You lose.' Left: she draws h11, four white crosses pop fast. Score 4 / 5 in pink. A small pink X stamp over the left board.",
+    "'Right: take one, give two, and the big chain comes to you.' Right board: v11 (decline), h20 (Chalk's two crosses), v12 (Chalk opens), then four teal rings. ",
+    "'Six–three.' Right score 6 / 3 in teal, bounce. A lime tick stamp. Bell.",
+    "'Giving two boxes won the game.' On the right board, the double-cross pair glows and a chalk '+4' is written beside the four-chain.",
+    "'That's control.' WordCard: control, 'you are the player who keeps getting chains opened for you'. The chalk present sketch from c03 appears, now on Tavi's side.",
+    "'The last chain? Eat the lot.' The last chain icon fills completely with teal. Thump.",
+    "'Nobody's left to open anything.' Chalk's mitten does a small open-palm shrug at the edge of frame. Blip."
+   ],
+   "components": [
+    "Stage",
+    "Camera",
+    "SplitCompare",
+    "DotsBoard",
+    "ScoreTags",
+    "WordCard",
+    "Stamp",
+    "ChalkSketch",
+    "Label",
+    "Sfx"
+   ],
+   "sfx": [
+    "thump on boxes",
+    "stamp on the X and the tick",
+    "bell on 6-3",
+    "blip on the shrug"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "research/ep3/games.json g5: Chalk first with h10 (g1's first line), both perfect; Chalk opens a 3-chain at move 17; Tavi takes 1, declines 2 (move 19), takes the 4-chain; final 6-3.",
+    "research/ep3/games.json g3: same position as g5 move 19, Tavi eats all three, must open the 4-chain, final 4-5."
+   ]
+  },
+  {
+   "id": "c11",
+   "chapter": "Ch2 All but two (practice)",
+   "palette": "Floodlit Pitch",
+   "narration": "Draw a board with a chain of three and a chain of four. <short pause> Take turns opening. <short pause> Try eating it all. Then try all but two. <short pause> Count the boxes at the end. <short pause> You'll never eat a whole chain again.",
+   "word_count": 38,
+   "est_seconds": 16.9,
+   "visual_beats": [
+    "PracticeBoard 'WITH A FRIEND': a notebook page with a small board drawn so that a 3-chain and a 4-chain are already formed (lines pre-drawn in grey).",
+    "'Take turns opening.' Two chalk stubs (teal and white) take turns at the page edge.",
+    "'Try eating it all. Then try all but two.' Two tiny replays side by side on the page, 'ALL' and 'ALL BUT TWO' under them.",
+    "'Count the boxes at the end.' Two chalk scores appear under the replays; the second one is bigger. Tick on each count.",
+    "'You'll never eat a whole chain again.' The 'ALL' replay gets a chalk line through it. Blip."
+   ],
+   "components": [
+    "Stage",
+    "PracticeBoard",
+    "DotsBoard",
+    "Label",
+    "Sfx"
+   ],
+   "sfx": [
+    "chalk",
+    "tick",
+    "blip"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "Drill numbers are set by the script, not by research (a chain of three and four; pause at about six safe lines)."
+   ]
+  },
+  {
+   "id": "c12",
+   "chapter": "Ch3 Count: the early gift",
+   "palette": "Floodlit Pitch",
+   "narration": "So who ends up in control? <short pause> Whoever doesn't have to open the first long chain. <short pause> Three boxes or more, that's a long chain. <short pause> Now go back to the start. Line six. Fifteen safe lines left. <short pause> And Chalk hands you a box. <long pause> Nobody does that. <short pause> You take it. Free box. <short pause> It was not a free box.",
+   "word_count": 55,
+   "est_seconds": 24.4,
+   "visual_beats": [
+    "ChapterCard 3: 'COUNT', subtitle 'the early gift'.",
+    "'So who ends up in control?' The chalk present sketch sits between Tavi and Chalk, a chalk '?' on it.",
+    "'Whoever doesn't have to open the first long chain.' Board at g1 after move 17: the six-box chain glows orange; a chalk arrow from Tavi's stub to it, pink. The present slides to Chalk.",
+    "'Three boxes or more, that's a long chain.' WordCard: long chain, 'three boxes or more: the prize of the game'. Three chain icons: 1 and 2 drawn small and grey, 3+ drawn big and orange.",
+    "'Now go back to the start.' The board rewinds fast to g1 after move 5 (lines un-draw). Readout '15 safe'.",
+    "'Line six. Fifteen safe lines left.' The 15 dashed lime ghosts show. A chalk '6' tag on the move counter.",
+    "'And Chalk hands you a box.' Chalk draws v00: the top-left box now has three sides. It fills soft pink, a chalk bow on it. Hold on the board.",
+    "[long pause] Tavi looks at Chalk. Chalk looks at the floodlights (face flat).",
+    "'Nobody does that.' Tavi's face: surprised (eyes grow).",
+    "'You take it. Free box.' She draws v01, a teal ring pops, YOU 1. A chalk 'FREE' label by the box. Thump.",
+    "'It was not a free box.' The 'FREE' label gets a chalk line through it. Subdrop."
+   ],
+   "components": [
+    "Stage",
+    "Camera",
+    "ChapterCard",
+    "DotsBoard",
+    "ScoreTags",
+    "Readout",
+    "WordCard",
+    "ChalkSketch",
+    "Label",
+    "Player",
+    "Keeper",
+    "Sfx"
+   ],
+   "sfx": [
+    "pop-soft on the coins",
+    "thump on the ring",
+    "subdrop on the strike-through"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "research/ep3/games.json g1: Tavi first, greedy; 3-0 after move 17, final 3-6; Chalk takes the last six boxes in moves 19-24.",
+    "research/ep3/games.json g1 safeBefore per move: 24, 23, 20, 19, 18, 15, 15, 15, 15, 12, 10, 7, 5, 4, 2, 0 (safe lines left before moves 1-16).",
+    "Berlekamp's long chain rule (The Dots and Boxes Game, 2000; quoted in Science News): make dots + eventual long chains even if you play first, odd if second. Long chain = 3 boxes or more (Ferguson, UCLA). Fact-check wording."
+   ]
+  },
+  {
+   "id": "c13",
+   "chapter": "Ch3 Count: why it worked",
+   "palette": "Floodlit Pitch",
+   "narration": "Here's why. <short pause> Giving a box early is really a pass. You take the box, then you have to draw. <short pause> So the safe lines run out on your turn, not his. <short pause> When they do, he gives a short chain. <short pause> And you're the one who opens the long one. <short pause> Play safe there, and it ends five–four. <short pause> Give the box, and it's six–three. <short pause> One box, given early. Worth three at the end.",
+   "word_count": 69,
+   "est_seconds": 30.7,
+   "visual_beats": [
+    "'Here's why.' The two-halves bar under the board, with a chalk marker at move 6.",
+    "'Giving a box early is really a pass.' A chalk 'PASS' stamp over Chalk's gift line. The turn arrow (a small chalk arrow between the two chalk stubs) flips to Tavi.",
+    "'You take the box, then you have to draw.' Tavi's ring pops, then her stub draws a second line (v13, move 8). The turn arrow stays on her side for both, then flips.",
+    "'So the safe lines run out on your turn, not his.' The bar fast-forwards to move 14: the last safe ghost vanishes on Tavi's line. The turn arrow lands on Chalk, but a chalk label 'short chain' points at the two-box pair.",
+    "'When they do, he gives a short chain.' Chalk draws h22 (move 15). A tiny chalk coin drops onto the pair. Pop-soft.",
+    "'And you're the one who opens the long one.' Tavi takes two, then her stub hovers over the six-chain. The chain glows orange. Her face: wince.",
+    "'Play safe there, and it ends five–four.' SplitCompare: left board replays from move 6 with Chalk's best safe line (h20) and perfect play after; the final score 4 / 5 is shown as 'CHALK 5 – 4' in white. Readout.",
+    "'Give the box, and it's six–three.' Right board: the real game, final YOU 3 / CHALK 6. The 6 bounces.",
+    "'One box, given early. Worth three at the end.' A chalk coin on the gift box, an arrow to a chalk '+3' by the score. Bell."
+   ],
+   "components": [
+    "Stage",
+    "Camera",
+    "DotsBoard",
+    "TwoHalvesBar",
+    "SplitCompare",
+    "ScoreTags",
+    "Readout",
+    "Stamp",
+    "Arrow",
+    "Label",
+    "Player",
+    "Keeper",
+    "Sfx"
+   ],
+   "sfx": [
+    "stamp on PASS",
+    "pop-soft on the coin",
+    "bell on +3"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "research/ep3/analyze.c on g1 before move 6: 15 safe lines left; Chalk's gift v00 is worth +3 (6-3); his best safe line is worth +1 (5-4).",
+    "research/ep3/games.json g1: Tavi first, greedy; 3-0 after move 17, final 3-6; Chalk takes the last six boxes in moves 19-24.",
+    "research/ep3/games.json g1 safeBefore per move: 24, 23, 20, 19, 18, 15, 15, 15, 15, 12, 10, 7, 5, 4, 2, 0 (safe lines left before moves 1-16)."
+   ]
+  },
+  {
+   "id": "c14",
+   "chapter": "Ch3 Count: the simple version",
+   "palette": "Floodlit Pitch",
+   "narration": "The simple version. <short pause> When the safe lines are nearly gone, look at the chains forming. <short pause> Ask one thing. Who opens the first long chain? <short pause> If it's you, change it. Give a box early. <short pause> The mistake is counting boxes. The fix is counting chains. <short pause> Chalk's been doing it for years. <short pause> That's why he never looks at the board.",
+   "word_count": 57,
+   "est_seconds": 25.3,
+   "visual_beats": [
+    "'The simple version.' A chalk hand with fingers up, counting: 1, 2, 3. Tick each.",
+    "'When the safe lines are nearly gone, look at the chains forming.' Board at g1 after move 12 (4 safe lines left). The chains forming glow: a 2, a 2, a loose box, a 3 forming. Chalk digits on them.",
+    "'Ask one thing. Who opens the first long chain?' Stamp CUE: 'who opens the long one?'. The three-chain glows orange, a chalk arrow from each stub to it, the arrows wobble.",
+    "'If it's you, change it. Give a box early.' Tavi's arrow turns pink. A ghost box on the board gets a bow: the early gift. The turn arrow flips.",
+    "'The mistake is counting boxes.' Stamp MISTAKE: the score tags shake, a chalk line through 'YOU 3'.",
+    "'The fix is counting chains.' Stamp FIX: the chain digits glow, the turn arrow glows.",
+    "'Chalk's been doing it for years.' Cut to Chalk on the concrete, face flat, one mitten idly drawing little chains in the dust beside the board.",
+    "'That's why he never looks at the board.' He looks up at the floodlights again. Blip."
+   ],
+   "components": [
+    "Stage",
+    "Camera",
+    "DotsBoard",
+    "ScoreTags",
+    "Stamp",
+    "Arrow",
+    "Label",
+    "Keeper",
+    "Sfx"
+   ],
+   "sfx": [
+    "tick x3 on the fingers",
+    "stamp x3",
+    "blip"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "research/ep3/games.json g1 safeBefore per move: 24, 23, 20, 19, 18, 15, 15, 15, 15, 12, 10, 7, 5, 4, 2, 0 (safe lines left before moves 1-16).",
+    "Berlekamp's long chain rule (The Dots and Boxes Game, 2000; quoted in Science News): make dots + eventual long chains even if you play first, odd if second. Long chain = 3 boxes or more (Ferguson, UCLA). Fact-check wording."
+   ]
+  },
+  {
+   "id": "c15",
+   "chapter": "Ch3 Count (practice)",
+   "palette": "Floodlit Pitch",
+   "narration": "Next game, pause when about six safe lines are left. <short pause> Both of you point at the chains. Say who's opening the first long one. <short pause> Then play it out.",
+   "word_count": 28,
+   "est_seconds": 12.4,
+   "visual_beats": [
+    "PracticeBoard 'NEXT GAME': the notebook page with a half-played board. Readout '6 safe' with the dashed ghosts.",
+    "'Both of you point at the chains.' Two chalk fingers (teal, white) point at the chains; the chains light with their digits.",
+    "'Say who's opening the first long one.' Two chalk speech bubbles: 'YOU' and 'ME'. Pop-soft.",
+    "'Then play it out.' The board plays out in fast forward; one bubble gets a chalk tick. Blip."
+   ],
+   "components": [
+    "Stage",
+    "PracticeBoard",
+    "DotsBoard",
+    "Readout",
+    "Bubble",
+    "Sfx"
+   ],
+   "sfx": [
+    "pop-soft",
+    "blip"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "Drill numbers are set by the script, not by research (a chain of three and four; pause at about six safe lines)."
+   ]
+  },
+  {
+   "id": "c16",
+   "chapter": "Bonus: the one-sentence rule",
+   "palette": "X-ray Physics",
+   "narration": "There's a one-sentence rule the champions use. Before the first line is even drawn. <short pause> Count the dots. Add the long chains you expect. <short pause> Went first? You want that number even. <short pause> Went second? Odd. <short pause> Using it takes years. <short pause> Chalk reads it that way before you've picked up the chalk.",
+   "word_count": 48,
+   "est_seconds": 21.3,
+   "visual_beats": [
+    "'There's a one-sentence rule the champions use.' Teal-ink board: a 16-dot grid drawn in chalk on the dark teal grid. A chalk crown doodle in the corner.",
+    "'Before the first line is even drawn.' The grid is empty; the chalk stub hovers.",
+    "'Count the dots. Add the long chains you expect.' Chalk writes on the board: 'DOTS 16' then '+ LONG CHAINS' with a '?' (dots counted by a quick 1-16 ripple, tick).",
+    "'Went first? You want that number even.' A chalk 'EVEN' with a ring (Tavi's mark) beside it... then rubbed out and replaced: the rings and crosses swap to show first and second player: ring = first, cross = second, labelled 'FIRST' and 'SECOND'.",
+    "'Went second? Odd.' 'ODD' with the cross mark.",
+    "'Using it takes years.' A chalk calendar page flips three times, fast. Blip.",
+    "'Chalk reads it that way before you've picked up the chalk.' Cut to Chalk's eyes (XRayHead style outline in chalk): tiny chain shapes drift in them."
+   ],
+   "components": [
+    "Stage",
+    "Camera",
+    "XRayGrid",
+    "DotsBoard",
+    "Label",
+    "Text",
+    "Sfx"
+   ],
+   "sfx": [
+    "tick on the dot count",
+    "bell on the box",
+    "blip on the calendar"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "Berlekamp's long chain rule (The Dots and Boxes Game, 2000; quoted in Science News): make dots + eventual long chains even if you play first, odd if second. Long chain = 3 boxes or more (Ferguson, UCLA). Fact-check wording.",
+    "research/ep3/RESULTS.md: a 3x3-box board has 16 dots and 24 lines; 2^24 = 16,777,216 positions."
+   ]
+  },
+  {
+   "id": "c17",
+   "chapter": "Ending: the last game",
+   "palette": "Floodlit Pitch",
+   "narration": "Last game of the night. This time Chalk goes first. <short pause> Same line as yours. <short pause> You play safe. He plays safe. <short pause> Safe lines gone. And it's his turn. <short pause> He opens a chain of three.",
+   "word_count": 33,
+   "est_seconds": 14.7,
+   "visual_beats": [
+    "'Last game of the night.' The board is rubbed clean (Chalk's sleeve). Sixteen dots. ScoreTags 0 / 0. The floodlights hum.",
+    "'This time Chalk goes first.' Chalk's finger draws h10 in white: g5 move 1.",
+    "'Same line as yours.' A small ghost of c02's first teal line overlays it exactly, then fades. Tick.",
+    "'You play safe. He plays safe.' Moves 2-16 of g5 play at a steady 10 frames per line. The Readout counts the safe lines down: 23, 20, ... 2, 1, 0. Tavi's early gift at move 8 and Chalk's at move 14 just happen, no comment (a tiny bow on each).",
+    "'Safe lines gone. And it's his turn.' Readout 0 in pink. The turn arrow lands on Chalk.",
+    "'He opens a chain of three.' He draws v21 (move 17). The three-box run fills soft orange with a bow and 1, 2, 3."
+   ],
+   "components": [
+    "Stage",
+    "Camera",
+    "DotsBoard",
+    "ScoreTags",
+    "Readout",
+    "Arrow",
+    "Keeper",
+    "Player",
+    "Sfx"
+   ],
+   "sfx": [
+    "chalk on lines",
+    "tick on the ghost",
+    "subdrop on zero"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "research/ep3/games.json g5: Chalk first with h10 (g1's first line), both perfect; Chalk opens a 3-chain at move 17; Tavi takes 1, declines 2 (move 19), takes the 4-chain; final 6-3."
+   ]
+  },
+  {
+   "id": "c18",
+   "chapter": "Ending: all but two",
+   "palette": "Floodlit Pitch",
+   "narration": "You take one. <short pause> And you stop. <short pause> Double-cross. <short pause> He takes the pair. <short pause> Then he has to open the big one. Four boxes. All yours. <long pause> Six–three. <short pause> The eyebrow goes up. <short pause> It stays up.",
+   "word_count": 31,
+   "est_seconds": 13.8,
+   "visual_beats": [
+    "'You take one.' h21: one teal ring. YOU 2. Thump.",
+    "'And you stop.' Her chalk lifts. Hold for a beat. Chalk's face: thinking.",
+    "'Double-cross.' She draws v11. The pair glows with its bow. Bell.",
+    "'He takes the pair.' h20: two white crosses. CHALK 3.",
+    "'Then he has to open the big one.' Every undrawn line blinks pink. He draws v12. The four-chain fills orange and slides to her side.",
+    "'Four boxes. All yours.' h12, v02, h11: four teal rings pop, the last line takes two at once. YOU 3, 4, 6.",
+    "[long pause] The board holds, every box marked.",
+    "'Six–three.' ScoreTags centre: YOU 6 / CHALK 3. The 6 bounces.",
+    "'The eyebrow goes up.' Chalk's face: surprised, one eyebrow high.",
+    "'It stays up.' Hold on the eyebrow. Blip."
+   ],
+   "components": [
+    "Stage",
+    "Camera",
+    "DotsBoard",
+    "ScoreTags",
+    "Keeper",
+    "Player",
+    "Sfx"
+   ],
+   "sfx": [
+    "thump on boxes",
+    "bell on the double-cross",
+    "blip on the eyebrow"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "research/ep3/games.json g5: Chalk first with h10 (g1's first line), both perfect; Chalk opens a 3-chain at move 17; Tavi takes 1, declines 2 (move 19), takes the 4-chain; final 6-3."
+   ]
+  },
+  {
+   "id": "c19",
+   "chapter": "Ending: every game",
+   "palette": "X-ray Physics",
+   "narration": "One more thing. <short pause> A computer has played every possible game on this little board. <short pause> If nobody slips, the player who goes second wins. Six–three. <short pause> Whatever the first line is. <long pause> The next board up, five dots by five? Perfect play is a tie. <short pause> The one after that? Nobody has finished counting.",
+   "word_count": 50,
+   "est_seconds": 22.2,
+   "visual_beats": [
+    "'One more thing.' Teal-ink view: the 16-dot board small in the centre.",
+    "'A computer has played every possible game on this little board.' The board multiplies: copies tile outwards in a grid, each with a different random set of lines, faster and faster until the screen is a wall of tiny boards. A Readout climbs past 16,000,000 (positions), mono font, then holds.",
+    "'If nobody slips, the player who goes second wins. Six–three.' The wall fades to one board. A chalk cross (second player) and '6 – 3'. The cross glows.",
+    "'Whatever the first line is.' All 24 lines light up one after another in white, each one labelled with a tiny '6-3'. Tick each.",
+    "[long pause] Hold.",
+    "'The next board up, five dots by five?' A 5 by 5 dot board draws beside it. Chalk '8 – 8' with an equals sign.",
+    "'The one after that? Nobody has finished counting.' A 6 by 6 dot board draws, then a chalk '?' on it. A small caption in chalk: 'as far as anyone knows'. Blip."
+   ],
+   "components": [
+    "Stage",
+    "Camera",
+    "XRayGrid",
+    "DotsBoard",
+    "Readout",
+    "Label",
+    "Text",
+    "Sfx"
+   ],
+   "sfx": [
+    "tick on the lines",
+    "subdrop on the wall of boards",
+    "blip on the ?"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "research/ep3/RESULTS.md: 3x3 boxes solved by brute force (two implementations agree): second player wins 6-3 with perfect play, for every possible first line. 4x4 boxes (5x5 dots): tie with perfect play (D. Wilson's solver; fact-check before narration is recorded). 5x5 boxes: unsolved (fact-check).",
+    "research/ep3/RESULTS.md: a 3x3-box board has 16 dots and 24 lines; 2^24 = 16,777,216 positions."
+   ]
+  },
+  {
+   "id": "c20",
+   "chapter": "Ending: lights out",
+   "palette": "Floodlit Pitch",
+   "narration": "Half past nine. <short pause> Ankle's fine, by the way. <short pause> Chalk rubs the dots out and walks back to his line. <short pause> Lights out. <long pause> Next time someone says 'you go first'? <short pause> Smile. <short pause> Say thank you.",
+   "word_count": 32,
+   "est_seconds": 14.2,
+   "visual_beats": [
+    "'Half past nine.' Side view of the bench. The StandClock hands move to half past nine.",
+    "'Ankle's fine, by the way.' Tavi pulls the boot back on, stands, bounces once on the ankle. Face: happy.",
+    "'Chalk rubs the dots out and walks back to his line.' Chalk wipes the concrete with a mitten (Dust puff, the board fades), stands, walks to the goal and sinks back into the goal line, which lies flat.",
+    "'Lights out.' The floodlights clunk off one by one, the reverse of c01.",
+    "[long pause] Dark. One faint chalk dot still glows on the concrete.",
+    "'Next time someone says 'you go first'?' A chalk speech bubble on black: 'YOU GO FIRST'.",
+    "'Smile.' A chalk smile is drawn under it.",
+    "'Say thank you.' The last dot blinks out. End card: the title, small."
+   ],
+   "components": [
+    "Stage",
+    "Camera",
+    "Sky",
+    "Stars",
+    "Floodlight",
+    "Stands",
+    "StandClock",
+    "Player",
+    "Keeper",
+    "Dust",
+    "Bubble",
+    "TitleCard",
+    "Sfx"
+   ],
+   "sfx": [
+    "light-off x4",
+    "chalk on the wipe",
+    "pop-soft on the bubble"
+   ],
+   "transition_out": "cut",
+   "facts_used": [
+    "StandClock hours 21 as in s01 and b01; half past nine at the end as in s23 (no research fact needed: the story clock)."
+   ]
+  }
+ ],
+ "component_kit": [
+  {
+   "name": "Kit pieces used (existing)",
+   "props": "Stage, Camera, Sky, Stars, Floodlight, Stands, StandClock, GroundSide, Dust, Player, Keeper, Ball, Label, Text, Arrow, Readout, ChapterCard, WordCard, Stamp, PracticeBoard, Bubble, TitleCard, XRayGrid, ChalkSketch, SplitCompare, ChalkQuestion, Sfx",
+   "notes": "Same rules as KIT.md."
+  },
+  {
+   "name": "DotsBoard, ScoreTags, movesDoneAt (src/kit/ep3/DotsBoard.tsx)",
+   "props": "{ x, y, size, game, frame, moveFrames, drawFrames?, upTo?, board?, start?, highlights?: {lines?, boxes?, color?, dashed?}[], dimOthers?, boxText?, marks? }",
+   "notes": "Drives itself from a move list keyed to cue frames. GAMES, boardAfter, chains, safeLines, captureLines, score, chainSummary in src/kit/ep3/dots.ts."
+  },
+  {
+   "name": "TwoHalvesBar (new, src/kit/ep3)",
+   "props": "{ x, y, width, moves, gapAt, progress, label? }",
+   "notes": "A chalk bar: lime quiet half, orange giving half, a gap mark at the move where the safe lines run out."
+  },
+  {
+   "name": "New poses",
+   "props": "Player: sitBench. Keeper: sitFloor, a finger-draw arm, sleeve wipe.",
+   "notes": "Flat shapes, no outlines, as before."
+  }
+ ],
+ "music_cues": [
+  "c01-c03 cold open (track 'open'): the quiet night pad from episode 1 under the floodlight hum. Ticks on the dots. Silence on 'Then he draws one line'. One soft bell on 'It's a giving game'. Title sting on the hold.",
+  "c04-c07 THIRD SIDE (track 'third'): patient felt piano, a soft tick on each safe-line count. Filter down on 'None'. Practice loop on c07.",
+  "c08-c11 ALL BUT TWO (track 'twos'): sly pluck; a pause in the music on 'Then stop'. Practice loop on c11.",
+  "c12-c15 COUNT (track 'count'): the woodblock countdown; a lift on 'Worth three at the end'. Practice loop on c15.",
+  "c16 bonus (track 'steal'): the mischievous pluck from episode 2, short.",
+  "c17-c20 ending (track 'ending'): warm resolution, the three-note motif; silence on the eyebrow; fade on lights out."
+ ],
+ "total_words": 899,
+ "total_seconds": 399.5
+}
