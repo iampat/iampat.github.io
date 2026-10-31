@@ -60,6 +60,10 @@ export const POSES = {
   receiveStiff: { torso: -4, head: 2, nearHip: 16, nearKnee: 2, nearAnkle: 90, farHip: -6, farKnee: 6, farAnkle: 96, nearShoulder: -10, nearElbow: 20, farShoulder: 12, farElbow: 20 },
   /** Looking back over the shoulder while waiting (use with headTurn). */
   lookBack: { torso: 4, head: -6, nearHip: 8, nearKnee: 16, nearAnkle: 96, farHip: -6, farKnee: 14, farAnkle: 100, nearShoulder: -12, nearElbow: 50, farShoulder: 12, farElbow: 50 },
+  /** Sitting on a bench, upright: thighs forward, shins down, hands on the knees. groundY is the floor under her feet. */
+  sitBench: { torso: 4, head: 4, nearHip: 88, nearKnee: 92, nearAnkle: 90, farHip: 84, farKnee: 90, farAnkle: 90, nearShoulder: 30, nearElbow: 40, farShoulder: 26, farElbow: 44 },
+  /** Sitting and leaning forward over something on the ground in front (the board), near arm reaching down. */
+  sitLean: { torso: 34, head: 22, nearHip: 96, nearKnee: 100, nearAnkle: 92, farHip: 86, farKnee: 94, farAnkle: 92, nearShoulder: 52, nearElbow: 30, farShoulder: 20, farElbow: 60 },
   /** Passing with the inside of the foot. */
   passInside: { torso: 6, head: 8, nearHip: 22, nearKnee: 10, nearAnkle: 86, farHip: 4, farKnee: 20, farAnkle: 92, nearShoulder: -20, nearElbow: 25, farShoulder: 35, farElbow: 25 },
 } satisfies Record<string, Pose>;

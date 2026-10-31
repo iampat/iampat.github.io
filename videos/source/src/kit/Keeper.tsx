@@ -34,6 +34,10 @@ export const KPOSES = {
   runA: { left: 55, right: -35, lean: 14, shift: 0, lift: 0.05, stretch: 1.04 },
   runB: { left: -35, right: 55, lean: 14, shift: 0, lift: 0.01, stretch: 1.0 },
   /** Arrived too late: leaning over, gloves on knees. */
+  /** Sitting on the floor: body a little squat, mittens resting forward. Draw him with groundY at the floor; his short legs read as crossed legs. */
+  sitFloor: { left: 34, right: 34, lean: 0, shift: 0, lift: 0, stretch: 0.8 },
+  /** One mitten reaching down and forward to draw on the floor (his left = screen right). */
+  drawFloor: { left: 118, right: 24, lean: 10, shift: 0, lift: 0, stretch: 0.8 },
   puffed: { left: 30, right: 30, lean: 0, shift: 0, lift: 0, stretch: 0.86 },
 } satisfies Record<string, KeeperPose>;
 
